@@ -12,6 +12,14 @@ Route::get('/login', function () {
     return view('login');
 });
 
+Route::get('/register', function () {
+    return view('register');
+});
+
+Route::post('/register', function () {
+    return view('/register');
+});
+
 Route::post('/home', function () {
     return view('home');
 });
