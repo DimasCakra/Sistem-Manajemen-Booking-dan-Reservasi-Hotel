@@ -1,0 +1,181 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #fffaf5;
+    color: #333;
+}
+
+/* --- 2. HEADER GRADASI (MATCHING REFERENSI) --- */
+.header {
+    width: 100%;
+    background: linear-gradient(90deg, #f2994a 0%, #f2c94c 100%);
+    padding: 15px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+ 
+.btn-login {
+    text-decoration: none;
+    background-color: #ffffff;
+    color: #f5923c !important;
+    padding: 5px 25px;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.btn-register {
+    text-decoration: none;
+    background-color: #ffffff;
+    color: #f89640 !important;
+    padding: 5px 25px;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+/* --- 3. NAVBAR FILTER --- */
+.filter-nav {
+    width: 100%;
+    background-color: #ffffff;
+    padding: 12px 5%;
+    border-bottom: 1px solid #ddd;
+}
+
+.filter-box {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #f2994a;
+    border-radius: 8px;
+    background-color: #ffffff;
+}
+
+.filter-item { padding: 8px 18px; display: flex; flex-direction: column; }
+.border-right { border-right: 1px solid #f2994a; }
+.label { font-size: 11px; color: #f2994a; font-weight: bold; }
+.value { font-size: 13px; font-weight: bold; }
+
+.btn-change {
+    background-color: #f2994a;
+    color: white;
+    border: none;
+    padding: 6px 15px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* --- 4. KATALOG (MELAR KE BAWAH) --- */
+.content-container {
+    width: 100%;
+    padding: 30px 5%;
+    
+}
+
+.card-katalog {
+    background-color: #ffffff;
+    width: 100%;
+    display: flex;
+    margin-bottom: 25px;
+    border-radius: 20px;
+    border: 10px solid #ffffff;
+    box-shadow: 0 -5px 18px rgba(10, 0, 0, 0.116);
+    min-height: 260px;
+    height: auto; 
+    overflow: visible;
+}
+
+.box-foto { width: 350px; flex-shrink: 0; }
+.box-foto img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* AREA INFO */
+.box-info {
+    flex-grow: 1;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    min-width: 0;
+}
+
+/* --- PERBEDAAN WARNA BADGE --- */
+.top-info {
+    display: flex;
+    gap: 12px;
+}
+
+/* KOTAK 2: ROOM AVAILABLE (WARNA HIJAU FRESH) */
+.badge-available {
+    background-color: #e6fffa;
+    color: #0d9488;
+    padding: 5px 12px;
+    font-size: 11px;
+    font-weight: bold;
+    border-radius: 4px;
+    border: 1px solid #b2f5ea;
+}
+
+/* KOTAK 3: RATING (WARNA EMAS/KUNING) */
+.badge-rating {
+    background-color: #fffaf0;
+    color: #d97706;
+    padding: 5px 12px;
+    font-size: 11px;
+    font-weight: bold;
+    border-radius: 4px;
+    border: 1px solid #feebc8;
+}
+
+.tipe-kamar {
+    font-size: 25px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+/* DESKRIPSI (SUMBER MELAR) */
+.deskripsi-kamar {
+    font-size: 15px;
+    color: #666;
+    line-height: 1.7;
+    white-space: normal;
+    word-break: break-all; 
+    overflow-wrap: break-word;
+}
+
+/* KOTAK 6: HARGA & TOMBOL */
+.box-harga {
+    width: 280px;
+    padding: 30px;
+    background-color: #fffaf5;
+    border-left: 1px dashed #ddd;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.price-value { 
+    font-size: 24px;
+    font-weight: 900;
+    color: #f2994a; 
+}
+
+.btn-book {
+    width: 100%;
+    background-color: #f2994a;
+    color: white;
+    border: none;
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+}

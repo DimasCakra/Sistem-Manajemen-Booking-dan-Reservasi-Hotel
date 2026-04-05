@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 Use App\Http\Controllers\LoginController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\KatalogController;
+
 
 
 Route::get('/login', [LoginController::class, 'index']);
@@ -15,3 +17,4 @@ Route::post('/home', function () {
 });
 
 Route::get('/home', [HomeController::class, 'index']);
+Route::get('/katalog', [KatalogController::class, 'index']);
