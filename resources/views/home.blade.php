@@ -18,7 +18,7 @@
     <nav class="navbar" id="navbar">
         <a href="#" class="logo">
             <div class="logo-icon">🏨</div>
-            <span class="logo-text">Irnal<span>Door</span></span>
+            <span class="logo-text"><span>STAY</span>ease</span>
         </a>
         <div class="nav-actions">
             <a href="/login" class="btn btn-outline">
@@ -141,35 +141,11 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="form-label">Tipe Kamar</label>
-                <div class="form-input-wrapper">
-                    <select class="form-select" name="room_type">
-                        <option value="">Semua tipe kamar</option>
-                        <option value="standard">Standard Room</option>
-                        <option value="deluxe">Deluxe Room</option>
-                        <option value="suite">Suite Room</option>
-                        <option value="family">Family Room</option>
-                    </select>
-                </div>
-            </div>
-
             <button class="search-btn" onclick="handleSearch()">
                 Cari Kamar Tersedia
             </button>
 
             <div class="card-sep"></div>
-
-            <div
-                style="margin-bottom:8px; font-size:11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px;">
-                Populer</div>
-            <div class="quick-links">
-                <span class="quick-chip" onclick="setRoomType('deluxe')">Deluxe Room</span>
-                <span class="quick-chip" onclick="setRoomType('suite')">Suite</span>
-                <span class="quick-chip" onclick="setRoomType('family')">Family Room</span>
-                <span class="quick-chip" onclick="setRoomType('standard')">Standard</span>
-            </div>
-        </div>
     </section>
 
     <!-- ===== FEATURES STRIP ===== -->
