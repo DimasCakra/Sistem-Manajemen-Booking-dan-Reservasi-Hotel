@@ -7,67 +7,70 @@
     <link rel="stylesheet" href="{{ asset('css/katalog.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
-<body class="bg-[#fffaf5] text-[#333] font-sans">
+<body class="bg-[#f8fafc] text-[#1e293b] font-sans">
 
-    <header class="w-full bg-gradient-to-r from-[#f2994a] to-[#f2c94c] px-[5%] py-4 flex justify-between items-center shadow-lg">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTE5hirGcGYW4VJKa63FFemb3xfb23CdjNJlg&s" 
-             class="h-20 w-auto rounded-[30px]" alt="Logo">
+    <header class="w-full bg-[#1E40AF] px-[5%] py-4 flex justify-between items-center shadow-lg">
+        <div class="flex items-center gap-2">
+            <div class="bg-white p-2 rounded-lg">
+                <span class="text-[#1E40AF] font-bold text-2xl tracking-tighter">STAY<span class="text-[#3B82F6]">ease</span></span>
+            </div>
+        </div>
         
         <div class="flex gap-4">
-            <a href="/login" class="bg-white text-[#f5923c] px-6 py-1.5 rounded-md font-bold no-underline hover:bg-gray-100 transition">Login</a>
-            <a href="/register" class="bg-white text-[#f89640] px-6 py-1.5 rounded-md font-bold no-underline hover:bg-gray-100 transition">Registrasi</a>
+            <a href="/login" class="bg-[#1E3A8A] text-white px-6 py-1.5 rounded-md font-medium no-underline hover:bg-white/10 transition">Masuk</a>
+            <a href="/register" class="bg-[#1E3A8A] text-white px-6 py-1.5 rounded-md font-bold no-underline hover:bg-[#172554] transition shadow-md">Daftar Sekarang →</a>
         </div>
     </header>
 
-    <nav class="w-full bg-white px-[5%] py-3 border-b border-gray-300">
-        <div class="inline-flex items-center border border-[#f2994a] rounded-lg bg-white overflow-hidden">
-            <div class="flex flex-col px-5 py-2 border-r border-[#f2994a]">
-                <span class="text-[11px] text-[#f2994a] font-bold uppercase">Check-in / Out</span>
-                <span class="text-[13px] font-bold text-gray-800">{{ $checkin }} - {{ $checkout }}</span>
+    <nav class="w-full bg-white px-[5%] py-3 border-b border-gray-200">
+        <div class="inline-flex items-center border border-blue-100 rounded-lg bg-white shadow-sm overflow-hidden">
+            <div class="flex flex-col px-5 py-2 border-r border-gray-100">
+                <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Check-in / Out</span>
+                <span class="text-[13px] font-bold text-[#1e293b]">{{ $checkin }} - {{ $checkout }}</span>
             </div>
-            <div class="flex flex-col px-5 py-2 border-r border-[#f2994a]">
-                <span class="text-[11px] text-[#f2994a] font-bold uppercase">Guests</span>
-                <span class="text-[13px] font-bold text-gray-800">{{ $guests ?? 2 }} Person</span>
+            <div class="flex flex-col px-5 py-2 border-r border-gray-100">
+                <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Guests</span>
+                <span class="text-[13px] font-bold text-[#1e293b]">{{ $guests ?? 2 }} Person</span>
             </div>
             <div class="px-4">
-                <button class="bg-[#f2994a] text-white px-4 py-1.5 rounded font-bold text-sm cursor-pointer hover:bg-[#e68a3d] transition">Change</button>
+                <button class="text-[#1E40AF] font-bold text-sm cursor-pointer hover:underline">Change</button>
             </div>
         </div>
     </nav>
 
     <main class="w-full px-[5%] py-8">
         @foreach($kamars as $kamar)
-        <div class="bg-white w-full flex mb-6 rounded-[20px] border-[10px] border-white shadow-[-10px_-5px_18px_rgba(0,0,0,0.1)] min-h-[260px] h-auto overflow-visible">
+        <div class="bg-white w-full flex mb-8 rounded-2xl shadow-[0_10px_25px_-5px_rgba(0,0,0,0.05)] overflow-hidden border border-gray-100 transition-transform">
             
-            <div class="w-[350px] shrink-0">
-                <img src="{{ $kamar->gambar }}" class="w-full h-full object-cover block" alt="Foto Kamar">
+            <div class="w-[380px] shrink-0 overflow-hidden">
+                <img src="{{ $kamar->gambar }}" class="w-full h-full object-cover transition-transform duration-500" alt="Foto Kamar">
             </div>
 
-            <div class="grow p-8 flex flex-col gap-4 min-w-0">
+            <div class="grow p-8 flex flex-col gap-4">
                 <div class="flex gap-3">
-                    <div class="bg-[#e6fffa] text-[#0d9488] px-3 py-1 text-[11px] font-bold rounded border border-[#b2f5ea]">
-                        {{ $kamar->available }} Room Available
+                    <div class="bg-blue-50 text-[#1E40AF] px-3 py-1 text-[11px] font-bold rounded-full border border-blue-100">
+                        {{ $kamar->available }} Kamar Tersedia
                     </div>
-                    <div class="bg-[#fffaf0] text-[#d97706] px-3 py-1 text-[11px] font-bold rounded border border-[#feebc8]">
-                        ★ {{ $kamar->rating }}
+                    <div class="bg-amber-50 text-amber-600 px-3 py-1 text-[11px] font-bold rounded-full border border-amber-100">
+                        ★ {{ $kamar->rating }} Rating
                     </div>
                 </div>
 
-                <h2 class="text-[25px] font-[800] uppercase tracking-tight">{{ $kamar->nama_tipe }}</h2>
+                <h2 class="text-2xl font-extrabold text-[#0f172a] tracking-tight">{{ $kamar->nama_tipe }}</h2>
 
-                <p class="text-[15px] text-[#666] leading-relaxed break-all whitespace-normal">
+                <p class="text-[15px] text-gray-500 leading-relaxed max-w-xl">
                     {{ $kamar->fasilitas }}
                 </p>
             </div>
 
-            <div class="w-[280px] p-8 bg-[#fffaf5] border-l border-dashed border-gray-300 flex flex-col justify-center items-center shrink-0">
-                <span class="text-xs text-gray-400 uppercase">Start From</span>
-                <div class="text-[24px] font-[900] text-[#f2994a]">
+            <div class="w-[280px] p-8 bg-slate-50 flex flex-col justify-center items-center shrink-0 border-l border-gray-100">
+                <span class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Mulai Dari</span>
+                <div class="text-2xl font-black text-[#1E40AF]">
                     Rp {{ number_format($kamar->harga, 0, ',', '.') }}
                 </div>
-                <span class="text-xs text-gray-400">/ Night</span>
-                <button class="w-full bg-[#f2994a] text-white mt-5 py-4 rounded-lg font-bold uppercase tracking-wide cursor-pointer hover:bg-[#e68a3d] transition-all shadow-md">
-                    BOOK NOW
+                <span class="text-xs text-gray-400">/ Malam</span>
+                <button class="w-full bg-[#1E40AF] text-white mt-6 py-4 rounded-xl font-bold uppercase tracking-widest text-sm cursor-pointer hover:bg-[#1E40AF] transition-all shadow-lg hover:shadow-blue-200">
+                    Pesan Sekarang
                 </button>
             </div>
 
