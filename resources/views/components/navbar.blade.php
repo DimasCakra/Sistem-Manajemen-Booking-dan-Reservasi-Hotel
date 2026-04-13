@@ -1,5 +1,5 @@
 <header class="bg-gradient-to-r from-[#172554] via-[#1E40AF] to-[#172554] shadow-lg sticky top-0 z-50 px-12 h-20 flex items-center justify-between">
-    <a href="#" class="flex items-center gap-2 no-underline">
+    <a href="/home" class="flex items-center gap-2 no-underline">
         <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center text-xl">🏨</div>
         <span class="text-2xl font-bold text-white">Stay <span class="text-blue-300">Ease</span></span>
     </a>
