@@ -168,10 +168,10 @@
         
         <div class="border-t border-gray-100 pt-10 flex flex-col md:flex-row justify-between items-center gap-6">
             <p class="text-xs text-gray-400">
-                © 2025 <span class="text-blue-600 font-bold">LuxeStay</span>. Hak cipta dilindungi. Dibuat dengan ❤️ menggunakan Laravel.
+                © 2025 <span class="text-blue-600 font-bold">LuxeStay</span>. Hak cipta dilindungi.
             </p>
             <div class="px-5 py-2.5 bg-blue-50 text-blue-700 text-[10px] font-bold rounded-full uppercase tracking-[0.2em] border border-blue-100">
-                Laravel × Sistem Booking Hotel
+                Sistem Booking Hotel
             </div>
         </div>
     </footer>
