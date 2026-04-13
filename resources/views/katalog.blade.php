@@ -7,32 +7,21 @@
     <link rel="stylesheet" href="{{ asset('css/katalog.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
-<body class="bg-[#f8fafc] text-[#1e293b] font-sans">
+<body>
 
-    <header class="w-full bg-[#1E40AF] px-[5%] py-4 flex justify-between items-center shadow-lg">
-        <div class="flex items-center gap-2">
-            <div class="bg-white p-2 rounded-lg">
-                <span class="text-[#1E40AF] font-bold text-2xl tracking-tighter">STAY<span class="text-[#3B82F6]">ease</span></span>
-            </div>
-        </div>
-        
-        <div class="flex gap-4">
-            <a href="/login" class="bg-[#1E3A8A] text-white px-6 py-1.5 rounded-md font-medium no-underline hover:bg-white/10 transition">Masuk</a>
-            <a href="/register" class="bg-[#1E3A8A] text-white px-6 py-1.5 rounded-md font-bold no-underline hover:bg-[#172554] transition shadow-md">Daftar Sekarang →</a>
-        </div>
-    </header>
+    @include('components.navbar')
 
-    <nav class="w-full bg-white px-[5%] py-3 border-b border-gray-200">
-        <div class="inline-flex items-center border border-blue-100 rounded-lg bg-white shadow-sm overflow-hidden">
-            <div class="flex flex-col px-5 py-2 border-r border-gray-100">
+    <nav class="w-full bg-gradient-to-r from-[#172554] via-[#1E40AF] to-[#172554] px-[5%] py-3 border-b border-gray-200">
+        <div class="bg-white inline-flex items-center border border-black rounded-lg bg- shadow-sm overflow-hidden">
+            <div class="flex flex-col px-45 py-2 border-r border-black">
                 <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Check-in / Out</span>
                 <span class="text-[13px] font-bold text-[#1e293b]">{{ $checkin }} - {{ $checkout }}</span>
             </div>
-            <div class="flex flex-col px-5 py-2 border-r border-gray-100">
+            <div class="flex flex-col px-47 py-2 border-r border-black">
                 <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Guests</span>
                 <span class="text-[13px] font-bold text-[#1e293b]">{{ $guests ?? 2 }} Person</span>
             </div>
-            <div class="px-4">
+            <div class="px-46 py-2">
                 <button class="text-[#1E40AF] font-bold text-sm cursor-pointer hover:underline">Change</button>
             </div>
         </div>
