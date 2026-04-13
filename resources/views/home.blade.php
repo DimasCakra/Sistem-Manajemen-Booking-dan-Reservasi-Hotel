@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Irnal Door — Home</title>
+    <title>Home</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
@@ -17,32 +17,11 @@
 </head>
 
 <body>
-
-    <nav class="bg-white shadow-md sticky top-0 z-50 px-12 h-20 flex items-center justify-between">
-        <a href="#" class="flex items-center gap-2 no-underline">
-            <div class="w-10 h-10 bg-blue-900 rounded-lg flex items-center justify-center text-xl">🏨</div>
-            <span class="text-2xl font-bold text-blue-900">STAY<span class="text-blue-600">ease</span></span>
-        </a>
-        <div class="flex items-center gap-3">
-            <a href="/login" class="px-6 py-2.5 border border-blue-900/20 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition">
-                <svg class="inline-block mr-1" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                    <circle cx="12" cy="7" r="4" />
-                </svg>
-                Masuk
-            </a>
-            <a href="/register" class="px-6 py-2.5 bg-blue-900 text-white rounded-lg text-sm font-medium hover:bg-blue-800 shadow-md transition flex items-center gap-2">
-                Daftar Sekarang
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <path d="M5 12h14M12 5l7 7-7 7" />
-                </svg>
-            </a>
-        </div>
-    </nav>
+    @include('components.navbar')
 
     <section class="flex flex-col md:flex-row min-h-screen">
         
-        <div class="w-full md:w-1/2 bg-blue-600 flex flex-col justify-center px-20 py-16 relative">
+        <div class="w-full md:w-1/2 bg-gradient-to-r from-[#172554] to-[#1E40AF] to-[#1E40AF] flex flex-col justify-center px-20 py-16 relative">
             <div class="inline-flex items-center gap-2 bg-black/10 border border-black/20 px-4 py-2 rounded-full text-xs font-bold text-white uppercase tracking-widest mb-8 w-fit">
                 Sistem Reservasi Hotel Terpercaya
             </div>
@@ -75,7 +54,7 @@
             </div>
         </div>
 
-        <div class="w-full md:w-1/2 bg-white flex items-center justify-center p-20">
+        <div class="w-full md:w-1/2 bg-gray-200 flex items-center justify-center p-20">
             <div class="w-full max-w-md bg-white p-10 rounded-3xl shadow-[0_30px_70px_rgba(0,0,0,0.1)] border border-gray-100">
                 <div class="mb-10">
                     <h2 class="card-title text-3xl font-bold text-gray-900 mb-2">Cari Kamar Hotel</h2>
@@ -150,7 +129,7 @@
             <div class="md:col-span-5">
                 <a href="#" class="flex items-center gap-2 no-underline mb-8">
                     <div class="w-10 h-10 bg-blue-900 rounded-lg flex items-center justify-center text-sm">🏨</div>
-                    <span class="logo-text text-2xl font-bold text-blue-900">LuxeStay</span>
+                    <span class="logo-text text-2xl font-bold text-blue-900">StayEase</span>
                 </a>
                 <p class="text-gray-500 text-sm leading-relaxed max-w-sm mb-8">
                     Platform manajemen booking dan reservasi hotel terpercaya. Memberikan pengalaman menginap terbaik sejak 2024.
