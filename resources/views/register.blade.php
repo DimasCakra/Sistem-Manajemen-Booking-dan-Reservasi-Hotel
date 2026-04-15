@@ -10,60 +10,81 @@
         body { font-family: 'Instrument Sans', sans-serif; }
     </style>
 </head>
-<body class="bg-gradient-to-r from-[#172554] via-[#1E40AF] to-[#172554] text-[#1E40AF] min-h-screen">
 
-<div class="flex flex-col justify-center min-h-screen py-8 px-6">
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTE5hirGcGYW4VJKa63FFemb3xfb23CdjNJlg&s" 
-         alt="Logo" 
-         class="block mx-auto mb-[30px] max-w-[80px] h-auto rounded-full aspect-square object-cover border border-black shadow-lg-800">
+<!--background-->
+<body class="bg-[#254117] min-h-screen">
 
-    <div class="bg-white p-8 rounded-[1.25rem] shadow-[0_10px_30px_rgba(15,23,42,0.08)] border border-black w-full max-w-[400px] mx-auto shadow-lg-800">
-        <form action="{{ url('/register') }}" method="GET">
-            <h2 class="text-base font-bold mb-5 uppercase text-[#1E40AF]tracking-[0.5px]">
-                Register for an Account
+<!-- Navbar --> 
+<header class="bg-[#173014] shadow-lg sticky top-0 z-50 px-12 h-20 flex items-center justify-between">
+    <a href="/home" class="flex items-center gap-2 no-underline">
+        <img src="{{ asset('gambar/logo_stayease.png') }}" alt="Logo" class="h-9 w-auto object-contain mt-2">
+    </a>
+    <div class="flex items-center gap-3">
+        <a href="/home "class="px-6 py-2.5 bg-[#8C6A1A] text-white rounded-lg text-sm font-medium hover:bg-white hover:text-black transition flex items-center gap-2">
+            Kembali
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+        </a>
+    </div>
+</header>
+
+<!--logo tengah-->
+    <div class="flex justify-center pt-14 mb-14">
+        <img src="{{ asset('gambar/logo_stayease.png') }}" 
+             alt="Logo" 
+             class="h-12 w-auto object-contain">
+    </div>
+
+    <div class="bg-white p-8 rounded-[1.25rem] shadow-[0_10px_30px_rgba(15,23,42,0.08)] border border-[#8C6A1A] w-full max-w-[400px] mx-auto">
+        <form action="{{ url('/home') }}" method="GET">
+            <h2 class="text-base font-bold mb-5 uppercase text-[#8C6A1A] tracking-[0.5px]">
+            REGISTER FOR AN ACCOUNT
             </h2>
 
             <div class="mb-[1.2rem]">
-                <label for="name" class="block text-[0.8rem] font-semibold text-[#1E40AF] mt-[2px]">
+                <label for="name" class="block text-[0.8rem] font-semibold text-[#8C6A1A] mt-[2px]">
                     FULL NAME
                 </label>
                 <input id="name" type="text" name="name" required autocomplete="name"
-                    class="w-full rounded-[0.6rem] bg-white border border-black py-[0.7rem] px-[0.9rem] text-[0.95rem] text-[#0A0F1C] 
-                           transition-all duration-200 focus:outline-none focus:border-[#2563EB] focus:ring-[3px] focus:ring-[#2563EB]/12">
+                    class="w-full rounded-[0.6rem] bg-white border border-[#8C6A1A] py-[0.7rem] px-[0.9rem] text-[0.95rem] 
+                           transition-all duration-200 focus:outline-none focus:border-[#8C6A1A] focus:ring-[3px] focus:ring-[#8C6A1A]/12">
             </div>
 
             <div class="mb-[1.2rem]">
-                <label for="email" class="block text-[0.8rem] font-semibold text-[#1E40AF] mt-[2px]">
+                <label for="email" class="block text-[0.8rem] font-semibold text-[#8C6A1A] mt-[2px]">
                     Email address
                 </label>
                 <input id="email" type="email" name="email" required autocomplete="email"
-                    class="w-full rounded-[0.6rem] bg-white border border-black py-[0.7rem] px-[0.9rem] text-[0.95rem] text-[#0A0F1C] 
-                           transition-all duration-200 focus:outline-none focus:border-[#2563EB] focus:ring-[3px] focus:ring-[#2563EB]/12">
+                    class="w-full rounded-[0.6rem] bg-white border border-[#8C6A1A] py-[0.7rem] px-[0.9rem] text-[0.95rem] 
+                    text-[#0A0F1C] transition-all duration-200 focus:outline-none focus:border-[#8C6A1A] focus:ring-[3px] focus:ring-[#8C6A1A]/12">
             </div>
 
             <div class="mb-[1.2rem]">
-                <label for="whatsapp" class="block text-[0.8rem] font-semibold text-[#1E40AF] mt-[2px]">
+                <label for="whatsapp" class="block text-[0.8rem] font-semibold text-[#8C6A1A] mt-[2px]">
                     WhatsApp Number
                 </label>
                 <input id="whatsapp" type="text" name="whatsapp" required autocomplete="whatsapp"
-                    class="w-full rounded-[0.6rem] bg-white border border-black py-[0.7rem] px-[0.9rem] text-[0.95rem] text-[#0A0F1C] 
-                           transition-all duration-200 focus:outline-none focus:border-[#2563EB] focus:ring-[3px] focus:ring-[#2563EB]/12">
+                    class="w-full rounded-[0.6rem] bg-white border border-[#8C6A1A] py-[0.7rem] px-[0.9rem] text-[0.95rem] 
+                           transition-all duration-200 focus:outline-none focus:border-[#8C6A1A] focus:ring-[3px] focus:ring-[#8C6A1A]/12">
             </div>
 
             <div class="mb-[1.2rem]">
-                <label for="password" class="block text-[0.8rem] font-semibold text-[#1E40AF] mt-[2px]">
-                    Password
-                </label>
-                <input id="password" type="password" name="password" required autocomplete="new-password"
-                    class="w-full rounded-[0.6rem] bg-white border border-black py-[0.7rem] px-[0.9rem] text-[0.95rem] text-[#0A0F1C] 
-                           transition-all duration-200 focus:outline-none focus:border-[#2563EB] focus:ring-[3px] focus:ring-[#2563EB]/12">
+                <div class="flex justify-between items-center pt-[5px]">
+                    <label for="password" class="block text-[0.8rem] font-semibold text-[#8C6A1A]">
+                        Password
+                    </label>
+                </div>
+                <input id="password" type="password" name="password" required autocomplete="current-password"
+                    class="w-full rounded-[0.6rem] bg-white border border-[#8C6A1A] py-[0.7rem] px-[0.9rem] text-[0.95rem] 
+                    text-[#8C6A1A] transition-all duration-200 focus:outline-none focus:border-[#8C6A1A] focus:ring-[3px] focus:ring-[#8C6A1A]/12">
             </div>
         
-            <div class="mt-6">
+            <div class="mb-[1.2rem]">
                 <button type="submit" 
-                        class="w-full bg-[#2563EB] text-white p-[0.75rem] rounded-[0.6rem] font-semibold 
-                               transition-all duration-200 hover:bg-[#1D4ED8] active:scale-[0.98]">
-                    Register
+                        class="w-full bg-[#8C6A1A] text-white p-[0.75rem] rounded-[0.6rem] font-semibold 
+                               transition-all duration-200 hover:bg-[#254117] active:scale-[0.98]">
+                    Login
                 </button>
             </div>
         </form>
