@@ -11,7 +11,7 @@
 
     @include('components.navbar')
 
-    <nav class="w-full bg-gradient-to-r from-[#172554] via-[#1E40AF] to-[#172554] px-[5%] py-3 border-b border-gray-200">
+    <nav class="w-full bg-[#254117] px-[5%] py-3 border-b border-gray-200">
         <div class="bg-white inline-flex items-center border border-black rounded-lg bg- shadow-sm overflow-hidden">
             <div class="flex flex-col px-45 py-2 border-r border-black">
                 <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Check-in / Out</span>
@@ -22,13 +22,13 @@
                 <span class="text-[13px] font-bold text-[#1e293b]">{{ $guests ?? 2 }} Person</span>
             </div>
             <div class="px-46 py-2">
-                <button class="text-[#1E40AF] font-bold text-sm cursor-pointer hover:underline">Change</button>
+                <button class="text-[#254117] font-bold text-sm cursor-pointer hover:underline">Change</button>
             </div>
         </div>
     </nav>
 
-    <main class="w-full px-[5%] py-8">
-        @foreach($kamars as $kamar)
+    <main class="w-full px-[5%] py-8 bg-gray-200">
+        @foreach($kamars as $index => $kamar)
         <div class="bg-white w-full flex mb-8 rounded-2xl shadow-[0_10px_25px_-5px_rgba(0,0,0,0.05)] overflow-hidden border border-gray-100 transition-transform">
             
             <div class="w-[380px] shrink-0 overflow-hidden">
@@ -54,13 +54,14 @@
 
             <div class="w-[280px] p-8 bg-slate-50 flex flex-col justify-center items-center shrink-0 border-l border-gray-100">
                 <span class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Mulai Dari</span>
-                <div class="text-2xl font-black text-[#1E40AF]">
+                <div class="text-2xl font-black text-[black]">
                     Rp {{ number_format($kamar->harga, 0, ',', '.') }}
                 </div>
                 <span class="text-xs text-gray-400">/ Malam</span>
-                <button class="w-full bg-[#1E40AF] text-white mt-6 py-4 rounded-xl font-bold uppercase tracking-widest text-sm cursor-pointer hover:bg-[#1E40AF] transition-all shadow-lg hover:shadow-blue-200">
-                    Pesan Sekarang
-                </button>
+                <a href="{{ route('kamar.show', $index) }}" 
+                   class="w-full bg-[#8C6A1A] text-white mt-6 py-4 rounded-xl font-bold uppercase tracking-widest text-sm text-center block transition-all shadow-md hover:bg-[#5D4037] hover:shadow-lg">
+                   Pesan Sekarang
+                </a>
             </div>
 
         </div>
