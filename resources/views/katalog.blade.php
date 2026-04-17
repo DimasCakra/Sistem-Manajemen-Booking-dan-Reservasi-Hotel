@@ -11,18 +11,25 @@
 
     @include('components.navbar')
 
-    <nav class="w-full bg-[#254117] px-[5%] py-3 border-b border-gray-200">
-        <div class="bg-white inline-flex items-center border border-black rounded-lg bg- shadow-sm overflow-hidden">
-            <div class="flex flex-col px-45 py-2 border-r border-black">
-                <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Check-in / Out</span>
-                <span class="text-[13px] font-bold text-[#1e293b]">{{ $checkin }} - {{ $checkout }}</span>
+    <nav class="w-full bg-[#254117] px-[5%] py-4 border-b border-white/10 flex justify-center">
+        <div class="bg-white flex items-center border border-gray-200 rounded-xl shadow-md overflow-hidden min-w-[600px]">
+            
+            <div class="flex-1 flex flex-col px-40 py-2 border-r border-gray-400">
+                <span class="text-[9px] text-gray-500 font-bold uppercase tracking-[0.1em]">Check-in / Out</span>
+                <span class="text-[13px] font-bold text-[#0f172a] whitespace-nowrap">
+                    {{ \Carbon\Carbon::parse($checkin)->format('d M Y') }} - {{ \Carbon\Carbon::parse($checkout)->format('d M Y') }}
+                </span>
             </div>
-            <div class="flex flex-col px-47 py-2 border-r border-black">
-                <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Guests</span>
-                <span class="text-[13px] font-bold text-[#1e293b]">{{ $guests ?? 2 }} Person</span>
+
+            <div class="flex-1 flex flex-col px-40 py-2 border-r border-gray-400">
+                <span class="text-[9px] text-gray-500 font-bold uppercase tracking-[0.1em]">Guests</span>
+                <span class="text-[13px] font-bold text-[#0f172a] whitespace-nowrap">{{ $guests ?? 2 }} Person</span>
             </div>
-            <div class="px-46 py-2">
-                <button class="text-[#254117] font-bold text-sm cursor-pointer hover:underline">Change</button>
+
+            <div class="px-40 py-2 bg-gray-50/50">
+                <a href="/home" class="text-[#254117] font-extrabold text-xs uppercase tracking-tighter hover:text-[#1a2f0f] transition-colors">
+                    Change
+                </a>
             </div>
         </div>
     </nav>
@@ -54,12 +61,12 @@
 
             <div class="w-[280px] p-8 bg-slate-50 flex flex-col justify-center items-center shrink-0 border-l border-gray-100">
                 <span class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Mulai Dari</span>
-                <div class="text-2xl font-black text-[black]">
+                <div class="text-[23px] font-black text-[black]">
                     Rp {{ number_format($kamar->harga, 0, ',', '.') }}
                 </div>
                 <span class="text-xs text-gray-400">/ Malam</span>
                 <a href="{{ route('kamar.show', $index) }}" 
-                   class="w-full bg-[#8C6A1A] text-white mt-6 py-4 rounded-xl font-bold uppercase tracking-widest text-sm text-center block transition-all shadow-md hover:bg-[#5D4037] hover:shadow-lg">
+                   class="w-full bg-[#8C6A1A] text-white mt-6 py-4 rounded-xl font-bold uppercase tracking-widest text-sm text-center block cursor-pointer transition-all shadow-md hover:shadow-[#8C6A1A]">
                    Pesan Sekarang
                 </a>
             </div>

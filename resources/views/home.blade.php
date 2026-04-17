@@ -79,54 +79,33 @@
                     <p class = "text-gray-500 text-sm">Cek ketersediaan & pesan sekarang</p>
                 </div>
 
-                <div class = "space-y-6">
-                    <div class = "form-group">
-                        <label class = "block text-xs font-bold text-gray-400 
-                                        uppercase mb-3 ml-1 tracking-wider">
-                              Tanggal Check-in
-                        </label>
-                        <input type = "date" 
-                               class = "w-full p-4 bg-gray-50 border border-gray-200 
-                                        rounded-xl focus:ring-2 focus:ring-blue-600 
-                                        outline-none transition-all">
+                <form action="{{ url('/katalog') }}" method="GET" class="space-y-6">
+                    <div class="form-group">
+                        <label class="block text-xs font-bold text-gray-400 uppercase mb-3 ml-1 tracking-wider">Tanggal Check-in</label>
+                        <input type="date" name="checkin" required class="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-[#254117]">
                     </div>
 
-                    <div class = "form-group">
-                        <label class = "block text-xs font-bold text-gray-400 
-                                        uppercase mb-3 ml-1 tracking-wider">
-                            Tanggal Check-out
-                        </label>
-                        <input type = "date" 
-                               class = "w-full p-4 bg-gray-50 border border-gray-200 
-                                        rounded-xl focus:ring-2 focus:ring-blue-600 
-                                        outline-none transition-all">
+                    <div class="form-group">
+                        <label class="block text-xs font-bold text-gray-400 uppercase mb-3 ml-1 tracking-wider">Tanggal Check-out</label>
+                        <input type="date" name="checkout" required class="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-[#254117]">
                     </div>
 
-                    <div class = "form-group">
-                        <label class = "block text-xs font-bold text-gray-400 
-                                        uppercase mb-3 ml-1 tracking-wider">
-                            Jumlah Tamu
-                        </label>
-                        <select class = "w-full p-4 bg-gray-50 border border-gray-200 
-                                         rounded-xl focus:ring-2 focus:ring-blue-600 
-                                         outline-none transition-all appearance-none cursor-pointer">
-                            <option value = "">Pilih jumlah tamu</option>
-                            <option value = "1">1 Tamu</option>
-                            <option value = "2">2 Tamu</option>
-                            <option value = "3">3 Tamu</option>
-                            <option value = "4">4+ Tamu</option>
+                    <div class="form-group">
+                        <label class="block text-xs font-bold text-gray-400 uppercase mb-3 ml-1 tracking-wider">Jumlah Tamu</label>
+                        <select name="guests" class="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-[#254117] appearance-none cursor-pointer">
+                            <option value="1">1 Tamu</option>
+                            <option value="2" selected>2 Tamu</option>
+                            <option value="3">3 Tamu</option>
+                            <option value="4">4+ Tamu</option>
                         </select>
                     </div>
 
-                    <button class = "w-full py-5 bg-[#254117] hover:bg-[#1a2f0f] 
-                                     text-white font-bold rounded-2xl shadow-xl 
-                                     transition-all active:scale-[0.98] mt-6 
-                                     flex justify-center items-center gap-2">
-                          Cari Kamar Tersedia
+                    <button type="submit" class="w-full py-5 bg-[#254117] hover:bg-[#1a2f0f] text-white font-bold rounded-2xl shadow-xl transition-all active:scale-[0.98] mt-6 flex justify-center items-center gap-2">
+                        Cari Kamar Tersedia
                     </button>
-                </div>
+                </form>
             </div>
-        </div>
+        </div>  
     </section>
 
     <div class = "bg-[#173014] py-12 px-12 flex justify-center items-center">
