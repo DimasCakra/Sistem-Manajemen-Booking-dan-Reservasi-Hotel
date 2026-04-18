@@ -32,3 +32,5 @@ Route::get('/kamar/{id}', [DeskripsiController::class, 'show'])->name('kamar.sho
 
 // Receptionist
 Route::get('/receptionist', [ReceptsionistController::class, 'index'])->name('receptionist.index');
+Route::get('/resepsionis/riwayat', [ReceptsionistController::class, 'riwayat'])->name('resepsionis.riwayatreservasi');
+Route::get('/resepsionis/riwayat/{id}', [ReceptsionistController::class, 'show'])->name('resepsionis.show');

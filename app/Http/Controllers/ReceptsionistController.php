@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers; // WAJIB ADA BARIS INI
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Reservation;
@@ -8,21 +8,41 @@ use App\Models\Notification;
 
 class ReceptsionistController extends Controller
 {
+    // Dashboard Utama
     public function index()
     {
-        // Mengambil data dengan eager loading agar ringan
-        $reservations = Reservation::with(['guest', 'room'])->latest()->get();
+        // Hapus 'with' karena tabel kita masih satu kesatuan
+        $reservations = Reservation::latest()->get();
         $notifications = Notification::latest()->get();
-
-        // Menghitung notifikasi yang belum dibaca (asumsi ada kolom 'is_read')
         $newCount = Notification::count();
 
-        // Nama view disesuaikan dengan file kamu: receptsionis.blade.php
         return view('receptsionis', [
             'receptionist' => auth()->user(),
             'reservations' => $reservations,
             'notifications' => $notifications,
             'newCount' => $newCount,
         ]);
+    }
+
+    // Halaman Riwayat (Tabel)
+    public function riwayat(Request $request)
+    {
+        $status = $request->query('status');
+        $query = Reservation::query();
+
+        if ($status) {
+            $query->where('status', $status);
+        }
+
+        $reservations = $query->latest()->get();
+
+        return view('resepsionis.riwayatreservasi', compact('reservations', 'status'));
+    }
+
+    // Halaman Detail (Read-Only)
+    public function show($id)
+    {
+        $detail = Reservation::findOrFail($id);
+        return view('resepsionis.detailreservasi', compact('detail'));
     }
 }
