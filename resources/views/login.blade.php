@@ -29,14 +29,25 @@
 </header>
 
 <!--logo tengah-->
-<div class="flex flex-col justify-center min-h-screen py-8 px-6">
-    <div class="flex justify-center pb-14 mb-12">
+<div class="flex flex-col justify-center flex-grow py-8 px-6">
+    <div class="flex justify-center pb-8 mb-12">
     <img src="{{ asset('gambar/logo_stayease.png') }}" 
          alt="Logo" 
          class="h-12 w-auto object-contain">
 </div>
     <div class="bg-white p-8 rounded-[1.25rem] shadow-[0_10px_30px_rgba(15,23,42,0.08)] border border-[#8C6A1A] w-full max-w-[400px] mx-auto">
-        <form action="{{ url('/home') }}" method="GET">
+        <form action="{{ route('login.post') }}" method="POST">
+            @csrf
+
+            @if ($errors->any())
+                <div class="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg text-sm">
+                    <ul class="list-disc list-inside">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <h2 class="text-base font-bold mb-5 uppercase text-[#8C6A1A] tracking-[0.5px]">
                 Login to Your Account
             </h2>
