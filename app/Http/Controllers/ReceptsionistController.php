@@ -16,7 +16,7 @@ class ReceptsionistController extends Controller
         $notifications = Notification::latest()->get();
         $newCount = Notification::count();
 
-        return view('receptsionis', [
+        return view('resepsionis.receptsionis', [
             'receptionist' => auth()->user(),
             'reservations' => $reservations,
             'notifications' => $notifications,

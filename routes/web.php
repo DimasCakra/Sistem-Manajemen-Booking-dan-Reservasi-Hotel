@@ -23,9 +23,9 @@ Route::get('/username', [AuthController::class, 'showUsername'])->name('username
 Route::post('/username', [AuthController::class, 'processUsername'])->name('username.post');
     
 // resepsionis login
-Route::get('/resepsionislogin', function () {
-    return view('resepsionislogin'); })->name('resepsionislogin');
-Route::post('/resepsionislogin', [AuthController::class, 'processResepsionisLogin'])->name('resepsionis.login.post');
+Route::get('resepsionis/resepsionislogin', function () {
+    return view('resepsionis/resepsionislogin'); })->name('resepsionislogin');
+Route::post('/resepsionis/resepsionislogin', [AuthController::class, 'processResepsionisLogin'])->name('resepsionis.login.post');
 
 // Logout (Gunakan Auth Facade agar tidak error)
 Route::post('/logout', function () {
@@ -35,14 +35,14 @@ Route::post('/logout', function () {
     return redirect('/login');
 })->name('logout');
 
-// Main Routes
+// Halaman Tamu
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/katalog', [KatalogController::class, 'index'])->name('katalog');
 Route::get('/kamar/{id}', [DeskripsiController::class, 'show'])->name('kamar.show');
 
 // Receptionist
 Route::middleware('auth:receptionist')->group(function () {
-    Route::get('/receptionist', [ReceptsionistController::class, 'index'])->name('receptionist.index');
+    Route::get('/resepsionis/resepsionis', [ReceptsionistController::class, 'index'])->name('receptionist.index');
     Route::get('/resepsionis/riwayat', [ReceptsionistController::class, 'riwayat'])->name('resepsionis.riwayatreservasi');
     Route::get('/resepsionis/riwayat/{id}', [ReceptsionistController::class, 'show'])->name('resepsionis.show');
 });
