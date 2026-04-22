@@ -69,9 +69,9 @@
                 <div class="text-2xl font-black text-black mb-6">
                     Rp {{ number_format($kamar->harga, 0, ',', '.') }}
                 </div>
-                <button class="w-full bg-[#8C6A1A] text-white mt-6 py-4 rounded-xl font-bold uppercase tracking-widest text-sm text-center block cursor-pointer transition-all shadow-md hover:shadow-[#8C6A1A]">
+                <a href="{{ route('booking.biodata', request()->route('id')) }}" class="w-full bg-[#8C6A1A] text-white mt-6 py-4 rounded-xl font-bold uppercase tracking-widest text-sm text-center block cursor-pointer transition-all shadow-md hover:shadow-[#8C6A1A]">
                     Order Now
-                </button>
+                </a>
             </div>
 
             <div class="col-span-12 mt-6 bg-white p-10 rounded-md border border-gray-100 shadow-sm">

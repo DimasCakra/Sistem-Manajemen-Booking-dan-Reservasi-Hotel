@@ -37,7 +37,7 @@
     </div>
 
     <div class="bg-white p-8 rounded-[1.25rem] shadow-[0_10px_30px_rgba(15,23,42,0.08)] border border-[#8C6A1A] w-full max-w-[400px] mx-auto">
-        <form action="{{ url('/home') }}" method="GET">
+        <form action="{{ url('/login') }}" method="GET">
             <h2 class="text-base font-bold mb-5 uppercase text-[#8C6A1A] tracking-[0.5px]">
             REGISTER FOR AN ACCOUNT
             </h2>
@@ -84,7 +84,7 @@
                 <button type="submit" 
                         class="w-full bg-[#8C6A1A] text-white p-[0.75rem] rounded-[0.6rem] font-semibold 
                                transition-all duration-200 hover:bg-[#254117] active:scale-[0.98]">
-                    Login
+                    Register
                 </button>
             </div>
         </form>
