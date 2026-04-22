@@ -46,3 +46,14 @@ Route::middleware('auth:receptionist')->group(function () {
     Route::get('/resepsionis/riwayat', [ReceptsionistController::class, 'riwayat'])->name('resepsionis.riwayatreservasi');
     Route::get('/resepsionis/riwayat/{id}', [ReceptsionistController::class, 'show'])->name('resepsionis.show');
 });
+
+// Admin
+Route::prefix('admin')->group(function () {
+    Route::get('/kelolakamar', function () {
+        return view('admin.kelolakamar');
+    })->name('admin.kamar');
+
+    Route::get('/crudresepsionis', function () {
+        return view('admin.crudresepsionis');
+    })->name('admin.resepsionis');
+});
