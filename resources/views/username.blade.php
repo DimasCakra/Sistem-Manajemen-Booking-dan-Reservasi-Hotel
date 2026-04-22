@@ -30,13 +30,13 @@
 
 <!--logo tengah-->
 <div class="flex flex-col justify-center flex-grow py-8 px-6">
-    <div class="flex justify-center pb-8 mb-12">
+    <div class="flex justify-center pt-6 mb-12">
     <img src="{{ asset('gambar/logo_stayease.png') }}" 
          alt="Logo" 
          class="h-12 w-auto object-contain">
 </div>
     <div class="bg-white p-8 rounded-[1.25rem] shadow-[0_10px_30px_rgba(15,23,42,0.08)] border border-[#8C6A1A] w-full max-w-[400px] mx-auto">
-        <form action="{{ route('login.post') }}" method="POST">
+        <form action="{{ route('username.post') }}" method="POST">
             @csrf
 
             @if ($errors->any())
@@ -49,44 +49,25 @@
                 </div>
             @endif
             <h2 class="text-base font-bold mb-5 uppercase text-[#8C6A1A] tracking-[0.5px]">
-                Login to Your Account
+                Set Your Username
             </h2>
 
             <div class="mb-[1.2rem]">
-                <label for="email" class="block text-[0.8rem] font-semibold text-[#8C6A1A] mt-[2px]">
-                    Email address
+                <label for="username" class="block text-[0.8rem] font-semibold text-[#8C6A1A] mt-[2px]">
+                    Username
                 </label>
-                <input id="email" type="email" name="email" required autocomplete="email"
+                <input id="username" type="username" name="username" required autocomplete="username"
                     class="w-full rounded-[0.6rem] bg-white border border-[#8C6A1A] py-[0.7rem] px-[0.9rem] text-[0.95rem] 
                     text-[#0A0F1C] transition-all duration-200 focus:outline-none focus:border-[#8C6A1A] focus:ring-[3px] focus:ring-[#8C6A1A]/12">
             </div>
 
-            <div class="mb-[1.2rem]">
-                <div class="flex justify-between items-center pt-[5px]">
-                    <label for="password" class="block text-[0.8rem] font-semibold text-[#8C6A1A]">
-                        Password
-                    </label>
-                </div>
-                <input id="password" type="password" name="password" required autocomplete="current-password"
-                    class="w-full rounded-[0.6rem] bg-white border border-[#8C6A1A] py-[0.7rem] px-[0.9rem] text-[0.95rem] 
-                    text-[#8C6A1A] transition-all duration-200 focus:outline-none focus:border-[#8C6A1A] focus:ring-[3px] focus:ring-[#8C6A1A]/12">
-            </div>
 
-            <div class="mb-[1.2rem]">
-                <div class="flex items-center gap-2">
-                    <input id="remember" type="checkbox" name="remember" 
-                           class="w-[14px] h-[14px] cursor-pointer accent-[#8C6A1A]">
-                    <label for="remember" class="text-[0.8rem] font-semibold text-[#8C6A1A]">
-                        Remember me
-                    </label>
-                </div>
-            </div>
 
             <div class="mb-[1.2rem]">
                 <button type="submit" 
                         class="w-full bg-[#8C6A1A] text-white p-[0.75rem] rounded-[0.6rem] font-semibold 
                                transition-all duration-200 hover:bg-[#254117] active:scale-[0.98]">
-                    Login
+                    Simpan
                 </button>
             </div>
         </form>

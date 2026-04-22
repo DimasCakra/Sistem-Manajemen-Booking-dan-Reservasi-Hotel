@@ -61,8 +61,6 @@
 
 <body class="bg-gray-50 min-h-screen flex flex-col">
 
-    @include('components.navbar')
-
     <div class="flex flex-1 overflow-hidden">
         @include('components.sidebar')
 
