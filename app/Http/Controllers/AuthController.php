@@ -91,6 +91,11 @@ class AuthController extends Controller
         ])->onlyInput('email');
     }
 
+    public function showResepsionisLogin()
+    {
+        return view('resepsionis.resepsionislogin');
+    }
+
     public function processResepsionisLogin(Request $request)
     {
         $credentials = $request->validate([

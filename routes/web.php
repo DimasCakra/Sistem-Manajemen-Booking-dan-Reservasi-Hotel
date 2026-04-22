@@ -14,9 +14,17 @@ Route::get('/', function () {
 });
 
 // Auth Routes
-Route::get('/login', [LoginController::class, 'index'])->name('login');
-Route::get('/register', function () {
-    return view('register'); })->name('register');
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'processLogin'])->name('login.post');
+
+Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+Route::post('/register', [AuthController::class, 'processRegister'])->name('register.post');
+
+Route::get('/username', [AuthController::class, 'showUsername'])->name('username');
+Route::post('/username', [AuthController::class, 'processUsername'])->name('username.post');
+
+Route::get('/resepsionis/login', [AuthController::class, 'showResepsionisLogin'])->name('resepsionis.login');
+Route::post('/resepsionis/login', [AuthController::class, 'processResepsionisLogin'])->name('resepsionis.login.post');
 
 // Logout (Gunakan Auth Facade agar tidak error)
 Route::post('/logout', function () {
