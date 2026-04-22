@@ -62,7 +62,7 @@
 <body class="bg-gray-50 min-h-screen flex flex-col">
 
     <div class="flex flex-1 overflow-hidden">
-        @include('components.sidebar')
+        @include('components.sidebar_resepsionis')
 
         <main class="flex-1 overflow-y-auto px-8 py-8 bg-gray-50">
             <div class="mb-6 fade-up">
