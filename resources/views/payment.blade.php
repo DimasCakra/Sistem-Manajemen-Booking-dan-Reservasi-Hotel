@@ -10,7 +10,7 @@
 <body class="bg-gray-200 text-[#1e293b] font-sans">
     @include('components.navbar')
 
-    <main class="max-w-8xl mx-auto px-6 py-10" x-data="{ method: 'bca', va: '8800 1234 5678 9012' }">
+    <main class="max-w-8xl mx-auto px-6 py-10" x-data="{ method: 'bca', va: '0031 0586 8669' }">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-8">
             <!-- Left Column -->
             <div class="lg:col-span-8 space-y-6">
@@ -40,7 +40,7 @@
                         
                         <label class="flex items-center justify-between p-5 border rounded-md cursor-pointer transition-all" :class="method === 'mandiri' ? 'border-[#8C6A1A] bg-yellow-50/20' : 'border-gray-200 hover:bg-gray-50'">
                             <div class="flex items-center gap-4">
-                                <input type="radio" name="payment_method" value="mandiri" x-model="method" @change="va = '8950 8765 4321 0987'" class="w-5 h-5 text-[#8C6A1A] focus:ring-[#8C6A1A]">
+                                <input type="radio" name="payment_method" value="mandiri" x-model="method" @change="va = '1090 0247 0262 3'" class="w-5 h-5 text-[#8C6A1A] focus:ring-[#8C6A1A]">
                                 <span class="font-bold text-lg">Mandiri Virtual Account</span>
                             </div>
                             <img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/Bank_Mandiri_logo_2016.svg" alt="Mandiri" class="h-6">
@@ -86,7 +86,7 @@
 
         <!-- Account Number Bottom Card -->
         <div class="bg-white p-10 rounded-md border border-gray-100 shadow-sm text-center flex flex-col items-center">
-            <h3 class="text-sm font-bold text-gray-500 uppercase tracking-widest mb-2" x-text="method === 'qris' ? 'Scan to Pay' : 'Virtual Account Number'"></h3>
+            <h3 class="text-sm font-bold text-gray-500 uppercase tracking-widest mb-2" x-text="method === 'qris' ? 'Scan to Pay' : 'ACCOUNT NUMBER'"></h3>
             
             <div x-show="method !== 'qris'" class="text-4xl font-black text-[#8C6A1A] tracking-widest py-4" x-text="va">
                 8800 1234 5678 9012
@@ -99,5 +99,8 @@
             <p class="text-sm text-gray-500 mt-2">Please pay the exact amount of <span class="font-black text-lg text-[#0f172a] block mt-1">Rp {{ number_format($total, 0, ',', '.') }}</span></p>
         </div>
     </main>
+
+    @include('components.footer')
+
 </body>
 </html>

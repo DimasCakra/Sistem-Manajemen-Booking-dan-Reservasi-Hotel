@@ -12,95 +12,86 @@
 </head>
 
 <!--background-->
-<body class="bg-[#254117] min-h-screen">
+<body class="bg-white min-h-screen font-sans flex">
 
-<!-- Navbar --> 
-<header class="bg-[#173014] shadow-lg sticky top-0 z-50 px-12 h-20 flex items-center justify-between">
-    <a href="/home" class="flex items-center gap-2 no-underline">
-        <img src="{{ asset('gambar/logo_stayease.png') }}" alt="Logo" class="h-9 w-auto object-contain mt-2">
-    </a>
-    <div class="flex items-center gap-3">
-        <a href="/home "class="px-6 py-2.5 bg-[#8C6A1A] text-white rounded-lg text-sm font-medium hover:bg-white hover:text-black transition flex items-center gap-2">
-            Kembali
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-        </a>
-    </div>
-</header>
-
-<!--logo tengah-->
-    <div class="flex justify-center pt-14 mb-14">
-        <img src="{{ asset('gambar/logo_stayease.png') }}" 
-             alt="Logo" 
-             class="h-12 w-auto object-contain">
-    </div>
-
-    <div class="bg-white p-8 rounded-[1.25rem] shadow-[0_10px_30px_rgba(15,23,42,0.08)] border border-[#8C6A1A] w-full max-w-[400px] mx-auto">
-        <form action="{{ route('register.post') }}" method="POST">
-            @csrf
-
-            @if ($errors->any())
-                <div class="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg text-sm">
-                    <ul class="list-disc list-inside">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-            <h2 class="text-base font-bold mb-5 uppercase text-[#8C6A1A] tracking-[0.5px]">
-            REGISTER FOR AN ACCOUNT
-            </h2>
-
-            <div class="mb-[1.2rem]">
-                <label for="name" class="block text-[0.8rem] font-semibold text-[#8C6A1A] mt-[2px]">
-                    FULL NAME
-                </label>
-                <input id="name" type="text" name="name" required autocomplete="name"
-                    class="w-full rounded-[0.6rem] bg-white border border-[#8C6A1A] py-[0.7rem] px-[0.9rem] text-[0.95rem] 
-                           transition-all duration-200 focus:outline-none focus:border-[#8C6A1A] focus:ring-[3px] focus:ring-[#8C6A1A]/12">
-            </div>
-
-            <div class="mb-[1.2rem]">
-                <label for="email" class="block text-[0.8rem] font-semibold text-[#8C6A1A] mt-[2px]">
-                    Email address
-                </label>
-                <input id="email" type="email" name="email" required autocomplete="email"
-                    class="w-full rounded-[0.6rem] bg-white border border-[#8C6A1A] py-[0.7rem] px-[0.9rem] text-[0.95rem] 
-                    text-[#0A0F1C] transition-all duration-200 focus:outline-none focus:border-[#8C6A1A] focus:ring-[3px] focus:ring-[#8C6A1A]/12">
-            </div>
-
-            <div class="mb-[1.2rem]">
-                <label for="whatsapp" class="block text-[0.8rem] font-semibold text-[#8C6A1A] mt-[2px]">
-                    WhatsApp Number
-                </label>
-                <input id="whatsapp" type="text" name="whatsapp" required autocomplete="whatsapp"
-                    class="w-full rounded-[0.6rem] bg-white border border-[#8C6A1A] py-[0.7rem] px-[0.9rem] text-[0.95rem] 
-                           transition-all duration-200 focus:outline-none focus:border-[#8C6A1A] focus:ring-[3px] focus:ring-[#8C6A1A]/12">
-            </div>
-
-            <div class="mb-[1.2rem]">
-                <div class="flex justify-between items-center pt-[5px]">
-                    <label for="password" class="block text-[0.8rem] font-semibold text-[#8C6A1A]">
-                        Password
-                    </label>
-                </div>
-                <input id="password" type="password" name="password" required autocomplete="current-password"
-                    class="w-full rounded-[0.6rem] bg-white border border-[#8C6A1A] py-[0.7rem] px-[0.9rem] text-[0.95rem] 
-                    text-[#8C6A1A] transition-all duration-200 focus:outline-none focus:border-[#8C6A1A] focus:ring-[3px] focus:ring-[#8C6A1A]/12">
-            </div>
+    <!-- Left: Image Showcase -->
+    <div class="hidden lg:block lg:w-1/2 relative overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80" alt="Hotel Pool" class="absolute inset-0 w-full h-full object-cover transform scale-105 hover:scale-100 transition-transform duration-[10s]">
+        <div class="absolute inset-0 bg-[#254117]/60 mix-blend-multiply"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-[#173014] via-[#173014]/20 to-transparent"></div>
         
-            <div class="mb-[1.2rem]">
-                <button type="submit" 
-                        class="w-full bg-[#8C6A1A] text-white p-[0.75rem] rounded-[0.6rem] font-semibold 
-                               transition-all duration-200 hover:bg-[#254117] active:scale-[0.98]">
-                    Register
-                </button>
-            </div>
-        </form>
+        <div class="absolute bottom-16 left-16 right-16 text-white">
+            <div class="w-12 h-1 bg-[#8C6A1A] mb-8"></div>
+            <h2 class="text-5xl font-bold font-serif mb-6 leading-tight">Join the StayEase<br>Exclusive Experience.</h2>
+            <p class="text-white/90 text-xl max-w-lg leading-relaxed font-light">Become a member today and unlock a world of luxurious getaways, tailored just for you.</p>
+        </div>
     </div>
-</div>
 
+    <!-- Right: Register Form -->
+    <div class="w-full lg:w-1/2 flex flex-col items-center justify-center p-8 sm:p-12 lg:p-24 relative bg-[#FFF4DE] overflow-y-auto">
+        
+        <!-- Back to home -->
+        <a href="/home" class="absolute top-8 left-8 flex items-center gap-2 text-[#8C6A1A] hover:text-[#173014] font-bold text-sm uppercase tracking-wider transition-colors group">
+            <svg class="transform group-hover:-translate-x-1 transition-transform" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            Back to Home
+        </a>
+
+        <div class="w-full max-w-md my-auto">
+            <div class="text-center mb-10">
+                <img src="{{ asset('gambar/logo_stayease.png') }}" alt="StayEase Logo" class="h-16 mx-auto mb-6 object-contain">
+                <h1 class="text-4xl font-bold text-[#173014] mb-3 font-serif">Create Account</h1>
+                <p class="text-gray-500 font-medium">Please enter your details to register.</p>
+            </div>
+
+            <form action="{{ route('register.post') }}" method="POST" class="space-y-5">
+                @csrf
+
+                @if ($errors->any())
+                    <div class="p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded-r-xl text-sm mb-6 shadow-sm">
+                        <ul class="list-disc list-inside font-medium">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                <div class="space-y-1.5">
+                    <label for="name" class="block text-xs font-bold text-[#254117] uppercase tracking-widest ml-1">Full Name</label>
+                    <input id="name" type="text" name="name" required autocomplete="name" placeholder="John Doe"
+                        class="w-full px-5 py-4 rounded-xl bg-white border-2 border-transparent focus:border-[#8C6A1A] outline-none text-gray-800 transition-all shadow-[0_4px_20px_-5px_rgba(0,0,0,0.05)]">
+                </div>
+
+                <div class="space-y-1.5">
+                    <label for="email" class="block text-xs font-bold text-[#254117] uppercase tracking-widest ml-1">Email Address</label>
+                    <input id="email" type="email" name="email" required autocomplete="email" placeholder="hello@example.com"
+                        class="w-full px-5 py-4 rounded-xl bg-white border-2 border-transparent focus:border-[#8C6A1A] outline-none text-gray-800 transition-all shadow-[0_4px_20px_-5px_rgba(0,0,0,0.05)]">
+                </div>
+
+                <div class="space-y-1.5">
+                    <label for="whatsapp" class="block text-xs font-bold text-[#254117] uppercase tracking-widest ml-1">WhatsApp Number</label>
+                    <input id="whatsapp" type="text" name="whatsapp" required autocomplete="whatsapp" placeholder="081234567890"
+                        class="w-full px-5 py-4 rounded-xl bg-white border-2 border-transparent focus:border-[#8C6A1A] outline-none text-gray-800 transition-all shadow-[0_4px_20px_-5px_rgba(0,0,0,0.05)]">
+                </div>
+
+                <div class="space-y-1.5">
+                    <label for="password" class="block text-xs font-bold text-[#254117] uppercase tracking-widest ml-1">Password</label>
+                    <input id="password" type="password" name="password" required autocomplete="current-password" placeholder="••••••••"
+                        class="w-full px-5 py-4 rounded-xl bg-white border-2 border-transparent focus:border-[#8C6A1A] outline-none text-gray-800 transition-all shadow-[0_4px_20px_-5px_rgba(0,0,0,0.05)]">
+                </div>
+
+                <button type="submit" 
+                        class="w-full bg-[#254117] text-white mt-8 py-4 rounded-xl font-bold tracking-widest uppercase hover:bg-[#173014] transition-all transform active:scale-[0.98] shadow-xl shadow-[#254117]/20 flex justify-center items-center gap-2">
+                    Register
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </button>
+            </form>
+
+            <p class="text-center text-gray-500 mt-10 font-medium">
+                Already have an account? 
+                <a href="/login" class="font-bold text-[#8C6A1A] hover:text-[#173014] transition-colors border-b-2 border-[#8C6A1A] pb-0.5 ml-1">Sign in here</a>
+            </p>
+        </div>
+    </div>
 </body>
 </html>

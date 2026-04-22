@@ -105,7 +105,7 @@ class AuthController extends Controller
 
         if (Auth::guard('receptionist')->attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
-            return redirect()->intended('receptionist');
+            return redirect()->intended('resepsionis/resepsionis');
         }
 
         return back()->withErrors([

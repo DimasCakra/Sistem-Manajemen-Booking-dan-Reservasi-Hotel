@@ -68,7 +68,7 @@
             </div>
         </div>
 
-        <div class = "w-full md:w-1/2 bg-gray-200 flex items-center justify-center p-20">
+        <div class = "w-full md:w-1/2 bg-[#FFF4DE] flex items-center justify-center p-20">
             <div class = "w-full max-w-md bg-white p-10 rounded-3xl border border-gray-100
                           shadow-[0_30px_70px_rgba(0,0,0,0.1)]">
                 
@@ -146,63 +146,7 @@
         </div>
     </div>
 
-    <footer class = "bg-gray-200 px-12 pt-24 pb-12 border-t border-gray-100">
-        <div class = "grid grid-cols-1 md:grid-cols-12 gap-16 mb-20">
-            
-            <div class = "md:col-span-5">
-                <a href = "/home" class = "flex items-center gap-2 no-underline mb-8">
-                    <img src = "{{ asset('gambar/logo_stayease.png') }}" 
-                         alt = "Logo" class = "h-12 w-auto object-contain">
-                </a>
-                <p class = "text-gray-500 text-sm leading-relaxed max-w-sm mb-8">
-                    Platform manajemen booking dan reservasi hotel terpercaya. 
-                    Memberikan pengalaman menginap terbaik sejak 2024.
-                </p>
-                <div class = "flex gap-4">
-                    <a href="#" class = "w-10 h-10 bg-gray-50 rounded-lg flex items-center 
-                                      justify-center text-[#173014] transition 
-                                      hover:bg-[#173014] hover:text-white">f</a>
-                    <a href="#" class = "w-10 h-10 bg-gray-50 rounded-lg flex items-center 
-                                      justify-center text-[#173014] transition 
-                                      hover:bg-[#173014] hover:text-white">in</a>
-                </div>
-            </div>
-
-            <div class = "md:col-span-2 md:col-start-7">
-                <h4 class = "font-bold text-gray-900 mb-8 uppercase text-xs tracking-widest">
-                    Layanan
-                </h4>
-                <ul class = "space-y-4 text-sm text-gray-500 list-none p-0">
-                    <li><a href = "#" class = "hover:text-[#173014] transition">Reservasi Kamar</a></li>
-                    <li><a href = "#" class = "hover:text-[#173014] transition">Paket Liburan</a></li>
-                    <li><a href = "#" class = "hover:text-[#173014] transition">Meeting Room</a></li>
-                </ul>
-            </div>
-
-            <div class = "md:col-span-2">
-                <h4 class = "font-bold text-[#254117] mb-8 uppercase text-xs tracking-widest">
-                    Akun
-                </h4>
-                <ul class = "space-y-4 text-sm text-gray-500 list-none p-0">
-                    <li><a href = "/login" class = "hover:text-[#173014] transition">Login</a></li>
-                    <li><a href = "/register" class = "hover:text-[#173014] transition">Daftar</a></li>
-                </ul>
-            </div>
-
-        </div>
-        
-        <div class = "border-t border-gray-100 pt-10 flex flex-col md:flex-row 
-                    justify-between items-center gap-6">
-            <p class = "text-xs text-gray-400">
-                © 2025 <span class = "text-[#254117] font-bold">StayEase</span>. 
-                Hak cipta dilindungi.
-            </p>
-            <div class = "px-5 py-2.5 bg-blue-50 text-[#254117] text-[10px] font-bold 
-                        rounded-full uppercase tracking-[0.2em] border border-blue-100">
-                Sistem Booking Hotel
-            </div>
-        </div>
-    </footer>
-
+    @include('components.footer')
+    
 </body>
 </html>
