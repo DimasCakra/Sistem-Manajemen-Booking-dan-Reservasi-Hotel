@@ -26,6 +26,10 @@ Route::post('/username', [AuthController::class, 'processUsername'])->name('user
 Route::get('/resepsionis/login', [AuthController::class, 'showResepsionisLogin'])->name('resepsionis.login');
 Route::post('/resepsionis/login', [AuthController::class, 'processResepsionisLogin'])->name('resepsionis.login.post');
 
+Route::get('/admin/login', [AuthController::class, 'showAdminLogin'])->name('admin.login');
+Route::post('/admin/login', [AuthController::class, 'processAdminLogin'])->name('admin.login.post');
+
+
 // Logout (Gunakan Auth Facade agar tidak error)
 Route::post('/logout', function () {
     Auth::logout();
@@ -56,4 +60,8 @@ Route::prefix('admin')->group(function () {
     Route::get('/crudresepsionis', function () {
         return view('admin.crudresepsionis');
     })->name('admin.resepsionis');
+
+    Route::get('/crudtamu', function () {
+        return view('admin.crudtamu');
+    })->name('admin.tamu');
 });

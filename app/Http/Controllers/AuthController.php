@@ -112,4 +112,26 @@ class AuthController extends Controller
             'email' => 'Email atau password resepsionis salah.',
         ])->onlyInput('email');
     }
+
+    public function showAdminLogin()
+    {
+        return view('admin.adminlogin');
+    }
+
+    public function processAdminLogin(Request $request)
+    {
+        $credentials = $request->validate([
+            'email' => 'required|string|email',
+            'password' => 'required|string',
+        ]);
+
+        if (Auth::guard('admin')->attempt($credentials, $request->boolean('remember'))) {
+            $request->session()->regenerate();
+            return redirect()->intended('admin/kelolakamar');
+        }
+
+        return back()->withErrors([
+            'email' => 'Email atau password admin salah.',
+        ])->onlyInput('email');
+    }
 }
