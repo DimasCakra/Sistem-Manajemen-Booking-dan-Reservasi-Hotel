@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kelola Resepsionis - Admin Grand Lumina</title>
+    <title>Kelola Resepsionis - Admin StayEase</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
     <script>
@@ -31,7 +31,7 @@
         
         <div class="flex justify-between items-end mb-10 fade-up">
             <div>
-                <h1 class="font-display text-4xl font-bold text-forest-900">Akun Resepsionis</h1>
+                <h1 class="font-display text-4xl font-bold text-forest-900">Data Resepsionis</h1>
                 <p class="text-forest-500 mt-2 text-sm uppercase tracking-widest font-semibold">Manajemen Staf & Hak Akses</p>
             </div>
             

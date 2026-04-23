@@ -44,7 +44,7 @@
             <div class="flex flex-col">
                 <span class="font-body font-semibold text-sm tracking-wide">Kelola Resepsionis</span>
                 <span class="text-[10px] {{ request()->routeIs('admin.resepsionis') ? 'text-white' : 'text-forest-300' }} group-hover:text-white">
-                    Manajemen Akun Resepsionis
+                    Manajemen Data Resepsionis
                 </span>
             </div>
         </a>
