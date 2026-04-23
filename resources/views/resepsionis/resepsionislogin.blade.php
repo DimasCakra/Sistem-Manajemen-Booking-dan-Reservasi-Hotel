@@ -12,22 +12,7 @@
 </head>
 <!--background-->
 <body class="bg-[#254117] min-h-screen">
-
-<!-- Navbar --> 
-<header class="bg-[#173014] shadow-lg sticky top-0 z-50 px-12 h-20 flex items-center justify-between">
-    <a href="/home" class="flex items-center gap-2 no-underline">
-        <img src="{{ asset('gambar/logo_stayease.png') }}" alt="Logo" class="h-9 w-auto object-contain mt-2">
-    </a>
-    <div class="flex items-center gap-3">
-        <a href="/home "class="px-6 py-2.5 bg-[#8C6A1A] text-white rounded-lg text-sm font-medium hover:bg-white hover:text-black transition flex items-center gap-2">
-            Kembali
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-        </a>
-    </div>
-</header>
-
+    
 <!--logo tengah-->
 <div class="flex flex-col justify-center flex-grow py-8 px-6">
     <div class="flex justify-center pt-7 mb-12">
