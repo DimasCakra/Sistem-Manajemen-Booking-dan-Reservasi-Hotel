@@ -1,7 +1,8 @@
 <aside class="sidebar-bg w-72 flex-shrink-0 flex flex-col shadow-2xl z-20">
             <div class="px-8 pt-10 pb-6 fade-up">
-                <div class="h-1 w-12 bg-forest-400 rounded-full mb-3"></div>
-                <p class="text-forest-300 text-[10px] uppercase tracking-[0.2em] font-bold"></p>
+                <a href="{{ route('receptionist.index') }}" class="flex items-center gap-2 no-underline">
+                    <img src="{{ asset('gambar/logo_stayease.png') }}" alt="Logo" class="h-7 w-auto object-contain mt-2">
+                </a>
             </div>
 
             <nav class="flex-1 flex flex-col gap-2 px-4">
@@ -25,9 +26,18 @@
                     </div>
                 </a>
 
+                <div class="my-2 mx-0 border-t border-white/40"></div>
+
                 <a href="{{ route('resepsionis.riwayatreservasi') }}"
                     class="flex items-center gap-4 px-4 py-3.5 rounded-md transition-all duration-300 group 
                     {{ request()->routeIs('resepsionis.riwayatreservasi') ? 'bg-white/15 border border-white/20 text-white' : 'text-white hover:bg-white/15' }}">
+
+                    <span class="w-10 h-10 rounded-lg flex items-center justify-center shadow-inner transition-transform group-hover:scale-110
+                        {{ request()->routeIs('resepsionis.riwayatreservasi') ? 'bg-forest-600' : 'bg-forest-600/50' }}">
+                        <svg class="w-5 h-5 text-forest-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </span>
 
                     <div class="flex flex-col">
                         <span class="font-body font-semibold text-sm tracking-wide">Riwayat Reservasi</span>
