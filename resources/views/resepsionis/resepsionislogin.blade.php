@@ -34,12 +34,12 @@
                 </div>
             @endif
             <h2 class="text-base font-bold mb-5 uppercase text-[#8C6A1A] tracking-[0.5px]">
-                Login to Your Account
+                Masuk Ke Akun Anda
             </h2>
 
             <div class="mb-[1.2rem]">
                 <label for="email" class="block text-[0.8rem] font-semibold text-[#8C6A1A] mt-[2px]">
-                    Email address
+                    Alamat Email
                 </label>
                 <input id="email" type="email" name="email" required autocomplete="email"
                     class="w-full rounded-[0.6rem] bg-white border border-[#8C6A1A] py-[0.7rem] px-[0.9rem] text-[0.95rem] 
@@ -49,7 +49,7 @@
             <div class="mb-[1.2rem]">
                 <div class="flex justify-between items-center pt-[5px]">
                     <label for="password" class="block text-[0.8rem] font-semibold text-[#8C6A1A]">
-                        Password
+                        Kata Sandi
                     </label>
                 </div>
                 <input id="password" type="password" name="password" required autocomplete="current-password"
@@ -62,7 +62,7 @@
                     <input id="remember" type="checkbox" name="remember" 
                            class="w-[14px] h-[14px] cursor-pointer accent-[#8C6A1A]">
                     <label for="remember" class="text-[0.8rem] font-semibold text-[#8C6A1A]">
-                        Remember me
+                        Ingat Saya
                     </label>
                 </div>
             </div>
@@ -71,7 +71,7 @@
                 <button type="submit" 
                         class="w-full bg-[#8C6A1A] text-white p-[0.75rem] rounded-[0.6rem] font-semibold 
                                transition-all duration-200 hover:bg-[#254117] active:scale-[0.98]">
-                    Login
+                    Masuk
                 </button>
             </div>
         </form>

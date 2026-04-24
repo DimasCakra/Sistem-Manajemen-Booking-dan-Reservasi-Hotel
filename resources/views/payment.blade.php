@@ -17,17 +17,28 @@
                 <!-- Payment Deadline -->
                 <div class="bg-white p-8 rounded-md border border-gray-100 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
-                        <h2 class="text-sm font-bold text-gray-500 uppercase tracking-widest mb-1">Payment Deadline</h2>
+                        <h2 class="text-sm font-bold text-gray-500 uppercase tracking-widest mb-1">Batas Waktu Pembayaran</h2>
                         <p class="text-xl font-black text-[#0f172a]">{{ \Carbon\Carbon::now()->addHours(2)->format('d M Y, H:i') }}</p>
                     </div>
-                    <div class="bg-red-50 text-red-600 px-6 py-3 rounded-md font-bold text-xl text-center border border-red-100">
-                        01:59:59
+                    <div x-data="{ 
+                            timeLeft: 7200, 
+                            get formattedTime() { 
+                                const h = String(Math.floor(this.timeLeft / 3600)).padStart(2, '0');
+                                const m = String(Math.floor((this.timeLeft % 3600) / 60)).padStart(2, '0');
+                                const s = String(this.timeLeft % 60).padStart(2, '0');
+                                return `${h}:${m}:${s}`;
+                            } 
+                        }" 
+                        x-init="setInterval(() => { if (timeLeft > 0) timeLeft-- }, 1000)"
+                        class="bg-red-50 text-red-600 px-6 py-3 rounded-md font-bold text-xl text-center border border-red-100 tabular-nums"
+                        x-text="formattedTime">
+                        02:00:00
                     </div>
                 </div>
 
                 <!-- Payment Method -->
                 <div class="bg-white p-8 rounded-md border border-gray-100 shadow-sm">
-                    <h2 class="text-xl font-black text-[#0f172a] mb-6 border-b pb-4 border-gray-50 uppercase tracking-widest">Payment Method</h2>
+                    <h2 class="text-xl font-black text-[#0f172a] mb-6 border-b pb-4 border-gray-50 uppercase tracking-widest">Metode Pembayaran</h2>
                     
                     <div class="space-y-4">
                         <label class="flex items-center justify-between p-5 border rounded-md cursor-pointer transition-all" :class="method === 'bca' ? 'border-[#8C6A1A] bg-yellow-50/20' : 'border-gray-200 hover:bg-gray-50'">
@@ -61,7 +72,7 @@
             <div class="lg:col-span-4 space-y-6">
                 <!-- Summary Card -->
                 <div class="bg-white p-8 rounded-md border border-gray-100 shadow-sm">
-                    <h2 class="text-xl font-black text-[#0f172a] mb-6 border-b pb-4 border-gray-50 uppercase tracking-widest">Review Order</h2>
+                    <h2 class="text-xl font-black text-[#0f172a] mb-6 border-b pb-4 border-gray-50 uppercase tracking-widest">Lihat Pesanan</h2>
                     
                     <div class="mb-6">
                         <p class="text-gray-400 text-[10px] font-bold uppercase tracking-widest mb-1">Hotel</p>
@@ -71,7 +82,7 @@
 
                     <div class="border-t border-gray-100 pt-4 mt-2">
                         <div class="flex justify-between items-center">
-                            <span class="text-base font-black">Total Payment</span>
+                            <span class="text-base font-black">Total Pembayaran</span>
                             <span class="text-xl font-black text-[#8C6A1A]">Rp {{ number_format($total, 0, ',', '.') }}</span>
                         </div>
                     </div>
@@ -79,14 +90,14 @@
 
                 <!-- Refresh / Check Status Button -->
                 <a href="{{ route('home') }}" class="w-full bg-white border border-gray-300 text-[#0f172a] py-4 rounded-xl font-bold uppercase tracking-widest text-sm text-center block cursor-pointer transition-all shadow-sm hover:bg-gray-50">
-                    I Have Paid (Refresh)
+                    Saya Sudah Bayar (Refresh)
                 </a>
             </div>
         </div>
 
         <!-- Account Number Bottom Card -->
         <div class="bg-white p-10 rounded-md border border-gray-100 shadow-sm text-center flex flex-col items-center">
-            <h3 class="text-sm font-bold text-gray-500 uppercase tracking-widest mb-2" x-text="method === 'qris' ? 'Scan to Pay' : 'ACCOUNT NUMBER'"></h3>
+            <h3 class="text-sm font-bold text-gray-500 uppercase tracking-widest mb-2" x-text="method === 'qris' ? 'Scan to Pay' : 'NOMOR REKENING'"></h3>
             
             <div x-show="method !== 'qris'" class="text-4xl font-black text-[#8C6A1A] tracking-widest py-4" x-text="va">
                 8800 1234 5678 9012

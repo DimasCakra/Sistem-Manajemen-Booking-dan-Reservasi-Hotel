@@ -30,13 +30,27 @@ Route::get('/admin/login', [AuthController::class, 'showAdminLogin'])->name('adm
 Route::post('/admin/login', [AuthController::class, 'processAdminLogin'])->name('admin.login.post');
 
 
-// Logout (Gunakan Auth Facade agar tidak error)
-Route::post('/logout', function () {
+// Logout
+Route::post('/logoutresepsionis', function () {
+    Auth::logout();
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
+    return redirect('/resepsionis/login');
+})->name('logoutresepsionis');
+
+Route::post('/logoutguest', function () {
     Auth::logout();
     request()->session()->invalidate();
     request()->session()->regenerateToken();
     return redirect('/login');
-})->name('logout');
+})->name('logoutguest');
+
+Route::post('/logoutadmin', function () {
+    Auth::logout();
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
+    return redirect('/admin/login');
+})->name('logoutadmin');
 
 // Halaman Tamu
 Route::get('/home', [HomeController::class, 'index'])->name('home');

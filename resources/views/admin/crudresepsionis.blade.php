@@ -39,7 +39,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
                 </svg>
-                ADD RESEPSIONIS
+                TAMBAH RESEPSIONIS
             </button>
         </div>
 
@@ -49,11 +49,11 @@
                     <thead>
                         <tr class="bg-forest-800 text-white text-[11px] uppercase tracking-[0.2em]">
                             <th class="px-8 py-6 font-semibold">Nama Resepsionis</th>
-                            <th class="px-6 py-6 font-semibold">Email Address</th>
-                            <th class="px-6 py-6 font-semibold text-center">WA Number</th>
+                            <th class="px-6 py-6 font-semibold">Alamat Email</th>
+                            <th class="px-6 py-6 font-semibold text-center">No WA</th>
                             <th class="px-6 py-6 font-semibold text-center">Username</th>
-                            <th class="px-6 py-6 font-semibold text-center">Staff ID</th>
-                            <th class="px-8 py-6 font-semibold text-center border-l border-forest-700">Action</th>
+                            <th class="px-6 py-6 font-semibold text-center">ID Staf</th>
+                            <th class="px-8 py-6 font-semibold text-center border-l border-forest-700">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
@@ -112,7 +112,7 @@
                             <td class="px-8 py-6 border-l border-forest-600/40">
                                 <div class="flex justify-center gap-3">
                                     <button class="px-5 py-3 bg-amber-100 text-amber-600 rounded-md hover:bg-amber-100 transition-colors text-[10px] font-bold uppercase tracking-wider">Edit</button>
-                                    <button class="px-5 py-2 bg-red-100 text-red-600 rounded-md hover:bg-red-100 transition-colors text-[10px] font-bold uppercase tracking-wider">Delete</button>
+                                    <button class="px-5 py-2 bg-red-100 text-red-600 rounded-md hover:bg-red-100 transition-colors text-[10px] font-bold uppercase tracking-wider">Hapus</button>
                                 </div>
                             </td>
                         </tr>

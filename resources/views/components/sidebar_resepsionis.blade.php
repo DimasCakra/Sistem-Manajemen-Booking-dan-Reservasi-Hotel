@@ -49,7 +49,7 @@
             </nav>
 
             <div class="p-4 mt-auto border-t border-white/5 bg-black/10 fade-up">
-                <form method="POST" action="{{ route('logout') }}">
+                <form method="POST" action="{{ route('logoutresepsionis') }}">
                     @csrf
                     <button type="submit"
                         class="w-full flex items-center gap-4 px-4 py-4 rounded-xl text-red-300 hover:bg-red-500/10 hover:text-red-200 transition-all duration-300 group">
@@ -59,7 +59,7 @@
                                     d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                             </svg>
                         </span>
-                        <span class="font-body font-bold text-sm tracking-widest uppercase">Log Out</span>
+                        <span class="font-body font-bold text-sm tracking-widest uppercase">Keluar</span>
                     </button>
                 </form>
             </div>

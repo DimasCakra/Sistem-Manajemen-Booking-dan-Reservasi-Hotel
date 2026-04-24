@@ -34,7 +34,7 @@
                 <p class="text-forest-500 mt-2 font-semibold">Manajemen data kamar dan ketersediaan unit.</p>
             </div>
             <button class="bg-forest-700 hover:bg-forest-800 text-white px-8 py-4 rounded-md shadow-lg transition-all active:scale-95 font-bold tracking-wider text-sm">
-                + ADD ROOM
+                + TAMBAH KAMAR
             </button>
         </div>
 
@@ -42,29 +42,29 @@
             <table class="w-full text-left">
                 <thead>
                     <tr class="bg-forest-800 text-white text-[11px] uppercase tracking-[0.2em]">
-                        <th class="px-4 py-5 font-semibold">Room Number</th>
-                        <th class="px-6 py-5 font-semibold text-center">Type</th>
-                        <th class="px-6 py-5 font-semibold text-center">Price</th>
-                        <th class="px-6 py-5 font-semibold text-center">ID Room</th>
+                        <th class="px-4 py-5 font-semibold">Nomor Kamar</th>
+                        <th class="px-6 py-5 font-semibold text-center">Tipe Kamar</th>
+                        <th class="px-6 py-5 font-semibold text-center">Harga</th>
+                        <th class="px-6 py-5 font-semibold text-center">ID Kamar</th>
                         <th class="px-6 py-5 font-semibold text-center">Status</th>
-                        <th class="px-6 py-5 font-semibold">Dekripsi</th>
+                        <th class="px-6 py-5 font-semibold">Deskripsi</th>
                         <th class="px-8 py-5 font-semibold text-center border-l border-forest-700">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100">
                     <tr class="hover:bg-forest-50/50 transition-colors group">
                         <td class="px-8 py-6 font-bold text-black">101</td>
-                        <td class="px-6 py-6 text-center text-sm text-black">Deluxe Room</td>
+                        <td class="px-6 py-6 text-center text-sm text-black"> Kamar Deluxe</td>
                         <td class="px-6 py-6 text-center text-sm font-semibold text-black">Rp 1.500.000</td>
                         <td class="px-6 py-6 text-center text-sm font-mono text-black uppercase">RM-101</td>
                         <td class="px-6 py-6 text-center">
-                            <span class="bg-forest-200 text-forest-700 px-6 py-2 rounded-md text-[10px] font-bold uppercase tracking-wider">Available</span>
+                            <span class="bg-forest-200 text-forest-700 px-6 py-2 rounded-md text-[10px] font-bold uppercase tracking-wider">Tersedia</span>
                         </td>
                         <td class="px-6 py-6 text-xs text-gray-500 max-w-[200px] truncate">Kamar mewah dengan akses langsung ke balkon dengan pemandangan taman yang indah</td>
                         <td class="px-8 py-6 border-l border-forest-600/40">
                             <div class="flex justify-center gap-3">
                                 <button class="px-5 py-3 bg-amber-100 text-amber-600 rounded-md hover:bg-amber-100 transition-colors text-[10px] font-bold">EDIT</button>
-                                <button class="px-5 py-3 bg-red-100 text-red-600 rounded-md hover:bg-red-100 transition-colors text-[10px] font-bold">DELETE</button>
+                                <button class="px-5 py-3 bg-red-100 text-red-600 rounded-md hover:bg-red-100 transition-colors text-[10px] font-bold">HAPUS</button>
                             </div>
                         </td>
                     </tr>

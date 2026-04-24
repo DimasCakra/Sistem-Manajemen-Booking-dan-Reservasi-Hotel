@@ -8,8 +8,8 @@
                     <img src="{{ asset('gambar/logo_stayease.png') }}" alt="StayEase Logo" class="h-12 w-auto object-contain brightness-0 invert opacity-90 hover:opacity-100 transition-opacity">
                 </a>
                 <p class="text-[#FFF4DE]/70 text-sm leading-relaxed max-w-sm mb-8 font-light">
-                    Experience the pinnacle of comfort and impeccable service. 
-                    StayEase is your trusted partner for luxury hotel reservations since 2024.
+                    Menikmati kenyamanan dan pelayanan terbaik. 
+                    StayEase adalah partner terpercaya untuk reservasi hotel Anda sejak 2026    .
                 </p>
                 <div class="flex gap-4">
                     <a href="#" class="w-10 h-10 rounded-full border border-[#8C6A1A]/30 flex items-center justify-center text-[#8C6A1A] transition-all hover:bg-[#8C6A1A] hover:text-white hover:scale-110">
@@ -26,35 +26,35 @@
 
             <div class="md:col-span-2 md:col-start-7">
                 <h4 class="font-bold text-white mb-8 uppercase text-xs tracking-widest font-serif">
-                    Services
+                    Layanan Kami
                 </h4>
                 <ul class="space-y-4 text-sm text-[#FFF4DE]/60 list-none p-0">
-                    <li><a href="#" class="hover:text-[#8C6A1A] transition-colors flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-[#8C6A1A]"></span> Room Reservation</a></li>
-                    <li><a href="#" class="hover:text-[#8C6A1A] transition-colors flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-[#8C6A1A]"></span> Holiday Packages</a></li>
-                    <li><a href="#" class="hover:text-[#8C6A1A] transition-colors flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-[#8C6A1A]"></span> Meeting Rooms</a></li>
-                    <li><a href="#" class="hover:text-[#8C6A1A] transition-colors flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-[#8C6A1A]"></span> Special Offers</a></li>
+                    <li><a href="#" class="hover:text-[#8C6A1A] transition-colors flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-[#8C6A1A]"></span> Reservasi Kamar</a></li>
+                    <li><a href="#" class="hover:text-[#8C6A1A] transition-colors flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-[#8C6A1A]"></span> Paket Liburan</a></li>
+                    <li><a href="#" class="hover:text-[#8C6A1A] transition-colors flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-[#8C6A1A]"></span> Ruang Pertemuan</a></li>
+                    <li><a href="#" class="hover:text-[#8C6A1A] transition-colors flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-[#8C6A1A]"></span> Promo Spesial</a></li>
                 </ul>
             </div>
 
             <div class="md:col-span-2">
                 <h4 class="font-bold text-white mb-8 uppercase text-xs tracking-widest font-serif">
-                    Account
+                    Akun
                 </h4>
                 <ul class="space-y-4 text-sm text-[#FFF4DE]/60 list-none p-0">
-                    <li><a href="/login" class="hover:text-[#8C6A1A] transition-colors">Sign In</a></li>
-                    <li><a href="/register" class="hover:text-[#8C6A1A] transition-colors">Create Account</a></li>
-                    <li><a href="#" class="hover:text-[#8C6A1A] transition-colors">My Bookings</a></li>
+                    <li><a href="/login" class="hover:text-[#8C6A1A] transition-colors">Masuk</a></li>
+                    <li><a href="/register" class="hover:text-[#8C6A1A] transition-colors">Daftar</a></li>
+                    <li><a href="#" class="hover:text-[#8C6A1A] transition-colors">Reservasi Saya</a></li>
                 </ul>
             </div>
 
             <div class="md:col-span-2">
                 <h4 class="font-bold text-white mb-8 uppercase text-xs tracking-widest font-serif">
-                    Company
+                    Perusahaan
                 </h4>
                 <ul class="space-y-4 text-sm text-[#FFF4DE]/60 list-none p-0">
-                    <li><a href="#" class="hover:text-[#8C6A1A] transition-colors">About Us</a></li>
-                    <li><a href="#" class="hover:text-[#8C6A1A] transition-colors">Contact</a></li>
-                    <li><a href="#" class="hover:text-[#8C6A1A] transition-colors">Privacy Policy</a></li>
+                    <li><a href="#" class="hover:text-[#8C6A1A] transition-colors">Tentang Kami</a></li>
+                    <li><a href="#" class="hover:text-[#8C6A1A] transition-colors">Kontak</a></li>
+                    <li><a href="#" class="hover:text-[#8C6A1A] transition-colors">Kebijakan Privasi</a></li>
                 </ul>
             </div>
 
@@ -62,11 +62,11 @@
 
         <div class="border-t border-[#254117] pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
             <p class="text-xs text-[#FFF4DE]/40">
-                © {{ date('Y') }} <span class="text-[#8C6A1A] font-bold">StayEase Luxury</span>.
-                All rights reserved.
+                © {{ date('Y') }} <span class="text-[#8C6A1A] font-bold">StayEase</span>.
+                Semua Hak Cipta Dilindungi.
             </p>
             <div class="px-5 py-2.5 bg-[#8C6A1A]/10 text-[#8C6A1A] text-[10px] font-bold rounded-full uppercase tracking-[0.2em] border border-[#8C6A1A]/20">
-                Premium Hotel System
+                Sistem Manajemen Booking dan Reservasi Hotel
             </div>
         </div>
     </div>

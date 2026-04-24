@@ -15,20 +15,20 @@
         <div class="bg-white flex items-center border border-gray-200 rounded-xl shadow-md overflow-hidden min-w-[600px]">
             
             <div class="flex-1 flex flex-col px-40 py-2 border-r border-gray-400">
-                <span class="text-[9px] text-gray-500 font-bold uppercase tracking-[0.1em]">Check-in / Out</span>
+                <span class="text-[9px] text-gray-500 font-bold uppercase tracking-[0.1em]">Check-In / Check-Out</span>
                 <span class="text-[13px] font-bold text-[#0f172a] whitespace-nowrap">
                     {{ \Carbon\Carbon::parse($checkin)->format('d M Y') }} - {{ \Carbon\Carbon::parse($checkout)->format('d M Y') }}
                 </span>
             </div>
 
             <div class="flex-1 flex flex-col px-40 py-2 border-r border-gray-400">
-                <span class="text-[9px] text-gray-500 font-bold uppercase tracking-[0.1em]">Guests</span>
-                <span class="text-[13px] font-bold text-[#0f172a] whitespace-nowrap">{{ $guests ?? 2 }} Person</span>
+                <span class="text-[9px] text-gray-500 font-bold uppercase tracking-[0.1em]">Jumlah Tamu</span>
+                <span class="text-[13px] font-bold text-[#0f172a] whitespace-nowrap">{{ $guests ?? 2 }} Orang</span>
             </div>
 
             <div class="px-40 py-2 bg-gray-50/50">
                 <a href="/home" class="text-[#254117] font-extrabold text-xs uppercase tracking-tighter hover:text-[#1a2f0f] transition-colors">
-                    Change
+                    Ubah
                 </a>
             </div>
         </div>
@@ -48,7 +48,7 @@
                         {{ $kamar->available }} Kamar Tersedia
                     </div>
                     <div class="bg-amber-50 text-amber-600 px-3 py-1 text-[11px] font-bold rounded-full border border-amber-100">
-                        ★ {{ $kamar->rating }} Rating
+                        ★ {{ $kamar->rating }} Ulasan
                     </div>
                 </div>
 

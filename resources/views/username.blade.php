@@ -32,8 +32,8 @@
         <div class="w-full max-w-md">
             <div class="text-center mb-12">
                 <img src="{{ asset('gambar/logo_stayease.png') }}" alt="StayEase Logo" class="h-16 mx-auto mb-8 object-contain">
-                <h1 class="text-4xl font-bold text-[#173014] mb-3 font-serif">Set Username</h1>
-                <p class="text-gray-500 font-medium">Choose a unique username for your account.</p>
+                <h1 class="text-4xl font-bold text-[#173014] mb-3 font-serif">Masukkan Username Anda</h1>
+                <p class="text-gray-500 font-medium">Pilih username unik untuk akun Anda.</p>
             </div>
 
             <form action="{{ route('username.post') }}" method="POST" class="space-y-6">
@@ -57,7 +57,7 @@
 
                 <button type="submit" 
                         class="w-full bg-[#254117] text-white mt-8 py-4 rounded-xl font-bold tracking-widest uppercase hover:bg-[#173014] transition-all transform active:scale-[0.98] shadow-xl shadow-[#254117]/20 flex justify-center items-center gap-2">
-                    Complete Setup
+                    Mulai
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </button>
             </form>

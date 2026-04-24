@@ -18,13 +18,13 @@
                 <div class="absolute right-0 pt-2 w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-right translate-y-2 group-hover:translate-y-0 z-50">
                     <div class="bg-white rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.1)] border border-gray-100 overflow-hidden">
                         <div class="p-2 space-y-1">
-                            <a href="#" class="block px-4 py-2.5 text-sm font-semibold text-gray-600 hover:bg-[#FFF4DE] hover:text-[#8C6A1A] rounded-lg transition-colors">EDIT PROFILE</a>
-                            <a href="#" class="block px-4 py-2.5 text-sm font-semibold text-gray-600 hover:bg-[#FFF4DE] hover:text-[#8C6A1A] rounded-lg transition-colors">MY ORDER</a>
-                            <a href="#" class="block px-4 py-2.5 text-sm font-semibold text-gray-600 hover:bg-[#FFF4DE] hover:text-[#8C6A1A] rounded-lg transition-colors">MY REVIEW</a>
+                            <a href="#" class="block px-4 py-2.5 text-sm font-semibold text-gray-600 hover:bg-[#FFF4DE] hover:text-[#8C6A1A] rounded-lg transition-colors">UBAH PROFIL</a>
+                            <a href="#" class="block px-4 py-2.5 text-sm font-semibold text-gray-600 hover:bg-[#FFF4DE] hover:text-[#8C6A1A] rounded-lg transition-colors">PESANAN SAYA</a>
+                            <a href="#" class="block px-4 py-2.5 text-sm font-semibold text-gray-600 hover:bg-[#FFF4DE] hover:text-[#8C6A1A] rounded-lg transition-colors">REVIEW SAYA</a>
                             <div class="h-px bg-gray-100 my-1"></div>
-                            <form action="{{ route('logout') }}" method="POST">
+                            <form action="{{ route('logoutguest') }}" method="POST">
                                 @csrf
-                                <button type="submit" class="w-full text-left px-4 py-2.5 text-sm font-bold text-red-600 hover:bg-red-50 rounded-lg transition-colors">LOG OUT</button>
+                                <button type="submit" class="w-full text-left px-4 py-2.5 text-sm font-bold text-red-600 hover:bg-red-50 rounded-lg transition-colors">KELUAR</button>
                             </form>
                         </div>
                     </div>
@@ -36,10 +36,10 @@
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                     <circle cx="12" cy="7" r="4" />
                 </svg>
-                Login
+                Masuk
             </a>
             <a href="/register" class="px-6 py-2.5 bg-[#8C6A1A] text-white rounded-lg text-sm font-medium hover:bg-white hover:text-black transition flex items-center gap-2">
-                Register
+                Daftar
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                     <path d="M5 12h14M12 5l7 7-7 7" />
                 </svg>
