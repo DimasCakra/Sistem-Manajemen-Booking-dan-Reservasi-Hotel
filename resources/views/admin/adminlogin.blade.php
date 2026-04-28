@@ -23,8 +23,7 @@
         
         <div class="text-center mb-8">
             <img src="{{ asset('gambar/stayease.png') }}" alt="StayEase Logo" class="h-14 mx-auto object-contain brightness-0 invert opacity-90">
-            <h1 class="mt-6 text-2xl font-light text-white tracking-wide">Portal <span class="font-bold text-[#D4AF37]">Admin</span></h1>
-            <p class="text-white/50 text-sm mt-2">Silakan masuk untuk mengelola sistem.</p>
+            <h1 class="mt-6 text-2xl font-light text-white tracking-wide">Login <span class="font-bold text-[#D4AF37]">Admin</span></h1>
         </div>
 
         <div class="bg-white/5 backdrop-blur-2xl p-8 sm:p-10 rounded-[2rem] shadow-2xl border border-white/10 relative overflow-hidden">

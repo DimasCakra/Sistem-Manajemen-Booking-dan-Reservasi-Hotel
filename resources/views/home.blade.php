@@ -44,7 +44,7 @@
 
             <div class = "flex gap-12 pt-10">
                 <div class = "stat-item">
-                    <div class = "text-4xl font-bold text-white">0+</div>
+                    <div class = "text-4xl font-bold text-white">3</div>
                     <div class = "text-xs font-bold text-white uppercase 
                                   tracking-widest mt-1">Tipe Kamar</div>
                 </div>
@@ -52,7 +52,7 @@
                 <div class = "w-px bg-black/10"></div>
                 
                 <div class = "stat-item">
-                    <div class = "text-4xl font-bold text-white">0K+</div>
+                    <div class = "text-4xl font-bold text-white">2K+</div>
                     <div class = "text-xs font-bold text-white uppercase 
                                   tracking-widest mt-1">Tamu Puas</div>
                 </div>
@@ -60,7 +60,7 @@
                 <div class = "w-px bg-black/10"></div>
                 
                 <div class = "stat-item">
-                    <div class = "text-4xl font-bold text-white">0.0★</div>
+                    <div class = "text-4xl font-bold text-white">4.7★</div>
                     <div class = "text-xs font-bold text-white uppercase 
                                   tracking-widest mt-1">Rating</div>
                 </div> 
