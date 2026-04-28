@@ -5,7 +5,7 @@
             <div class="md:col-span-5">
                 <a href="/home" class="flex items-center gap-2 no-underline mb-8">
                     <!-- Added brightness-0 invert to make the logo white for the dark background -->
-                    <img src="{{ asset('gambar/logo_stayease.png') }}" alt="StayEase Logo" class="h-12 w-auto object-contain brightness-0 invert opacity-90 hover:opacity-100 transition-opacity">
+                    <img src="{{ asset('gambar/stayease.png') }}" alt="StayEase Logo" class="h-12 w-auto object-contain brightness-0 invert opacity-90 hover:opacity-100 transition-opacity">
                 </a>
                 <p class="text-[#FFF4DE]/70 text-sm leading-relaxed max-w-sm mb-8 font-light">
                     Menikmati kenyamanan dan pelayanan terbaik. 

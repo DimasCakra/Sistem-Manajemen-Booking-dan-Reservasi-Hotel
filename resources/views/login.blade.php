@@ -37,7 +37,7 @@
 
         <div class="w-full max-w-md">
             <div class="text-center mb-12">
-                <img src="{{ asset('gambar/logo_stayease.png') }}" alt="StayEase Logo" class="h-16 mx-auto mb-8 object-contain">
+                <img src="{{ asset('gambar/stayease.png') }}" alt="StayEase Logo" class="h-16 mx-auto mb-8 object-contain">
                 <h1 class="text-4xl font-bold text-[#173014] mb-3 font-serif">Masuk</h1>
                 <p class="text-gray-500 font-medium">Silahkan masukkan data anda.</p>
             </div>

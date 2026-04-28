@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Reservation;
-use App\Models\Notification;
 
 class ReceptsionistController extends Controller
 {
@@ -13,14 +12,10 @@ class ReceptsionistController extends Controller
     {
         // Hapus 'with' karena tabel kita masih satu kesatuan
         $reservations = Reservation::latest()->get();
-        $notifications = Notification::latest()->get();
-        $newCount = Notification::count();
 
         return view('resepsionis.receptsionis', [
             'receptionist' => auth()->user(),
             'reservations' => $reservations,
-            'notifications' => $notifications,
-            'newCount' => $newCount,
         ]);
     }
 

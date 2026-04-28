@@ -82,12 +82,12 @@
                 <form action="{{ url('/katalog') }}" method="GET" class="space-y-6">
                     <div class="form-group">
                         <label class="block text-xs font-bold text-gray-400 uppercase mb-3 ml-1 tracking-wider">Tanggal Check-in</label>
-                        <input type="date" name="checkin" required class="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-[#254117]">
+                        <input type="date" id="checkin" name="checkin" required class="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-[#254117]">
                     </div>
 
                     <div class="form-group">
                         <label class="block text-xs font-bold text-gray-400 uppercase mb-3 ml-1 tracking-wider">Tanggal Check-out</label>
-                        <input type="date" name="checkout" required class="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-[#254117]">
+                        <input type="date" id="checkout" name="checkout" required class="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-[#254117]">
                     </div>
 
                     <div class="form-group">
@@ -148,5 +148,33 @@
 
     @include('components.footer')
     
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkinInput = document.getElementById('checkin');
+            const checkoutInput = document.getElementById('checkout');
+
+            // Set minimum checkin date to hari ini (today)
+            const today = new Date().toISOString().split('T')[0];
+            checkinInput.min = today;
+
+            checkinInput.addEventListener('change', function() {
+                if (this.value) {
+                    // Set minimum checkout date to 1 hari setelah checkin
+                    const checkinDate = new Date(this.value);
+                    checkinDate.setDate(checkinDate.getDate() + 1);
+                    const minCheckoutDate = checkinDate.toISOString().split('T')[0];
+                    
+                    checkoutInput.min = minCheckoutDate;
+                    
+                    // Jika checkout yang sudah dipilih lebih kecil dari minimum yang baru, reset atau atur ke minimum
+                    if (checkoutInput.value && checkoutInput.value < minCheckoutDate) {
+                        checkoutInput.value = minCheckoutDate;
+                    }
+                } else {
+                    checkoutInput.min = '';
+                }
+            });
+        });
+    </script>
 </body>
 </html>

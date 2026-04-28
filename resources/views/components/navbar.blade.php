@@ -1,18 +1,24 @@
 <header class="bg-[#173014] shadow-lg sticky top-0 z-50 px-12 h-20 flex items-center justify-between">
     <a href="/home" class="flex items-center gap-2 no-underline">
-        <img src="{{ asset('gambar/logo_stayease.png') }}" alt="Logo" class="h-9 w-auto object-contain mt-2">
+        <img src="{{ asset('gambar/stayease.png') }}" alt="Logo" class="h-9 w-auto object-contain mt-2">
     </a>
     <div class="flex items-center gap-4">
         @if(Auth::check())
             <div class="relative group cursor-pointer">
-                <div class="flex items-center gap-3 bg-white/5 border border-white/10 py-1.5 px-3 rounded-xl transition hover:bg-white/10">
-                    <div class="text-right">
-                        <div class="text-white font-bold text-sm uppercase tracking-wide leading-tight">{{ Auth::user()->name }}</div>
-                        <div class="text-[#8C6A1A] text-xs font-medium">{{ Auth::user()->username ?? 'User' }}</div>
+                <div class="flex items-center gap-3 py-1.5 px-3 rounded-full border border-transparent transition-all duration-300 hover:bg-white/5 hover:border-white/10 cursor-pointer">
+                    <div class="relative">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#8C6A1A] to-[#b38b22] flex items-center justify-center text-white font-bold shadow-lg ring-2 ring-white/10">
+                            {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                        </div>
+                        <div class="absolute bottom-0 -right-0.5 w-3.5 h-3.5 bg-emerald-400 rounded-full border-2 border-[#173014]"></div>
                     </div>
-                    <div class="w-10 h-10 rounded-full bg-[#8C6A1A] flex items-center justify-center text-white font-bold shadow-inner">
-                        {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                    <div class="text-left hidden sm:block">
+                        <div class="text-white font-semibold text-sm leading-tight tracking-wide">{{ Auth::user()->name }}</div>
+                        <div class="text-[#D4AF37] text-[11px] font-medium tracking-wider uppercase mt-0.5">{{ Auth::user()->username ?? 'User' }}</div>
                     </div>
+                    <svg class="w-4 h-4 text-white/70 ml-2 transition-transform duration-300 group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
                 </div>
 
                 <div class="absolute right-0 pt-2 w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-right translate-y-2 group-hover:translate-y-0 z-50">
