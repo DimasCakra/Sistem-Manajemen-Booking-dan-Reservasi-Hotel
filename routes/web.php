@@ -23,21 +23,11 @@ Route::post('/register', [AuthController::class, 'processRegister'])->name('regi
 Route::get('/username', [AuthController::class, 'showUsername'])->name('username');
 Route::post('/username', [AuthController::class, 'processUsername'])->name('username.post');
 
-Route::get('/resepsionis/login', [AuthController::class, 'showResepsionisLogin'])->name('resepsionis.login');
-Route::post('/resepsionis/login', [AuthController::class, 'processResepsionisLogin'])->name('resepsionis.login.post');
-
-Route::get('/admin/login', [AuthController::class, 'showAdminLogin'])->name('admin.login');
-Route::post('/admin/login', [AuthController::class, 'processAdminLogin'])->name('admin.login.post');
+Route::get('/staff/login', [AuthController::class, 'showStaffLogin'])->name('staff.login');
+Route::post('/staff/login', [AuthController::class, 'processStaffLogin'])->name('staff.login.post');
 
 
 // Logout
-Route::post('/logoutresepsionis', function () {
-    Auth::logout();
-    request()->session()->invalidate();
-    request()->session()->regenerateToken();
-    return redirect('/resepsionis/login');
-})->name('logoutresepsionis');
-
 Route::post('/logoutguest', function () {
     Auth::logout();
     request()->session()->invalidate();
@@ -45,12 +35,12 @@ Route::post('/logoutguest', function () {
     return redirect('/login');
 })->name('logoutguest');
 
-Route::post('/logoutadmin', function () {
-    Auth::logout();
+Route::post('/logoutstaff', function () {
+    Auth::guard('staff')->logout();
     request()->session()->invalidate();
     request()->session()->regenerateToken();
-    return redirect('/admin/login');
-})->name('logoutadmin');
+    return redirect()->route('staff.login');
+})->name('logoutstaff');
 
 // Halaman Tamu
 Route::get('/home', [HomeController::class, 'index'])->name('home');
@@ -59,14 +49,17 @@ Route::get('/kamar/{id}', [DeskripsiController::class, 'show'])->name('kamar.sho
 Route::get('/booking/{id}', [BookingController::class, 'biodata'])->name('booking.biodata');
 Route::get('/booking/{id}/payment', [BookingController::class, 'payment'])->name('booking.payment');
 // Receptionist
-Route::middleware('auth:receptionist')->group(function () {
+Route::middleware('auth:staff')->group(function () {
     Route::get('/resepsionis/resepsionis', [ReceptsionistController::class, 'index'])->name('receptionist.index');
     Route::get('/resepsionis/riwayat', [ReceptsionistController::class, 'riwayat'])->name('resepsionis.riwayatreservasi');
     Route::get('/resepsionis/riwayat/{id}', [ReceptsionistController::class, 'show'])->name('resepsionis.show');
+    Route::get('/resepsionis/tamu', function () {
+        return view('resepsionis.crudtamu');
+    })->name('resepsionis.tamu');
 });
 
 // Admin
-Route::prefix('admin')->group(function () {
+Route::middleware('auth:staff')->prefix('admin')->group(function () {
     Route::get('/kelolakamar', function () {
         return view('admin.kelolakamar');
     })->name('admin.kamar');
