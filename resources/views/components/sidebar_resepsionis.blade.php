@@ -1,4 +1,4 @@
-<aside class="sidebar-bg w-72 flex-shrink-0 flex flex-col shadow-2xl z-20">
+<aside class="bg-[#173014] w-72 flex-shrink-0 flex flex-col shadow-2xl z-20">
             <div class="px-8 pt-10 pb-6 fade-up">
                 <a href="{{ route('receptionist.index') }}" class="flex items-center gap-2 no-underline">
                     <img src="{{ asset('gambar/stayease.png') }}" alt="Logo" class="h-7 w-auto object-contain mt-2">
