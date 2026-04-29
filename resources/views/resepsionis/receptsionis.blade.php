@@ -26,12 +26,6 @@
             font-family: 'DM Sans', sans-serif;
         }
 
-        .sidebar-bg {
-            background: linear-gradient(180deg, #0c220c 0%, #1e4d1e 60%, #2d6a2d 100%);
-        }
-
-
-
         .reservation-row {
             transition: all .2s ease;
         }

@@ -20,7 +20,6 @@
     </script>
     <style>
         body { font-family: 'DM Sans', sans-serif; }
-        .sidebar-bg { background: linear-gradient(180deg, #0c220c 0%, #1e4d1e 60%, #2d6a2d 100%); }
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen flex">
