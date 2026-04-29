@@ -15,7 +15,7 @@
 
     <!-- Left: Image Showcase -->
     <div class="hidden lg:block lg:w-1/2 relative overflow-hidden">
-        <img src="https://images.unsplash.com/photo-1542314831-c6a4d14d8c53?auto=format&fit=crop&q=80" alt="Hotel Interior" class="absolute inset-0 w-full h-full object-cover transform scale-105 hover:scale-100 transition-transform duration-[10s]">
+        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=2070&q=80" alt="Hotel Interior" class="absolute inset-0 w-full h-full object-cover transform scale-105 hover:scale-100 transition-transform duration-[10s]">
         <div class="absolute inset-0 bg-[#254117]/60 mix-blend-multiply"></div>
         <div class="absolute inset-0 bg-gradient-to-t from-[#173014] via-[#173014]/20 to-transparent"></div>
         

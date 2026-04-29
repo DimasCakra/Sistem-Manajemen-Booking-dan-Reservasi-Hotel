@@ -8,6 +8,7 @@ use App\Http\Controllers\KatalogController;
 use App\Http\Controllers\DeskripsiController;
 use App\Http\Controllers\ReceptsionistController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -48,6 +49,15 @@ Route::get('/katalog', [KatalogController::class, 'index'])->name('katalog');
 Route::get('/kamar/{id}', [DeskripsiController::class, 'show'])->name('kamar.show');
 Route::get('/booking/{id}', [BookingController::class, 'biodata'])->name('booking.biodata');
 Route::get('/booking/{id}/payment', [BookingController::class, 'payment'])->name('booking.payment');
+
+// Profile
+Route::middleware('auth')->group(function () {
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/profile/orders', [ProfileController::class, 'orders'])->name('profile.orders');
+    Route::get('/profile/reviews', [ProfileController::class, 'reviews'])->name('profile.reviews');
+});
+
 // Receptionist
 Route::middleware('auth:staff')->group(function () {
     Route::get('/resepsionis/resepsionis', [ReceptsionistController::class, 'index'])->name('receptionist.index');
