@@ -10,12 +10,10 @@ use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
+
     public function run(): void
     {
-        // Dummy Guest
+
         User::updateOrCreate(
             ['email' => 'damarwidhinugroho@gmail.com'],
             [
@@ -26,16 +24,23 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        // Dummy Receptionist
-        Receptionist::updateOrCreate(
-            ['email' => 'resepsionis@gmail.com'],
-            ['name' => 'resepsionis', 'password' => Hash::make('123456789')]
+
+        \App\Models\Staff::updateOrCreate(
+            ['id_login' => 'id_resepsionis'],
+            [
+                'name' => 'Resepsionis',
+                'password' => Hash::make('123456789'),
+                'role' => 'receptionist'
+            ]
         );
 
-        // Dummy Admin
-        Admin::updateOrCreate(
-            ['email' => 'admin@gmail.com'],
-            ['name' => 'admin1', 'password' => Hash::make('123456789')]
+        \App\Models\Staff::updateOrCreate(
+            ['id_login' => 'id_admin'],
+            [
+                'name' => 'Admin Utama',
+                'password' => Hash::make('123456789'),
+                'role' => 'admin'
+            ]
         );
     }
 }

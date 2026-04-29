@@ -62,32 +62,51 @@
                     <div class="col-span-2 text-center">Status</div>
                 </div>
 
-                @forelse($reservations as $res)
-                    <div onclick="window.location='{{ route('resepsionis.show', $res->id) }}'" 
-                         class="reservation-row grid grid-cols-12 gap-4 px-6 py-4 border-b border-gray-100 items-center cursor-pointer group">
-                        <div class="col-span-1 text-gray-400 text-sm font-medium">#{{ $res->id }}</div>
-                        <div class="col-span-3">
-                            <p class="font-semibold text-forest-900 text-sm">{{ $res->nama_lengkap }}</p>
-                            <p class="text-gray-400 text-[11px]">{{ $res->email }}</p>
-                        </div>
-                        <div class="col-span-2 text-center text-sm text-gray-600">
-                            {{ $res->room_type }}
-                        </div>
-                        <div class="col-span-4 text-center text-xs text-gray-600">
-                            <span class="font-medium text-forest-800">{{ $res->check_in }}</span>
-                            <span class="mx-1 text-forest-300">→</span>
-                            <span class="font-medium text-forest-800">{{ $res->check_out }}</span>
-                        </div>
-                        <div class="col-span-2 flex justify-center">
-                            <span class="px-3 py-1 text-[9px] font-black uppercase rounded-lg border 
-                                {{ $res->status == 'ongoing' ? 'text-blue-600 bg-blue-50 border-blue-100' : 'text-forest-600 bg-forest-50 border-forest-100' }}">
-                                {{ $res->status }}
-                            </span>
-                        </div>
+                <!-- Dummy Row 1 -->
+                <div onclick="window.location='{{ route('resepsionis.show', 1) }}'" 
+                     class="reservation-row grid grid-cols-12 gap-4 px-6 py-4 border-b border-gray-100 items-center cursor-pointer group">
+                    <div class="col-span-1 text-gray-400 text-sm font-medium">#1</div>
+                    <div class="col-span-3">
+                        <p class="font-semibold text-forest-900 text-sm">Briyan Abisai</p>
+                        <p class="text-gray-400 text-[11px]">briyan@gmail.com</p>
                     </div>
-                @empty
-                    <div class="p-20 text-center text-gray-400 font-medium italic">Belum ada riwayat reservasi.</div>
-                @endforelse
+                    <div class="col-span-2 text-center text-sm text-gray-600">
+                        Standard Room
+                    </div>
+                    <div class="col-span-4 text-center text-xs text-gray-600">
+                        <span class="font-medium text-forest-800">-</span>
+                        <span class="mx-1 text-forest-300">→</span>
+                        <span class="font-medium text-forest-800">-</span>
+                    </div>
+                    <div class="col-span-2 flex justify-center">
+                        <span class="px-3 py-1 text-[9px] font-black uppercase rounded-lg border text-blue-600 bg-blue-50 border-blue-100">
+                            ONGOING
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Dummy Row 2 -->
+                <div onclick="window.location='{{ route('resepsionis.show', 2) }}'" 
+                     class="reservation-row grid grid-cols-12 gap-4 px-6 py-4 border-b border-gray-100 items-center cursor-pointer group">
+                    <div class="col-span-1 text-gray-400 text-sm font-medium">#2</div>
+                    <div class="col-span-3">
+                        <p class="font-semibold text-forest-900 text-sm">Damar Widi Nugroho</p>
+                        <p class="text-gray-400 text-[11px]">damar@polibatam.ac.id</p>
+                    </div>
+                    <div class="col-span-2 text-center text-sm text-gray-600">
+                        Suite Room
+                    </div>
+                    <div class="col-span-4 text-center text-xs text-gray-600">
+                        <span class="font-medium text-forest-800">-</span>
+                        <span class="mx-1 text-forest-300">→</span>
+                        <span class="font-medium text-forest-800">-</span>
+                    </div>
+                    <div class="col-span-2 flex justify-center">
+                        <span class="px-3 py-1 text-[9px] font-black uppercase rounded-lg border text-forest-600 bg-forest-50 border-forest-100">
+                            DONE
+                        </span>
+                    </div>
+                </div>
             </div>
         </main>
     </div>

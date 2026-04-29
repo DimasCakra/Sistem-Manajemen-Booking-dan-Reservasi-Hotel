@@ -42,13 +42,9 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-        'receptionist' => [
+        'staff' => [
             'driver' => 'session',
-            'provider' => 'receptionists',
-        ],
-        'admin' => [
-            'driver' => 'session',
-            'provider' => 'admins',
+            'provider' => 'staffs',
         ],
     ],
 
@@ -74,13 +70,9 @@ return [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', User::class),
         ],
-        'receptionists' => [
+        'staffs' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Receptionist::class,
-        ],
-        'admins' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\Admin::class,
+            'model' => App\Models\Staff::class,
         ],
 
         // 'users' => [

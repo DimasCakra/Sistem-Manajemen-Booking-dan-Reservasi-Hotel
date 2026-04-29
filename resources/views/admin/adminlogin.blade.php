@@ -23,14 +23,14 @@
         
         <div class="text-center mb-8">
             <img src="{{ asset('gambar/stayease.png') }}" alt="StayEase Logo" class="h-14 mx-auto object-contain brightness-0 invert opacity-90">
-            <h1 class="mt-6 text-2xl font-light text-white tracking-wide">Login <span class="font-bold text-[#D4AF37]">Admin</span></h1>
+            <h1 class="mt-6 text-2xl font-light text-white tracking-wide">Login <span class="font-bold text-[#D4AF37]">Admin & Resepsionis</span></h1>
         </div>
 
         <div class="bg-white/5 backdrop-blur-2xl p-8 sm:p-10 rounded-[2rem] shadow-2xl border border-white/10 relative overflow-hidden">
-            <!-- Inner card subtle glow -->
+
             <div class="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
             
-            <form action="{{ route('admin.login.post') }}" method="POST" class="space-y-6 relative z-10">
+            <form action="{{ route('staff.login.post') }}" method="POST" class="space-y-6 relative z-10">
                 @csrf
 
                 @if ($errors->any())
@@ -44,8 +44,8 @@
                 @endif
 
                 <div>
-                    <label for="email" class="block text-[10px] font-bold text-white/60 uppercase tracking-[0.2em] mb-2 ml-1">Alamat Email</label>
-                    <input id="email" type="email" name="email" required autocomplete="email" placeholder="admin@stayease.com"
+                    <label for="id_login" class="block text-[10px] font-bold text-white/60 uppercase tracking-[0.2em] mb-2 ml-1">ID Login</label>
+                    <input id="id_login" type="text" name="id_login" required autocomplete="username" placeholder="id_admin / id_resepsionis"
                         class="w-full rounded-xl bg-white/5 border border-white/10 py-4 px-5 text-white placeholder-white/20 
                         transition-all duration-300 focus:outline-none focus:border-[#D4AF37] focus:bg-white/10 focus:ring-4 focus:ring-[#D4AF37]/10">
                 </div>
@@ -67,7 +67,7 @@
 
                 <div class="pt-6">
                     <button type="submit" 
-                            class="w-full bg-gradient-to-r from-[#8C6A1A] to-[#D4AF37] hover:from-[#9a761b] hover:to-[#e5bf45] text-[#0f1711] py-4 rounded-xl font-bold uppercase tracking-[0.2em] text-[11px]
+                            class="w-full bg-[#D4AF37] hover:from-[#D4AF37] text-[#0f1711] py-4 rounded-xl font-bold uppercase tracking-[0.2em] text-[11px]
                                    transition-all duration-500 shadow-[0_0_20px_rgba(212,175,55,0.2)] hover:shadow-[0_0_30px_rgba(212,175,55,0.4)] hover:-translate-y-0.5">
                         Masuk
                     </button>

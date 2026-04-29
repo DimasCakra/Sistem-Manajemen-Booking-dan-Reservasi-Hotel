@@ -11,7 +11,12 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->redirectGuestsTo(function (\Illuminate\Http\Request $request) {
+            if ($request->is('admin/*') || $request->is('resepsionis/*') || $request->is('staff/*')) {
+                return route('staff.login');
+            }
+            return $request->expectsJson() ? null : route('login');
+        });
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

@@ -88,7 +88,6 @@
                     </div>
                 </div>
 
-                <!-- Refresh / Check Status Button -->
                 <a href="{{ route('home') }}" class="w-full bg-white border border-gray-300 text-[#0f172a] py-4 rounded-xl font-bold uppercase tracking-widest text-sm text-center block cursor-pointer transition-all shadow-sm hover:bg-gray-50">
                     Saya Sudah Bayar (Refresh)
                 </a>

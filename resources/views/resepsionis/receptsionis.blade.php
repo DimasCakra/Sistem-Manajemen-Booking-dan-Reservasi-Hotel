@@ -80,36 +80,53 @@
                     <div class="col-span-2 text-center">Status</div>
                 </div>
 
-                @forelse($reservations as $res)
-                    <div class="reservation-row grid grid-cols-12 gap-4 px-6 py-4 border-b border-gray-100 items-center">
-                        <div class="col-span-1 text-gray-400 text-sm">{{ $loop->iteration }}</div>
+                <!-- Dummy Row 1 -->
+                <div class="reservation-row grid grid-cols-12 gap-4 px-6 py-4 border-b border-gray-100 items-center">
+                    <div class="col-span-1 text-gray-400 text-sm">1</div>
 
-                        <div class="col-span-3">
-                            <p class="font-medium text-forest-900 text-sm">{{ $res->guest?->name ?? 'Tamu Umum' }}</p>
-                            <p class="text-gray-400 text-xs">{{ $res->guest?->phone ?? '-' }}</p>
-                        </div>
-
-                        <div class="col-span-2 text-center text-sm text-gray-600">
-                            {{ $res->room?->type ?? 'N/A' }}
-                        </div>
-
-                        <div class="col-span-4 text-center text-xs text-gray-600">
-                            <span class="font-medium text-forest-800">{{ $res->check_in ?? '-' }}</span>
-                            <span class="mx-1">→</span>
-                            <span class="font-medium text-forest-800">{{ $res->check_out ?? '-' }}</span>
-                        </div>
-
-                        <div class="col-span-2 flex justify-center uppercase text-[10px] font-bold">
-                            @if(($res->status ?? '') === 'verified')
-                                <span class="text-forest-600 bg-forest-100 px-2 py-1 rounded">Terverifikasi</span>
-                            @else
-                                <span class="text-amber-600 bg-amber-50 px-2 py-1 rounded">Pending</span>
-                            @endif
-                        </div>
+                    <div class="col-span-3">
+                        <p class="font-medium text-forest-900 text-sm">Tamu Umum</p>
+                        <p class="text-gray-400 text-xs">-</p>
                     </div>
-                @empty
-                    <div class="p-20 text-center text-gray-400">Belum ada data reservasi masuk.</div>
-                @endforelse
+
+                    <div class="col-span-2 text-center text-sm text-gray-600">
+                        N/A
+                    </div>
+
+                    <div class="col-span-4 text-center text-xs text-gray-600">
+                        <span class="font-medium text-forest-800">-</span>
+                        <span class="mx-1">→</span>
+                        <span class="font-medium text-forest-800">-</span>
+                    </div>
+
+                    <div class="col-span-2 flex justify-center uppercase text-[10px] font-bold">
+                        <span class="text-amber-600 bg-amber-50 px-2 py-1 rounded">PENDING</span>
+                    </div>
+                </div>
+
+                <!-- Dummy Row 2 -->
+                <div class="reservation-row grid grid-cols-12 gap-4 px-6 py-4 border-b border-gray-100 items-center">
+                    <div class="col-span-1 text-gray-400 text-sm">2</div>
+
+                    <div class="col-span-3">
+                        <p class="font-medium text-forest-900 text-sm">Tamu Umum</p>
+                        <p class="text-gray-400 text-xs">-</p>
+                    </div>
+
+                    <div class="col-span-2 text-center text-sm text-gray-600">
+                        N/A
+                    </div>
+
+                    <div class="col-span-4 text-center text-xs text-gray-600">
+                        <span class="font-medium text-forest-800">-</span>
+                        <span class="mx-1">→</span>
+                        <span class="font-medium text-forest-800">-</span>
+                    </div>
+
+                    <div class="col-span-2 flex justify-center uppercase text-[10px] font-bold">
+                        <span class="text-amber-600 bg-amber-50 px-2 py-1 rounded">PENDING</span>
+                    </div>
+                </div>
             </div>
         </main>
     </div>

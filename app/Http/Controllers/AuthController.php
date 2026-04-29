@@ -91,47 +91,31 @@ class AuthController extends Controller
         ])->onlyInput('email');
     }
 
-    public function showResepsionisLogin()
-    {
-        return view('resepsionis.resepsionislogin');
-    }
-
-    public function processResepsionisLogin(Request $request)
-    {
-        $credentials = $request->validate([
-            'email' => 'required|string|email',
-            'password' => 'required|string',
-        ]);
-
-        if (Auth::guard('receptionist')->attempt($credentials, $request->boolean('remember'))) {
-            $request->session()->regenerate();
-            return redirect()->intended('resepsionis/resepsionis');
-        }
-
-        return back()->withErrors([
-            'email' => 'Email atau password resepsionis salah.',
-        ])->onlyInput('email');
-    }
-
-    public function showAdminLogin()
+    public function showStaffLogin()
     {
         return view('admin.adminlogin');
     }
 
-    public function processAdminLogin(Request $request)
+    public function processStaffLogin(Request $request)
     {
         $credentials = $request->validate([
-            'email' => 'required|string|email',
+            'id_login' => 'required|string',
             'password' => 'required|string',
         ]);
 
-        if (Auth::guard('admin')->attempt($credentials, $request->boolean('remember'))) {
+        if (Auth::guard('staff')->attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
-            return redirect()->intended('admin/kelolakamar');
+            
+            $role = Auth::guard('staff')->user()->role;
+            if ($role === 'admin') {
+                return redirect()->route('admin.kamar');
+            } elseif ($role === 'receptionist') {
+                return redirect()->route('receptionist.index');
+            }
         }
 
         return back()->withErrors([
-            'email' => 'Email atau password admin salah.',
-        ])->onlyInput('email');
+            'id_login' => 'ID Login atau password salah.',
+        ])->onlyInput('id_login');
     }
 }

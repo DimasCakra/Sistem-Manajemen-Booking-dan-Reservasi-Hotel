@@ -72,7 +72,7 @@
                             <td class="px-8 py-6 border-l border-forest-600/40">
                                 <div class="flex justify-center gap-3">
                                     <button class="px-5 py-3 bg-amber-100 text-amber-600 rounded-md hover:bg-amber-100 transition-colors text-[10px] font-bold uppercase tracking-wider">Edit</button>
-                                    <button class="px-5 py-3 bg-red-100 text-red-600 rounded-md hover:bg-red-100 transition-colors text-[10px] font-bold uppercase tracking-wider">Delete</button>
+                                    <button class="px-5 py-3 bg-red-100 text-red-600 rounded-md hover:bg-red-100 transition-colors text-[10px] font-bold uppercase tracking-wider">Hapus</button>
                                 </div>
                             </td>
                         </tr>
@@ -92,7 +92,7 @@
                             <td class="px-8 py-6 border-l border-forest-600/40">
                                 <div class="flex justify-center gap-3">
                                     <button class="px-5 py-3 bg-amber-100 text-amber-600 rounded-md hover:bg-amber-100 transition-colors text-[10px] font-bold uppercase tracking-wider">Edit</button>
-                                    <button class="px-5 py-3 bg-red-100 text-red-600 rounded-md hover:bg-red-100 transition-colors text-[10px] font-bold uppercase tracking-wider">Delete</button>
+                                    <button class="px-5 py-3 bg-red-100 text-red-600 rounded-md hover:bg-red-100 transition-colors text-[10px] font-bold uppercase tracking-wider">Hapus</button>
                                 </div>
                             </td>
                         </tr>
