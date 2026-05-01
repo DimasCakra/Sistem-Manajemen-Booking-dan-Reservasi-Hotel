@@ -74,7 +74,6 @@
                     <div class="col-span-2 text-center">Status</div>
                 </div>
 
-                <!-- Dummy Row 1 -->
                 <div class="reservation-row grid grid-cols-12 gap-4 px-6 py-4 border-b border-gray-100 items-center">
                     <div class="col-span-1 text-gray-400 text-sm">1</div>
 
@@ -97,8 +96,7 @@
                         <span class="text-amber-600 bg-amber-50 px-2 py-1 rounded">PENDING</span>
                     </div>
                 </div>
-
-                <!-- Dummy Row 2 -->
+                
                 <div class="reservation-row grid grid-cols-12 gap-4 px-6 py-4 border-b border-gray-100 items-center">
                     <div class="col-span-1 text-gray-400 text-sm">2</div>
 

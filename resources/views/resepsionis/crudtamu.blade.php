@@ -52,7 +52,6 @@
                             <th class="px-6 py-6 font-semibold text-center">No WA</th>
                             <th class="px-6 py-6 font-semibold text-center">Username</th>
                             <th class="px-6 py-6 font-semibold text-center">ID Tamu</th>
-                            <th class="px-8 py-6 font-semibold text-center border-l border-forest-700">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
@@ -68,12 +67,6 @@
                                 <span class="bg-blue-100 text-blue-700 px-5 py-2 rounded-lg text-xs font-semibold">@dimas</span>
                             </td>
                             <td class="px-6 py-6 text-center text-sm text-black">TMU-001</td>
-                            <td class="px-8 py-6 border-l border-forest-600/40">
-                                <div class="flex justify-center gap-3">
-                                    <button class="px-5 py-3 bg-amber-100 text-amber-600 rounded-md hover:bg-amber-100 transition-colors text-[10px] font-bold uppercase tracking-wider">Edit</button>
-                                    <button class="px-5 py-3 bg-red-100 text-red-600 rounded-md hover:bg-red-100 transition-colors text-[10px] font-bold uppercase tracking-wider">Hapus</button>
-                                </div>
-                            </td>
                         </tr>
 
                         <tr class="hover:bg-forest-50/50 transition-colors group">
@@ -88,12 +81,6 @@
                                 <span class="bg-blue-100 text-blue-700 px-5 py-2 rounded-lg text-xs font-semibold">@damar_nugroho</span>
                             </td>
                             <td class="px-6 py-6 text-center text-sm text-black">TMU-002</td>
-                            <td class="px-8 py-6 border-l border-forest-600/40">
-                                <div class="flex justify-center gap-3">
-                                    <button class="px-5 py-3 bg-amber-100 text-amber-600 rounded-md hover:bg-amber-100 transition-colors text-[10px] font-bold uppercase tracking-wider">Edit</button>
-                                    <button class="px-5 py-3 bg-red-100 text-red-600 rounded-md hover:bg-red-100 transition-colors text-[10px] font-bold uppercase tracking-wider">Hapus</button>
-                                </div>
-                            </td>
                         </tr>
 
                         <tr class="hover:bg-forest-50/50 transition-colors group">
@@ -108,12 +95,6 @@
                                 <span class="bg-blue-100 text-blue-700 px-5 py-2 rounded-lg text-xs font-semibold">@bryan_abisai</span>
                             </td>
                             <td class="px-6 py-6 text-center text-sm text-black">TMU-003</td>
-                            <td class="px-8 py-6 border-l border-forest-600/40">
-                                <div class="flex justify-center gap-3">
-                                    <button class="px-5 py-3 bg-amber-100 text-amber-600 rounded-md hover:bg-amber-100 transition-colors text-[10px] font-bold uppercase tracking-wider">Edit</button>
-                                    <button class="px-5 py-2 bg-red-100 text-red-600 rounded-md hover:bg-red-100 transition-colors text-[10px] font-bold uppercase tracking-wider">Hapus</button>
-                                </div>
-                            </td>
                         </tr>
                     </tbody>
                 </table>

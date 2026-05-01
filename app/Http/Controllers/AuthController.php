@@ -99,7 +99,7 @@ class AuthController extends Controller
     public function processStaffLogin(Request $request)
     {
         $credentials = $request->validate([
-            'id_login' => 'required|string',
+            'name' => 'required|string',
             'password' => 'required|string',
         ]);
 
@@ -115,7 +115,7 @@ class AuthController extends Controller
         }
 
         return back()->withErrors([
-            'id_login' => 'ID Login atau password salah.',
-        ])->onlyInput('id_login');
+            'name' => 'Nama Akun atau password salah.',
+        ])->onlyInput('name');
     }
 }

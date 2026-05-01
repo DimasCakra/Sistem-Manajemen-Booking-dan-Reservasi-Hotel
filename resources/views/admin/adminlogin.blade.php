@@ -44,8 +44,8 @@
                 @endif
 
                 <div>
-                    <label for="id_login" class="block text-[10px] font-bold text-white/60 uppercase tracking-[0.2em] mb-2 ml-1">ID Login</label>
-                    <input id="id_login" type="text" name="id_login" required autocomplete="username" placeholder="id_admin / id_resepsionis"
+                    <label for="name" class="block text-[10px] font-bold text-white/60 uppercase tracking-[0.2em] mb-2 ml-1">Nama Akun</label>
+                    <input id="name" type="text" name="name" required autocomplete="username" placeholder="Nama Akun Staff"
                         class="w-full rounded-xl bg-white/5 border border-white/10 py-4 px-5 text-white placeholder-white/20 
                         transition-all duration-300 focus:outline-none focus:border-[#D4AF37] focus:bg-white/10 focus:ring-4 focus:ring-[#D4AF37]/10">
                 </div>

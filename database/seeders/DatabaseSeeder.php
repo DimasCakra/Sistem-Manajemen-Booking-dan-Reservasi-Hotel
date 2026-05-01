@@ -26,18 +26,18 @@ class DatabaseSeeder extends Seeder
 
 
         \App\Models\Staff::updateOrCreate(
-            ['id_login' => 'id_resepsionis'],
+            ['name' => 'resepsionis'],
             [
-                'name' => 'Resepsionis',
+                'id_resepsionis' => 'RES-001',
                 'password' => Hash::make('123456789'),
                 'role' => 'receptionist'
             ]
         );
 
         \App\Models\Staff::updateOrCreate(
-            ['id_login' => 'id_admin'],
+            ['name' => 'admin'],
             [
-                'name' => 'Admin Utama',
+                'id_admin' => 'ADM-001',
                 'password' => Hash::make('123456789'),
                 'role' => 'admin'
             ]
