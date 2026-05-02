@@ -35,9 +35,9 @@
                 <table class="w-full text-left border-collapse">
                     <thead>
                         <tr class="bg-gray-50/50 border-b border-gray-100">
-                            <th class="py-5 px-8 text-xs font-bold text-gray-500 uppercase tracking-widest whitespace-nowrap">ID Reference</th>
-                            <th class="py-5 px-8 text-xs font-bold text-gray-500 uppercase tracking-widest whitespace-nowrap">Room Type</th>
-                            <th class="py-5 px-8 text-xs font-bold text-gray-500 uppercase tracking-widest whitespace-nowrap">Check In-Out Date</th>
+                            <th class="py-5 px-8 text-xs font-bold text-gray-500 uppercase tracking-widest whitespace-nowrap">ID</th>
+                            <th class="py-5 px-8 text-xs font-bold text-gray-500 uppercase tracking-widest whitespace-nowrap">Tipe Kamar</th>
+                            <th class="py-5 px-8 text-xs font-bold text-gray-500 uppercase tracking-widest whitespace-nowrap">Tanggal Check-in/Out</th>
                             <th class="py-5 px-8 text-xs font-bold text-gray-500 uppercase tracking-widest whitespace-nowrap">Status</th>
                         </tr>
                     </thead>
@@ -45,7 +45,7 @@
                         <!-- Example Row 1 -->
                         <tr class="hover:bg-gray-50/50 transition-colors">
                             <td class="py-6 px-8 whitespace-nowrap">
-                                <div class="font-bold text-gray-900">#RES-20260429-01</div>
+                                <div class="font-bold text-gray-900">001</div>
                                 <div class="text-xs text-gray-500 mt-1">Dipesan pada 28 Apr 2026</div>
                             </td>
                             <td class="py-6 px-8 whitespace-nowrap">
@@ -59,7 +59,7 @@
                             <td class="py-6 px-8 whitespace-nowrap">
                                 <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700">
                                     <span class="w-2 h-2 rounded-full bg-green-500 mr-2"></span>
-                                    Confirmed
+                                    Terverifikasi
                                 </span>
                             </td>
                         </tr>
@@ -67,7 +67,7 @@
                         <!-- Example Row 2 -->
                         <tr class="hover:bg-gray-50/50 transition-colors">
                             <td class="py-6 px-8 whitespace-nowrap">
-                                <div class="font-bold text-gray-900">#RES-20260315-42</div>
+                                <div class="font-bold text-gray-900">002</div>
                                 <div class="text-xs text-gray-500 mt-1">Dipesan pada 10 Mar 2026</div>
                             </td>
                             <td class="py-6 px-8 whitespace-nowrap">
@@ -81,7 +81,7 @@
                             <td class="py-6 px-8 whitespace-nowrap">
                                 <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-600">
                                     <span class="w-2 h-2 rounded-full bg-gray-400 mr-2"></span>
-                                    Completed
+                                    Selesai
                                 </span>
                             </td>
                         </tr>

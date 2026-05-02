@@ -92,9 +92,7 @@
                     </div>
                 </div>
 
-                <div class="bg-forest-900 rounded-2xl shadow-xl p-8 text-white relative overflow-hidden">
-                    <div class="absolute -right-16 -bottom-16 w-64 h-64 bg-forest-800 rounded-full opacity-20"></div>
-                    
+                <div class="bg-[#173014] rounded-2xl shadow-xl p-8 text-white relative overflow-hidden">
                     <div class="flex flex-col md:flex-row md:items-center justify-between gap-8 relative z-10">
                         <div class="flex-1 grid grid-cols-2 md:grid-cols-3 gap-10">
                             <div>
@@ -114,14 +112,14 @@
                 </div>
 
                 <div class="bg-white rounded-2xl shadow-sm border border-forest-100 p-10 flex flex-col items-center justify-center text-center">
-                    <h2 class="font-display text-xl font-semibold text-forest-900 mb-8 uppercase tracking-[0.2em]">Verifikasi Petugas</h2>
+                    <h2 class="text-xl font-semibold text-forest-900 mb-8 uppercase tracking-[0.2em]">Verifikasi</h2>
                     
                     <form action="{{ route('receptionist.index') }}" method="GET" class="w-full">
                         <div class="flex items-center justify-center gap-6">
-                            <button type="submit" class="w-48 py-4 bg-white border-2 border-red-100 text-red-500 font-bold rounded-2xl hover:bg-red-50 transition-all text-[10px] uppercase tracking-widest">
+                            <button type="submit" class="w-48 py-4 bg-red-500 border-2 border-red-100 text-white font-bold rounded-md hover:bg-red-700 shadow-md shadow-red-200 transition-all text-[13px] uppercase tracking-widest">
                                 Tolak
                             </button>
-                            <button type="submit" class="w-64 py-4 bg-forest-600 text-white font-bold rounded-2xl hover:bg-forest-700 shadow-lg shadow-forest-200 transition-all text-[10px] uppercase tracking-widest">
+                            <button type="submit" class="w-64 py-4 bg-forest-600 text-white font-bold rounded-md hover:bg-forest-700 shadow-sm shadow-forest-200 transition-all text-[14px] uppercase tracking-widest">
                                 Konfirmasi Reservasi
                             </button>
                         </div>
