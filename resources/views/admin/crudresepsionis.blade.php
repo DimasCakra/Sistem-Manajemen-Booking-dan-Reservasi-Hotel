@@ -19,7 +19,16 @@
         }
     </script>
     <style>
-        body { font-family: 'DM Sans', sans-serif; }
+        body {
+            font-family: 'DM Sans', sans-serif;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-up {
+            animation: fadeUp .45s ease both;
+        }
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen flex">

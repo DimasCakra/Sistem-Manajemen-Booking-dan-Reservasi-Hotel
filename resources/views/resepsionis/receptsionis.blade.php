@@ -19,7 +19,7 @@
             }
         }
     </script>
-        <style>
+    <style>
         body {
             font-family: 'DM Sans', sans-serif;
         }

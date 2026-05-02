@@ -19,7 +19,26 @@
         }
     </script>
     <style>
-        body { font-family: 'DM Sans', sans-serif; }
+    <style>
+        body {
+            font-family: 'DM Sans', sans-serif;
+        }
+        .reservation-row {
+            transition: all .2s ease;
+        }
+        .reservation-row:hover {
+            background-color: #f0f7f0;
+            box-shadow: inset 3px 0 0 #2d6a2d;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-up {
+            animation: fadeUp .45s ease both;
+        }
+
+    </style>
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen flex">
