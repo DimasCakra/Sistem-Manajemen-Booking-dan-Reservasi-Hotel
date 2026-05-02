@@ -62,7 +62,7 @@
                 </div>
 
                  @forelse($reservations as $res)
-                    <div onclick="window.location='{{ route('resepsionis.show', $res->id) }}'" 
+                    <div onclick="window.location='{{ route('reservasi.show', $res->id) }}'" 
                          class="reservation-row grid grid-cols-12 gap-4 px-6 py-4 border-b border-gray-100 items-center cursor-pointer group">
                         <div class="col-span-1 text-gray-400 text-sm font-medium">#{{ $res->id }}</div>
                         <div class="col-span-3">
