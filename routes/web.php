@@ -64,9 +64,7 @@ Route::middleware('auth:staff')->group(function () {
     Route::get('/resepsionis/verifikasi', function () {return view('resepsionis.verifikasitamu');})->name('verifikasitamu');
     Route::get('/resepsionis/riwayat', [ReceptsionistController::class, 'riwayat'])->name('resepsionis.riwayatreservasi');
     Route::get('/resepsionis/riwayat/{id}', [ReceptsionistController::class, 'show'])->name('reservasi.show');
-    Route::get('/resepsionis/tamu', function () {
-        return view('resepsionis.crudtamu');
-    })->name('resepsionis.tamu');
+    Route::get('/resepsionis/tamu', function () {return view('resepsionis.crudtamu');})->name('resepsionis.tamu');
 });
 
 // Admin
