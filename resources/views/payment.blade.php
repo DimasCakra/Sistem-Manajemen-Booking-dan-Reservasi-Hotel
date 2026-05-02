@@ -66,6 +66,9 @@
                         </label>
                     </div>
                 </div>
+                <a href="{{ route('booking.payment', $id) }}" class="mt-4 w-full bg-white border border-gray-300 text-[#0f172a] py-4 rounded-xl font-bold uppercase tracking-widest text-sm text-center block cursor-pointer transition-all shadow-sm hover:bg-gray-50">
+                    Saya Sudah Bayar (Refresh)
+                </a>
             </div>
 
             <!-- Right Column -->
@@ -88,9 +91,44 @@
                     </div>
                 </div>
 
-                <a href="{{ route('home') }}" class="w-full bg-white border border-gray-300 text-[#0f172a] py-4 rounded-xl font-bold uppercase tracking-widest text-sm text-center block cursor-pointer transition-all shadow-sm hover:bg-gray-50">
-                    Saya Sudah Bayar (Refresh)
-                </a>
+                <div class="bg-white p-8 rounded-md border border-gray-100 shadow-sm" x-data="{ photoPreview: null }">
+                    <h2 class="text-lg font-black text-[#0f172a] mb-4 uppercase tracking-widest">Upload Bukti</h2>
+                    
+                    <form action="" method="#" enctype="multipart/form-data" class="space-y-4">
+                        @csrf
+                        <div class="relative">
+                            <!-- Preview Area -->
+                            <template x-if="photoPreview">
+                                <div class="mb-4 relative">
+                                    <img :src="photoPreview" class="w-full h-48 object-cover rounded-lg border-2 border-dashed border-gray-200">
+                                    <button type="button" @click="photoPreview = null; $refs.photoInput.value = ''" class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 shadow-lg hover:bg-red-600">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                    </button>
+                                </div>
+                            </template>
+
+                            <label x-show="!photoPreview" class="flex flex-col items-center justify-center w-full h-31 border-2 border-dashed border-gray-200 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors">
+                                <div class="flex flex-col items-center justify-center pt-5 pb-6 text-center px-4">
+                                    <svg class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.587-1.587a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                    <p class="text-xs font-bold text-gray-500 uppercase">Klik untuk Upload Bukti</p>
+                                </div>
+                                <input type="file" name="bukti_pembayaran" class="hidden" x-ref="photoInput" accept="image/*" required
+                                    @change="
+                                        const file = $event.target.files[0];
+                                        if (file) {
+                                            const reader = new FileReader();
+                                            reader.onload = (e) => { photoPreview = e.target.result; };
+                                            reader.readAsDataURL(file);
+                                        }
+                                    ">
+                            </label>
+                        </div>
+
+                        <button type="submit" class="w-full bg-[#8C6A1A] hover:bg-[#6e5314] text-white py-4 rounded-xl font-bold uppercase tracking-widest text-sm transition-all shadow-md">
+                            Konfirmasi Pembayaran
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
 
@@ -106,7 +144,7 @@
                 <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=StayEasePayment-{{ $id }}-{{ $total }}" alt="QR Code" class="border-4 border-gray-100 rounded-xl shadow-sm">
             </div>
 
-            <p class="text-sm text-gray-500 mt-2">Please pay the exact amount of <span class="font-black text-lg text-[#0f172a] block mt-1">Rp {{ number_format($total, 0, ',', '.') }}</span></p>
+            <p class="text-sm text-gray-500 mt-2">Harap membayar sesuai jumlah yaitu <span class="font-black text-lg text-[#0f172a] block mt-1">Rp {{ number_format($total, 0, ',', '.') }}</span></p>
         </div>
     </main>
 
