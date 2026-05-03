@@ -93,29 +93,42 @@ class AuthController extends Controller
 
     public function showStaffLogin()
     {
-        return view('admin.adminlogin');
+        return view('admin.stafflogin');
     }
 
     public function processStaffLogin(Request $request)
-    {
-        $credentials = $request->validate([
-            'name' => 'required|string',
-            'password' => 'required|string',
-        ]);
+{
+    $credentials = $request->validate([
+        'name' => 'required|string',
+        'password' => 'required|string',
+        'role' => 'required|string|in:admin,receptionist',
+    ]);
 
-        if (Auth::guard('staff')->attempt($credentials, $request->boolean('remember'))) {
-            $request->session()->regenerate();
+    $loginInfo = $request->only('name', 'password');
+
+    if (Auth::guard('staff')->attempt($loginInfo, $request->boolean('remember'))) {
+        
+        $user = Auth::guard('staff')->user();
+
+        if ($user->role !== $request->role) {
+            Auth::guard('staff')->logout();
             
-            $role = Auth::guard('staff')->user()->role;
-            if ($role === 'admin') {
-                return redirect()->route('admin.kamar');
-            } elseif ($role === 'receptionist') {
-                return redirect()->route('receptionist.index');
-            }
+            return back()->withErrors([
+                'name' => 'Nama Akun, password atau role salah.',
+            ])->onlyInput('name');
         }
 
-        return back()->withErrors([
-            'name' => 'Nama Akun atau password salah.',
-        ])->onlyInput('name');
+        $request->session()->regenerate();
+        
+        if ($user->role === 'admin') {
+            return redirect()->route('admin.kamar');
+        } elseif ($user->role === 'receptionist') {
+            return redirect()->route('receptionist.index');
+        }
     }
+
+    return back()->withErrors([
+        'name' => 'Nama Akun, password atau role salah.',
+    ])->onlyInput('name');
+}
 }
