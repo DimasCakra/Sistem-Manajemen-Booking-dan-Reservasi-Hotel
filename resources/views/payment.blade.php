@@ -123,7 +123,6 @@
                                     ">
                             </label>
                         </div>
-
                         <button type="submit" class="w-full bg-[#8C6A1A] hover:bg-[#6e5314] text-white py-4 rounded-xl font-bold uppercase tracking-widest text-sm transition-all shadow-md">
                             Konfirmasi Pembayaran
                         </button>

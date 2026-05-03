@@ -12,13 +12,6 @@
 </head>
 <!--background-->
 <body class="bg-[#0f1711] min-h-screen relative flex items-center justify-center font-sans">
-    
-    <!-- Ambient Background -->
-    <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div class="absolute -top-[20%] -right-[10%] w-[50%] h-[50%] bg-[#8C6A1A] rounded-full mix-blend-multiply filter blur-[150px] opacity-20"></div>
-        <div class="absolute -bottom-[20%] -left-[10%] w-[50%] h-[50%] bg-[#254117] rounded-full mix-blend-multiply filter blur-[150px] opacity-40"></div>
-    </div>
-
     <div class="relative z-10 w-full max-w-[420px] px-6">
         
         <div class="text-center mb-8">
@@ -26,7 +19,7 @@
             <h1 class="mt-6 text-2xl font-light text-white tracking-wide">Login <span class="font-bold text-[#D4AF37]">Admin & Resepsionis</span></h1>
         </div>
 
-        <div class="bg-white/5 backdrop-blur-2xl p-8 sm:p-10 rounded-[2rem] shadow-2xl border border-white/10 relative overflow-hidden">
+        <div class="bg-white/5 backdrop-blur-2xl p-8 sm:p-5 rounded-[2rem] shadow-2xl border border-white/10 relative overflow-hidden">
 
             <div class="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
             
@@ -93,8 +86,8 @@
             </form>
         </div>
         
-        <div class="text-center mt-10">
-            <a href="/home" class="text-white/40 hover:text-white text-[11px] uppercase tracking-widest transition-colors duration-300">&larr; Kembali ke Website</a>
+        <div class="text-center mt-3 mb-4">
+            <a href="/home" class="text-white/40 hover:text-white text-[15px] uppercase tracking-widest transition-colors duration-300">&larr; Kembali ke Website</a>
         </div>
     </div>
 </body>
