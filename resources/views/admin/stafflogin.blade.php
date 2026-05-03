@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
+    <title>Login Staff</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -55,6 +55,24 @@
                     <input id="password" type="password" name="password" required autocomplete="current-password" placeholder="••••••••"
                         class="w-full rounded-xl bg-white/5 border border-white/10 py-4 px-5 text-white placeholder-white/20 
                         transition-all duration-300 focus:outline-none focus:border-[#D4AF37] focus:bg-white/10 focus:ring-4 focus:ring-[#D4AF37]/10">
+                </div>
+
+                <div>
+                    <label for="role" class="block text-[10px] font-bold text-white/60 uppercase tracking-[0.2em] mb-2 ml-1">Masuk Sebagai</label>
+                    <div class="relative group">
+                        <select id="role" name="role" required 
+                            class="w-full appearance-none rounded-xl bg-white/5 border border-white/10 py-4 px-5 text-white 
+                            transition-all duration-300 focus:outline-none focus:border-[#D4AF37] focus:bg-white/10 focus:ring-4 focus:ring-[#D4AF37]/10 cursor-pointer">
+                            <option value="" disabled selected class="bg-[#1a241c]">Pilih Role</option>
+                            <option value="admin" class="bg-[#1a241c]">Administrator</option>
+                            <option value="receptionist" class="bg-[#1a241c]">Resepsionis</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-5 text-white/40 group-focus-within:text-[#D4AF37]">
+                            <svg class="h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+                            </svg>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="flex items-center gap-3 pt-1">
