@@ -15,8 +15,8 @@
     <div class="relative z-10 w-full max-w-[420px] px-6">
         
         <div class="text-center mb-8">
-            <img src="{{ asset('gambar/stayease.png') }}" alt="StayEase Logo" class="h-14 mx-auto object-contain brightness-0 invert opacity-90">
-            <h1 class="mt-6 text-2xl font-light text-white tracking-wide">Login <span class="font-bold text-[#D4AF37]">Admin & Resepsionis</span></h1>
+            <img src="{{ asset('gambar/stayease.png') }}" alt="StayEase Logo" class="h-14 mt-4 mx-auto object-contain brightness-0 invert opacity-90">
+            <h1 class="mt-3 text-2xl font-light text-white tracking-wide">Login <span class="font-bold text-[#D4AF37]">Admin & Resepsionis</span></h1>
         </div>
 
         <div class="bg-white/5 backdrop-blur-2xl p-8 sm:p-5 rounded-[2rem] shadow-2xl border border-white/10 relative overflow-hidden">
