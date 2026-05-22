@@ -9,6 +9,7 @@ use App\Http\Controllers\DeskripsiController;
 use App\Http\Controllers\ReceptsionistController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -81,3 +82,6 @@ Route::middleware('auth:staff')->prefix('admin')->group(function () {
         return view('admin.crudtamu');
     })->name('admin.tamu');
 });
+
+
+Route::get('/viewuser', [UserController::class, 'showUsers'])->name('viewuser');
