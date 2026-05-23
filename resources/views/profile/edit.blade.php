@@ -8,7 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
-    
+
     <style>
         body { font-family: 'DM Sans', sans-serif; }
         h1, h2, h3, .font-playfair { font-family: 'Playfair Display', serif; }
@@ -33,7 +33,7 @@
         <div class="bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 overflow-hidden">
             <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data" class="p-10 flex flex-col md:flex-row gap-12">
                 @csrf
-                
+
                 <!-- Photo Section -->
                 <div class="w-full md:w-1/3 flex flex-col items-center">
                     <div class="relative group cursor-pointer mb-6">

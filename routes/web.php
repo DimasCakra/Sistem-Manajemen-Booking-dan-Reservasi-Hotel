@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth; // WAJIB TAMBAH INI
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\TamuController;
 use App\Http\Controllers\KatalogController;
 use App\Http\Controllers\DeskripsiController;
 use App\Http\Controllers\ReceptsionistController;
@@ -11,9 +11,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [TamuController::class, 'index'])->name('home');
 
 // Auth Routes
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -45,7 +43,7 @@ Route::post('/logoutstaff', function () {
 })->name('logoutstaff');
 
 // Halaman Tamu
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/home', [TamuController::class, 'index'])->name('home');
 Route::get('/katalog', [KatalogController::class, 'index'])->name('katalog');
 Route::get('/kamar/{id}', [DeskripsiController::class, 'show'])->name('kamar.show');
 Route::get('/booking/{id}', [BookingController::class, 'biodata'])->name('booking.biodata');
