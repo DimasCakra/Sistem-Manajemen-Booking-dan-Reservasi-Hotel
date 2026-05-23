@@ -24,6 +24,26 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
+        User::updateOrCreate(
+            ['email' => 'dimas@gmail.com'],
+            [
+                'name' => 'Dimas Cakra',
+                'whatsapp' => '09412940184',
+                'username' => 'dimas',
+                'password' => Hash::make('password123'),
+            ]
+        );
+
+        User::updateOrCreate(
+            ['email' => 'bryan@gmail.com'],
+            [
+                'name' => 'Bryan',
+                'whatsapp' => '08123456789',
+                'username' => 'bryan',
+                'password' => Hash::make('password123'),
+            ]
+        );
+
 
         \App\Models\Staff::updateOrCreate(
             ['name' => 'resepsionis'],
