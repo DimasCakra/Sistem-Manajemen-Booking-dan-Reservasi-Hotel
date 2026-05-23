@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Tamu;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\KatalogController;
+use App\Http\Controllers\TamuController;
+use App\Http\Controllers\Tamu\KatalogController;
 
 class DeskripsiController extends TamuController
 {

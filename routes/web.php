@@ -4,11 +4,11 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TamuController;
-use App\Http\Controllers\KatalogController;
-use App\Http\Controllers\DeskripsiController;
+use App\Http\Controllers\Tamu\KatalogController;
+use App\Http\Controllers\Tamu\DeskripsiController;
 use App\Http\Controllers\ReceptsionistController;
-use App\Http\Controllers\BookingController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Tamu\BookingController;
+use App\Http\Controllers\Tamu\ProfileController;
 use App\Http\Controllers\UserController;
 
 Route::get('/', [TamuController::class, 'index'])->name('home');
