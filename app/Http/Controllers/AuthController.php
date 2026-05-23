@@ -9,6 +9,12 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+    /*
+    |--------------------------------------------------------------------------
+    | REGISTER USER
+    |--------------------------------------------------------------------------
+    */
+
     public function showRegister()
     {
         return view('register');
@@ -16,58 +22,75 @@ class AuthController extends Controller
 
     public function processRegister(Request $request)
     {
-        $request->validate([
+        // Encapsulation:
+        // validasi data dilakukan di dalam controller
+        $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'whatsapp' => 'required|string|max:20',
             'password' => 'required|string|min:8',
         ]);
 
+        // Membuat object user
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'whatsapp' => $request->whatsapp,
-            'password' => Hash::make($request->password),
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+            'whatsapp' => $validatedData['whatsapp'],
+            'password' => Hash::make($validatedData['password']),
         ]);
 
-        // Simpan id user ke session untuk proses set username
+        // Simpan session sementara
         $request->session()->put('registered_user_id', $user->id);
 
         return redirect()->route('username');
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | USERNAME SETUP
+    |--------------------------------------------------------------------------
+    */
+
     public function showUsername(Request $request)
     {
-        // Pastikan ada user yang baru registrasi di session
         if (!$request->session()->has('registered_user_id')) {
             return redirect()->route('register');
         }
+
         return view('username');
     }
 
     public function processUsername(Request $request)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'username' => 'required|string|max:255|unique:users,username',
         ]);
 
         $userId = $request->session()->get('registered_user_id');
-        
+
         if (!$userId) {
             return redirect()->route('register');
         }
 
         $user = User::find($userId);
+
         if ($user) {
-            $user->username = $request->username;
+            $user->username = $validatedData['username'];
             $user->save();
         }
 
-        // Hapus session setelah berhasil set username
+        // Hapus session setelah username berhasil dibuat
         $request->session()->forget('registered_user_id');
 
-        return redirect()->route('login')->with('success', 'Username berhasil disimpan. Silakan login.');
+        return redirect()->route('login')
+            ->with('success', 'Username berhasil disimpan. Silakan login.');
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | LOGIN USER / GUEST
+    |--------------------------------------------------------------------------
+    */
 
     public function showLogin()
     {
@@ -81,9 +104,12 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
 
+        // Authentication
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
+
             $request->session()->regenerate();
-            return redirect()->intended('home');
+
+            return redirect()->route('home');
         }
 
         return back()->withErrors([
@@ -91,44 +117,84 @@ class AuthController extends Controller
         ])->onlyInput('email');
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | LOGIN STAFF
+    |--------------------------------------------------------------------------
+    */
+
     public function showStaffLogin()
     {
         return view('admin.stafflogin');
     }
 
     public function processStaffLogin(Request $request)
-{
-    $credentials = $request->validate([
-        'name' => 'required|string',
-        'password' => 'required|string',
-        'role' => 'required|string|in:admin,receptionist',
-    ]);
+    {
+        // Encapsulation:
+        // validasi data login staff
+        $credentials = $request->validate([
+            'name' => 'required|string',
+            'password' => 'required|string',
+            'role' => 'required|string|in:admin,receptionist',
+        ]);
 
-    $loginInfo = $request->only('name', 'password');
+        $loginData = $request->only('name', 'password');
 
-    if (Auth::guard('staff')->attempt($loginInfo, $request->boolean('remember'))) {
-        
-        $user = Auth::guard('staff')->user();
+        // Authentication menggunakan guard staff
+        if (Auth::guard('staff')->attempt($loginData, $request->boolean('remember'))) {
 
-        if ($user->role !== $request->role) {
-            Auth::guard('staff')->logout();
-            
-            return back()->withErrors([
-                'name' => 'Nama Akun, password atau role salah.',
-            ])->onlyInput('name');
+            $request->session()->regenerate();
+
+            // Mengambil object staff
+            $staff = Auth::guard('staff')->user();
+
+            /*
+            |--------------------------------------------------------------------------
+            | POLYMORPHISM
+            |--------------------------------------------------------------------------
+            | Dashboard berbeda berdasarkan role user
+            | Admin -> Dashboard Admin
+            | Receptionist -> Dashboard Receptionist
+            */
+
+            if ($staff->role === 'admin') {
+
+                return redirect()->route('dashboard');
+
+            } elseif ($staff->role === 'receptionist') {
+
+                return redirect()->route('dashboard');
+            }
         }
 
-        $request->session()->regenerate();
-        
-        if ($user->role === 'admin') {
-            return redirect()->route('admin.kamar');
-        } elseif ($user->role === 'receptionist') {
-            return redirect()->route('receptionist.index');
-        }
+        return back()->withErrors([
+            'name' => 'Nama akun, password, atau role salah.',
+        ])->onlyInput('name');
     }
 
-    return back()->withErrors([
-        'name' => 'Nama Akun, password atau role salah.',
-    ])->onlyInput('name');
-}
+    /*
+    |--------------------------------------------------------------------------
+    | LOGOUT
+    |--------------------------------------------------------------------------
+    */
+
+    public function logoutGuest(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login');
+    }
+
+    public function logoutStaff(Request $request)
+    {
+        Auth::guard('staff')->logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('staff.login');
+    }
 }
