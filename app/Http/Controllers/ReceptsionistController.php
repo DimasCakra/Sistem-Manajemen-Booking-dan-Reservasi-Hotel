@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Reservation;
+use Illuminate\Support\Facades\Auth;
 
 class ReceptsionistController extends Controller
 {
@@ -14,7 +15,7 @@ class ReceptsionistController extends Controller
         $reservations = Reservation::latest()->get();
 
         return view('resepsionis.receptsionis', [
-            'receptionist' => auth()->user(),
+            'receptionist' => Auth::user(),
             'reservations' => $reservations,
         ]);
     }
@@ -42,7 +43,7 @@ class ReceptsionistController extends Controller
         if (!$detail) {
             $detail = new Reservation();
             $detail->id = $id;
-            
+
             if ($id == 1) {
                 $detail->nama_lengkap = 'Briyan Abisai';
                 $detail->email = 'briyan@gmail.com';

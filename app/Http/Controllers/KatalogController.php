@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\TamuController;;
 
-class KatalogController extends Controller
+class KatalogController extends TamuController
 {
     public static $dataKamars = [
         [
@@ -33,13 +34,12 @@ class KatalogController extends Controller
         ],
     ];
 
-   public function index(Request $request)
+   public function index()
     {
-        $checkin = $request->query('checkin');
-        $checkout = $request->query('checkout');
-        $guests = $request->query('guests', '2');
+        $checkin = request()->query('checkin');
+        $checkout = request()->query('checkout');
+        $guests = request()->query('guests', '2');
 
-        
         $kamars = array_map(function ($item) {
             return (object) $item;
         }, self::$dataKamars);

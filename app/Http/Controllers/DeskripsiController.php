@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\KatalogController;
 
-class DeskripsiController extends Controller
+class DeskripsiController extends TamuController
 {
     public function show($id)
     {

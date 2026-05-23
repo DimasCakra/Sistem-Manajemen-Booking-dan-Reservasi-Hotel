@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\KatalogController;
 
-class BookingController extends Controller
+class BookingController extends TamuController
 {
     public function biodata($id)
     {
@@ -20,7 +20,7 @@ class BookingController extends Controller
         // Mock data for check-in and check-out
         $checkin = request()->query('checkin', '12 Oct 2023');
         $checkout = request()->query('checkout', '13 Oct 2023');
-        $durasi = 1; 
+        $durasi = 1;
         $pajak = $kamar->harga * 0.10; // 10% tax
         $total = $kamar->harga + $pajak;
 
