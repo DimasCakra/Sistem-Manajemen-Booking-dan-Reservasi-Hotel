@@ -6,9 +6,20 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Interfaces\Authenticable;
 
-class AuthController extends Controller
+class AuthController extends Controller implements Authenticable
 {
+    public function login()
+    {
+        return redirect()->route('login');
+    }
+
+    public function logout()
+    {
+        return redirect()->route('login');
+    }
+
     /*
     |--------------------------------------------------------------------------
     | REGISTER USER
@@ -22,8 +33,6 @@ class AuthController extends Controller
 
     public function processRegister(Request $request)
     {
-        // Encapsulation:
-        // validasi data dilakukan di dalam controller
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
@@ -31,7 +40,6 @@ class AuthController extends Controller
             'password' => 'required|string|min:8',
         ]);
 
-        // Membuat object user
         $user = User::create([
             'name' => $validatedData['name'],
             'email' => $validatedData['email'],
@@ -39,7 +47,6 @@ class AuthController extends Controller
             'password' => Hash::make($validatedData['password']),
         ]);
 
-        // Simpan session sementara
         $request->session()->put('registered_user_id', $user->id);
 
         return redirect()->route('username');
@@ -79,7 +86,6 @@ class AuthController extends Controller
             $user->save();
         }
 
-        // Hapus session setelah username berhasil dibuat
         $request->session()->forget('registered_user_id');
 
         return redirect()->route('login')
@@ -104,11 +110,8 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
 
-        // Authentication
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
-
             $request->session()->regenerate();
-
             return redirect()->route('home');
         }
 
@@ -130,8 +133,6 @@ class AuthController extends Controller
 
     public function processStaffLogin(Request $request)
     {
-        // Encapsulation:
-        // validasi data login staff
         $credentials = $request->validate([
             'name' => 'required|string',
             'password' => 'required|string',
@@ -140,29 +141,11 @@ class AuthController extends Controller
 
         $loginData = $request->only('name', 'password');
 
-        // Authentication menggunakan guard staff
         if (Auth::guard('staff')->attempt($loginData, $request->boolean('remember'))) {
-
             $request->session()->regenerate();
-
-            // Mengambil object staff
             $staff = Auth::guard('staff')->user();
 
-            /*
-            |--------------------------------------------------------------------------
-            | POLYMORPHISM
-            |--------------------------------------------------------------------------
-            | Dashboard berbeda berdasarkan role user
-            | Admin -> Dashboard Admin
-            | Receptionist -> Dashboard Receptionist
-            */
-
-            if ($staff->role === 'admin') {
-
-                return redirect()->route('dashboard');
-
-            } elseif ($staff->role === 'receptionist') {
-
+            if ($staff->role === 'admin' || $staff->role === 'receptionist') {
                 return redirect()->route('dashboard');
             }
         }
@@ -181,7 +164,6 @@ class AuthController extends Controller
     public function logoutGuest(Request $request)
     {
         Auth::logout();
-
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
@@ -191,7 +173,6 @@ class AuthController extends Controller
     public function logoutStaff(Request $request)
     {
         Auth::guard('staff')->logout();
-
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
