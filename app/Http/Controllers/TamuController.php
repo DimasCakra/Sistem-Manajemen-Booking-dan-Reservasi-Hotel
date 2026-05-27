@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Interfaces\Searchable;
 
-class TamuController extends Controller
+class TamuController extends Controller implements Searchable
 {
     public function index()
     {
