@@ -169,7 +169,7 @@
                     </div>
                     <div>
                         <label class="text-sm font-semibold text-slate-700">Tipe Kamar</label>
-                        <input name="room_type" type="text" required class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 focus:border-forest-500 focus:ring-4 focus:ring-forest-100 outline-none" placeholder="Contoh: Deluxe" />
+                        <input name="tipe_kamar" type="text" required class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 focus:border-forest-500 focus:ring-4 focus:ring-forest-100 outline-none" placeholder="Contoh: Kamar Deluxe" />
                     </div>
                     <div>
                         <label class="text-sm font-semibold text-slate-700">Status</label>

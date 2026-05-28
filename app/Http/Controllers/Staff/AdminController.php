@@ -229,14 +229,26 @@ class AdminController extends Controller
     {
         $validatedData = $request->validate([
             'no_kamar' => 'required|string|max:10|unique:kamar,no_kamar',
-            'tipe_kamar' => 'required|string|in:Kamar Deluxe,Kamar Superior,Kamar Suite',
+            'tipe_kamar' => 'required|string|max:30',
             'status_kamar' => 'required|string|in:tersedia,terisi',
             'harga_per_malam' => 'required|integer|min:0',
             'deskripsi' => 'nullable|string|max:255',
         ], [
+            'no_kamar.required' => 'Nomor kamar wajib diisi.',
+            'no_kamar.string' => 'Nomor kamar harus berupa teks.',
+            'no_kamar.max' => 'Nomor kamar maksimal 10 karakter.',
+            'no_kamar.unique' => 'Nomor kamar sudah terdaftar.',
+            'tipe_kamar.required' => 'Tipe kamar wajib diisi.',
+            'tipe_kamar.string' => 'Tipe kamar harus berupa teks.',
+            'tipe_kamar.max' => 'Tipe kamar maksimal 30 karakter.',
+            'status_kamar.required' => 'Status kamar wajib dipilih.',
+            'status_kamar.string' => 'Status kamar harus berupa teks.',
+            'status_kamar.in' => 'Status kamar harus tersedia atau terisi.',
             'harga_per_malam.required' => 'Harga per malam wajib diisi.',
             'harga_per_malam.integer' => 'Harga per malam harus berupa angka.',
             'harga_per_malam.min' => 'Harga per malam tidak boleh negatif.',
+            'deskripsi.string' => 'Deskripsi harus berupa teks.',
+            'deskripsi.max' => 'Deskripsi maksimal 30 karakter.',
         ]);
 
         Kamar::create($validatedData);
@@ -264,14 +276,26 @@ class AdminController extends Controller
 
         $validatedData = $request->validate([
             'no_kamar' => 'required|string|max:10|unique:kamar,no_kamar,' . $kamar->id_kamar . ',id_kamar',
-            'tipe_kamar' => 'required|string|in:Kamar Deluxe,Kamar Superior,Kamar Suite',
+            'tipe_kamar' => 'required|string|max:30',
             'status_kamar' => 'required|string|in:tersedia,terisi',
             'harga_per_malam' => 'required|integer|min:0',
-            'deskripsi' => 'nullable|string|max:255',
+            'deskripsi' => 'nullable|string|max:30',
         ], [
+            'no_kamar.required' => 'Nomor kamar wajib diisi.',
+            'no_kamar.string' => 'Nomor kamar harus berupa teks.',
+            'no_kamar.max' => 'Nomor kamar maksimal 10 karakter.',
+            'no_kamar.unique' => 'Nomor kamar sudah terdaftar.',
+            'tipe_kamar.required' => 'Tipe kamar wajib diisi.',
+            'tipe_kamar.string' => 'Tipe kamar harus berupa teks.',
+            'tipe_kamar.max' => 'Tipe kamar maksimal 255 karakter.',
+            'status_kamar.required' => 'Status kamar wajib dipilih.',
+            'status_kamar.string' => 'Status kamar harus berupa teks.',
+            'status_kamar.in' => 'Status kamar harus tersedia atau terisi.',
             'harga_per_malam.required' => 'Harga per malam wajib diisi.',
             'harga_per_malam.integer' => 'Harga per malam harus berupa angka.',
             'harga_per_malam.min' => 'Harga per malam tidak boleh negatif.',
+            'deskripsi.string' => 'Deskripsi harus berupa teks.',
+            'deskripsi.max' => 'Deskripsi maksimal 255 karakter.',
         ]);
 
         $kamar->update($validatedData);
