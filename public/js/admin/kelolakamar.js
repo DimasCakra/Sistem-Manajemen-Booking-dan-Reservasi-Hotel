@@ -19,15 +19,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const modalFields = {
         roomNumber: document.getElementById('detailRoomNumber'),
-        roomType: document.getElementById('detailRoomType'), // Text input untuk tipe kamar
+        roomType: document.getElementById('detailRoomType'),
         price: document.getElementById('detailRoomPrice'),
         roomCode: document.getElementById('detailRoomCode'),
         status: document.getElementById('detailRoomStatus'),
         description: document.getElementById('detailRoomDescription'),
-        image: document.getElementById('detailRoomImage')
+        imageInput: document.getElementById('detailRoomImageInput'), // Input file foto baru
+        imageContainer: document.getElementById('detailRoomImageContainer') // Kontainer untuk pratinjau multi-foto
     };
 
-    // Filter Table Function Logic
+    // Filter Table Function Logic (Client-side)
     function filterTable() {
         if (!roomTableBody) return;
 
@@ -84,17 +85,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Element teks biasa menggunakan readOnly
         modalFields.roomNumber.readOnly = !isEditable;
-        modalFields.roomType.readOnly = !isEditable;
         modalFields.price.readOnly = !isEditable;
-        modalFields.status.disabled = !isEditable;
         modalFields.description.readOnly = !isEditable;
 
+        // Element select/dropdown dan input file menggunakan disabled
+        if (modalFields.roomType) modalFields.roomType.disabled = !isEditable;
+        if (modalFields.status) modalFields.status.disabled = !isEditable;
+        if (modalFields.imageInput) modalFields.imageInput.disabled = !isEditable;
+
         if (mode === 'view') {
-            editSaveButton.classList.remove('bg-forest-700');
+            editSaveButton.classList.remove('bg-forest-700', 'bg-emerald-600');
             editSaveButton.classList.add('bg-blue-600');
         } else {
             editSaveButton.classList.remove('bg-blue-600');
-            editSaveButton.classList.add('bg-forest-700');
+            editSaveButton.classList.add('bg-emerald-600');
         }
     }
 
@@ -102,13 +106,32 @@ document.addEventListener('DOMContentLoaded', () => {
         modalFields.roomNumber.value = row.dataset.roomNumber || '';
         modalFields.roomType.value = row.dataset.roomType || '';
         modalFields.price.value = row.dataset.price || '';
-        modalFields.roomCode.value = row.dataset.roomCode || '';
+        modalFields.roomCode.value = `${row.dataset.roomId || ''}`;
         modalFields.status.value = row.dataset.roomStatus || '';
         modalFields.description.value = row.dataset.roomDescription || '';
-        modalFields.image.src = row.dataset.roomImage || 'https://via.placeholder.com/640x360';
+
+        // Reset input file pilihan sebelumnya
+        if (modalFields.imageInput) modalFields.imageInput.value = '';
+
+        // Parsing data JSON foto dari tag row data-room-images
+        if (modalFields.imageContainer) {
+            modalFields.imageContainer.innerHTML = '';
+            const images = JSON.parse(row.dataset.roomImages || '[]');
+
+            if (images.length > 0) {
+                images.forEach(src => {
+                    const img = document.createElement('img');
+                    img.src = src;
+                    img.className = "w-full h-28 object-cover rounded-xl shadow-sm border border-white";
+                    modalFields.imageContainer.appendChild(img);
+                });
+            } else {
+                modalFields.imageContainer.innerHTML = '<p class="col-span-full text-center text-xs text-gray-400 py-4">Tidak ada foto</p>';
+            }
+        }
 
         if (detailForm) {
-            detailForm.action = `/kamar/${row.dataset.roomId}`;
+            detailForm.action = `/admin/kamar/${row.dataset.roomId}`;
         }
     }
 
@@ -179,19 +202,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    if (searchInput && searchForm) {
-        searchInput.addEventListener('input', () => {
-            clearTimeout(debounceTimer);
-            debounceTimer = setTimeout(() => searchForm.submit(), 350);
-        });
+    // Server-side submit logic jika form pencarian digunakan
+    if (searchInput) {
+        searchInput.addEventListener('input', filterTable);
+        // Menjalankan fungsi filterTable() instan tanpa refresh
     }
 
-    if (filterType && searchForm) {
-        filterType.addEventListener('change', () => searchForm.submit());
+    if (filterType) {
+        filterType.addEventListener('change', filterTable);
+        // Menjalankan fungsi filterTable() instan tanpa refresh
     }
 
-    if (filterStatus && searchForm) {
-        filterStatus.addEventListener('change', () => searchForm.submit());
+    if (filterStatus) {
+        filterStatus.addEventListener('change', filterTable);
+        // Menjalankan fungsi filterTable() instan tanpa refresh
     }
 
     document.addEventListener('keydown', event => {

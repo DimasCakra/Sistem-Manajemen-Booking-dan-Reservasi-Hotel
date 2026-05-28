@@ -13,16 +13,16 @@
 <!--background-->
 <body class="bg-[#0f1711] min-h-screen relative flex items-center justify-center font-sans">
     <div class="relative z-10 w-full max-w-[420px] px-6">
-        
+
         <div class="text-center mb-8">
             <img src="{{ asset('gambar/stayease.png') }}" alt="StayEase Logo" class="h-14 mt-4 mx-auto object-contain brightness-0 invert opacity-90">
             <h1 class="mt-3 text-2xl font-light text-white tracking-wide">Login <span class="font-bold text-[#D4AF37]">Admin & Resepsionis</span></h1>
         </div>
 
-        <div class="bg-white/5 backdrop-blur-2xl p-8 sm:p-5 rounded-[2rem] shadow-2xl border border-white/10 relative overflow-hidden">
+        <div class="bg-white/5 backdrop-blur-2xl p-8 sm:p-5 rounded-4xl shadow-2xl border border-white/10 relative overflow-hidden">
 
-            <div class="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
-            
+            <div class="absolute top-0 inset-x-0 h-px bg-linear-to-r from-transparent via-white/20 to-transparent"></div>
+
             <form action="{{ route('staff.login.post') }}" method="POST" class="space-y-6 relative z-10">
                 @csrf
 
@@ -39,22 +39,22 @@
                 <div>
                     <label for="name" class="block text-[10px] font-bold text-white/60 uppercase tracking-[0.2em] mb-2 ml-1">Nama Akun</label>
                     <input id="name" type="text" name="name" required autocomplete="username" placeholder="Nama Akun Staff"
-                        class="w-full rounded-xl bg-white/5 border border-white/10 py-4 px-5 text-white placeholder-white/20 
+                        class="w-full rounded-xl bg-white/5 border border-white/10 py-4 px-5 text-white placeholder-white/20
                         transition-all duration-300 focus:outline-none focus:border-[#D4AF37] focus:bg-white/10 focus:ring-4 focus:ring-[#D4AF37]/10">
                 </div>
 
                 <div>
                     <label for="password" class="block text-[10px] font-bold text-white/60 uppercase tracking-[0.2em] mb-2 ml-1">Kata Sandi</label>
                     <input id="password" type="password" name="password" required autocomplete="current-password" placeholder="••••••••"
-                        class="w-full rounded-xl bg-white/5 border border-white/10 py-4 px-5 text-white placeholder-white/20 
+                        class="w-full rounded-xl bg-white/5 border border-white/10 py-4 px-5 text-white placeholder-white/20
                         transition-all duration-300 focus:outline-none focus:border-[#D4AF37] focus:bg-white/10 focus:ring-4 focus:ring-[#D4AF37]/10">
                 </div>
 
                 <div>
                     <label for="role" class="block text-[10px] font-bold text-white/60 uppercase tracking-[0.2em] mb-2 ml-1">Masuk Sebagai</label>
                     <div class="relative group">
-                        <select id="role" name="role" required 
-                            class="w-full appearance-none rounded-xl bg-white/5 border border-white/10 py-4 px-5 text-white 
+                        <select id="role" name="role" required
+                            class="w-full appearance-none rounded-xl bg-white/5 border border-white/10 py-4 px-5 text-white
                             transition-all duration-300 focus:outline-none focus:border-[#D4AF37] focus:bg-white/10 focus:ring-4 focus:ring-[#D4AF37]/10 cursor-pointer">
                             <option value="" disabled selected class="bg-[#1a241c]">Pilih Role</option>
                             <option value="admin" class="bg-[#1a241c]">Administrator</option>
@@ -69,7 +69,7 @@
                 </div>
 
                 <div class="flex items-center gap-3 pt-1">
-                    <input id="remember" type="checkbox" name="remember" 
+                    <input id="remember" type="checkbox" name="remember"
                            class="w-4 h-4 rounded border-white/20 bg-white/5 cursor-pointer accent-[#D4AF37]">
                     <label for="remember" class="text-sm font-medium text-white/60 cursor-pointer hover:text-white transition-colors">
                         Ingat sesi saya
@@ -77,7 +77,7 @@
                 </div>
 
                 <div class="pt-6">
-                    <button type="submit" 
+                    <button type="submit"
                             class="w-full bg-[#D4AF37] hover:from-[#D4AF37] text-[#0f1711] py-4 rounded-xl font-bold uppercase tracking-[0.2em] text-[11px]
                                    transition-all duration-500 shadow-[0_0_20px_rgba(212,175,55,0.2)] hover:shadow-[0_0_30px_rgba(212,175,55,0.4)] hover:-translate-y-0.5">
                         Masuk
@@ -85,7 +85,7 @@
                 </div>
             </form>
         </div>
-        
+
         <div class="text-center mt-3 mb-4">
             <a href="/home" class="text-white/40 hover:text-white text-[15px] uppercase tracking-widest transition-colors duration-300">&larr; Kembali ke Website</a>
         </div>
