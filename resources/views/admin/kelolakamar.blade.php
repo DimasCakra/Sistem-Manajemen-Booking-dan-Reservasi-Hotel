@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kelola Kamar - StayEase</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght=600;700&family=DM+Sans:wght=400;500;600&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
@@ -29,7 +29,6 @@
         .fade-up {
             animation: fadeUp .45s ease both;
         }
-
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen flex">
@@ -47,11 +46,37 @@
             </button>
         </div>
 
+        <div class="mb-6 flex flex-col md:flex-row gap-4 items-center justify-between fade-up" style="animation-delay: 0.05s">
+            <div class="relative w-full md:w-80">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                </span>
+                <input type="text" id="searchInput" class="w-full pl-10 pr-4 py-3 bg-white border border-forest-100 rounded-xl text-sm focus:border-forest-500 focus:ring-4 focus:ring-forest-100 outline-none transition-all text-slate-900" placeholder="Cari nomor atau tipe kamar..." />
+            </div>
+
+            <div class="flex gap-3 w-full md:w-auto">
+                <select id="filterType" class="w-full md:w-44 px-4 py-3 bg-white border border-forest-100 rounded-xl text-sm focus:border-forest-500 outline-none text-slate-700 font-medium cursor-pointer">
+                    <option value="">Semua Tipe</option>
+                    <option value="Kamar Deluxe">Kamar Deluxe</option>
+                    <option value="Kamar Superior">Kamar Superior</option>
+                    <option value="Kamar Suite">Kamar Suite</option>
+                </select>
+
+                <select id="filterStatus" class="w-full md:w-44 px-4 py-3 bg-white border border-forest-100 rounded-xl text-sm focus:border-forest-500 outline-none text-slate-700 font-medium cursor-pointer">
+                    <option value="">Semua Status</option>
+                    <option value="Tersedia">Tersedia</option>
+                    <option value="Terisi">Terisi</option>
+                </select>
+            </div>
+        </div>
+
         <div class="bg-white rounded-xl shadow-sm border border-forest-100 overflow-hidden fade-up" style="animation-delay: 0.1s">
             <table class="w-full text-left">
                 <thead>
                     <tr class="bg-forest-800 text-white text-[11px] uppercase tracking-[0.2em]">
-                        <th class="px-4 py-5 font-semibold">Nomor Kamar</th>
+                        <th class="px-8 py-5 font-semibold">Nomor Kamar</th>
                         <th class="px-6 py-5 font-semibold text-center">Tipe Kamar</th>
                         <th class="px-6 py-5 font-semibold text-center">Harga</th>
                         <th class="px-6 py-5 font-semibold text-center">ID Kamar</th>
@@ -71,10 +96,23 @@
                         </td>
                         <td class="px-6 py-6 text-xs text-gray-500 max-w-[200px] truncate">Kamar mewah dengan akses langsung ke balkon dengan pemandangan taman yang indah</td>
                         <td class="px-8 py-6 border-l border-forest-600/40">
-                            <div class="flex flex-col sm:flex-row justify-center gap-3">
-                                <button type="button" class="btn-view px-5 py-3 bg-blue-100 text-blue-700 rounded-md hover:bg-blue-100 transition-colors text-[10px] font-bold">DETAIL</button>
-                                <button type="button" class="btn-edit px-5 py-3 bg-amber-100 text-amber-600 rounded-md hover:bg-amber-100 transition-colors text-[10px] font-bold">EDIT</button>
-                                <button type="button" class="btn-delete px-5 py-3 bg-red-100 text-red-600 rounded-md hover:bg-red-100 transition-colors text-[10px] font-bold">HAPUS</button>
+                            <div class="flex justify-center gap-4">
+                                <button type="button" class="btn-view text-blue-600 hover:text-blue-800 transition-transform hover:scale-110" title="Detail Kamar">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                    </svg>
+                                </button>
+                                <button type="button" class="btn-edit text-amber-500 hover:text-amber-700 transition-transform hover:scale-110" title="Edit Kamar">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                    </svg>
+                                </button>
+                                <button type="button" class="btn-delete text-red-500 hover:text-red-700 transition-transform hover:scale-110" title="Hapus Kamar">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-4v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                    </svg>
+                                </button>
                             </div>
                         </td>
                     </tr>
@@ -83,7 +121,6 @@
         </div>
     </main>
 
-    <!-- Create Modal -->
     <div id="createModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 px-4 py-8">
         <div class="w-full max-w-2xl rounded-3xl bg-white shadow-2xl ring-1 ring-black/5 overflow-hidden">
             <div class="flex items-center justify-between px-8 py-6 border-b border-gray-200">
@@ -128,7 +165,6 @@
         </div>
     </div>
 
-    <!-- Detail / Edit Modal -->
     <div id="detailModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 px-4 py-8">
         <div class="w-full max-w-2xl rounded-3xl bg-white shadow-2xl ring-1 ring-black/5 overflow-hidden">
             <div class="flex items-center justify-between px-8 py-6 border-b border-gray-200">
@@ -179,152 +215,6 @@
         </div>
     </div>
 
-    <script>
-        const openCreateModalButton = document.getElementById('openCreateModal');
-        const createModal = document.getElementById('createModal');
-        const detailModal = document.getElementById('detailModal');
-        const modalCloseButtons = document.querySelectorAll('.modal-close');
-        const roomTableBody = document.getElementById('roomTableBody');
-        const detailModalTitle = document.getElementById('detailModalTitle');
-        const detailModalSubtitle = document.getElementById('detailModalSubtitle');
-        const editSaveButton = document.getElementById('editSaveButton');
-        let currentRow = null;
-        let currentMode = 'view';
-
-        const modalFields = {
-            roomNumber: document.getElementById('detailRoomNumber'),
-            roomType: document.getElementById('detailRoomType'),
-            price: document.getElementById('detailRoomPrice'),
-            roomCode: document.getElementById('detailRoomCode'),
-            status: document.getElementById('detailRoomStatus'),
-            description: document.getElementById('detailRoomDescription'),
-            image: document.getElementById('detailRoomImage')
-        };
-
-        function openModal(modal) {
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            document.body.classList.add('overflow-hidden');
-        }
-
-        function closeModal(modal) {
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-            document.body.classList.remove('overflow-hidden');
-            if (modal === detailModal) {
-                setModalMode('view');
-            }
-        }
-
-        function setModalMode(mode) {
-            currentMode = mode;
-            const isEditable = mode === 'edit';
-            detailModalTitle.textContent = mode === 'edit' ? 'Edit Kamar' : 'Detail Kamar';
-            detailModalSubtitle.textContent = mode === 'edit' ? 'Perbarui data kamar dan tekan Simpan Perubahan.' : 'Lihat detail kamar dengan aman.';
-            editSaveButton.textContent = mode === 'edit' ? 'Simpan Perubahan' : 'Edit Kamar';
-            modalFields.roomNumber.readOnly = !isEditable;
-            modalFields.roomType.readOnly = !isEditable;
-            modalFields.price.readOnly = !isEditable;
-            modalFields.status.readOnly = !isEditable;
-            modalFields.description.readOnly = !isEditable;
-            if (mode === 'view') {
-                editSaveButton.classList.remove('bg-forest-700');
-                editSaveButton.classList.add('bg-blue-600');
-            } else {
-                editSaveButton.classList.remove('bg-blue-600');
-                editSaveButton.classList.add('bg-forest-700');
-            }
-        }
-
-        function populateDetailModal(row) {
-            modalFields.roomNumber.value = row.dataset.roomNumber || '';
-            modalFields.roomType.value = row.dataset.roomType || '';
-            modalFields.price.value = row.dataset.price || '';
-            modalFields.roomCode.value = row.dataset.roomCode || '';
-            modalFields.status.value = row.dataset.roomStatus || '';
-            modalFields.description.value = row.dataset.roomDescription || '';
-            modalFields.image.src = row.dataset.roomImage || 'https://via.placeholder.com/640x360';
-        }
-
-        function handleViewClick(event) {
-            const row = event.target.closest('tr');
-            if (!row) return;
-            currentRow = row;
-            populateDetailModal(row);
-            setModalMode('view');
-            openModal(detailModal);
-        }
-
-        function handleEditClick(event) {
-            const row = event.target.closest('tr');
-            if (!row) return;
-            currentRow = row;
-            populateDetailModal(row);
-            setModalMode('edit');
-            openModal(detailModal);
-        }
-
-        function handleDeleteClick(event) {
-            const row = event.target.closest('tr');
-            if (!row) return;
-            const roomNumber = row.dataset.roomNumber || 'kamar ini';
-            const confirmed = confirm(`Hapus ${roomNumber}? Tindakan ini tidak dapat dikembalikan.`);
-            if (confirmed) {
-                row.remove();
-            }
-        }
-
-        function applyModalUpdates() {
-            if (!currentRow) return;
-            currentRow.dataset.roomNumber = modalFields.roomNumber.value;
-            currentRow.dataset.roomType = modalFields.roomType.value;
-            currentRow.dataset.price = modalFields.price.value;
-            currentRow.dataset.roomStatus = modalFields.status.value;
-            currentRow.dataset.roomDescription = modalFields.description.value;
-
-            currentRow.querySelector('td:nth-child(1)').textContent = modalFields.roomNumber.value;
-            currentRow.querySelector('td:nth-child(2)').textContent = modalFields.roomType.value;
-            currentRow.querySelector('td:nth-child(3)').textContent = modalFields.price.value;
-            currentRow.querySelector('td:nth-child(5) span').textContent = modalFields.status.value;
-            currentRow.querySelector('td:nth-child(6)').textContent = modalFields.description.value;
-            closeModal(detailModal);
-        }
-
-        openCreateModalButton.addEventListener('click', () => openModal(createModal));
-
-        modalCloseButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const targetModal = button.closest('#createModal') || button.closest('#detailModal');
-                if (targetModal) closeModal(targetModal);
-            });
-        });
-
-        roomTableBody.addEventListener('click', event => {
-            if (event.target.closest('.btn-view')) {
-                handleViewClick(event);
-            }
-            if (event.target.closest('.btn-edit')) {
-                handleEditClick(event);
-            }
-            if (event.target.closest('.btn-delete')) {
-                handleDeleteClick(event);
-            }
-        });
-
-        editSaveButton.addEventListener('click', () => {
-            if (currentMode === 'view') {
-                setModalMode('edit');
-                return;
-            }
-            applyModalUpdates();
-        });
-
-        document.addEventListener('keydown', event => {
-            if (event.key === 'Escape') {
-                if (!createModal.classList.contains('hidden')) closeModal(createModal);
-                if (!detailModal.classList.contains('hidden')) closeModal(detailModal);
-            }
-        });
-    </script>
+    <script src="{{ asset('js/kelolakamar.js') }}"></script>
 </body>
 </html>
