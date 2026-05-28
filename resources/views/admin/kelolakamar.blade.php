@@ -215,7 +215,7 @@
                     </div>
                     <div>
                         <label class="text-sm font-semibold text-slate-700">Tipe Kamar</label>
-                        <input id="detailRoomType" type="text" class="modal-field mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 outline-none" readonly />
+                        <input id="detailRoomType" name="tipe_kamar" type="text" class="modal-field mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 outline-none" readonly />
                     </div>
                     <div>
                         <label class="text-sm font-semibold text-slate-700">Harga</label>

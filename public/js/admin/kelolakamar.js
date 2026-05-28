@@ -7,13 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const detailModalTitle = document.getElementById('detailModalTitle');
     const detailModalSubtitle = document.getElementById('detailModalSubtitle');
     const editSaveButton = document.getElementById('editSaveButton');
-<<<<<<< HEAD
     const detailForm = document.getElementById('detailModalForm');
     const searchForm = document.getElementById('searchFilterForm');
-=======
-
-    // Search and Filter Elements
->>>>>>> d326a4a281e0bc632d0c7579516cfb4702e4dfc6
     const searchInput = document.getElementById('searchInput');
     const filterType = document.getElementById('filterType');
     const filterStatus = document.getElementById('filterStatus');
@@ -24,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const modalFields = {
         roomNumber: document.getElementById('detailRoomNumber'),
-        roomType: document.getElementById('detailRoomType'), // Sekarang berupa element <select>
+        roomType: document.getElementById('detailRoomType'), // Text input untuk tipe kamar
         price: document.getElementById('detailRoomPrice'),
         roomCode: document.getElementById('detailRoomCode'),
         status: document.getElementById('detailRoomStatus'),
@@ -89,18 +84,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Element teks biasa menggunakan readOnly
         modalFields.roomNumber.readOnly = !isEditable;
-<<<<<<< HEAD
-        modalFields.roomType.disabled = !isEditable;
-=======
->>>>>>> d326a4a281e0bc632d0c7579516cfb4702e4dfc6
+        modalFields.roomType.readOnly = !isEditable;
         modalFields.price.readOnly = !isEditable;
         modalFields.status.disabled = !isEditable;
         modalFields.description.readOnly = !isEditable;
-
-        // Penyesuaian khusus elemen <select> Tipe Kamar menggunakan disabled
-        if (modalFields.roomType) {
-            modalFields.roomType.disabled = !isEditable;
-        }
 
         if (mode === 'view') {
             editSaveButton.classList.remove('bg-forest-700');
@@ -113,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function populateDetailModal(row) {
         modalFields.roomNumber.value = row.dataset.roomNumber || '';
-        modalFields.roomType.value = row.dataset.roomType || ''; // Mengatur value select option agar otomatis terpilih
+        modalFields.roomType.value = row.dataset.roomType || '';
         modalFields.price.value = row.dataset.price || '';
         modalFields.roomCode.value = row.dataset.roomCode || '';
         modalFields.status.value = row.dataset.roomStatus || '';
