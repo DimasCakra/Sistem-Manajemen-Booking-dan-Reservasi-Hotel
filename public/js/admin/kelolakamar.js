@@ -7,18 +7,55 @@ document.addEventListener('DOMContentLoaded', () => {
     const detailModalTitle = document.getElementById('detailModalTitle');
     const detailModalSubtitle = document.getElementById('detailModalSubtitle');
     const editSaveButton = document.getElementById('editSaveButton');
+
+    // Search and Filter Elements
+    const searchInput = document.getElementById('searchInput');
+    const filterType = document.getElementById('filterType');
+    const filterStatus = document.getElementById('filterStatus');
+
     let currentRow = null;
     let currentMode = 'view';
 
     const modalFields = {
         roomNumber: document.getElementById('detailRoomNumber'),
-        roomType: document.getElementById('detailRoomType'),
+        roomType: document.getElementById('detailRoomType'), // Sekarang berupa element <select>
         price: document.getElementById('detailRoomPrice'),
         roomCode: document.getElementById('detailRoomCode'),
         status: document.getElementById('detailRoomStatus'),
         description: document.getElementById('detailRoomDescription'),
         image: document.getElementById('detailRoomImage')
     };
+
+    // Filter Table Function Logic
+    function filterTable() {
+        if (!roomTableBody) return;
+
+        const searchQuery = searchInput ? searchInput.value.toLowerCase() : '';
+        const selectedType = filterType ? filterType.value : '';
+        const selectedStatus = filterStatus ? filterStatus.value : '';
+        const rows = roomTableBody.querySelectorAll('tr');
+
+        rows.forEach(row => {
+            const roomNumber = row.dataset.roomNumber || '';
+            const roomType = row.dataset.roomType || '';
+            const roomStatus = row.dataset.roomStatus || '';
+
+            const matchSearch = roomNumber.toLowerCase().includes(searchQuery) || roomType.toLowerCase().includes(searchQuery);
+            const matchType = selectedType === "" || roomType === selectedType;
+            const matchStatus = selectedStatus === "" || roomStatus === selectedStatus;
+
+            if (matchSearch && matchType && matchStatus) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        });
+    }
+
+    if (searchInput) searchInput.addEventListener('input', filterTable);
+    if (filterType) filterType.addEventListener('change', filterTable);
+    if (filterStatus) filterStatus.addEventListener('change', filterTable);
+
 
     function openModal(modal) {
         if (!modal) return;
@@ -43,11 +80,18 @@ document.addEventListener('DOMContentLoaded', () => {
         detailModalTitle.textContent = mode === 'edit' ? 'Edit Kamar' : 'Detail Kamar';
         detailModalSubtitle.textContent = mode === 'edit' ? 'Perbarui data kamar dan tekan Simpan Perubahan.' : 'Lihat detail kamar dengan aman.';
         editSaveButton.textContent = mode === 'edit' ? 'Simpan Perubahan' : 'Edit Kamar';
+
+        // Element teks biasa menggunakan readOnly
         modalFields.roomNumber.readOnly = !isEditable;
-        modalFields.roomType.readOnly = !isEditable;
         modalFields.price.readOnly = !isEditable;
         modalFields.status.readOnly = !isEditable;
         modalFields.description.readOnly = !isEditable;
+
+        // Penyesuaian khusus elemen <select> Tipe Kamar menggunakan disabled
+        if (modalFields.roomType) {
+            modalFields.roomType.disabled = !isEditable;
+        }
+
         if (mode === 'view') {
             editSaveButton.classList.remove('bg-forest-700');
             editSaveButton.classList.add('bg-blue-600');
@@ -59,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function populateDetailModal(row) {
         modalFields.roomNumber.value = row.dataset.roomNumber || '';
-        modalFields.roomType.value = row.dataset.roomType || '';
+        modalFields.roomType.value = row.dataset.roomType || ''; // Mengatur value select option agar otomatis terpilih
         modalFields.price.value = row.dataset.price || '';
         modalFields.roomCode.value = row.dataset.roomCode || '';
         modalFields.status.value = row.dataset.roomStatus || '';

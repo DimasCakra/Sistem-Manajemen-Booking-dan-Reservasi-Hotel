@@ -139,7 +139,12 @@
                     </div>
                     <div>
                         <label class="text-sm font-semibold text-slate-700">Tipe Kamar</label>
-                        <input name="room_type" type="text" required class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 focus:border-forest-500 focus:ring-4 focus:ring-forest-100 outline-none" placeholder="Contoh: Deluxe" />
+                        <select name="room_type" required class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 focus:border-forest-500 focus:ring-4 focus:ring-forest-100 outline-none cursor-pointer bg-white">
+                            <option value="" disabled selected>Pilih Tipe Kamar</option>
+                            <option value="Kamar Deluxe">Kamar Deluxe</option>
+                            <option value="Kamar Superior">Kamar Superior</option>
+                            <option value="Kamar Suite">Kamar Suite</option>
+                        </select>
                     </div>
                     <div>
                         <label class="text-sm font-semibold text-slate-700">Harga</label>
@@ -182,7 +187,11 @@
                     </div>
                     <div>
                         <label class="text-sm font-semibold text-slate-700">Tipe Kamar</label>
-                        <input id="detailRoomType" type="text" class="modal-field mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 outline-none" readonly />
+                        <select id="detailRoomType" class="modal-field mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 outline-none cursor-pointer bg-white" disabled>
+                            <option value="Kamar Deluxe">Kamar Deluxe</option>
+                            <option value="Kamar Superior">Kamar Superior</option>
+                            <option value="Kamar Suite">Kamar Suite</option>
+                        </select>
                     </div>
                     <div>
                         <label class="text-sm font-semibold text-slate-700">Harga</label>
