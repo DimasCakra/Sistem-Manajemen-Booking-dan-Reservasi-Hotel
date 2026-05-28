@@ -169,12 +169,7 @@
                     </div>
                     <div>
                         <label class="text-sm font-semibold text-slate-700">Tipe Kamar</label>
-                        <select name="tipe_kamar" required class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 focus:border-forest-500 focus:ring-4 focus:ring-forest-100 outline-none">
-                            <option value="">Pilih tipe kamar</option>
-                            <option value="Kamar Deluxe" {{ old('tipe_kamar') === 'Kamar Deluxe' ? 'selected' : '' }}>Kamar Deluxe</option>
-                            <option value="Kamar Superior" {{ old('tipe_kamar') === 'Kamar Superior' ? 'selected' : '' }}>Kamar Superior</option>
-                            <option value="Kamar Suite" {{ old('tipe_kamar') === 'Kamar Suite' ? 'selected' : '' }}>Kamar Suite</option>
-                        </select>
+                        <input name="room_type" type="text" required class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 focus:border-forest-500 focus:ring-4 focus:ring-forest-100 outline-none" placeholder="Contoh: Deluxe" />
                     </div>
                     <div>
                         <label class="text-sm font-semibold text-slate-700">Status</label>
@@ -220,11 +215,7 @@
                     </div>
                     <div>
                         <label class="text-sm font-semibold text-slate-700">Tipe Kamar</label>
-                        <select id="detailRoomType" name="tipe_kamar" class="modal-field mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 outline-none" disabled>
-                            <option value="Kamar Deluxe">Kamar Deluxe</option>
-                            <option value="Kamar Superior">Kamar Superior</option>
-                            <option value="Kamar Suite">Kamar Suite</option>
-                        </select>
+                        <input id="detailRoomType" type="text" class="modal-field mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 outline-none" readonly />
                     </div>
                     <div>
                         <label class="text-sm font-semibold text-slate-700">Harga</label>
