@@ -18,5 +18,6 @@ class Kamar extends Model
         'status_kamar',
         'harga_per_malam',
         'deskripsi',
+        'foto_kamar'
     ];
 }

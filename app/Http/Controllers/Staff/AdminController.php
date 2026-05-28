@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Staff;
 use App\Models\Kamar;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -227,12 +228,13 @@ class AdminController extends Controller
 
     public function kamarStore(Request $request)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'no_kamar' => 'required|string|max:10|unique:kamar,no_kamar',
             'tipe_kamar' => 'required|string|max:30',
             'status_kamar' => 'required|string|in:tersedia,terisi',
             'harga_per_malam' => 'required|integer|min:0',
             'deskripsi' => 'nullable|string|max:255',
+            'foto_kamar.*' => 'image|mimes:jpeg,png,jpg|max:2048' // Validasi per file gambar
         ], [
             'no_kamar.required' => 'Nomor kamar wajib diisi.',
             'no_kamar.string' => 'Nomor kamar harus berupa teks.',
@@ -248,10 +250,30 @@ class AdminController extends Controller
             'harga_per_malam.integer' => 'Harga per malam harus berupa angka.',
             'harga_per_malam.min' => 'Harga per malam tidak boleh negatif.',
             'deskripsi.string' => 'Deskripsi harus berupa teks.',
-            'deskripsi.max' => 'Deskripsi maksimal 30 karakter.',
+            'deskripsi.max' => 'Deskripsi maksimal 255 karakter.',
+            'foto_kamar.*.image' => 'File harus berupa gambar.',
+            'foto_kamar.*.mimes' => 'Format gambar harus jpeg, png, atau jpg.',
+            'foto_kamar.*.max' => 'Ukuran gambar maksimal adalah 2MB.'
         ]);
 
-        Kamar::create($validatedData);
+        $dataFoto = [];
+        if ($request->hasFile('foto_kamar')) {
+            // Membatasi array upload hanya mengambil maksimal 5 file teratas
+            $files = array_slice($request->file('foto_kamar'), 0, 5);
+            foreach ($files as $file) {
+                $path = $file->store('foto_kamar', 'public');
+                $dataFoto[] = $path;
+            }
+        }
+
+        Kamar::create([
+            'no_kamar' => $request->no_kamar,
+            'tipe_kamar' => $request->tipe_kamar,
+            'status_kamar' => $request->status_kamar,
+            'harga_per_malam' => $request->harga_per_malam,
+            'deskripsi' => $request->deskripsi,
+            'foto_kamar' => json_encode($dataFoto) // Array nama file disimpan dalam bentuk format JSON string
+        ]);
 
         return redirect()->route('admin.kamar')->with('success', 'Kamar berhasil ditambahkan');
     }
@@ -274,12 +296,13 @@ class AdminController extends Controller
             return redirect()->route('admin.kamar')->with('error', 'Kamar tidak ditemukan');
         }
 
-        $validatedData = $request->validate([
+        $request->validate([
             'no_kamar' => 'required|string|max:10|unique:kamar,no_kamar,' . $kamar->id_kamar . ',id_kamar',
             'tipe_kamar' => 'required|string|max:30',
             'status_kamar' => 'required|string|in:tersedia,terisi',
             'harga_per_malam' => 'required|integer|min:0',
-            'deskripsi' => 'nullable|string|max:30',
+            'deskripsi' => 'nullable|string|max:255',
+            'foto_kamar.*' => 'image|mimes:jpeg,png,jpg|max:2048'
         ], [
             'no_kamar.required' => 'Nomor kamar wajib diisi.',
             'no_kamar.string' => 'Nomor kamar harus berupa teks.',
@@ -287,7 +310,7 @@ class AdminController extends Controller
             'no_kamar.unique' => 'Nomor kamar sudah terdaftar.',
             'tipe_kamar.required' => 'Tipe kamar wajib diisi.',
             'tipe_kamar.string' => 'Tipe kamar harus berupa teks.',
-            'tipe_kamar.max' => 'Tipe kamar maksimal 255 karakter.',
+            'tipe_kamar.max' => 'Tipe kamar maksimal 30 karakter.',
             'status_kamar.required' => 'Status kamar wajib dipilih.',
             'status_kamar.string' => 'Status kamar harus berupa teks.',
             'status_kamar.in' => 'Status kamar harus tersedia atau terisi.',
@@ -296,9 +319,36 @@ class AdminController extends Controller
             'harga_per_malam.min' => 'Harga per malam tidak boleh negatif.',
             'deskripsi.string' => 'Deskripsi harus berupa teks.',
             'deskripsi.max' => 'Deskripsi maksimal 255 karakter.',
+            'foto_kamar.*.image' => 'File harus berupa gambar.',
+            'foto_kamar.*.mimes' => 'Format gambar harus jpeg, png, atau jpg.',
+            'foto_kamar.*.max' => 'Ukuran gambar maksimal adalah 2MB.'
         ]);
 
-        $kamar->update($validatedData);
+        // Mengganti semua foto jika ada kiriman file baru dari input modal edit
+        if ($request->hasFile('foto_kamar')) {
+            // Hapus file fisik gambar-gambar lama di folder storage agar tidak menumpuk sampah data
+            $fotoLama = json_decode($kamar->foto_kamar, true) ?? [];
+            foreach ($fotoLama as $foto) {
+                Storage::disk('public')->delete($foto);
+            }
+
+            $dataFoto = [];
+            $files = array_slice($request->file('foto_kamar'), 0, 5);
+            foreach ($files as $file) {
+                $path = $file->store('foto_kamar', 'public');
+                $dataFoto[] = $path;
+            }
+
+            // Masukkan data JSON foto baru ke properties model
+            $kamar->foto_kamar = json_encode($dataFoto);
+        }
+
+        $kamar->no_kamar = $request->no_kamar;
+        $kamar->tipe_kamar = $request->tipe_kamar;
+        $kamar->status_kamar = $request->status_kamar;
+        $kamar->harga_per_malam = $request->harga_per_malam;
+        $kamar->deskripsi = $request->deskripsi;
+        $kamar->save();
 
         return redirect()->route('admin.kamar')->with('success', 'Kamar berhasil diperbarui');
     }
@@ -309,6 +359,12 @@ class AdminController extends Controller
 
         if (!$kamar) {
             return redirect()->route('admin.kamar')->with('error', 'Kamar tidak ditemukan');
+        }
+
+        // Hapus file fisik gambar dari storage public sebelum record dihapus total
+        $fotoLama = json_decode($kamar->foto_kamar, true) ?? [];
+        foreach ($fotoLama as $foto) {
+            Storage::disk('public')->delete($foto);
         }
 
         $kamar->delete();
