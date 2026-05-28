@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Staff;
+use App\Models\Kamar;
 use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
@@ -189,47 +190,105 @@ class AdminController extends Controller
     }
 
     /*KAMAR*/
-    //MASIH DALAM PENGEMBANGAN, BELUM ADA FUNGSI NYA
 
-    public function kamarIndex()
+    public function kamarIndex(Request $request)
     {
-        return view('admin.kelolakamar');
+        $search = $request->query('search');
+        $type = $request->query('type');
+        $status = $request->query('status');
+
+        $kamars = Kamar::query();
+
+        if ($search) {
+            $kamars->where(function ($query) use ($search) {
+                $query->where('no_kamar', 'like', '%' . $search . '%')
+                    ->orWhere('tipe_kamar', 'like', '%' . $search . '%')
+                    ->orWhere('deskripsi', 'like', '%' . $search . '%');
+            });
+        }
+
+        if ($type) {
+            $kamars->where('tipe_kamar', $type);
+        }
+
+        if ($status) {
+            $kamars->where('status_kamar', $status);
+        }
+
+        $kamars = $kamars->orderBy('id_kamar', 'desc')->get();
+
+        return view('admin.kelolakamar', compact('kamars', 'search', 'type', 'status'));
     }
 
     public function kamarCreate()
     {
-        return view('admin.tambah_kamar');
+        return redirect()->route('admin.kamar');
     }
 
     public function kamarStore(Request $request)
     {
         $validatedData = $request->validate([
-            'room_number' => 'required|string|max:10|unique:rooms',
-            'room_type' => 'required|string|max:255',
-            'price' => 'required|integer|min:0',
-            'description' => 'nullable|string',
+            'no_kamar' => 'required|string|max:10|unique:kamar,no_kamar',
+            'tipe_kamar' => 'required|string|in:Kamar Deluxe,Kamar Superior,Kamar Suite',
+            'status_kamar' => 'required|string|in:tersedia,terisi',
+            'harga_per_malam' => 'required|integer|min:0',
+            'deskripsi' => 'nullable|string|max:255',
+        ], [
+            'harga_per_malam.required' => 'Harga per malam wajib diisi.',
+            'harga_per_malam.integer' => 'Harga per malam harus berupa angka.',
+            'harga_per_malam.min' => 'Harga per malam tidak boleh negatif.',
         ]);
+
+        Kamar::create($validatedData);
 
         return redirect()->route('admin.kamar')->with('success', 'Kamar berhasil ditambahkan');
     }
 
     public function kamarShow($id)
     {
-        return view('admin.detail_kamar');
+        return redirect()->route('admin.kamar');
     }
 
     public function kamarEdit($id)
     {
-        return view('admin.edit_kamar');
+        return redirect()->route('admin.kamar');
     }
 
     public function kamarUpdate(Request $request, $id)
     {
+        $kamar = Kamar::find($id);
+
+        if (!$kamar) {
+            return redirect()->route('admin.kamar')->with('error', 'Kamar tidak ditemukan');
+        }
+
+        $validatedData = $request->validate([
+            'no_kamar' => 'required|string|max:10|unique:kamar,no_kamar,' . $kamar->id_kamar . ',id_kamar',
+            'tipe_kamar' => 'required|string|in:Kamar Deluxe,Kamar Superior,Kamar Suite',
+            'status_kamar' => 'required|string|in:tersedia,terisi',
+            'harga_per_malam' => 'required|integer|min:0',
+            'deskripsi' => 'nullable|string|max:255',
+        ], [
+            'harga_per_malam.required' => 'Harga per malam wajib diisi.',
+            'harga_per_malam.integer' => 'Harga per malam harus berupa angka.',
+            'harga_per_malam.min' => 'Harga per malam tidak boleh negatif.',
+        ]);
+
+        $kamar->update($validatedData);
+
         return redirect()->route('admin.kamar')->with('success', 'Kamar berhasil diperbarui');
     }
 
     public function kamarDestroy($id)
     {
+        $kamar = Kamar::find($id);
+
+        if (!$kamar) {
+            return redirect()->route('admin.kamar')->with('error', 'Kamar tidak ditemukan');
+        }
+
+        $kamar->delete();
+
         return redirect()->route('admin.kamar')->with('success', 'Kamar berhasil dihapus');
     }
 }

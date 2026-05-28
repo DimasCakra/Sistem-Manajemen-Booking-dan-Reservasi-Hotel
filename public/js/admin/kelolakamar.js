@@ -7,8 +7,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const detailModalTitle = document.getElementById('detailModalTitle');
     const detailModalSubtitle = document.getElementById('detailModalSubtitle');
     const editSaveButton = document.getElementById('editSaveButton');
+    const detailForm = document.getElementById('detailModalForm');
+    const searchForm = document.getElementById('searchFilterForm');
+    const searchInput = document.getElementById('searchInput');
+    const filterType = document.getElementById('filterType');
+    const filterStatus = document.getElementById('filterStatus');
+
     let currentRow = null;
     let currentMode = 'view';
+    let debounceTimer = null;
 
     const modalFields = {
         roomNumber: document.getElementById('detailRoomNumber'),
@@ -44,9 +51,9 @@ document.addEventListener('DOMContentLoaded', () => {
         detailModalSubtitle.textContent = mode === 'edit' ? 'Perbarui data kamar dan tekan Simpan Perubahan.' : 'Lihat detail kamar dengan aman.';
         editSaveButton.textContent = mode === 'edit' ? 'Simpan Perubahan' : 'Edit Kamar';
         modalFields.roomNumber.readOnly = !isEditable;
-        modalFields.roomType.readOnly = !isEditable;
+        modalFields.roomType.disabled = !isEditable;
         modalFields.price.readOnly = !isEditable;
-        modalFields.status.readOnly = !isEditable;
+        modalFields.status.disabled = !isEditable;
         modalFields.description.readOnly = !isEditable;
         if (mode === 'view') {
             editSaveButton.classList.remove('bg-forest-700');
@@ -65,6 +72,10 @@ document.addEventListener('DOMContentLoaded', () => {
         modalFields.status.value = row.dataset.roomStatus || '';
         modalFields.description.value = row.dataset.roomDescription || '';
         modalFields.image.src = row.dataset.roomImage || 'https://via.placeholder.com/640x360';
+
+        if (detailForm) {
+            detailForm.action = `/kamar/${row.dataset.roomId}`;
+        }
     }
 
     function handleViewClick(event) {
@@ -86,29 +97,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function handleDeleteClick(event) {
-        const row = event.target.closest('tr');
-        if (!row) return;
-        const roomNumber = row.dataset.roomNumber || 'kamar ini';
+        const button = event.target.closest('button');
+        const form = button ? button.closest('form') : null;
+        if (!form) return;
+        const row = form.closest('tr');
+        const roomNumber = row ? row.dataset.roomNumber || 'kamar ini' : 'kamar ini';
         const confirmed = confirm(`Hapus ${roomNumber}? Tindakan ini tidak dapat dikembalikan.`);
         if (confirmed) {
-            row.remove();
+            form.submit();
         }
-    }
-
-    function applyModalUpdates() {
-        if (!currentRow) return;
-        currentRow.dataset.roomNumber = modalFields.roomNumber.value;
-        currentRow.dataset.roomType = modalFields.roomType.value;
-        currentRow.dataset.price = modalFields.price.value;
-        currentRow.dataset.roomStatus = modalFields.status.value;
-        currentRow.dataset.roomDescription = modalFields.description.value;
-
-        currentRow.querySelector('td:nth-child(1)').textContent = modalFields.roomNumber.value;
-        currentRow.querySelector('td:nth-child(2)').textContent = modalFields.roomType.value;
-        currentRow.querySelector('td:nth-child(3)').textContent = modalFields.price.value;
-        currentRow.querySelector('td:nth-child(5) span').textContent = modalFields.status.value;
-        currentRow.querySelector('td:nth-child(6)').textContent = modalFields.description.value;
-        closeModal(detailModal);
     }
 
     if (openCreateModalButton) {
@@ -142,8 +139,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 setModalMode('edit');
                 return;
             }
-            applyModalUpdates();
+            if (detailForm) {
+                detailForm.submit();
+            }
         });
+    }
+
+    if (searchInput && searchForm) {
+        searchInput.addEventListener('input', () => {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => searchForm.submit(), 350);
+        });
+    }
+
+    if (filterType && searchForm) {
+        filterType.addEventListener('change', () => searchForm.submit());
+    }
+
+    if (filterStatus && searchForm) {
+        filterStatus.addEventListener('change', () => searchForm.submit());
     }
 
     document.addEventListener('keydown', event => {

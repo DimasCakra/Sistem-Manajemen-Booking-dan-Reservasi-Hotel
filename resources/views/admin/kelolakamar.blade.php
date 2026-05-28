@@ -46,31 +46,49 @@
             </button>
         </div>
 
-        <div class="mb-6 flex flex-col md:flex-row gap-4 items-center justify-between fade-up" style="animation-delay: 0.05s">
+        @if(session('success'))
+            <div class="mb-6 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 px-6 py-4">
+                {{ session('success') }}
+            </div>
+        @endif
+        @if(session('error'))
+            <div class="mb-6 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 px-6 py-4">
+                {{ session('error') }}
+            </div>
+        @endif
+        @if ($errors->any())
+            <div class="mb-6 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 px-6 py-4">
+                <ul class="list-disc list-inside">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <form id="searchFilterForm" method="GET" action="{{ route('admin.kamar') }}" class="mb-6 flex flex-col md:flex-row gap-4 items-center justify-between fade-up" style="animation-delay: 0.05s">
             <div class="relative w-full md:w-80">
                 <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                     <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                     </svg>
                 </span>
-                <input type="text" id="searchInput" class="w-full pl-10 pr-4 py-3 bg-white border border-forest-100 rounded-xl text-sm focus:border-forest-500 focus:ring-4 focus:ring-forest-100 outline-none transition-all text-slate-900" placeholder="Cari nomor atau tipe kamar..." />
+                <input name="search" type="text" id="searchInput" value="{{ old('search', $search ?? '') }}" class="w-full pl-10 pr-4 py-3 bg-white border border-forest-100 rounded-xl text-sm focus:border-forest-500 focus:ring-4 focus:ring-forest-100 outline-none transition-all text-slate-900" placeholder="Cari nomor atau tipe kamar..." />
             </div>
-
             <div class="flex gap-3 w-full md:w-auto">
-                <select id="filterType" class="w-full md:w-44 px-4 py-3 bg-white border border-forest-100 rounded-xl text-sm focus:border-forest-500 outline-none text-slate-700 font-medium cursor-pointer">
+                <select name="type" id="filterType" class="w-full md:w-44 px-4 py-3 bg-white border border-forest-100 rounded-xl text-sm focus:border-forest-500 outline-none text-slate-700 font-medium cursor-pointer">
                     <option value="">Semua Tipe</option>
-                    <option value="Kamar Deluxe">Kamar Deluxe</option>
-                    <option value="Kamar Superior">Kamar Superior</option>
-                    <option value="Kamar Suite">Kamar Suite</option>
+                    <option value="Kamar Deluxe" {{ (isset($type) && $type === 'Kamar Deluxe') ? 'selected' : '' }}>Kamar Deluxe</option>
+                    <option value="Kamar Superior" {{ (isset($type) && $type === 'Kamar Superior') ? 'selected' : '' }}>Kamar Superior</option>
+                    <option value="Kamar Suite" {{ (isset($type) && $type === 'Kamar Suite') ? 'selected' : '' }}>Kamar Suite</option>
                 </select>
-
-                <select id="filterStatus" class="w-full md:w-44 px-4 py-3 bg-white border border-forest-100 rounded-xl text-sm focus:border-forest-500 outline-none text-slate-700 font-medium cursor-pointer">
+                <select name="status" id="filterStatus" class="w-full md:w-44 px-4 py-3 bg-white border border-forest-100 rounded-xl text-sm focus:border-forest-500 outline-none text-slate-700 font-medium cursor-pointer">
                     <option value="">Semua Status</option>
-                    <option value="Tersedia">Tersedia</option>
-                    <option value="Terisi">Terisi</option>
+                    <option value="tersedia" {{ (isset($status) && $status === 'tersedia') ? 'selected' : '' }}>Tersedia</option>
+                    <option value="terisi" {{ (isset($status) && $status === 'terisi') ? 'selected' : '' }}>Terisi</option>
                 </select>
             </div>
-        </div>
+        </form>
 
         <div class="bg-white rounded-xl shadow-sm border border-forest-100 overflow-hidden fade-up" style="animation-delay: 0.1s">
             <table class="w-full text-left">
@@ -86,36 +104,48 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100" id="roomTableBody">
-                    <tr class="hover:bg-forest-50/50 transition-colors group" data-room-id="101" data-room-number="101" data-room-type="Kamar Deluxe" data-price="Rp 1.500.000" data-room-code="RM-101" data-room-status="Tersedia" data-room-description="Kamar mewah dengan akses langsung ke balkon dengan pemandangan taman yang indah" data-room-image="https://via.placeholder.com/640x360">
-                        <td class="px-8 py-6 font-bold text-black">101</td>
-                        <td class="px-6 py-6 text-center text-sm text-black">Kamar Deluxe</td>
-                        <td class="px-6 py-6 text-center text-sm font-semibold text-black">Rp 1.500.000</td>
-                        <td class="px-6 py-6 text-center text-sm font-mono text-black uppercase">RM-101</td>
-                        <td class="px-6 py-6 text-center">
-                            <span class="bg-forest-200 text-forest-700 px-6 py-2 rounded-md text-[10px] font-bold uppercase tracking-wider">Tersedia</span>
-                        </td>
-                        <td class="px-6 py-6 text-xs text-gray-500 max-w-[200px] truncate">Kamar mewah dengan akses langsung ke balkon dengan pemandangan taman yang indah</td>
-                        <td class="px-8 py-6 border-l border-forest-600/40">
-                            <div class="flex justify-center gap-4">
-                                <button type="button" class="btn-view text-blue-600 hover:text-blue-800 transition-transform hover:scale-110" title="Detail Kamar">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-                                    </svg>
-                                </button>
-                                <button type="button" class="btn-edit text-amber-500 hover:text-amber-700 transition-transform hover:scale-110" title="Edit Kamar">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-                                    </svg>
-                                </button>
-                                <button type="button" class="btn-delete text-red-500 hover:text-red-700 transition-transform hover:scale-110" title="Hapus Kamar">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-4v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                                    </svg>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
+                    @forelse($kamars as $kamar)
+                        <tr class="hover:bg-forest-50/50 transition-colors group" data-room-id="{{ $kamar->id_kamar }}" data-room-number="{{ $kamar->no_kamar }}" data-room-type="{{ $kamar->tipe_kamar }}" data-price="Rp {{ number_format($kamar->harga_per_malam, 0, ',', '.') }}" data-room-status="{{ $kamar->status_kamar }}" data-room-description="{{ $kamar->deskripsi }}" data-room-image="https://via.placeholder.com/640x360">
+                            <td class="px-8 py-6 font-bold text-black">{{ $kamar->no_kamar }}</td>
+                            <td class="px-6 py-6 text-center text-sm text-black">{{ $kamar->tipe_kamar }}</td>
+                            <td class="px-6 py-6 text-center text-sm font-semibold text-black">Rp {{ number_format($kamar->harga_per_malam, 0, ',', '.') }}</td>
+                            <td class="px-6 py-6 text-center text-sm font-mono text-black uppercase">RM-{{ $kamar->id_kamar }}</td>
+                            <td class="px-6 py-6 text-center">
+                                <span class="{{ $kamar->status_kamar === 'tersedia' ? 'bg-forest-200 text-forest-700' : 'bg-red-100 text-red-600' }} px-6 py-2 rounded-md text-[10px] font-bold uppercase tracking-wider">
+                                    {{ ucfirst($kamar->status_kamar) }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-6 text-xs text-gray-500 max-w-[200px] truncate">{{ $kamar->deskripsi }}</td>
+                            <td class="px-8 py-6 border-l border-forest-600/40">
+                                <div class="flex justify-center gap-4">
+                                    <button type="button" class="btn-view text-blue-600 hover:text-blue-800 transition-transform" title="Detail Kamar">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                        </svg>
+                                    </button>
+                                    <button type="button" class="btn-edit text-amber-500 hover:text-amber-700 transition-transform" title="Edit Kamar">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                        </svg>
+                                    </button>
+                                    <form action="{{ route('admin.kamar.destroy', $kamar->id_kamar) }}" method="POST" class="inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="button" class="btn-delete text-red-500 hover:text-red-700 transition-transform" title="Hapus Kamar">
+                                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-4v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                            </svg>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="7" class="px-8 py-12 text-center text-sm text-slate-500">Tidak ada kamar ditemukan.</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
@@ -130,32 +160,38 @@
                 </div>
                 <button type="button" class="modal-close text-slate-500 hover:text-slate-900" aria-label="Tutup">✕</button>
             </div>
-            <form action="{{ route('admin.kamar.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6 px-8 py-6">
+            <form action="{{ route('admin.kamar.store') }}" method="POST" class="space-y-6 px-8 py-6">
                 @csrf
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label class="text-sm font-semibold text-slate-700">No Kamar</label>
-                        <input name="room_number" type="text" required class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 focus:border-forest-500 focus:ring-4 focus:ring-forest-100 outline-none" placeholder="Masukkan nomor kamar" />
+                        <input name="no_kamar" type="text" value="{{ old('no_kamar') }}" required class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 focus:border-forest-500 focus:ring-4 focus:ring-forest-100 outline-none" placeholder="Masukkan nomor kamar" />
                     </div>
                     <div>
                         <label class="text-sm font-semibold text-slate-700">Tipe Kamar</label>
-                        <input name="room_type" type="text" required class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 focus:border-forest-500 focus:ring-4 focus:ring-forest-100 outline-none" placeholder="Contoh: Deluxe" />
+                        <select name="tipe_kamar" required class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 focus:border-forest-500 focus:ring-4 focus:ring-forest-100 outline-none">
+                            <option value="">Pilih tipe kamar</option>
+                            <option value="Kamar Deluxe" {{ old('tipe_kamar') === 'Kamar Deluxe' ? 'selected' : '' }}>Kamar Deluxe</option>
+                            <option value="Kamar Superior" {{ old('tipe_kamar') === 'Kamar Superior' ? 'selected' : '' }}>Kamar Superior</option>
+                            <option value="Kamar Suite" {{ old('tipe_kamar') === 'Kamar Suite' ? 'selected' : '' }}>Kamar Suite</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-sm font-semibold text-slate-700">Status</label>
+                        <select name="status_kamar" required class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 focus:border-forest-500 focus:ring-4 focus:ring-forest-100 outline-none">
+                            <option value="">Pilih status kamar</option>
+                            <option value="tersedia" {{ old('status_kamar') === 'tersedia' ? 'selected' : '' }}>Tersedia</option>
+                            <option value="terisi" {{ old('status_kamar') === 'terisi' ? 'selected' : '' }}>Terisi</option>
+                        </select>
                     </div>
                     <div>
                         <label class="text-sm font-semibold text-slate-700">Harga</label>
-                        <input name="price" type="number" min="0" required class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 focus:border-forest-500 focus:ring-4 focus:ring-forest-100 outline-none" placeholder="Masukkan harga" />
-                    </div>
-                    <div>
-                        <label class="text-sm font-semibold text-slate-700">Foto Kamar</label>
-                        <input name="photo" type="file" accept="image/*" class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900" />
+                        <input name="harga_per_malam" type="number" min="0" value="{{ old('harga_per_malam') }}" required class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 focus:border-forest-500 focus:ring-4 focus:ring-forest-100 outline-none" placeholder="Masukkan harga" />
                     </div>
                 </div>
                 <div>
                     <label class="text-sm font-semibold text-slate-700">Deskripsi</label>
-                    <textarea name="description" rows="4" class="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-900 focus:border-forest-500 focus:ring-4 focus:ring-forest-100 outline-none" placeholder="Tuliskan detail kamar..."></textarea>
-                </div>
-                <div class="rounded-2xl bg-slate-50 p-4 text-sm text-slate-600 border border-slate-200">
-                    <p>ID kamar akan dibuat otomatis setelah data tersimpan.</p>
+                    <textarea name="deskripsi" rows="4" class="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-900 focus:border-forest-500 focus:ring-4 focus:ring-forest-100 outline-none" placeholder="Tuliskan detail kamar...">{{ old('deskripsi') }}</textarea>
                 </div>
                 <div class="flex justify-end gap-3 pt-2">
                     <button type="button" class="modal-close px-6 py-3 rounded-xl bg-slate-100 text-slate-700 font-bold hover:bg-slate-200 transition">Batal</button>
@@ -174,19 +210,25 @@
                 </div>
                 <button type="button" class="modal-close text-slate-500 hover:text-slate-900" aria-label="Tutup">✕</button>
             </div>
-            <div class="px-8 py-6 space-y-6">
+            <form id="detailModalForm" method="POST" action="" class="px-8 py-6 space-y-6">
+                @csrf
+                @method('PUT')
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label class="text-sm font-semibold text-slate-700">No Kamar</label>
-                        <input id="detailRoomNumber" type="text" class="modal-field mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 outline-none" readonly />
+                        <input id="detailRoomNumber" name="no_kamar" type="text" class="modal-field mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 outline-none" readonly />
                     </div>
                     <div>
                         <label class="text-sm font-semibold text-slate-700">Tipe Kamar</label>
-                        <input id="detailRoomType" type="text" class="modal-field mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 outline-none" readonly />
+                        <select id="detailRoomType" name="tipe_kamar" class="modal-field mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 outline-none" disabled>
+                            <option value="Kamar Deluxe">Kamar Deluxe</option>
+                            <option value="Kamar Superior">Kamar Superior</option>
+                            <option value="Kamar Suite">Kamar Suite</option>
+                        </select>
                     </div>
                     <div>
                         <label class="text-sm font-semibold text-slate-700">Harga</label>
-                        <input id="detailRoomPrice" type="text" class="modal-field mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 outline-none" readonly />
+                        <input id="detailRoomPrice" name="harga_per_malam" type="text" class="modal-field mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 outline-none" readonly />
                     </div>
                     <div>
                         <label class="text-sm font-semibold text-slate-700">ID Kamar</label>
@@ -196,11 +238,14 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div>
                         <label class="text-sm font-semibold text-slate-700">Status</label>
-                        <input id="detailRoomStatus" type="text" class="modal-field mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 outline-none" readonly />
+                        <select id="detailRoomStatus" name="status_kamar" class="modal-field mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 outline-none" disabled>
+                            <option value="tersedia">Tersedia</option>
+                            <option value="terisi">Terisi</option>
+                        </select>
                     </div>
                     <div class="md:col-span-2">
                         <label class="text-sm font-semibold text-slate-700">Deskripsi</label>
-                        <textarea id="detailRoomDescription" rows="4" class="modal-field mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-900 outline-none" readonly></textarea>
+                        <textarea id="detailRoomDescription" name="deskripsi" rows="4" class="modal-field mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-900 outline-none" readonly></textarea>
                     </div>
                 </div>
                 <div>
@@ -211,7 +256,7 @@
                     <button type="button" class="modal-close px-6 py-3 rounded-xl bg-slate-100 text-slate-700 font-bold hover:bg-slate-200 transition">Tutup</button>
                     <button id="editSaveButton" type="button" class="px-6 py-3 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-700 transition">Edit Kamar</button>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 
