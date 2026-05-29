@@ -10,7 +10,7 @@ class Kamar extends Model
     protected $primaryKey = 'id_kamar';
     public $incrementing = true;
     protected $keyType = 'int';
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $fillable = [
         'no_kamar',
