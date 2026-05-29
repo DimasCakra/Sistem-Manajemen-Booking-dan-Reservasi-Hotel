@@ -12,6 +12,8 @@ class Staff extends Authenticatable
         'id_admin',
         'id_resepsionis',
         'name',
+        'email',
+        'no_hp',
         'password',
         'role',
     ];

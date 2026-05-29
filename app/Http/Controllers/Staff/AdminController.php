@@ -12,8 +12,7 @@ use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
-    /*TAMU*/
-
+    // Tamu
     public function tamuIndex()
     {
         $tamus = User::latest()->get();
@@ -103,8 +102,7 @@ class AdminController extends Controller
         return redirect()->route('admin.tamu')->with('success', 'Tamu berhasil dihapus');
     }
 
-    /*RESEPSIONIS*/
-
+    // resepsionis
     public function resepsionisIndex()
     {
         $resepsionis = Staff::where('role', 'receptionist')->latest()->get();
@@ -119,13 +117,17 @@ class AdminController extends Controller
     public function resepsionisStore(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255|unique:staffs',
+            'name' => 'required|string|max:100|unique:staffs,name',
+            'email' => 'required|email|max:100|unique:staffs,email',
+            'no_hp' => 'nullable|string|max:20',
             'password' => 'required|string|min:8',
         ]);
 
+        $count = Staff::where('role', 'receptionist')->count() + 1;
+        $validatedData['id_resepsionis'] = 'RSP-' . str_pad($count, 3, '0', STR_PAD_LEFT);
+
         $validatedData['role'] = 'receptionist';
-        $validatedData['password'] = Hash::make($validatedData['password']);
-        $validatedData['id_resepsionis'] = 'RSP-' . str_pad(Staff::where('role', 'receptionist')->count() + 1, 3, '0', STR_PAD_LEFT);
+        $validatedData['password'] = Hash::make($request->password);
 
         Staff::create($validatedData);
 
@@ -163,7 +165,9 @@ class AdminController extends Controller
         }
 
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255|unique:staffs,name,' . $resepsionis->id,
+            'name' => 'required|string|max:100|unique:staffs,name,' . $resepsionis->id,
+            'email' => 'required|email|max:100|unique:staffs,email,' . $resepsionis->id,
+            'no_hp' => 'nullable|string|max:20',
             'password' => 'nullable|string|min:8',
         ]);
 
@@ -190,8 +194,7 @@ class AdminController extends Controller
         return redirect()->route('admin.resepsionis')->with('success', 'Resepsionis berhasil dihapus');
     }
 
-    /*KAMAR*/
-
+    // Kamar
     public function kamarIndex(Request $request)
     {
         $search = $request->query('search');
@@ -234,7 +237,7 @@ class AdminController extends Controller
             'status_kamar' => 'required|string|in:tersedia,terisi',
             'harga_per_malam' => 'required|integer|min:0',
             'deskripsi' => 'nullable|string|max:255',
-            'foto_kamar.*' => 'image|mimes:jpeg,png,jpg|max:2048' // Validasi per file gambar
+            'foto_kamar.*' => 'image|mimes:jpeg,png,jpg|max:2048'
         ], [
             'no_kamar.required' => 'Nomor kamar wajib diisi.',
             'no_kamar.string' => 'Nomor kamar harus berupa teks.',
@@ -258,7 +261,6 @@ class AdminController extends Controller
 
         $dataFoto = [];
         if ($request->hasFile('foto_kamar')) {
-            // Membatasi array upload hanya mengambil maksimal 5 file teratas
             $files = array_slice($request->file('foto_kamar'), 0, 5);
             foreach ($files as $file) {
                 $path = $file->store('foto_kamar', 'public');
@@ -272,7 +274,7 @@ class AdminController extends Controller
             'status_kamar' => $request->status_kamar,
             'harga_per_malam' => $request->harga_per_malam,
             'deskripsi' => $request->deskripsi,
-            'foto_kamar' => json_encode($dataFoto) // Array nama file disimpan dalam bentuk format JSON string
+            'foto_kamar' => json_encode($dataFoto)
         ]);
 
         return redirect()->route('admin.kamar')->with('success', 'Kamar berhasil ditambahkan');
@@ -324,9 +326,7 @@ class AdminController extends Controller
             'foto_kamar.*.max' => 'Ukuran gambar maksimal adalah 2MB.'
         ]);
 
-        // Mengganti semua foto jika ada kiriman file baru dari input modal edit
         if ($request->hasFile('foto_kamar')) {
-            // Hapus file fisik gambar-gambar lama di folder storage agar tidak menumpuk sampah data
             $fotoLama = json_decode($kamar->foto_kamar, true) ?? [];
             foreach ($fotoLama as $foto) {
                 Storage::disk('public')->delete($foto);
@@ -339,7 +339,6 @@ class AdminController extends Controller
                 $dataFoto[] = $path;
             }
 
-            // Masukkan data JSON foto baru ke properties model
             $kamar->foto_kamar = json_encode($dataFoto);
         }
 
@@ -361,7 +360,6 @@ class AdminController extends Controller
             return redirect()->route('admin.kamar')->with('error', 'Kamar tidak ditemukan');
         }
 
-        // Hapus file fisik gambar dari storage public sebelum record dihapus total
         $fotoLama = json_decode($kamar->foto_kamar, true) ?? [];
         foreach ($fotoLama as $foto) {
             Storage::disk('public')->delete($foto);
