@@ -188,7 +188,7 @@
 
                     </div>
 
-                    <!-- WhatsApp & Birthday -->
+                    <!-- WhatsApp & Tanggal Lahir -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                         <div class="space-y-2">
@@ -211,7 +211,7 @@
                                 Tanggal Lahir
                             </label>
 
-                            <input type="date" name="birthday" value="{{ old('birthday', $user->birthday ?? '') }}"
+                            <input type="date" name="tanggal_lahir" value="{{ old('tanggal_lahir', $user->tanggal_lahir ?? '') }}"
                                 class="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-[#8C6A1A] focus:border-transparent transition-all outline-none text-gray-800 font-medium text-gray-500">
 
                         </div>

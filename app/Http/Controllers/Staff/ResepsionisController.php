@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Reservation;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class ResepsionisController extends Controller
 {
@@ -21,7 +22,7 @@ class ResepsionisController extends Controller
 
     public function tamuCreate()
     {
-        return view('resepsionis.tambah_tamu');
+        return redirect()->route('resepsionis.tamu');
     }
 
     public function tamuStore(Request $request)
@@ -30,11 +31,17 @@ class ResepsionisController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'whatsapp' => 'required|string|max:20',
-            'username' => 'nullable|string|max:255|unique:users',
+            'tanggal_lahir' => 'nullable|date',
+            'username' => 'required|string|max:255|unique:users',
             'password' => 'required|string|min:8',
+            'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $validatedData['password'] = Hash::make($validatedData['password']);
+
+        if ($request->hasFile('photo')) {
+            $validatedData['photo'] = $request->file('photo')->store('foto_profil', 'public');
+        }
 
         User::create($validatedData);
 

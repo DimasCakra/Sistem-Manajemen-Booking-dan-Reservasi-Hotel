@@ -23,7 +23,7 @@ class AdminController extends Controller
 
     public function tamuCreate()
     {
-        return view('admin.tambah_tamu');
+        return redirect()->route('admin.tamu');
     }
 
     public function tamuStore(Request $request)
@@ -32,7 +32,7 @@ class AdminController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'whatsapp' => 'required|string|max:20',
-            'birthday' => 'required|date', // Sudah diganti sesuai DB di image_7646c8.jpg
+            'tanggal_lahir' => 'nullable|date',
             'username' => 'nullable|string|max:255|unique:users',
             'password' => 'required|string|min:8',
             'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
@@ -69,7 +69,7 @@ class AdminController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $tamu->id,
             'whatsapp' => 'required|string|max:20',
-            'birthday' => 'required|date', // Sudah diganti sesuai DB di image_7646c8.jpg
+            'tanggal_lahir' => 'nullable|date',
             'username' => 'nullable|string|max:255|unique:users,username,' . $tamu->id,
             'password' => 'nullable|string|min:8',
             'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',

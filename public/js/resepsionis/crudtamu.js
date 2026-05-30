@@ -1,8 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const deleteModal = document.getElementById('deleteModal');
+    const openCreateModalButton = document.getElementById('openCreateModal');
+    const createModal = document.getElementById('createModal');
     const modalCloseButtons = document.querySelectorAll('.modal-close');
-    const deleteForm = document.getElementById('deleteForm');
-    const deleteNameLabel = document.getElementById('deleteNameLabel');
     const tableBody = document.querySelector('tbody');
     const searchInput = document.getElementById('searchTamu');
     const filterSelect = document.getElementById('filterField');
@@ -22,38 +21,29 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.remove('overflow-hidden');
     }
 
+    if (openCreateModalButton && createModal) {
+        openCreateModalButton.addEventListener('click', () => openModal(createModal));
+    }
+
     modalCloseButtons.forEach(button => {
         button.addEventListener('click', () => {
-            const targetModal = button.closest('#deleteModal');
+            const targetModal = button.closest('#createModal');
             if (targetModal) closeModal(targetModal);
         });
     });
-
-    if (tableBody) {
-        tableBody.addEventListener('click', event => {
-            const deleteBtn = event.target.closest('.btn-delete');
-            if (deleteBtn) {
-                const id = deleteBtn.dataset.id;
-                const name = deleteBtn.dataset.name;
-                if (deleteForm && deleteNameLabel) {
-                    deleteForm.action = `/admin/tamu/${id}`;
-                    deleteNameLabel.textContent = name;
-                    openModal(deleteModal);
-                }
-            }
-        });
-    }
 
     function filterTable() {
         const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
         const filterField = filterSelect ? filterSelect.value : 'nama';
         const rows = tableBody ? Array.from(tableBody.querySelectorAll('.tamu-row')) : [];
+
         let visibleCount = 0;
 
         rows.forEach(row => {
             const name = row.dataset.name || '';
             const email = row.dataset.email || '';
             const target = filterField === 'email' ? email : name;
+
             if (target.includes(query)) {
                 row.classList.remove('hidden');
                 visibleCount += 1;
@@ -81,8 +71,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.addEventListener('keydown', event => {
         if (event.key === 'Escape') {
-            if (deleteModal && !deleteModal.classList.contains('hidden')) {
-                closeModal(deleteModal);
+            if (createModal && !createModal.classList.contains('hidden')) {
+                closeModal(createModal);
             }
         }
     });
