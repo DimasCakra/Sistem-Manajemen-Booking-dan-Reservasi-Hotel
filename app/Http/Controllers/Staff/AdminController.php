@@ -119,24 +119,36 @@ class AdminController extends Controller
     }
 
     public function resepsionisStore(Request $request)
-    {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:100|unique:staffs,name',
-            'email' => 'required|email|max:100|unique:staffs,email',
-            'no_hp' => 'nullable|string|max:20',
-            'password' => 'required|string|min:8',
-        ]);
+{
+    $validatedData = $request->validate([
+        'name' => 'required|string|max:100|unique:staffs,name',
+        'email' => 'required|email|max:100|unique:staffs,email',
+        'no_hp' => 'nullable|string|max:20',
+        'password' => 'required|string|min:8',
+    ]);
 
-        $count = Staff::where('role', 'receptionist')->count() + 1;
-        $validatedData['id_resepsionis'] = 'RSP-' . str_pad($count, 3, '0', STR_PAD_LEFT);
+    $lastStaff = Staff::where('role', 'receptionist')
+                      ->where('id_resepsionis', 'LIKE', 'RSP-%')
+                      ->orderBy('id_resepsionis', 'desc')
+                      ->first();
 
-        $validatedData['role'] = 'receptionist';
-        $validatedData['password'] = Hash::make($request->password);
-
-        Staff::create($validatedData);
-
-        return redirect()->route('admin.resepsionis')->with('success', 'Resepsionis berhasil ditambahkan');
+    if ($lastStaff) {
+        $lastNumber = (int) substr($lastStaff->id_resepsionis, 4);
+        $nextNumber = $lastNumber + 1;
+    } else {
+        $nextNumber = 1;
     }
+
+    // 2. Format kembali menjadi string RSP-00X
+    $validatedData['id_resepsionis'] = 'RSP-' . str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
+
+    $validatedData['role'] = 'receptionist';
+    $validatedData['password'] = Hash::make($request->password);
+
+    Staff::create($validatedData);
+
+    return redirect()->route('admin.resepsionis')->with('success', 'Resepsionis berhasil ditambahkan');
+}
 
     public function resepsionisShow($id)
     {
