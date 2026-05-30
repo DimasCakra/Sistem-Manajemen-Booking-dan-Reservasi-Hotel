@@ -49,6 +49,8 @@ class DatabaseSeeder extends Seeder
             ['name' => 'resepsionis'],
             [
                 'id_resepsionis' => 'RES-001',
+                'email' => 'resepsionis@stayease.com',
+                'no_hp' => '08123456789',
                 'password' => Hash::make('123456789'),
                 'role' => 'receptionist'
             ]
@@ -58,6 +60,7 @@ class DatabaseSeeder extends Seeder
             ['name' => 'admin'],
             [
                 'id_admin' => 'ADM-001',
+                'email' => 'admin@stayease.com',
                 'password' => Hash::make('123456789'),
                 'role' => 'admin'
             ]

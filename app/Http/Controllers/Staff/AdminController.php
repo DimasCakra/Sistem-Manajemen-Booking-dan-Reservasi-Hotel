@@ -14,10 +14,7 @@ use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
-    /* =========================================================
-    | TAMU (USER)
-    ========================================================= */
-
+    // Tamu
     public function tamuIndex()
     {
         $tamus = User::latest()->get();
@@ -109,10 +106,7 @@ class AdminController extends Controller
         return redirect()->route('admin.tamu')->with('success', 'Tamu berhasil dihapus');
     }
 
-    /* =========================================================
-    | RESEPSIONIS (STAFF)
-    ========================================================= */
-
+    // resepsionis
     public function resepsionisIndex()
     {
         $resepsionis = Staff::where('role', 'receptionist')->latest()->get();
@@ -127,26 +121,17 @@ class AdminController extends Controller
     public function resepsionisStore(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255|unique:staffs',
+            'name' => 'required|string|max:100|unique:staffs,name',
+            'email' => 'required|email|max:100|unique:staffs,email',
+            'no_hp' => 'nullable|string|max:20',
             'password' => 'required|string|min:8',
         ]);
 
+        $count = Staff::where('role', 'receptionist')->count() + 1;
+        $validatedData['id_resepsionis'] = 'RSP-' . str_pad($count, 3, '0', STR_PAD_LEFT);
+
         $validatedData['role'] = 'receptionist';
-        $validatedData['password'] = Hash::make($validatedData['password']);
-
-        $lastStaff = Staff::where('role', 'receptionist')
-            ->where('id_resepsionis', 'like', 'RSP-%')
-            ->orderBy('id_resepsionis', 'desc')
-            ->first();
-
-        if ($lastStaff) {
-            $lastNumber = (int) substr($lastStaff->id_resepsionis, 4);
-            $nextNumber = $lastNumber + 1;
-        } else {
-            $nextNumber = 1;
-        }
-
-        $validatedData['id_resepsionis'] = 'RSP-' . str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
+        $validatedData['password'] = Hash::make($request->password);
 
         Staff::create($validatedData);
 
@@ -170,7 +155,9 @@ class AdminController extends Controller
         $resepsionis = Staff::findOrFail($id);
 
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255|unique:staffs,name,' . $resepsionis->id,
+            'name' => 'required|string|max:100|unique:staffs,name,' . $resepsionis->id,
+            'email' => 'required|email|max:100|unique:staffs,email,' . $resepsionis->id,
+            'no_hp' => 'nullable|string|max:20',
             'password' => 'nullable|string|min:8',
         ]);
 
@@ -193,10 +180,7 @@ class AdminController extends Controller
         return redirect()->route('admin.resepsionis')->with('success', 'Resepsionis berhasil dihapus');
     }
 
-    /* =========================================================
-    | KAMAR
-    ========================================================= */
-
+    // Kamar
     public function kamarIndex(Request $request)
     {
         $search = $request->query('search');
@@ -239,7 +223,6 @@ class AdminController extends Controller
             'status_kamar' => 'required|string|in:tersedia,terisi',
             'harga_per_malam' => 'required|integer|min:0',
             'deskripsi' => 'nullable|string|max:255',
-            'foto_kamar' => 'nullable|array',
             'foto_kamar.*' => 'image|mimes:jpeg,png,jpg|max:2048'
         ], [
             'no_kamar.required' => 'Nomor kamar wajib diisi.',

@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('staffs', function (Blueprint $table) {
             $table->id();
-            $table->string('id_admin')->nullable()->unique();
-            $table->string('id_resepsionis')->nullable()->unique();
-            $table->string('name')->unique();
+            $table->string('id_admin', 100)->nullable()->unique();
+            $table->string('id_resepsionis', 100)->nullable()->unique();
+            $table->string('name', 100)->unique();
+            $table->string('email', 100)->unique();
+            $table->string('no_hp', 20)->nullable();
             $table->string('password');
             $table->enum('role', ['admin', 'receptionist']);
             $table->timestamps();
