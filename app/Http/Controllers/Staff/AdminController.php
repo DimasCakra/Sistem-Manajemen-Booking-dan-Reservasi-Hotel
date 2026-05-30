@@ -4,15 +4,19 @@ namespace App\Http\Controllers\Staff;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+
 use App\Models\User;
 use App\Models\Staff;
 use App\Models\Kamar;
+
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
-    /*TAMU*/
+    /* =========================================================
+    | TAMU (USER)
+    ========================================================= */
 
     public function tamuIndex()
     {
@@ -31,11 +35,17 @@ class AdminController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'whatsapp' => 'required|string|max:20',
+            'birthday' => 'required|date', // Sudah diganti sesuai DB di image_7646c8.jpg
             'username' => 'nullable|string|max:255|unique:users',
             'password' => 'required|string|min:8',
+            'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $validatedData['password'] = Hash::make($validatedData['password']);
+
+        if ($request->hasFile('photo')) {
+            $validatedData['photo'] = $request->file('photo')->store('foto_profil', 'public');
+        }
 
         User::create($validatedData);
 
@@ -44,46 +54,41 @@ class AdminController extends Controller
 
     public function tamuShow($id)
     {
-        $tamu = User::find($id);
-
-        if (!$tamu) {
-            return redirect()->route('admin.tamu')->with('error', 'Tamu tidak ditemukan');
-        }
-
+        $tamu = User::findOrFail($id);
         return view('admin.detail_tamu', compact('tamu'));
     }
 
     public function tamuEdit($id)
     {
-        $tamu = User::find($id);
-
-        if (!$tamu) {
-            return redirect()->route('admin.tamu')->with('error', 'Tamu tidak ditemukan');
-        }
-
+        $tamu = User::findOrFail($id);
         return view('admin.edit_tamu', compact('tamu'));
     }
 
     public function tamuUpdate(Request $request, $id)
     {
-        $tamu = User::find($id);
-
-        if (!$tamu) {
-            return redirect()->route('admin.tamu')->with('error', 'Tamu tidak ditemukan');
-        }
+        $tamu = User::findOrFail($id);
 
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $tamu->id,
             'whatsapp' => 'required|string|max:20',
+            'birthday' => 'required|date', // Sudah diganti sesuai DB di image_7646c8.jpg
             'username' => 'nullable|string|max:255|unique:users,username,' . $tamu->id,
             'password' => 'nullable|string|min:8',
+            'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        if ($validatedData['password']) {
+        if (!empty($validatedData['password'])) {
             $validatedData['password'] = Hash::make($validatedData['password']);
         } else {
             unset($validatedData['password']);
+        }
+
+        if ($request->hasFile('photo')) {
+            if ($tamu->photo && Storage::disk('public')->exists($tamu->photo)) {
+                Storage::disk('public')->delete($tamu->photo);
+            }
+            $validatedData['photo'] = $request->file('photo')->store('foto_profil', 'public');
         }
 
         $tamu->update($validatedData);
@@ -93,17 +98,20 @@ class AdminController extends Controller
 
     public function tamuDestroy($id)
     {
-        $tamu = User::find($id);
+        $tamu = User::findOrFail($id);
 
-        if (!$tamu) {
-            return redirect()->route('admin.tamu')->with('error', 'Tamu tidak ditemukan');
+        if ($tamu->photo && Storage::disk('public')->exists($tamu->photo)) {
+            Storage::disk('public')->delete($tamu->photo);
         }
 
         $tamu->delete();
+
         return redirect()->route('admin.tamu')->with('success', 'Tamu berhasil dihapus');
     }
 
-    /*RESEPSIONIS*/
+    /* =========================================================
+    | RESEPSIONIS (STAFF)
+    ========================================================= */
 
     public function resepsionisIndex()
     {
@@ -125,7 +133,20 @@ class AdminController extends Controller
 
         $validatedData['role'] = 'receptionist';
         $validatedData['password'] = Hash::make($validatedData['password']);
-        $validatedData['id_resepsionis'] = 'RSP-' . str_pad(Staff::where('role', 'receptionist')->count() + 1, 3, '0', STR_PAD_LEFT);
+
+        $lastStaff = Staff::where('role', 'receptionist')
+            ->where('id_resepsionis', 'like', 'RSP-%')
+            ->orderBy('id_resepsionis', 'desc')
+            ->first();
+
+        if ($lastStaff) {
+            $lastNumber = (int) substr($lastStaff->id_resepsionis, 4);
+            $nextNumber = $lastNumber + 1;
+        } else {
+            $nextNumber = 1;
+        }
+
+        $validatedData['id_resepsionis'] = 'RSP-' . str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
 
         Staff::create($validatedData);
 
@@ -134,40 +155,26 @@ class AdminController extends Controller
 
     public function resepsionisShow($id)
     {
-        $resepsionis = Staff::find($id);
-
-        if (!$resepsionis) {
-            return redirect()->route('admin.resepsionis')->with('error', 'Resepsionis tidak ditemukan');
-        }
-
+        $resepsionis = Staff::findOrFail($id);
         return view('admin.detail_resepsionis', compact('resepsionis'));
     }
 
     public function resepsionisEdit($id)
     {
-        $resepsionis = Staff::find($id);
-
-        if (!$resepsionis) {
-            return redirect()->route('admin.resepsionis')->with('error', 'Resepsionis tidak ditemukan');
-        }
-
+        $resepsionis = Staff::findOrFail($id);
         return view('admin.edit_resepsionis', compact('resepsionis'));
     }
 
     public function resepsionisUpdate(Request $request, $id)
     {
-        $resepsionis = Staff::find($id);
-
-        if (!$resepsionis) {
-            return redirect()->route('admin.resepsionis')->with('error', 'Resepsionis tidak ditemukan');
-        }
+        $resepsionis = Staff::findOrFail($id);
 
         $validatedData = $request->validate([
             'name' => 'required|string|max:255|unique:staffs,name,' . $resepsionis->id,
             'password' => 'nullable|string|min:8',
         ]);
 
-        if ($validatedData['password']) {
+        if (!empty($validatedData['password'])) {
             $validatedData['password'] = Hash::make($validatedData['password']);
         } else {
             unset($validatedData['password']);
@@ -180,17 +187,15 @@ class AdminController extends Controller
 
     public function resepsionisDestroy($id)
     {
-        $resepsionis = Staff::find($id);
-
-        if (!$resepsionis) {
-            return redirect()->route('admin.resepsionis')->with('error', 'Resepsionis tidak ditemukan');
-        }
-
+        $resepsionis = Staff::findOrFail($id);
         $resepsionis->delete();
+
         return redirect()->route('admin.resepsionis')->with('success', 'Resepsionis berhasil dihapus');
     }
 
-    /*KAMAR*/
+    /* =========================================================
+    | KAMAR
+    ========================================================= */
 
     public function kamarIndex(Request $request)
     {
@@ -234,35 +239,25 @@ class AdminController extends Controller
             'status_kamar' => 'required|string|in:tersedia,terisi',
             'harga_per_malam' => 'required|integer|min:0',
             'deskripsi' => 'nullable|string|max:255',
-            'foto_kamar.*' => 'image|mimes:jpeg,png,jpg|max:2048' // Validasi per file gambar
+            'foto_kamar' => 'nullable|array',
+            'foto_kamar.*' => 'image|mimes:jpeg,png,jpg|max:2048'
         ], [
             'no_kamar.required' => 'Nomor kamar wajib diisi.',
-            'no_kamar.string' => 'Nomor kamar harus berupa teks.',
-            'no_kamar.max' => 'Nomor kamar maksimal 10 karakter.',
             'no_kamar.unique' => 'Nomor kamar sudah terdaftar.',
             'tipe_kamar.required' => 'Tipe kamar wajib diisi.',
-            'tipe_kamar.string' => 'Tipe kamar harus berupa teks.',
-            'tipe_kamar.max' => 'Tipe kamar maksimal 30 karakter.',
             'status_kamar.required' => 'Status kamar wajib dipilih.',
-            'status_kamar.string' => 'Status kamar harus berupa teks.',
             'status_kamar.in' => 'Status kamar harus tersedia atau terisi.',
             'harga_per_malam.required' => 'Harga per malam wajib diisi.',
             'harga_per_malam.integer' => 'Harga per malam harus berupa angka.',
-            'harga_per_malam.min' => 'Harga per malam tidak boleh negatif.',
-            'deskripsi.string' => 'Deskripsi harus berupa teks.',
-            'deskripsi.max' => 'Deskripsi maksimal 255 karakter.',
             'foto_kamar.*.image' => 'File harus berupa gambar.',
-            'foto_kamar.*.mimes' => 'Format gambar harus jpeg, png, atau jpg.',
-            'foto_kamar.*.max' => 'Ukuran gambar maksimal adalah 2MB.'
         ]);
 
         $dataFoto = [];
+
         if ($request->hasFile('foto_kamar')) {
-            // Membatasi array upload hanya mengambil maksimal 5 file teratas
             $files = array_slice($request->file('foto_kamar'), 0, 5);
             foreach ($files as $file) {
-                $path = $file->store('foto_kamar', 'public');
-                $dataFoto[] = $path;
+                $dataFoto[] = $file->store('foto_kamar', 'public');
             }
         }
 
@@ -272,7 +267,7 @@ class AdminController extends Controller
             'status_kamar' => $request->status_kamar,
             'harga_per_malam' => $request->harga_per_malam,
             'deskripsi' => $request->deskripsi,
-            'foto_kamar' => json_encode($dataFoto) // Array nama file disimpan dalam bentuk format JSON string
+            'foto_kamar' => json_encode($dataFoto)
         ]);
 
         return redirect()->route('admin.kamar')->with('success', 'Kamar berhasil ditambahkan');
@@ -290,7 +285,7 @@ class AdminController extends Controller
 
     public function kamarUpdate(Request $request, $id)
     {
-        $kamar = Kamar::find($id);
+        $kamar = Kamar::where('id_kamar', $id)->first();
 
         if (!$kamar) {
             return redirect()->route('admin.kamar')->with('error', 'Kamar tidak ditemukan');
@@ -302,44 +297,24 @@ class AdminController extends Controller
             'status_kamar' => 'required|string|in:tersedia,terisi',
             'harga_per_malam' => 'required|integer|min:0',
             'deskripsi' => 'nullable|string|max:255',
-            'foto_kamar.*' => 'image|mimes:jpeg,png,jpg|max:2048'
-        ], [
-            'no_kamar.required' => 'Nomor kamar wajib diisi.',
-            'no_kamar.string' => 'Nomor kamar harus berupa teks.',
-            'no_kamar.max' => 'Nomor kamar maksimal 10 karakter.',
-            'no_kamar.unique' => 'Nomor kamar sudah terdaftar.',
-            'tipe_kamar.required' => 'Tipe kamar wajib diisi.',
-            'tipe_kamar.string' => 'Tipe kamar harus berupa teks.',
-            'tipe_kamar.max' => 'Tipe kamar maksimal 30 karakter.',
-            'status_kamar.required' => 'Status kamar wajib dipilih.',
-            'status_kamar.string' => 'Status kamar harus berupa teks.',
-            'status_kamar.in' => 'Status kamar harus tersedia atau terisi.',
-            'harga_per_malam.required' => 'Harga per malam wajib diisi.',
-            'harga_per_malam.integer' => 'Harga per malam harus berupa angka.',
-            'harga_per_malam.min' => 'Harga per malam tidak boleh negatif.',
-            'deskripsi.string' => 'Deskripsi harus berupa teks.',
-            'deskripsi.max' => 'Deskripsi maksimal 255 karakter.',
-            'foto_kamar.*.image' => 'File harus berupa gambar.',
-            'foto_kamar.*.mimes' => 'Format gambar harus jpeg, png, atau jpg.',
-            'foto_kamar.*.max' => 'Ukuran gambar maksimal adalah 2MB.'
+            'foto_kamar' => 'nullable|array',
+            'foto_kamar.*' => 'image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        // Mengganti semua foto jika ada kiriman file baru dari input modal edit
         if ($request->hasFile('foto_kamar')) {
-            // Hapus file fisik gambar-gambar lama di folder storage agar tidak menumpuk sampah data
             $fotoLama = json_decode($kamar->foto_kamar, true) ?? [];
             foreach ($fotoLama as $foto) {
-                Storage::disk('public')->delete($foto);
+                if (Storage::disk('public')->exists($foto)) {
+                    Storage::disk('public')->delete($foto);
+                }
             }
 
             $dataFoto = [];
             $files = array_slice($request->file('foto_kamar'), 0, 5);
             foreach ($files as $file) {
-                $path = $file->store('foto_kamar', 'public');
-                $dataFoto[] = $path;
+                $dataFoto[] = $file->store('foto_kamar', 'public');
             }
 
-            // Masukkan data JSON foto baru ke properties model
             $kamar->foto_kamar = json_encode($dataFoto);
         }
 
@@ -355,16 +330,17 @@ class AdminController extends Controller
 
     public function kamarDestroy($id)
     {
-        $kamar = Kamar::find($id);
+        $kamar = Kamar::where('id_kamar', $id)->first();
 
         if (!$kamar) {
             return redirect()->route('admin.kamar')->with('error', 'Kamar tidak ditemukan');
         }
 
-        // Hapus file fisik gambar dari storage public sebelum record dihapus total
         $fotoLama = json_decode($kamar->foto_kamar, true) ?? [];
         foreach ($fotoLama as $foto) {
-            Storage::disk('public')->delete($foto);
+            if (Storage::disk('public')->exists($foto)) {
+                Storage::disk('public')->delete($foto);
+            }
         }
 
         $kamar->delete();
