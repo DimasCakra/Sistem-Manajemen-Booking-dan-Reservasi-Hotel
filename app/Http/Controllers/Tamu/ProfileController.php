@@ -24,7 +24,7 @@ class ProfileController extends TamuController
         'username' => 'nullable|string|max:30|unique:users,username,' . $user->id,
         'email' => 'required|string|email|max:30|unique:users,email,' . $user->id,
         'whatsapp' => 'nullable|string|max:18',
-        'birthday' => 'nullable|date',
+        'tanggal_lahir' => 'nullable|date',
 
         'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
 
@@ -48,7 +48,7 @@ class ProfileController extends TamuController
     $user->username = $request->username;
     $user->email = $request->email;
     $user->whatsapp = $request->whatsapp;
-    $user->birthday = $request->birthday;
+    $user->tanggal_lahir = $request->tanggal_lahir;
 
     // update password kalau diisi
     if ($request->filled('password')) {
