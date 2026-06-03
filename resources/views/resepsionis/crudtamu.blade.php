@@ -124,7 +124,13 @@
                                 <td class="px-6 py-6 text-center text-sm text-black">TMU-{{ str_pad($item->id, 3, '0', STR_PAD_LEFT) }}</td>
                                 <td class="px-8 py-6 border-l border-forest-600/40">
                                     <div class="flex justify-center gap-3">
-                                        <a href="{{ route('resepsionis.tamu.show', $item->id) }}" class="px-5 py-3 bg-blue-100 text-blue-600 rounded-md hover:bg-blue-200 transition-colors text-[10px] font-bold uppercase tracking-wider">Lihat</a>
+                                        <a href="{{ route('resepsionis.tamu.show', $item->id) }}"
+                                            class="btn-view text-blue-600 hover:text-blue-800" title="Detail Kamar">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                        </svg>
+                                        </a>
                                     </div>
                                 </td>
                             </tr>
