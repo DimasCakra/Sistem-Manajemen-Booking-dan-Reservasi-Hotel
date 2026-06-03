@@ -19,9 +19,9 @@
             <h1 class="mt-3 text-2xl font-light text-white tracking-wide">Login <span class="font-bold text-[#D4AF37]">Admin & Resepsionis</span></h1>
         </div>
 
-        <div class="bg-white/5 backdrop-blur-2xl p-8 sm:p-5 rounded-4xl shadow-2xl border border-white/10 relative overflow-hidden">
+        <div class="bg-white/5 backdrop-blur-2xl p-8 sm:p-5 rounded-[2rem] shadow-2xl border border-white/10 relative overflow-hidden">
 
-            <div class="absolute top-0 inset-x-0 h-px bg-linear-to-r from-transparent via-white/20 to-transparent"></div>
+            <div class="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
 
             <form action="{{ route('staff.login.post') }}" method="POST" class="space-y-6 relative z-10">
                 @csrf
