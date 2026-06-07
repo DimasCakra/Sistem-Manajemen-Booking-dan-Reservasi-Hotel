@@ -9,14 +9,20 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('kamar', function (Blueprint $table) {
-            $table->integer('id_kamar')->autoIncrement();
-            $table->string('no_kamar', 10)->unique();
-            $table->string('tipe_kamar', 50);
-            $table->string('status_kamar', 20);
-            $table->integer('harga_per_malam');
-            $table->string('deskripsi', 255);
-            $table->text('foto_kamar')->nullable();
+            // ID auto-increment sebagai Primary Key
+            $table->id();
+
+            // no_kamar sekarang menjadi kolom string biasa
+            $table->string('no_kamar', 20)->unique();
+
+            $table->unsignedBigInteger('id_tipe_kamar');
+            $table->string('status_kamar', 20)->default('tersedia');
             $table->timestamps();
+
+            $table->foreign('id_tipe_kamar')
+                ->references('id_tipe_kamar')
+                ->on('tipe_kamar')
+                ->onDelete('cascade');
         });
     }
 

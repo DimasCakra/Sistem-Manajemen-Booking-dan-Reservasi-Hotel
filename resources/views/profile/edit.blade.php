@@ -102,17 +102,20 @@
 
                         @if($user->photo)
 
-                            <img src="{{ asset('storage/' . $user->photo) }}" alt="Foto Profil"
+                            <img id="profileImagePreview" src="{{ asset('storage/' . $user->photo) }}" alt="Foto Profil"
                                 class="w-48 h-48 rounded-2xl object-cover shadow-xl ring-4 ring-white">
 
                         @else
 
-                            <div
+                            <div id="initialsContainer"
                                 class="w-48 h-48 rounded-2xl bg-gradient-to-br from-[#8C6A1A] to-[#b38b22] flex items-center justify-center text-white text-6xl font-bold shadow-xl overflow-hidden ring-4 ring-white">
 
                                 {{ strtoupper(substr($user->name ?? 'U', 0, 1)) }}
 
                             </div>
+
+                            <img id="profileImagePreview" src="" alt="Foto Profil"
+                                class="w-48 h-48 rounded-2xl object-cover shadow-xl ring-4 ring-white hidden">
 
                         @endif
 
@@ -164,12 +167,12 @@
                         <div class="space-y-2">
                             <label class="text-xs font-bold text-gray-500 uppercase tracking-widest ml-1">
 
-                                Username
+                                NIK
                             </label>
 
-                            <input type="text" name="username" value="{{ old('username', $user->username ?? '') }}"
-                                placeholder="Masukkan username"
-                                class="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-[#8C6A1A] focus:border-transparent transition-all outline-none text-gray-800 font-medium">
+                            <input type="text" name="nik" value="{{ old('nik', $user->nik ?? '') }}" readonly
+                                placeholder="NIK belum diisi"
+                                class="w-full px-5 py-4 bg-gray-100 border border-gray-200 rounded-xl outline-none text-gray-400 font-medium cursor-not-allowed">
                         </div>
 
                     </div>
@@ -277,6 +280,28 @@
 
     @include('components.footer')
 
+    <script>
+        document.getElementById('photo').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const previewImg = document.getElementById('profileImagePreview');
+                    const initialsDiv = document.getElementById('initialsContainer');
+                    
+                    if (previewImg) {
+                        previewImg.src = e.target.result;
+                        previewImg.classList.remove('hidden');
+                    }
+                    
+                    if (initialsDiv) {
+                        initialsDiv.classList.add('hidden');
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
 </body>
 
 </html>

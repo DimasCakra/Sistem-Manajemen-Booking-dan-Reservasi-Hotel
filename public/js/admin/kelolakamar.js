@@ -1,227 +1,108 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const openCreateModalButton = document.getElementById('openCreateModal');
+    // Definisi Elemen DOM
     const createModal = document.getElementById('createModal');
+    const openCreateModalBtn = document.getElementById('openCreateModal');
     const detailModal = document.getElementById('detailModal');
-    const modalCloseButtons = document.querySelectorAll('.modal-close');
-    const roomTableBody = document.getElementById('roomTableBody');
+    const detailForm = document.getElementById('detailModalForm');
     const detailModalTitle = document.getElementById('detailModalTitle');
     const detailModalSubtitle = document.getElementById('detailModalSubtitle');
     const editSaveButton = document.getElementById('editSaveButton');
-    const detailForm = document.getElementById('detailModalForm');
-    const searchForm = document.getElementById('searchFilterForm');
-    const searchInput = document.getElementById('searchInput');
-    const filterType = document.getElementById('filterType');
-    const filterStatus = document.getElementById('filterStatus');
 
-    let currentRow = null;
-    let currentMode = 'view';
-    let debounceTimer = null;
+    // Fields Form
+    const detailRoomNumber = document.getElementById('detailRoomNumber');
+    const detailRoomType = document.getElementById('detailRoomType');
+    const detailRoomPrice = document.getElementById('detailRoomPrice');
+    const detailRoomStatus = document.getElementById('detailRoomStatus');
+    const detailRoomDescription = document.getElementById('detailRoomDescription');
+    const imageContainer = document.getElementById('detailRoomImageContainer');
 
-    const modalFields = {
-        roomNumber: document.getElementById('detailRoomNumber'),
-        roomType: document.getElementById('detailRoomType'),
-        price: document.getElementById('detailRoomPrice'),
-        roomCode: document.getElementById('detailRoomCode'),
-        status: document.getElementById('detailRoomStatus'),
-        description: document.getElementById('detailRoomDescription'),
-        imageInput: document.getElementById('detailRoomImageInput'), // Input file foto baru
-        imageContainer: document.getElementById('detailRoomImageContainer') // Kontainer untuk pratinjau multi-foto
-    };
+    let isEditMode = false;
 
-    // Filter Table Function Logic (Client-side)
-    function filterTable() {
-        if (!roomTableBody) return;
-
-        const searchQuery = searchInput ? searchInput.value.toLowerCase() : '';
-        const selectedType = filterType ? filterType.value : '';
-        const selectedStatus = filterStatus ? filterStatus.value : '';
-        const rows = roomTableBody.querySelectorAll('tr');
-
-        rows.forEach(row => {
-            const roomNumber = row.dataset.roomNumber || '';
-            const roomType = row.dataset.roomType || '';
-            const roomStatus = row.dataset.roomStatus || '';
-
-            const matchSearch = roomNumber.toLowerCase().includes(searchQuery) || roomType.toLowerCase().includes(searchQuery);
-            const matchType = selectedType === "" || roomType === selectedType;
-            const matchStatus = selectedStatus === "" || roomStatus === selectedStatus;
-
-            if (matchSearch && matchType && matchStatus) {
-                row.style.display = "";
-            } else {
-                row.style.display = "none";
-            }
+    // --- LOGIKA MODAL TAMBAH ---
+    if (openCreateModalBtn) {
+        openCreateModalBtn.addEventListener('click', () => {
+            createModal.classList.replace('hidden', 'flex');
         });
     }
 
-    if (searchInput) searchInput.addEventListener('input', filterTable);
-    if (filterType) filterType.addEventListener('change', filterTable);
-    if (filterStatus) filterStatus.addEventListener('change', filterTable);
+    // --- FUNGSI MAPPING DATA ---
+    function mapRowToModal(row) {
+        detailRoomNumber.value = row.dataset.roomNumber;
+        detailRoomType.value = row.dataset.roomTypeId;
+        detailRoomStatus.value = row.dataset.roomStatus;
+        detailRoomDescription.value = row.dataset.roomDescription;
 
+        const price = parseInt(row.dataset.price || 0);
+        detailRoomPrice.value = 'Rp ' + price.toLocaleString('id-ID');
 
-    function openModal(modal) {
-        if (!modal) return;
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-        document.body.classList.add('overflow-hidden');
-    }
+        imageContainer.innerHTML = '';
+        const images = JSON.parse(row.dataset.roomImages || '[]');
 
-    function closeModal(modal) {
-        if (!modal) return;
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-        document.body.classList.remove('overflow-hidden');
-        if (modal === detailModal) {
-            setModalMode('view');
-        }
-    }
-
-    function setModalMode(mode) {
-        currentMode = mode;
-        const isEditable = mode === 'edit';
-        detailModalTitle.textContent = mode === 'edit' ? 'Edit Kamar' : 'Detail Kamar';
-        detailModalSubtitle.textContent = mode === 'edit' ? 'Perbarui data kamar dan tekan Simpan Perubahan.' : 'Lihat detail kamar dengan aman.';
-        editSaveButton.textContent = mode === 'edit' ? 'Simpan Perubahan' : 'Edit Kamar';
-
-        // Element teks biasa menggunakan readOnly
-        modalFields.roomNumber.readOnly = !isEditable;
-        modalFields.price.readOnly = !isEditable;
-        modalFields.description.readOnly = !isEditable;
-
-        // Element select/dropdown dan input file menggunakan disabled
-        if (modalFields.roomType) modalFields.roomType.disabled = !isEditable;
-        if (modalFields.status) modalFields.status.disabled = !isEditable;
-        if (modalFields.imageInput) modalFields.imageInput.disabled = !isEditable;
-
-        if (mode === 'view') {
-            editSaveButton.classList.remove('bg-forest-700', 'bg-emerald-600');
-            editSaveButton.classList.add('bg-blue-600');
+        if (images.length > 0) {
+            images.forEach(src => {
+                const img = document.createElement('img');
+                img.src = src;
+                img.className = "h-24 w-full object-cover rounded-xl border border-slate-200 shadow-sm";
+                imageContainer.appendChild(img);
+            });
         } else {
-            editSaveButton.classList.remove('bg-blue-600');
-            editSaveButton.classList.add('bg-emerald-600');
+            imageContainer.innerHTML = '<p class="text-xs text-gray-400 py-4 text-center">Tidak ada foto.</p>';
         }
     }
 
-    function populateDetailModal(row) {
-        modalFields.roomNumber.value = row.dataset.roomNumber || '';
-        modalFields.roomType.value = row.dataset.roomType || '';
-        modalFields.price.value = row.dataset.price || '';
-        modalFields.roomCode.value = `${row.dataset.roomId || ''}`;
-        modalFields.status.value = row.dataset.roomStatus || '';
-        modalFields.description.value = row.dataset.roomDescription || '';
+    // --- EVENT LISTENER TABEL (LIHAT & EDIT) ---
+    document.getElementById('roomTableBody').addEventListener('click', (e) => {
+        const viewBtn = e.target.closest('.btn-view');
+        const editBtn = e.target.closest('.btn-edit');
 
-        // Reset input file pilihan sebelumnya
-        if (modalFields.imageInput) modalFields.imageInput.value = '';
+        if (!viewBtn && !editBtn) return;
 
-        // Parsing data JSON foto dari tag row data-room-images
-        if (modalFields.imageContainer) {
-            modalFields.imageContainer.innerHTML = '';
-            const images = JSON.parse(row.dataset.roomImages || '[]');
+        const row = (viewBtn || editBtn).closest('tr');
 
-            if (images.length > 0) {
-                images.forEach(src => {
-                    const img = document.createElement('img');
-                    img.src = src;
-                    img.className = "w-full h-28 object-cover rounded-xl shadow-sm border border-white";
-                    modalFields.imageContainer.appendChild(img);
-                });
-            } else {
-                modalFields.imageContainer.innerHTML = '<p class="col-span-full text-center text-xs text-gray-400 py-4">Tidak ada foto</p>';
-            }
+        // PENTING: Menggunakan id (integer) untuk URL update
+        detailForm.action = `/admin/kamar/${row.dataset.roomId}`;
+
+        mapRowToModal(row);
+
+        if (viewBtn) {
+            setMode(false);
+        } else if (editBtn) {
+            setMode(true);
         }
 
-        if (detailForm) {
-            detailForm.action = `/admin/kamar/${row.dataset.roomId}`;
-        }
-    }
-
-    function handleViewClick(event) {
-        const row = event.target.closest('tr');
-        if (!row) return;
-        currentRow = row;
-        populateDetailModal(row);
-        setModalMode('view');
-        openModal(detailModal);
-    }
-
-    function handleEditClick(event) {
-        const row = event.target.closest('tr');
-        if (!row) return;
-        currentRow = row;
-        populateDetailModal(row);
-        setModalMode('edit');
-        openModal(detailModal);
-    }
-
-    function handleDeleteClick(event) {
-        const button = event.target.closest('button');
-        const form = button ? button.closest('form') : null;
-        if (!form) return;
-        const row = form.closest('tr');
-        const roomNumber = row ? row.dataset.roomNumber || 'kamar ini' : 'kamar ini';
-        const confirmed = confirm(`Hapus ${roomNumber}? Tindakan ini tidak dapat dikembalikan.`);
-        if (confirmed) {
-            form.submit();
-        }
-    }
-
-    if (openCreateModalButton) {
-        openCreateModalButton.addEventListener('click', () => openModal(createModal));
-    }
-
-    modalCloseButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const targetModal = button.closest('#createModal') || button.closest('#detailModal');
-            if (targetModal) closeModal(targetModal);
-        });
+        detailModal.classList.replace('hidden', 'flex');
     });
 
-    if (roomTableBody) {
-        roomTableBody.addEventListener('click', event => {
-            if (event.target.closest('.btn-view')) {
-                handleViewClick(event);
-            }
-            if (event.target.closest('.btn-edit')) {
-                handleEditClick(event);
-            }
-            if (event.target.closest('.btn-delete')) {
-                handleDeleteClick(event);
-            }
-        });
+    // --- FUNGSI SET MODE (UI UI SWITCHER) ---
+    function setMode(edit) {
+        isEditMode = edit;
+        detailModalTitle.textContent = edit ? "Edit Kamar" : "Detail Kamar";
+        detailModalSubtitle.textContent = edit ? "Ubah detail unit kamar." : "Spesifikasi tipe kamar.";
+
+        detailRoomNumber.readOnly = !edit;
+        detailRoomType.disabled = !edit;
+        detailRoomStatus.disabled = !edit;
+
+        editSaveButton.textContent = edit ? "Simpan Perubahan" : "Edit Kamar";
+        editSaveButton.type = edit ? "submit" : "button";
+        editSaveButton.className = edit
+            ? "px-6 py-2.5 rounded-xl bg-emerald-600 text-white font-bold text-sm transition hover:bg-emerald-700"
+            : "px-6 py-2.5 rounded-xl bg-blue-600 text-white font-bold text-sm transition hover:bg-blue-700";
     }
 
-    if (editSaveButton) {
-        editSaveButton.addEventListener('click', () => {
-            if (currentMode === 'view') {
-                setModalMode('edit');
-                return;
-            }
-            if (detailForm) {
-                detailForm.submit();
-            }
-        });
-    }
-
-    // Server-side submit logic jika form pencarian digunakan
-    if (searchInput) {
-        searchInput.addEventListener('input', filterTable);
-        // Menjalankan fungsi filterTable() instan tanpa refresh
-    }
-
-    if (filterType) {
-        filterType.addEventListener('change', filterTable);
-        // Menjalankan fungsi filterTable() instan tanpa refresh
-    }
-
-    if (filterStatus) {
-        filterStatus.addEventListener('change', filterTable);
-        // Menjalankan fungsi filterTable() instan tanpa refresh
-    }
-
-    document.addEventListener('keydown', event => {
-        if (event.key === 'Escape') {
-            if (createModal && !createModal.classList.contains('hidden')) closeModal(createModal);
-            if (detailModal && !detailModal.classList.contains('hidden')) closeModal(detailModal);
+    // --- HANDLER TOMBOL EDIT DI DALAM MODAL ---
+    editSaveButton.addEventListener('click', (e) => {
+        if (!isEditMode) {
+            e.preventDefault(); // Mencegah submit, hanya switch mode
+            setMode(true);
         }
+    });
+
+    // --- CLOSE MODAL ---
+    document.querySelectorAll('.modal-close').forEach(closeBtn => {
+        closeBtn.addEventListener('click', () => {
+            createModal.classList.replace('flex', 'hidden');
+            detailModal.classList.replace('flex', 'hidden');
+        });
     });
 });

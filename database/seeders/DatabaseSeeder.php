@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'Damar Widi Nugroho',
                 'whatsapp' => '082169784529',
-                'username' => 'damar',
+                'nik' => '1234567890123456',
                 'password' => Hash::make('password123'),
             ]
         );
@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'Dimas Cakra',
                 'whatsapp' => '09412940184',
-                'username' => 'dimas',
+                'nik' => '1234567890123457',
                 'password' => Hash::make('password123'),
             ]
         );
@@ -39,7 +39,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'Bryan',
                 'whatsapp' => '08123456789',
-                'username' => 'bryan',
+                'nik' => '1234567890123458',
                 'password' => Hash::make('password123'),
             ]
         );

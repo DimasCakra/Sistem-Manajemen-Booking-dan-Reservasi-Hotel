@@ -21,7 +21,6 @@ class ProfileController extends TamuController
 
     $request->validate([
         'name' => 'required|string|max:50',
-        'username' => 'nullable|string|max:30|unique:users,username,' . $user->id,
         'email' => 'required|string|email|max:30|unique:users,email,' . $user->id,
         'whatsapp' => 'nullable|string|max:18',
         'tanggal_lahir' => 'nullable|date',
@@ -45,7 +44,6 @@ class ProfileController extends TamuController
     }
 
     $user->name = $request->name;
-    $user->username = $request->username;
     $user->email = $request->email;
     $user->whatsapp = $request->whatsapp;
     $user->tanggal_lahir = $request->tanggal_lahir;
