@@ -11,13 +11,10 @@ use App\Models\Kamar;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
-    // ==========================================
-    // TAMU MANAGEMENT (CRUD)
-    // ==========================================
+    // Tamu
     public function tamuIndex()
     {
         $tamus = User::latest()->get();
@@ -109,9 +106,7 @@ class AdminController extends Controller
         return redirect()->route('admin.tamu')->with('success', 'Tamu berhasil dihapus');
     }
 
-    // ==========================================
-    // RESEPSIONIS MANAGEMENT (CRUD)
-    // ==========================================
+    // resepsionis
     public function resepsionisIndex()
     {
         $resepsionis = Staff::where('role', 'receptionist')->latest()->get();
@@ -124,34 +119,36 @@ class AdminController extends Controller
     }
 
     public function resepsionisStore(Request $request)
-    {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:100|unique:staffs,name',
-            'email' => 'required|email|max:100|unique:staffs,email',
-            'no_hp' => 'nullable|string|max:20',
-            'password' => 'required|string|min:8',
-        ]);
+{
+    $validatedData = $request->validate([
+        'name' => 'required|string|max:100|unique:staffs,name',
+        'email' => 'required|email|max:100|unique:staffs,email',
+        'no_hp' => 'nullable|string|max:20',
+        'password' => 'required|string|min:8',
+    ]);
 
-        $lastStaff = Staff::where('role', 'receptionist')
-                          ->where('id_resepsionis', 'LIKE', 'RSP-%')
-                          ->orderBy('id_resepsionis', 'desc')
-                          ->first();
+    $lastStaff = Staff::where('role', 'receptionist')
+                      ->where('id_resepsionis', 'LIKE', 'RSP-%')
+                      ->orderBy('id_resepsionis', 'desc')
+                      ->first();
 
-        if ($lastStaff) {
-            $lastNumber = (int) substr($lastStaff->id_resepsionis, 4);
-            $nextNumber = $lastNumber + 1;
-        } else {
-            $nextNumber = 1;
-        }
-
-        $validatedData['id_resepsionis'] = 'RSP-' . str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
-        $validatedData['role'] = 'receptionist';
-        $validatedData['password'] = Hash::make($request->password);
-
-        Staff::create($validatedData);
-
-        return redirect()->route('admin.resepsionis')->with('success', 'Resepsionis berhasil ditambahkan');
+    if ($lastStaff) {
+        $lastNumber = (int) substr($lastStaff->id_resepsionis, 4);
+        $nextNumber = $lastNumber + 1;
+    } else {
+        $nextNumber = 1;
     }
+
+    // 2. Format kembali menjadi string RSP-00X
+    $validatedData['id_resepsionis'] = 'RSP-' . str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
+
+    $validatedData['role'] = 'receptionist';
+    $validatedData['password'] = Hash::make($request->password);
+
+    Staff::create($validatedData);
+
+    return redirect()->route('admin.resepsionis')->with('success', 'Resepsionis berhasil ditambahkan');
+}
 
     public function resepsionisShow($id)
     {
@@ -195,134 +192,34 @@ class AdminController extends Controller
         return redirect()->route('admin.resepsionis')->with('success', 'Resepsionis berhasil dihapus');
     }
 
-    // ==========================================
-    // TIPE KAMAR MANAGEMENT (CRUD BARU)
-    // ==========================================
-    public function tipeKamarIndex()
-    {
-        $tipeKamars = DB::table('tipe_kamar')->orderBy('id_tipe_kamar', 'desc')->get();
-        return view('admin.tipekamar', compact('tipeKamars'));
-    }
-
-    public function tipeKamarStore(Request $request)
-    {
-        $request->validate([
-            'nama_tipe' => 'required|string|max:50|unique:tipe_kamar,nama_tipe',
-            'kode_tipe' => 'required|max:3|unique:tipe_kamar,kode_tipe',
-            'harga_per_malam' => 'required|numeric|min:0',
-            'deskripsi' => 'required|string|max:255',
-            'foto_kamar.*' => 'image|mimes:jpeg,png,jpg|max:2048'
-        ]);
-
-        $paths = [];
-        if ($request->hasFile('foto_kamar')) {
-            foreach ($request->file('foto_kamar') as $file) {
-                $paths[] = $file->store('foto_kamar', 'public');
-            }
-        }
-
-        DB::table('tipe_kamar')->insert([
-            'nama_tipe' => $request->nama_tipe,
-            'kode_tipe' => $request->kode_tipe,
-            'harga_per_malam' => $request->harga_per_malam,
-            'deskripsi' => $request->deskripsi,
-            'foto_kamar' => json_encode($paths),
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
-        return redirect()->route('admin.tipekamar')->with('success', 'Tipe kamar berhasil ditambahkan.');
-    }
-
-    public function tipeKamarUpdate(Request $request, $id)
-    {
-        $request->validate([
-            'nama_tipe' => 'required|string|max:50|unique:tipe_kamar,nama_tipe,' . $id . ',id_tipe_kamar',
-            'kode_tipe' => 'required|max:3|unique:tipe_kamar,kode_tipe,' . $id . ',id_tipe_kamar',
-            'harga_per_malam' => 'required|numeric|min:0',
-            'deskripsi' => 'required|string|max:255',
-            'foto_kamar.*' => 'image|mimes:jpeg,png,jpg|max:2048'
-        ]);
-
-        $tipe = DB::table('tipe_kamar')->where('id_tipe_kamar', $id)->first();
-        if (!$tipe) return redirect()->back()->withErrors('Tipe kamar tidak ditemukan.');
-
-        $paths = json_decode($tipe->foto_kamar, true) ?? [];
-
-        if ($request->hasFile('foto_kamar')) {
-            foreach ($paths as $oldFoto) {
-                if (Storage::disk('public')->exists($oldFoto)) {
-                    Storage::disk('public')->delete($oldFoto);
-                }
-            }
-            $paths = [];
-            foreach ($request->file('foto_kamar') as $file) {
-                $paths[] = $file->store('foto_kamar', 'public');
-            }
-        }
-
-        DB::table('tipe_kamar')->where('id_tipe_kamar', $id)->update([
-            'nama_tipe' => $request->nama_tipe,
-            'harga_per_malam' => $request->harga_per_malam,
-            'deskripsi' => $request->deskripsi,
-            'foto_kamar' => json_encode($paths),
-            'updated_at' => now(),
-        ]);
-
-        return redirect()->route('admin.tipekamar')->with('success', 'Tipe kamar berhasil diperbarui.');
-    }
-
-    public function tipeKamarDestroy($id)
-    {
-        $tipe = DB::table('tipe_kamar')->where('id_tipe_kamar', $id)->first();
-        if ($tipe) {
-            $paths = json_decode($tipe->foto_kamar, true) ?? [];
-            foreach ($paths as $foto) {
-                if (Storage::disk('public')->exists($foto)) {
-                    Storage::disk('public')->delete($foto);
-                }
-            }
-            DB::table('tipe_kamar')->where('id_tipe_kamar', $id)->delete();
-        }
-        return redirect()->route('admin.tipekamar')->with('success', 'Tipe kamar berhasil dihapus.');
-    }
-
-    // ==========================================
-    // KAMAR MANAGEMENT (RESTUCTURING CRUD)
-    // ==========================================
+    // Kamar
     public function kamarIndex(Request $request)
     {
         $search = $request->query('search');
         $type = $request->query('type');
         $status = $request->query('status');
 
-        // Menggunakan Query Builder dengan JOIN ke master tipe_kamar
-    $query = DB::table('kamar')
-            ->join('tipe_kamar', 'kamar.id_tipe_kamar', '=', 'tipe_kamar.id_tipe_kamar')
-            ->select('kamar.*', 'tipe_kamar.nama_tipe', 'tipe_kamar.harga_per_malam', 'tipe_kamar.deskripsi', 'tipe_kamar.foto_kamar');
+        $kamars = Kamar::query();
 
         if ($search) {
-            $query->where(function ($q) use ($search) {
-                $q->where('kamar.no_kamar', 'like', '%' . $search . '%')
-                  ->orWhere('tipe_kamar.nama_tipe', 'like', '%' . $search . '%')
-                  ->orWhere('tipe_kamar.deskripsi', 'like', '%' . $search . '%');
+            $kamars->where(function ($query) use ($search) {
+                $query->where('no_kamar', 'like', '%' . $search . '%')
+                    ->orWhere('tipe_kamar', 'like', '%' . $search . '%')
+                    ->orWhere('deskripsi', 'like', '%' . $search . '%');
             });
         }
 
         if ($type) {
-            $query->where('kamar.id_tipe_kamar', $type);
+            $kamars->where('tipe_kamar', $type);
         }
 
         if ($status) {
-            $query->where('kamar.status_kamar', $status);
+            $kamars->where('status_kamar', $status);
         }
 
-        $kamars = $query->orderBy('kamar.id', 'desc')->get();
+        $kamars = $kamars->orderBy('id_kamar', 'desc')->get();
 
-        // Ambil semua list master tipe_kamar untuk dropdown modal & filter
-        $listTipe = DB::table('tipe_kamar')->get();
-
-        return view('admin.kelolakamar', compact('kamars', 'listTipe', 'search', 'type', 'status'));
+        return view('admin.kelolakamar', compact('kamars', 'search', 'type', 'status'));
     }
 
     public function kamarCreate()
@@ -333,27 +230,42 @@ class AdminController extends Controller
     public function kamarStore(Request $request)
     {
         $request->validate([
-            'no_kamar' => 'required|string|max:10', // Ini hanya nomor urut (ex: 01)
-            'id_tipe_kamar' => 'required|integer|exists:tipe_kamar,id_tipe_kamar',
+            'no_kamar' => 'required|string|max:10|unique:kamar,no_kamar',
+            'tipe_kamar' => 'required|string|max:30',
             'status_kamar' => 'required|string|in:tersedia,terisi',
+            'harga_per_malam' => 'required|integer|min:0',
+            'deskripsi' => 'nullable|string|max:255',
+            'foto_kamar.*' => 'image|mimes:jpeg,png,jpg|max:2048'
+        ], [
+            'no_kamar.required' => 'Nomor kamar wajib diisi.',
+            'no_kamar.unique' => 'Nomor kamar sudah terdaftar.',
+            'tipe_kamar.required' => 'Tipe kamar wajib diisi.',
+            'status_kamar.required' => 'Status kamar wajib dipilih.',
+            'status_kamar.in' => 'Status kamar harus tersedia atau terisi.',
+            'harga_per_malam.required' => 'Harga per malam wajib diisi.',
+            'harga_per_malam.integer' => 'Harga per malam harus berupa angka.',
+            'foto_kamar.*.image' => 'File harus berupa gambar.',
         ]);
 
-        // 1. Ambil kode dari tabel tipe_kamar
-        $tipe = DB::table('tipe_kamar')->where('id_tipe_kamar', $request->id_tipe_kamar)->first();
+        $dataFoto = [];
 
-        // 2. Gabungkan: Kode Tipe (STD) + Nomor (01) = STD01
-        $noKamarFinal = strtoupper($tipe->kode_tipe) . $request->no_kamar;
+        if ($request->hasFile('foto_kamar')) {
+            $files = array_slice($request->file('foto_kamar'), 0, 5);
+            foreach ($files as $file) {
+                $dataFoto[] = $file->store('foto_kamar', 'public');
+            }
+        }
 
-        // 3. Simpan
-        DB::table('kamar')->insert([
-            'no_kamar'      => $noKamarFinal, // Ini Primary Key-nya sekarang
-            'id_tipe_kamar' => $request->id_tipe_kamar,
-            'status_kamar'  => $request->status_kamar,
-            'created_at'    => now(),
-            'updated_at'    => now()
+        Kamar::create([
+            'no_kamar' => $request->no_kamar,
+            'tipe_kamar' => $request->tipe_kamar,
+            'status_kamar' => $request->status_kamar,
+            'harga_per_malam' => $request->harga_per_malam,
+            'deskripsi' => $request->deskripsi,
+            'foto_kamar' => json_encode($dataFoto)
         ]);
 
-        return redirect()->route('admin.kamar')->with('success', 'Kamar ' . $noKamarFinal . ' berhasil ditambah.');
+        return redirect()->route('admin.kamar')->with('success', 'Kamar berhasil ditambahkan');
     }
 
     public function kamarShow($id)
@@ -366,21 +278,68 @@ class AdminController extends Controller
         return redirect()->route('admin.kamar');
     }
 
-public function kamarUpdate(Request $request, $id)
-{
-    // Cari berdasarkan id (auto-increment), bukan no_kamar
-    DB::table('kamar')->where('id', $id)->update([
-        'no_kamar' => $request->no_kamar,
-        'id_tipe_kamar' => $request->id_tipe_kamar,
-        'status_kamar' => $request->status_kamar,
-        'updated_at' => now()
-    ]);
-    return redirect()->route('admin.kamar')->with('success', 'Berhasil diperbarui');
-}
+    public function kamarUpdate(Request $request, $id)
+    {
+        $kamar = Kamar::where('id_kamar', $id)->first();
+
+        if (!$kamar) {
+            return redirect()->route('admin.kamar')->with('error', 'Kamar tidak ditemukan');
+        }
+
+        $request->validate([
+            'no_kamar' => 'required|string|max:10|unique:kamar,no_kamar,' . $kamar->id_kamar . ',id_kamar',
+            'tipe_kamar' => 'required|string|max:30',
+            'status_kamar' => 'required|string|in:tersedia,terisi',
+            'harga_per_malam' => 'required|integer|min:0',
+            'deskripsi' => 'nullable|string|max:255',
+            'foto_kamar' => 'nullable|array',
+            'foto_kamar.*' => 'image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        if ($request->hasFile('foto_kamar')) {
+            $fotoLama = json_decode($kamar->foto_kamar, true) ?? [];
+            foreach ($fotoLama as $foto) {
+                if (Storage::disk('public')->exists($foto)) {
+                    Storage::disk('public')->delete($foto);
+                }
+            }
+
+            $dataFoto = [];
+            $files = array_slice($request->file('foto_kamar'), 0, 5);
+            foreach ($files as $file) {
+                $dataFoto[] = $file->store('foto_kamar', 'public');
+            }
+
+            $kamar->foto_kamar = json_encode($dataFoto);
+        }
+
+        $kamar->no_kamar = $request->no_kamar;
+        $kamar->tipe_kamar = $request->tipe_kamar;
+        $kamar->status_kamar = $request->status_kamar;
+        $kamar->harga_per_malam = $request->harga_per_malam;
+        $kamar->deskripsi = $request->deskripsi;
+        $kamar->save();
+
+        return redirect()->route('admin.kamar')->with('success', 'Kamar berhasil diperbarui');
+    }
 
     public function kamarDestroy($id)
     {
-        DB::table('kamar')->where('no_kamar', $id)->delete();
+        $kamar = Kamar::where('id_kamar', $id)->first();
+
+        if (!$kamar) {
+            return redirect()->route('admin.kamar')->with('error', 'Kamar tidak ditemukan');
+        }
+
+        $fotoLama = json_decode($kamar->foto_kamar, true) ?? [];
+        foreach ($fotoLama as $foto) {
+            if (Storage::disk('public')->exists($foto)) {
+                Storage::disk('public')->delete($foto);
+            }
+        }
+
+        $kamar->delete();
+
         return redirect()->route('admin.kamar')->with('success', 'Kamar berhasil dihapus');
     }
 }
