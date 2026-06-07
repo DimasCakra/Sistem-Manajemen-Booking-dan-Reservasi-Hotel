@@ -35,10 +35,4 @@ Route::middleware('auth:staff')->prefix('admin')->group(function () {
     Route::get('/kamar/{id}/edit', [AdminController::class, 'kamarEdit'])->name('admin.kamar.edit');
     Route::put('/kamar/{id}', [AdminController::class, 'kamarUpdate'])->name('admin.kamar.update');
     Route::delete('/kamar/{id}', [AdminController::class, 'kamarDestroy'])->name('admin.kamar.destroy');
-
-    // Tipe Kamar Management (CRUD Baru)
-    Route::get('/tipe-kamar', [AdminController::class, 'tipeKamarIndex'])->name('admin.tipekamar');
-    Route::post('/tipe-kamar', [AdminController::class, 'tipeKamarStore'])->name('admin.tipekamar.store');
-    Route::put('/tipe-kamar/{id}', [AdminController::class, 'tipeKamarUpdate'])->name('admin.tipekamar.update');
-    Route::delete('/tipe-kamar/{id}', [AdminController::class, 'tipeKamarDestroy'])->name('admin.tipekamar.destroy');
 });
