@@ -102,7 +102,7 @@
                             <th class="px-8 py-6 font-semibold">Nama Tamu</th>
                             <th class="px-6 py-6 font-semibold">Alamat Email</th>
                             <th class="px-6 py-6 font-semibold text-center">No WA</th>
-                            <th class="px-6 py-6 font-semibold text-center">Username</th>
+                            <th class="px-6 py-6 font-semibold text-center">NIK</th>
                             <th class="px-6 py-6 font-semibold text-center">ID Tamu</th>
                             <th class="px-8 py-6 font-semibold text-center border-l border-forest-700">Aksi</th>
                         </tr>
@@ -120,7 +120,7 @@
                                 <td class="px-8 py-6"><span class="font-bold text-forest-900">{{ $item->name }}</span></td>
                                 <td class="px-6 py-6 text-sm text-black">{{ $item->email }}</td>
                                 <td class="px-6 py-6 text-center text-sm text-black">{{ $item->whatsapp ?? '-' }}</td>
-                                <td class="px-6 py-6 text-center"><span class="bg-blue-100 text-blue-700 px-5 py-2 rounded-lg text-xs font-semibold">{{ $item->username ?? '-' }}</span></td>
+                                <td class="px-6 py-6 text-center"><span class="bg-blue-100 text-blue-700 px-5 py-2 rounded-lg text-xs font-semibold">{{ $item->nik ?? '-' }}</span></td>
                                 <td class="px-6 py-6 text-center text-sm text-black">TMU-{{ str_pad($item->id, 3, '0', STR_PAD_LEFT) }}</td>
                                 <td class="px-8 py-6 border-l border-forest-600/40">
                                     <div class="flex justify-center gap-3">
@@ -181,8 +181,8 @@
                         <input name="tanggal_lahir" type="date" class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm" />
                     </div>
                     <div>
-                        <label class="text-sm font-semibold text-slate-700">Username</label>
-                        <input name="username" type="text" required class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm" placeholder="Contoh: guest_123" />
+                        <label class="text-sm font-semibold text-slate-700">NIK</label>
+                        <input name="nik" type="text" required minlength="16" maxlength="16" class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm" placeholder="Contoh: 1234567890123456" />
                     </div>
                     <div>
                         <label class="text-sm font-semibold text-slate-700">Password</label>
