@@ -81,7 +81,7 @@ class ResepsionisController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'whatsapp' => 'required|string|max:20',
             'tanggal_lahir' => 'nullable|date',
-            'username' => 'required|string|max:255|unique:users',
+            'nik' => 'required|string|numeric|digits:16|unique:users,nik',
             'password' => 'required|string|min:8',
             'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);

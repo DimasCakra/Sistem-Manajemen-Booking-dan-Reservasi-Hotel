@@ -1,16 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
+    <title>Setup NIK - StayEase</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Instrument Sans', sans-serif; }
     </style>
 </head>
-<!--background-->
 <body class="bg-white min-h-screen font-sans flex">
 
     <!-- Left: Image Showcase -->
@@ -22,21 +21,21 @@
         <div class="absolute bottom-16 left-16 right-16 text-white">
             <div class="w-12 h-1 bg-[#8C6A1A] mb-8"></div>
             <h2 class="text-5xl font-bold font-serif mb-6 leading-tight">Just one more step.</h2>
-            <p class="text-white/90 text-xl max-w-lg leading-relaxed font-light">Set up your unique username to complete your StayEase profile and start booking.</p>
+            <p class="text-white/90 text-xl max-w-lg leading-relaxed font-light">Set up your NIK to complete your StayEase profile and start booking.</p>
         </div>
     </div>
 
-    <!-- Right: Username Form -->
+    <!-- Right: NIK Form -->
     <div class="w-full lg:w-1/2 flex flex-col items-center justify-center p-8 sm:p-12 lg:p-24 relative bg-[#FFF4DE]">
         
         <div class="w-full max-w-md">
             <div class="text-center mb-12">
                 <img src="{{ asset('gambar/stayease.png') }}" alt="StayEase Logo" class="h-16 mx-auto mb-8 object-contain">
-                <h1 class="text-4xl font-bold text-[#173014] mb-3 font-serif">Masukkan Username Anda</h1>
-                <p class="text-gray-500 font-medium">Pilih username unik untuk akun Anda.</p>
+                <h1 class="text-4xl font-bold text-[#173014] mb-3 font-serif">Masukkan NIK Anda</h1>
+                <p class="text-gray-500 font-medium">Masukkan 16 digit NIK resmi Anda.</p>
             </div>
 
-            <form action="{{ route('username.post') }}" method="POST" class="space-y-6">
+            <form action="{{ route('nik.post') }}" method="POST" class="space-y-6">
                 @csrf
 
                 @if ($errors->any())
@@ -50,8 +49,8 @@
                 @endif
 
                 <div class="space-y-2">
-                    <label for="username" class="block text-xs font-bold text-[#254117] uppercase tracking-widest ml-1">Username</label>
-                    <input id="username" type="text" name="username" required autocomplete="username" placeholder="e.g. john_doe"
+                    <label for="nik" class="block text-xs font-bold text-[#254117] uppercase tracking-widest ml-1">NIK</label>
+                    <input id="nik" type="text" name="nik" required minlength="16" maxlength="16" placeholder="e.g. 1234567890123456"
                         class="w-full px-5 py-4 rounded-xl bg-white border-2 border-transparent focus:border-[#8C6A1A] outline-none text-gray-800 transition-all shadow-[0_4px_20px_-5px_rgba(0,0,0,0.05)]">
                 </div>
 

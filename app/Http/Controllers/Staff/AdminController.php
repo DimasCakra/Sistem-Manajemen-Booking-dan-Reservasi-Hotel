@@ -33,7 +33,7 @@ class AdminController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'whatsapp' => 'required|string|max:20',
             'tanggal_lahir' => 'nullable|date',
-            'username' => 'nullable|string|max:255|unique:users',
+            'nik' => 'nullable|string|numeric|digits:16|unique:users,nik',
             'password' => 'required|string|min:8',
             'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
@@ -70,7 +70,7 @@ class AdminController extends Controller
             'email' => 'required|string|email|max:255|unique:users,email,' . $tamu->id,
             'whatsapp' => 'required|string|max:20',
             'tanggal_lahir' => 'nullable|date',
-            'username' => 'nullable|string|max:255|unique:users,username,' . $tamu->id,
+            'nik' => 'nullable|string|numeric|digits:16|unique:users,nik,' . $tamu->id,
             'password' => 'nullable|string|min:8',
             'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);

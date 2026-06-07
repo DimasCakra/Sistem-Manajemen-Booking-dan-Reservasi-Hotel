@@ -27,8 +27,8 @@
                     <div class="text-left hidden sm:block">
                         <div class="text-white font-semibold text-sm leading-tight tracking-wide">{{ Auth::user()->name }}
                         </div>
-                        <div class="text-[#D4AF37] text-[11px] font-medium tracking-wider uppercase mt-0.5">
-                            {{ Auth::user()->username ?? 'User' }}</div>
+                        <div class="text-[#D4AF37] text-[11px] font-medium tracking-wider lowercase mt-0.5">
+                            {{ Auth::user()->email }}</div>
                     </div>
                     <svg class="w-4 h-4 text-white/70 ml-2 transition-transform duration-300 group-hover:rotate-180"
                         fill="none" stroke="currentColor" viewBox="0 0 24 24">

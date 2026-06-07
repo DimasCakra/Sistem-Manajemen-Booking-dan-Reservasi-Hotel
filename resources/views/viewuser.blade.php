@@ -24,7 +24,7 @@
                             <th class="py-3 px-4">Nama Lengkap</th>
                             <th class="py-3 px-4">Alamat Email</th>
                             <th class="py-3 px-4">Nomor WhatsApp</th>
-                            <th class="py-3 px-4">Username Akun</th>
+                            <th class="py-3 px-4">NIK Akun</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100 text-sm">
@@ -35,7 +35,7 @@
                                 <td class="py-3 px-4 text-black">{{ $user->email }}</td>
                                 <td class="py-3 px-4 text-black">{{ $user->whatsapp }}</td>
                                 <td class="py-3 px-4 text-sm font-mono text-indigo-600">
-                                    {{ $user->username }}
+                                    {{ $user->nik }}
                                 </td>
                             </tr>
                         @endforeach

@@ -49,28 +49,28 @@ class AuthController extends Controller implements Authenticable
 
         $request->session()->put('registered_user_id', $user->id);
 
-        return redirect()->route('username');
+        return redirect()->route('nik');
     }
 
     /*
     |--------------------------------------------------------------------------
-    | USERNAME SETUP
+    | NIK SETUP
     |--------------------------------------------------------------------------
     */
 
-    public function showUsername(Request $request)
+    public function showNik(Request $request)
     {
         if (!$request->session()->has('registered_user_id')) {
             return redirect()->route('register');
         }
 
-        return view('username');
+        return view('nik');
     }
 
-    public function processUsername(Request $request)
+    public function processNik(Request $request)
     {
         $validatedData = $request->validate([
-            'username' => 'required|string|max:255|unique:users,username',
+            'nik' => 'required|string|numeric|digits:16|unique:users,nik',
         ]);
 
         $userId = $request->session()->get('registered_user_id');
@@ -82,14 +82,14 @@ class AuthController extends Controller implements Authenticable
         $user = User::find($userId);
 
         if ($user) {
-            $user->username = $validatedData['username'];
+            $user->nik = $validatedData['nik'];
             $user->save();
         }
 
         $request->session()->forget('registered_user_id');
 
         return redirect()->route('login')
-            ->with('success', 'Username berhasil disimpan. Silakan login.');
+            ->with('success', 'NIK berhasil disimpan. Silakan login.');
     }
 
     /*
