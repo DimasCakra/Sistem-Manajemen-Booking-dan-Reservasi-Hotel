@@ -8,9 +8,11 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Staff;
 use App\Models\Kamar;
+use App\Models\TipeKamar;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -199,18 +201,22 @@ class AdminController extends Controller
         $type = $request->query('type');
         $status = $request->query('status');
 
-        $kamars = Kamar::query();
+        $kamars = Kamar::with('tipe');
 
         if ($search) {
             $kamars->where(function ($query) use ($search) {
                 $query->where('no_kamar', 'like', '%' . $search . '%')
-                    ->orWhere('tipe_kamar', 'like', '%' . $search . '%')
-                    ->orWhere('deskripsi', 'like', '%' . $search . '%');
+                    ->orWhereHas('tipe', function ($query) use ($search) {
+                        $query->where('nama_tipe', 'like', '%' . $search . '%')
+                              ->orWhere('kode_tipe', 'like', '%' . $search . '%');
+                    });
             });
         }
 
         if ($type) {
-            $kamars->where('tipe_kamar', $type);
+            $kamars->whereHas('tipe', function ($query) use ($type) {
+                $query->where('nama_tipe', $type);
+            });
         }
 
         if ($status) {
@@ -218,8 +224,9 @@ class AdminController extends Controller
         }
 
         $kamars = $kamars->orderBy('id_kamar', 'desc')->get();
+        $tipeKamars = TipeKamar::orderBy('nama_tipe')->get();
 
-        return view('admin.kelolakamar', compact('kamars', 'search', 'type', 'status'));
+        return view('admin.kelolakamar', compact('kamars', 'search', 'type', 'status', 'tipeKamars'));
     }
 
     public function kamarCreate()
@@ -229,40 +236,30 @@ class AdminController extends Controller
 
     public function kamarStore(Request $request)
     {
-        $request->validate([
-            'no_kamar' => 'required|string|max:10|unique:kamar,no_kamar',
-            'tipe_kamar' => 'required|string|max:30',
-            'status_kamar' => 'required|string|in:tersedia,terisi',
-            'harga_per_malam' => 'required|integer|min:0',
-            'deskripsi' => 'nullable|string|max:255',
-            'foto_kamar.*' => 'image|mimes:jpeg,png,jpg|max:2048'
+        $validated = $request->validate([
+            'no_kamar' => 'required|string|max:20',
+            'id_tipe_kamar' => 'required|exists:tipe_kamar,id_tipe_kamar',
+            'status_kamar' => 'required|in:tersedia,terisi',
         ], [
             'no_kamar.required' => 'Nomor kamar wajib diisi.',
-            'no_kamar.unique' => 'Nomor kamar sudah terdaftar.',
-            'tipe_kamar.required' => 'Tipe kamar wajib diisi.',
+            'id_tipe_kamar.required' => 'Tipe kamar wajib dipilih.',
+            'id_tipe_kamar.exists' => 'Tipe kamar tidak ditemukan.',
             'status_kamar.required' => 'Status kamar wajib dipilih.',
             'status_kamar.in' => 'Status kamar harus tersedia atau terisi.',
-            'harga_per_malam.required' => 'Harga per malam wajib diisi.',
-            'harga_per_malam.integer' => 'Harga per malam harus berupa angka.',
-            'foto_kamar.*.image' => 'File harus berupa gambar.',
         ]);
 
-        $dataFoto = [];
+        $tipe = TipeKamar::findOrFail($validated['id_tipe_kamar']);
+        $id_kamar = $tipe->kode_tipe . $validated['no_kamar'];
 
-        if ($request->hasFile('foto_kamar')) {
-            $files = array_slice($request->file('foto_kamar'), 0, 5);
-            foreach ($files as $file) {
-                $dataFoto[] = $file->store('foto_kamar', 'public');
-            }
+        if (Kamar::find($id_kamar)) {
+            return back()->withErrors(['no_kamar' => 'Kamar dengan kombinasi nomor dan tipe sudah ada.'])->withInput();
         }
 
         Kamar::create([
-            'no_kamar' => $request->no_kamar,
-            'tipe_kamar' => $request->tipe_kamar,
-            'status_kamar' => $request->status_kamar,
-            'harga_per_malam' => $request->harga_per_malam,
-            'deskripsi' => $request->deskripsi,
-            'foto_kamar' => json_encode($dataFoto)
+            'id_kamar' => $id_kamar,
+            'no_kamar' => $validated['no_kamar'],
+            'id_tipe_kamar' => $validated['id_tipe_kamar'],
+            'status_kamar' => $validated['status_kamar'],
         ]);
 
         return redirect()->route('admin.kamar')->with('success', 'Kamar berhasil ditambahkan');
@@ -286,39 +283,33 @@ class AdminController extends Controller
             return redirect()->route('admin.kamar')->with('error', 'Kamar tidak ditemukan');
         }
 
-        $request->validate([
-            'no_kamar' => 'required|string|max:10|unique:kamar,no_kamar,' . $kamar->id_kamar . ',id_kamar',
-            'tipe_kamar' => 'required|string|max:30',
-            'status_kamar' => 'required|string|in:tersedia,terisi',
-            'harga_per_malam' => 'required|integer|min:0',
-            'deskripsi' => 'nullable|string|max:255',
-            'foto_kamar' => 'nullable|array',
-            'foto_kamar.*' => 'image|mimes:jpeg,png,jpg|max:2048',
+        $validated = $request->validate([
+            'no_kamar' => 'required|string|max:20',
+            'id_tipe_kamar' => 'required|exists:tipe_kamar,id_tipe_kamar',
+            'status_kamar' => 'required|in:tersedia,terisi',
+        ], [
+            'no_kamar.required' => 'Nomor kamar wajib diisi.',
+            'id_tipe_kamar.required' => 'Tipe kamar wajib dipilih.',
+            'id_tipe_kamar.exists' => 'Tipe kamar tidak ditemukan.',
+            'status_kamar.required' => 'Status kamar wajib dipilih.',
+            'status_kamar.in' => 'Status kamar harus tersedia atau terisi.',
         ]);
 
-        if ($request->hasFile('foto_kamar')) {
-            $fotoLama = json_decode($kamar->foto_kamar, true) ?? [];
-            foreach ($fotoLama as $foto) {
-                if (Storage::disk('public')->exists($foto)) {
-                    Storage::disk('public')->delete($foto);
-                }
-            }
+        $tipe = TipeKamar::findOrFail($validated['id_tipe_kamar']);
+        $newId = $tipe->kode_tipe . $validated['no_kamar'];
 
-            $dataFoto = [];
-            $files = array_slice($request->file('foto_kamar'), 0, 5);
-            foreach ($files as $file) {
-                $dataFoto[] = $file->store('foto_kamar', 'public');
-            }
-
-            $kamar->foto_kamar = json_encode($dataFoto);
+        if ($newId !== $kamar->id_kamar && Kamar::find($newId)) {
+            return back()->withErrors(['no_kamar' => 'Kamar dengan kombinasi tipe dan nomor sudah ada.'])->withInput();
         }
 
-        $kamar->no_kamar = $request->no_kamar;
-        $kamar->tipe_kamar = $request->tipe_kamar;
-        $kamar->status_kamar = $request->status_kamar;
-        $kamar->harga_per_malam = $request->harga_per_malam;
-        $kamar->deskripsi = $request->deskripsi;
-        $kamar->save();
+        DB::transaction(function () use ($kamar, $validated, $newId) {
+            DB::table('kamar')->where('id_kamar', $kamar->id_kamar)->update([
+                'id_kamar' => $newId,
+                'no_kamar' => $validated['no_kamar'],
+                'id_tipe_kamar' => $validated['id_tipe_kamar'],
+                'status_kamar' => $validated['status_kamar'],
+            ]);
+        });
 
         return redirect()->route('admin.kamar')->with('success', 'Kamar berhasil diperbarui');
     }

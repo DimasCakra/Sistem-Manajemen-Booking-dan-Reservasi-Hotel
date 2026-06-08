@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Staff\AdminController;
+use App\Http\Controllers\TipeKamarController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,4 +36,10 @@ Route::middleware('auth:staff')->prefix('admin')->group(function () {
     Route::get('/kamar/{id}/edit', [AdminController::class, 'kamarEdit'])->name('admin.kamar.edit');
     Route::put('/kamar/{id}', [AdminController::class, 'kamarUpdate'])->name('admin.kamar.update');
     Route::delete('/kamar/{id}', [AdminController::class, 'kamarDestroy'])->name('admin.kamar.destroy');
+
+    // Tipe Kamar Management (CRUD)
+    Route::get('/tipe-kamar', [TipeKamarController::class, 'index'])->name('admin.tipe-kamar.index');
+    Route::post('/tipe-kamar', [TipeKamarController::class, 'store'])->name('admin.tipe-kamar.store');
+    Route::put('/tipe-kamar/{id}', [TipeKamarController::class, 'update'])->name('admin.tipe-kamar.update');
+    Route::delete('/tipe-kamar/{id}', [TipeKamarController::class, 'destroy'])->name('admin.tipe-kamar.destroy');
 });

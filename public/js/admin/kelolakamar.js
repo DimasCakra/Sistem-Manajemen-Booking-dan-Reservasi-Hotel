@@ -80,18 +80,18 @@ document.addEventListener('DOMContentLoaded', () => {
         currentMode = mode;
         const isEditable = mode === 'edit';
         detailModalTitle.textContent = mode === 'edit' ? 'Edit Kamar' : 'Detail Kamar';
-        detailModalSubtitle.textContent = mode === 'edit' ? 'Perbarui data kamar dan tekan Simpan Perubahan.' : 'Lihat detail kamar dengan aman.';
+        detailModalSubtitle.textContent = mode === 'edit' ? 'Perbarui nomor, tipe, dan status kamar kemudian tekan Simpan Perubahan.' : 'Lihat detail kamar dengan aman.';
         editSaveButton.textContent = mode === 'edit' ? 'Simpan Perubahan' : 'Edit Kamar';
 
         // Element teks biasa menggunakan readOnly
         modalFields.roomNumber.readOnly = !isEditable;
-        modalFields.price.readOnly = !isEditable;
-        modalFields.description.readOnly = !isEditable;
+        modalFields.price.readOnly = true;
+        modalFields.description.readOnly = true;
 
         // Element select/dropdown dan input file menggunakan disabled
         if (modalFields.roomType) modalFields.roomType.disabled = !isEditable;
         if (modalFields.status) modalFields.status.disabled = !isEditable;
-        if (modalFields.imageInput) modalFields.imageInput.disabled = !isEditable;
+        if (modalFields.imageInput) modalFields.imageInput.disabled = true;
 
         if (mode === 'view') {
             editSaveButton.classList.remove('bg-forest-700', 'bg-emerald-600');
@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function populateDetailModal(row) {
         modalFields.roomNumber.value = row.dataset.roomNumber || '';
-        modalFields.roomType.value = row.dataset.roomType || '';
+        modalFields.roomType.value = row.dataset.roomTypeId || '';
         modalFields.price.value = row.dataset.price || '';
         modalFields.roomCode.value = `${row.dataset.roomId || ''}`;
         modalFields.status.value = row.dataset.roomStatus || '';
