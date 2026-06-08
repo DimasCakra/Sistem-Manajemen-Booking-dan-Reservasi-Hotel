@@ -50,10 +50,6 @@
         @endif
 
         <div class="bg-white rounded-xl shadow-sm border border-forest-100 overflow-hidden fade-up" style="animation-delay: 0.1s">
-            <div class="px-8 py-6 border-b border-gray-100 bg-forest-50">
-                <h2 class="font-semibold text-slate-900">Daftar Tipe Kamar</h2>
-                <p class="text-slate-500 text-sm mt-1">Jenis tipe kamar yang tersedia beserta harga dan deskripsi.</p>
-            </div>
             <div class="overflow-x-auto">
                 <table class="w-full text-left min-w-[720px]">
                     <thead>

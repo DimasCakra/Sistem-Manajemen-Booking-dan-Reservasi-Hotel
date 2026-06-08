@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Staff\AdminController;
-use App\Http\Controllers\TipeKamarController;
+use App\Http\Controllers\Staff\TipeKamarController;
 
 /*
 |--------------------------------------------------------------------------

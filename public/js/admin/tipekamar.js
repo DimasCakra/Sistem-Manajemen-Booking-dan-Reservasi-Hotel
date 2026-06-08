@@ -158,6 +158,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Auto-convert kode_tipe to uppercase while typing
+    const createKodeInput = createModal.querySelector('input[name="kode_tipe"]');
+    if (createKodeInput) {
+        createKodeInput.addEventListener('input', (e) => {
+            e.target.value = e.target.value.toUpperCase();
+        });
+    }
+
+    const detailKodeInput = modalFields.code;
+    if (detailKodeInput) {
+        detailKodeInput.addEventListener('input', (e) => {
+            e.target.value = e.target.value.toUpperCase();
+        });
+    }
+
     document.addEventListener('keydown', event => {
         if (event.key === 'Escape') {
             if (createModal && !createModal.classList.contains('hidden')) closeModal(createModal);

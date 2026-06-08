@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Staff;
 
+use App\Http\Controllers\Controller;
 use App\Models\Kamar;
 use App\Models\TipeKamar;
 use Illuminate\Http\Request;
@@ -23,13 +24,17 @@ class TipeKamarController extends Controller
             'kode_tipe.required' => 'Kode tipe kamar wajib diisi.',
             'kode_tipe.max' => 'Kode tipe kamar maksimal :max karakter.',
             'kode_tipe.unique' => 'Kode tipe kamar sudah digunakan.',
+            'kode_tipe.regex' => 'Kode tipe kamar harus terdiri dari 1-3 huruf besar (A-Z).',
             'harga_per_malam.required' => 'Harga per malam wajib diisi.',
             'harga_per_malam.integer' => 'Harga per malam harus berupa angka.',
+            'harga_per_malam.min' => 'Harga per malam minimal 0.',
             'foto_kamar.required' => 'Anda harus mengunggah minimal 2 foto kamar.',
             'foto_kamar.array' => 'Foto kamar harus berupa array file.',
             'foto_kamar.min' => 'Anda harus mengunggah minimal :min foto.',
             'foto_kamar.max' => 'Anda hanya boleh mengunggah maksimal :max foto.',
             'foto_kamar.*.image' => 'Setiap file harus berupa gambar.',
+            'foto_kamar.*.mimes' => 'Setiap file harus bertipe jpeg, png, atau jpg.',
+            'foto_kamar.*.max' => 'Setiap file maksimal 5 MB.',
         ];
 
         $validated = $request->validate([
@@ -62,12 +67,16 @@ class TipeKamarController extends Controller
             'kode_tipe.required' => 'Kode tipe kamar wajib diisi.',
             'kode_tipe.max' => 'Kode tipe kamar maksimal :max karakter.',
             'kode_tipe.unique' => 'Kode tipe kamar sudah digunakan.',
+            'kode_tipe.regex' => 'Kode tipe kamar harus terdiri dari 1-3 huruf besar (A-Z).',
             'harga_per_malam.required' => 'Harga per malam wajib diisi.',
             'harga_per_malam.integer' => 'Harga per malam harus berupa angka.',
+            'harga_per_malam.min' => 'Harga per malam minimal 0.',
             'foto_kamar.array' => 'Foto kamar harus berupa array file.',
             'foto_kamar.min' => 'Anda harus mengunggah minimal :min foto.',
             'foto_kamar.max' => 'Anda hanya boleh mengunggah maksimal :max foto.',
             'foto_kamar.*.image' => 'Setiap file harus berupa gambar.',
+            'foto_kamar.*.mimes' => 'Setiap file harus bertipe jpeg, png, atau jpg.',
+            'foto_kamar.*.max' => 'Setiap file maksimal 5 MB.',
         ];
 
         $validated = $request->validate([
