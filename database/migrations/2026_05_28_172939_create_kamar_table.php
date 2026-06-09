@@ -8,15 +8,20 @@ return new class extends Migration
 {
     public function up(): void
     {
+        Schema::dropIfExists('kamar');
+
         Schema::create('kamar', function (Blueprint $table) {
-            $table->integer('id_kamar')->autoIncrement();
-            $table->string('no_kamar', 10)->unique();
-            $table->string('tipe_kamar', 50);
-            $table->string('status_kamar', 20);
-            $table->integer('harga_per_malam');
-            $table->string('deskripsi', 255);
-            $table->text('foto_kamar')->nullable();
+            $table->string('id_kamar', 20)->primary();
+            $table->string('no_kamar', 20);
+            $table->unsignedBigInteger('id_tipe_kamar');
+            $table->enum('status_kamar', ['tersedia', 'terisi'])->default('tersedia');
             $table->timestamps();
+
+            $table->foreign('id_tipe_kamar')
+                ->references('id_tipe_kamar')
+                ->on('tipe_kamar')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
         });
     }
 

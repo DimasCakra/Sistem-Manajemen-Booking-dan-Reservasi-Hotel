@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('tipe_kamar', function (Blueprint $table) {
             $table->bigIncrements('id_tipe_kamar');
-            $table->string('nama_tipe');
+            $table->string('nama_tipe', 50);
             $table->string('kode_tipe', 3)->unique();
             $table->integer('harga_per_malam');
             $table->text('deskripsi')->nullable();
