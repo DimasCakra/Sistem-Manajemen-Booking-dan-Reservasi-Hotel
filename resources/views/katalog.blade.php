@@ -13,7 +13,7 @@
 
     <nav class="w-full bg-[#254117] px-[5%] py-4 border-b border-white/10 flex justify-center">
         <div class="bg-white flex items-center border border-gray-200 rounded-xl shadow-md overflow-hidden min-w-[600px]">
-            
+
             <div class="flex-1 flex flex-col px-40 py-2 border-r border-gray-400">
                 <span class="text-[9px] text-gray-500 font-bold uppercase tracking-[0.1em]">Check-In / Check-Out</span>
                 <span class="text-[13px] font-bold text-[#0f172a] whitespace-nowrap">
@@ -37,8 +37,8 @@
     <main class="w-full px-[5%] py-8 bg-gray-200">
         @foreach($kamars as $index => $kamar)
         <div class="bg-white w-full flex mb-8 rounded-2xl shadow-[0_10px_25px_-5px_rgba(0,0,0,0.05)] overflow-hidden border border-gray-100 transition-transform">
-            
-            <div class="w-[380px] shrink-0 overflow-hidden">
+
+            <div class="w-[380px] shrink-0 overflow-hidden h-[230px]">
                 <img src="{{ $kamar->gambar }}" class="w-full h-full object-cover transition-transform duration-500" alt="Foto Kamar">
             </div>
 
@@ -69,12 +69,12 @@
                 </div>
                 <span class="text-xs text-gray-400">/ Malam</span>
                 @if($kamar->available > 0)
-                    <a href="{{ route('kamar.show', $kamar->id_tipe_kamar) }}" 
+                    <a href="{{ route('kamar.show', $kamar->id_tipe_kamar) }}"
                        class="w-full bg-[#8C6A1A] text-white mt-6 py-4 rounded-xl font-bold uppercase tracking-widest text-sm text-center block cursor-pointer transition-all shadow-md hover:shadow-[#8C6A1A]">
                        Pesan Sekarang
                     </a>
                 @else
-                    <button type="button" disabled 
+                    <button type="button" disabled
                        class="w-full bg-slate-300 text-slate-700 mt-6 py-4 rounded-xl font-bold uppercase tracking-widest text-sm text-center block cursor-not-allowed">
                        Penuh
                     </button>
