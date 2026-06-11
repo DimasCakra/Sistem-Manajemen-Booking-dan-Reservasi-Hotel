@@ -28,6 +28,10 @@ class TipeKamarController extends Controller
             'harga_per_malam.required' => 'Harga per malam wajib diisi.',
             'harga_per_malam.integer' => 'Harga per malam harus berupa angka.',
             'harga_per_malam.min' => 'Harga per malam minimal 0.',
+            'jumlah_tamu.required' => 'Jumlah tamu wajib diisi.',
+            'jumlah_tamu.integer' => 'Jumlah tamu harus berupa angka.',
+            'jumlah_tamu.min' => 'Jumlah tamu minimal :min.',
+            'jumlah_tamu.max' => 'Jumlah tamu maksimal :max.',
             'foto_kamar.required' => 'Anda harus mengunggah minimal 2 foto kamar.',
             'foto_kamar.array' => 'Foto kamar harus berupa array file.',
             'foto_kamar.min' => 'Anda harus mengunggah minimal :min foto.',
@@ -41,6 +45,7 @@ class TipeKamarController extends Controller
             'nama_tipe' => 'required|string|max:255',
             'kode_tipe' => 'required|string|max:3|unique:tipe_kamar,kode_tipe|regex:/^[A-Z]{1,3}$/',
             'harga_per_malam' => 'required|integer|min:0',
+            'jumlah_tamu' => 'required|integer|min:1|max:20',
             'deskripsi' => 'nullable|string',
             'foto_kamar' => 'required|array|min:2|max:6',
             'foto_kamar.*' => 'image|mimes:jpeg,png,jpg|max:5120',
@@ -52,6 +57,7 @@ class TipeKamarController extends Controller
         }
 
         $validated['foto_kamar'] = $paths;
+        $validated['jumlah_tamu'] = (int) $validated['jumlah_tamu'];
 
         TipeKamar::create($validated);
 
@@ -71,6 +77,10 @@ class TipeKamarController extends Controller
             'harga_per_malam.required' => 'Harga per malam wajib diisi.',
             'harga_per_malam.integer' => 'Harga per malam harus berupa angka.',
             'harga_per_malam.min' => 'Harga per malam minimal 0.',
+            'jumlah_tamu.required' => 'Jumlah tamu wajib diisi.',
+            'jumlah_tamu.integer' => 'Jumlah tamu harus berupa angka.',
+            'jumlah_tamu.min' => 'Jumlah tamu minimal :min.',
+            'jumlah_tamu.max' => 'Jumlah tamu maksimal :max.',
             'foto_kamar.array' => 'Foto kamar harus berupa array file.',
             'foto_kamar.min' => 'Anda harus mengunggah minimal :min foto.',
             'foto_kamar.max' => 'Anda hanya boleh mengunggah maksimal :max foto.',
@@ -83,6 +93,7 @@ class TipeKamarController extends Controller
             'nama_tipe' => 'required|string|max:255',
             'kode_tipe' => 'required|string|max:3|regex:/^[A-Z]{1,3}$/|unique:tipe_kamar,kode_tipe,' . $tipe->id_tipe_kamar . ',id_tipe_kamar',
             'harga_per_malam' => 'required|integer|min:0',
+            'jumlah_tamu' => 'required|integer|min:1|max:20',
             'deskripsi' => 'nullable|string',
             'foto_kamar' => 'nullable|array|min:2|max:6',
             'foto_kamar.*' => 'image|mimes:jpeg,png,jpg|max:5120',
@@ -102,6 +113,7 @@ class TipeKamarController extends Controller
             }
         }
 
+        $validated['jumlah_tamu'] = (int) $validated['jumlah_tamu'];
         $oldKode = $tipe->kode_tipe;
         $newKode = $validated['kode_tipe'];
 

@@ -2,49 +2,67 @@
 
 namespace App\Http\Controllers\Tamu;
 
-use Illuminate\Http\Request;
+use App\Models\TipeKamar;
 use App\Http\Controllers\TamuController;
-use App\Http\Controllers\Tamu\KatalogController;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class BookingController extends TamuController
 {
-    public function biodata($id)
+    protected function loadKamar($id)
     {
-        $allKamars = KatalogController::$dataKamars;
+        $type = TipeKamar::findOrFail($id);
 
-        if (!isset($allKamars[$id])) {
-            abort(404);
-        }
-
-        $kamar = (object) $allKamars[$id];
-
-        // Mock data for check-in and check-out
-        $checkin = request()->query('checkin', '12 Oct 2023');
-        $checkout = request()->query('checkout', '13 Oct 2023');
-        $durasi = 1;
-        $pajak = $kamar->harga * 0.10; // 10% tax
-        $total = $kamar->harga + $pajak;
-
-        return view('biodata', compact('kamar', 'id', 'checkin', 'checkout', 'durasi', 'pajak', 'total'));
+        return (object) [
+            'id_tipe_kamar' => $type->id_tipe_kamar,
+            'nama_tipe' => $type->nama_tipe,
+            'harga' => $type->harga_per_malam,
+            'jumlah_tamu' => $type->jumlah_tamu,
+            'gambar' => $type->foto_kamar && count($type->foto_kamar) ? asset('storage/' . $type->foto_kamar[0]) : 'https://via.placeholder.com/380x260?text=No+Image',
+        ];
     }
 
-    public function payment($id)
+    protected function resolveDates(Request $request)
     {
-        $allKamars = KatalogController::$dataKamars;
+        $checkin = $request->query('checkin', now()->format('Y-m-d'));
+        $checkout = $request->query('checkout', now()->addDay()->format('Y-m-d'));
 
-        if (!isset($allKamars[$id])) {
-            abort(404);
+        try {
+            $start = Carbon::parse($checkin)->startOfDay();
+            $end = Carbon::parse($checkout)->startOfDay();
+            $durasi = max(1, $start->diffInDays($end));
+        } catch (\Exception $e) {
+            $checkin = now()->format('Y-m-d');
+            $checkout = now()->addDay()->format('Y-m-d');
+            $durasi = 1;
         }
 
-        $kamar = (object) $allKamars[$id];
+        return [
+            'checkin' => $checkin,
+            'checkout' => $checkout,
+            'durasi' => $durasi,
+        ];
+    }
 
-        // Mock data
-        $checkin = request()->query('checkin', '12 Oct 2023');
-        $checkout = request()->query('checkout', '13 Oct 2023');
-        $durasi = 1;
+    public function biodata(Request $request, $id)
+    {
+        $kamar = $this->loadKamar($id);
+        $dates = $this->resolveDates($request);
+
         $pajak = $kamar->harga * 0.10;
-        $total = $kamar->harga + $pajak;
+        $total = ($kamar->harga * $dates['durasi']) + $pajak;
 
-        return view('payment', compact('kamar', 'id', 'checkin', 'checkout', 'durasi', 'pajak', 'total'));
+        return view('biodata', array_merge(compact('kamar', 'id'), $dates, compact('pajak', 'total')));
+    }
+
+    public function payment(Request $request, $id)
+    {
+        $kamar = $this->loadKamar($id);
+        $dates = $this->resolveDates($request);
+
+        $pajak = $kamar->harga * 0.10;
+        $total = ($kamar->harga * $dates['durasi']) + $pajak;
+
+        return view('payment', array_merge(compact('kamar', 'id'), $dates, compact('pajak', 'total')));
     }
 }

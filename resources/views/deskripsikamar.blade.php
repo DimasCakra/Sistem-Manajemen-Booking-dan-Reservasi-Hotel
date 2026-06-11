@@ -47,6 +47,9 @@
                     <span class="bg-blue-50 text-[#1E40AF] border border-blue-100 px-6 py-2 rounded text-[10px] font-black uppercase">
                         {{ $kamar->available }} Kamar Tersedia
                     </span>
+                    <span class="bg-forest-50 text-forest-700 border border-forest-100 px-6 py-2 rounded text-[10px] font-black uppercase">
+                        Kapasitas {{ $kamar->jumlah_tamu }} Orang
+                    </span>
                     <span class="bg-amber-50 text-amber-600 border border-amber-100 px-6 py-2 rounded text-[10px] font-black uppercase">
                         Ulasan {{ $kamar->rating }}/5 (252)
                     </span>

@@ -56,6 +56,7 @@
                         <tr class="bg-forest-800 text-white text-[11px] uppercase tracking-[0.2em]">
                             <th class="px-6 py-5">Nama Tipe</th>
                             <th class="px-6 py-5">Kode</th>
+                            <th class="px-6 py-5 text-center">Kapasitas</th>
                             <th class="px-6 py-5 text-center">Harga</th>
                             <th class="px-6 py-5">Deskripsi</th>
                             <th class="px-8 py-5 text-center">Aksi</th>
@@ -70,12 +71,14 @@
                                 data-type-id="{{ $tipe->id_tipe_kamar }}"
                                 data-type-name="{{ $tipe->nama_tipe }}"
                                 data-type-code="{{ $tipe->kode_tipe }}"
+                                data-type-capacity="{{ $tipe->jumlah_tamu }}"
                                 data-type-price="{{ $tipe->harga_per_malam }}"
                                 data-type-description="{{ e($tipe->deskripsi) }}"
                                 data-type-action="{{ route('admin.tipe-kamar.update', $tipe->id_tipe_kamar) }}"
                                 data-type-images='@json($fotoUrls)'>
                                 <td class="px-6 py-6 font-semibold text-slate-900">{{ $tipe->nama_tipe }}</td>
                                 <td class="px-6 py-6 text-slate-700">{{ $tipe->kode_tipe }}</td>
+                                <td class="px-6 py-6 text-center text-slate-900">{{ $tipe->jumlah_tamu }} Orang</td>
                                 <td class="px-6 py-6 text-center text-slate-900">Rp {{ number_format($tipe->harga_per_malam, 0, ',', '.') }}</td>
                                 <td class="px-6 py-6 text-sm text-slate-600 max-w-[260px] truncate">{{ $tipe->deskripsi }}</td>
                                 <td class="px-8 py-6 border-l border-forest-600/40">
@@ -130,6 +133,10 @@
                         <input name="harga_per_malam" type="number" value="{{ old('harga_per_malam') }}" min="0" required class="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm text-slate-900 outline-none focus:border-forest-500" placeholder="250000" />
                     </div>
                     <div>
+                        <label class="text-sm font-semibold text-slate-700">Jumlah Tamu</label>
+                        <input name="jumlah_tamu" type="number" value="{{ old('jumlah_tamu', 2) }}" min="1" required class="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm text-slate-900 outline-none focus:border-forest-500" placeholder="2" />
+                    </div>
+                    <div class="md:col-span-2">
                         <label class="text-sm font-semibold text-slate-700">Deskripsi</label>
                         <textarea name="deskripsi" rows="4" class="mt-1.5 w-full rounded-2xl border border-slate-200 px-4 py-2.5 text-sm text-slate-900 outline-none focus:border-forest-500" placeholder="Deskripsi singkat tipe kamar">{{ old('deskripsi') }}</textarea>
                     </div>
@@ -173,6 +180,10 @@
                         <input id="detailTypePrice" name="harga_per_malam" type="number" min="0" class="modal-field mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm text-slate-900 outline-none" readonly />
                     </div>
                     <div>
+                        <label class="text-sm font-semibold text-slate-700">Jumlah Tamu</label>
+                        <input id="detailTypeCapacity" name="jumlah_tamu" type="number" min="1" class="modal-field mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm text-slate-900 outline-none" readonly />
+                    </div>
+                    <div class="md:col-span-2">
                         <label class="text-sm font-semibold text-slate-700">Deskripsi</label>
                         <textarea id="detailTypeDescription" name="deskripsi" rows="4" class="modal-field mt-1.5 w-full rounded-2xl border border-slate-200 px-4 py-2.5 text-sm text-slate-900 outline-none resize-none" readonly></textarea>
                     </div>

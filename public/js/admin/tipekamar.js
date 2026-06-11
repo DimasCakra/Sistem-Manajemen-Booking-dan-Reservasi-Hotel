@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalFields = {
         name: document.getElementById('detailTypeName'),
         code: document.getElementById('detailTypeCode'),
+        capacity: document.getElementById('detailTypeCapacity'),
         price: document.getElementById('detailTypePrice'),
         description: document.getElementById('detailTypeDescription'),
         imageInput: document.getElementById('detailTypeImageInput'),
@@ -47,6 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         modalFields.name.readOnly = !isEditable;
         modalFields.code.readOnly = !isEditable;
+        modalFields.capacity.readOnly = !isEditable;
         modalFields.price.readOnly = !isEditable;
         modalFields.description.readOnly = !isEditable;
         modalFields.imageInput.disabled = !isEditable;
@@ -63,6 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function populateDetailModal(row) {
         modalFields.name.value = row.dataset.typeName || '';
         modalFields.code.value = row.dataset.typeCode || '';
+        modalFields.capacity.value = row.dataset.typeCapacity || '';
         modalFields.price.value = row.dataset.typePrice || '';
         modalFields.description.value = row.dataset.typeDescription || '';
 

@@ -21,6 +21,7 @@ class TipeKamar extends Model
         'harga_per_malam',
         'deskripsi',
         'foto_kamar',
+        'jumlah_tamu',
     ];
 
     protected $casts = [

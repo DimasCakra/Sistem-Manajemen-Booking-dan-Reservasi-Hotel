@@ -8,7 +8,7 @@ use App\Http\Interfaces\Searchable;
 
 class TamuController extends Controller implements Searchable
 {
-    public function index()
+    public function index(Request $request)
     {
         return view('home');
     }

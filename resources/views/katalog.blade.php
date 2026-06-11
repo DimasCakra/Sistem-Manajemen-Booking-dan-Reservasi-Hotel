@@ -17,7 +17,7 @@
             <div class="flex-1 flex flex-col px-40 py-2 border-r border-gray-400">
                 <span class="text-[9px] text-gray-500 font-bold uppercase tracking-[0.1em]">Check-In / Check-Out</span>
                 <span class="text-[13px] font-bold text-[#0f172a] whitespace-nowrap">
-                    {{ \Carbon\Carbon::parse($checkin)->format('d M Y') }} - {{ \Carbon\Carbon::parse($checkout)->format('d M Y') }}
+                    {{ $checkin ? \Carbon\Carbon::parse($checkin)->format('d M Y') : '-' }} - {{ $checkout ? \Carbon\Carbon::parse($checkout)->format('d M Y') : '-' }}
                 </span>
             </div>
 
@@ -43,9 +43,12 @@
             </div>
 
             <div class="grow p-8 flex flex-col gap-4">
-                <div class="flex gap-3">
+                <div class="flex gap-3 flex-wrap">
                     <div class="bg-blue-50 text-[#1E40AF] px-3 py-1 text-[11px] font-bold rounded-full border border-blue-100">
                         {{ $kamar->available }} Kamar Tersedia
+                    </div>
+                    <div class="bg-forest-50 text-forest-700 px-3 py-1 text-[11px] font-bold rounded-full border border-forest-100">
+                        Kapasitas: {{ $kamar->jumlah_tamu }} Orang
                     </div>
                     <div class="bg-amber-50 text-amber-600 px-3 py-1 text-[11px] font-bold rounded-full border border-amber-100">
                         ★ {{ $kamar->rating }} Ulasan
@@ -65,10 +68,17 @@
                     Rp {{ number_format($kamar->harga, 0, ',', '.') }}
                 </div>
                 <span class="text-xs text-gray-400">/ Malam</span>
-                <a href="{{ route('kamar.show', $index) }}" 
-                   class="w-full bg-[#8C6A1A] text-white mt-6 py-4 rounded-xl font-bold uppercase tracking-widest text-sm text-center block cursor-pointer transition-all shadow-md hover:shadow-[#8C6A1A]">
-                   Pesan Sekarang
-                </a>
+                @if($kamar->available > 0)
+                    <a href="{{ route('kamar.show', $kamar->id_tipe_kamar) }}" 
+                       class="w-full bg-[#8C6A1A] text-white mt-6 py-4 rounded-xl font-bold uppercase tracking-widest text-sm text-center block cursor-pointer transition-all shadow-md hover:shadow-[#8C6A1A]">
+                       Pesan Sekarang
+                    </a>
+                @else
+                    <button type="button" disabled 
+                       class="w-full bg-slate-300 text-slate-700 mt-6 py-4 rounded-xl font-bold uppercase tracking-widest text-sm text-center block cursor-not-allowed">
+                       Penuh
+                    </button>
+                @endif
             </div>
 
         </div>
