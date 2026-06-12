@@ -16,7 +16,9 @@ Route::get('/home', [TamuController::class, 'index'])->name('home');
 Route::get('/katalog', [KatalogController::class, 'index'])->name('katalog');
 Route::get('/kamar/{id}', [DeskripsiController::class, 'show'])->name('kamar.show');
 Route::get('/booking/{id}', [BookingController::class, 'biodata'])->name('booking.biodata');
+Route::post('/booking/{id}/biodata', [BookingController::class, 'storeBiodata'])->name('booking.biodata.store');
 Route::get('/booking/{id}/payment', [BookingController::class, 'payment'])->name('booking.payment');
+Route::post('/booking/{id}/payment', [BookingController::class, 'storePayment'])->name('booking.payment.store');
 
 /*
 |--------------------------------------------------------------------------

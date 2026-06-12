@@ -66,7 +66,7 @@
                         </label>
                     </div>
                 </div>
-                <a href="{{ route('booking.payment', $id) }}" class="mt-4 w-full bg-white border border-gray-300 text-[#0f172a] py-4 rounded-xl font-bold uppercase tracking-widest text-sm text-center block cursor-pointer transition-all shadow-sm hover:bg-gray-50">
+                <a href="{{ route('booking.payment', ['id' => $id, 'checkin' => $checkin, 'checkout' => $checkout]) }}" class="mt-4 w-full bg-white border border-gray-300 text-[#0f172a] py-4 rounded-xl font-bold uppercase tracking-widest text-sm text-center block cursor-pointer transition-all shadow-sm hover:bg-gray-50">
                     Saya Sudah Bayar (Refresh)
                 </a>
             </div>
@@ -94,8 +94,9 @@
                 <div class="bg-white p-8 rounded-md border border-gray-100 shadow-sm" x-data="{ photoPreview: null }">
                     <h2 class="text-lg font-black text-[#0f172a] mb-4 uppercase tracking-widest">Upload Bukti</h2>
                     
-                    <form action="" method="#" enctype="multipart/form-data" class="space-y-4">
+                    <form action="{{ route('booking.payment.store', ['id' => $id, 'checkin' => $checkin, 'checkout' => $checkout]) }}" method="POST" enctype="multipart/form-data" class="space-y-4">
                         @csrf
+                        <input type="hidden" name="payment_method" x-bind:value="method">
                         <div class="relative">
                             <!-- Preview Area -->
                             <template x-if="photoPreview">
