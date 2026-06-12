@@ -72,7 +72,7 @@
                 <div class="text-2xl font-black text-black mb-6">
                     Rp {{ number_format($kamar->harga, 0, ',', '.') }}
                 </div>
-                <a href="{{ route('booking.biodata', request()->route('id')) }}" class="w-full bg-[#8C6A1A] text-white mt-6 py-4 rounded-xl font-bold uppercase tracking-widest text-sm text-center block cursor-pointer transition-all shadow-md hover:shadow-[#8C6A1A]">
+                <a href="{{ route('booking.biodata', ['id' => request()->route('id'), 'checkin' => request()->query('checkin'), 'checkout' => request()->query('checkout')]) }}" class="w-full bg-[#8C6A1A] text-white mt-6 py-4 rounded-xl font-bold uppercase tracking-widest text-sm text-center block cursor-pointer transition-all shadow-md hover:shadow-[#8C6A1A]">
                     Pesan Sekarang
                 </a>
             </div>
