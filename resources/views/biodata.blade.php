@@ -6,8 +6,14 @@
     <title>Guest Biodata - StayEase</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'DM Sans', sans-serif; }
+        .font-display, h1, h2, h3 { font-family: 'Playfair Display', serif; }
+    </style>
 </head>
-<body class="bg-gray-200 text-[#1e293b] font-sans">
+<body class="bg-[#FFF4DE] text-[#1e293b] font-sans">
     @include('components.navbar')
 
     <main class="max-w-8xl mx-auto px-6 py-10">
@@ -22,20 +28,20 @@
                     <div class="space-y-4">
                         <div>
                             <label class="block text-sm font-bold text-gray-700 mb-1">Nama Lengkap</label>
-                            <input type="text" name="nama_lengkap" value="{{ Auth::check() ? Auth::user()->name : '' }}" {{ Auth::check() ? 'readonly' : '' }} class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#8C6A1A] {{ Auth::check() ? 'bg-gray-100 cursor-not-allowed text-gray-500' : '' }}" placeholder="Masukkan Nama Lengkap Anda" required>
+                            <input type="text" name="nama_lengkap" value="{{ Auth::check() ? Auth::user()->name : '' }}" {{ Auth::check() ? 'readonly' : '' }} class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117] {{ Auth::check() ? 'bg-gray-100 cursor-not-allowed text-gray-500' : '' }}" placeholder="Masukkan Nama Lengkap Anda" required>
                         </div>
                         <div>
                             <label class="block text-sm font-bold text-gray-700 mb-1">NIK</label>
-                            <input type="text" name="nik" value="{{ Auth::check() ? Auth::user()->nik : '' }}" {{ Auth::check() ? 'readonly' : '' }} class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#8C6A1A] {{ Auth::check() ? 'bg-gray-100 cursor-not-allowed text-gray-500' : '' }}" placeholder="Masukkan NIK Anda" required>
+                            <input type="text" name="nik" value="{{ Auth::check() ? Auth::user()->nik : '' }}" {{ Auth::check() ? 'readonly' : '' }} class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117] {{ Auth::check() ? 'bg-gray-100 cursor-not-allowed text-gray-500' : '' }}" placeholder="Masukkan NIK Anda" required>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-sm font-bold text-gray-700 mb-1">Nomor WhatsApp</label>
-                                <input type="text" name="whatsapp" value="{{ Auth::check() ? Auth::user()->whatsapp : '' }}" {{ Auth::check() ? 'readonly' : '' }} class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#8C6A1A] {{ Auth::check() ? 'bg-gray-100 cursor-not-allowed text-gray-500' : '' }}" placeholder="Masukkan Nomor WhatsApp" required>
+                                <input type="text" name="whatsapp" value="{{ Auth::check() ? Auth::user()->whatsapp : '' }}" {{ Auth::check() ? 'readonly' : '' }} class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117] {{ Auth::check() ? 'bg-gray-100 cursor-not-allowed text-gray-500' : '' }}" placeholder="Masukkan Nomor WhatsApp" required>
                             </div>
                             <div>
                                 <label class="block text-sm font-bold text-gray-700 mb-1">Alamat Email</label>
-                                <input type="email" name="email" value="{{ Auth::check() ? Auth::user()->email : '' }}" {{ Auth::check() ? 'readonly' : '' }} class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#8C6A1A] {{ Auth::check() ? 'bg-gray-100 cursor-not-allowed text-gray-500' : '' }}" placeholder="Masukkan Alamat Email" required>
+                                <input type="email" name="email" value="{{ Auth::check() ? Auth::user()->email : '' }}" {{ Auth::check() ? 'readonly' : '' }} class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117] {{ Auth::check() ? 'bg-gray-100 cursor-not-allowed text-gray-500' : '' }}" placeholder="Masukkan Alamat Email" required>
                             </div>
                         </div>
                     </div>
@@ -47,17 +53,17 @@
                     <div class="space-y-4">
                         <div>
                             <label class="flex items-center space-x-3 cursor-pointer mb-4">
-                                <input type="checkbox" name="booking_untuk_orang_lain" value="1" class="w-5 h-5 rounded border-gray-300 text-[#8C6A1A] focus:ring-[#8C6A1A]" x-model="bookingLain">
+                                <input type="checkbox" name="booking_untuk_orang_lain" value="1" class="w-5 h-5 rounded border-gray-300 text-[#254117] focus:ring-[#254117]" x-model="bookingLain">
                                 <span class="text-sm font-bold text-gray-700">booking untuk orang lain (Nama Tamu)</span>
                             </label>
                             <div x-show="bookingLain" style="display: none;">
-                                <input type="text" name="nama_tamu_lain" class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#8C6A1A] mb-4" placeholder="Masukkan Nama Tamu (Optional)">
-                                <input type="text" name="nik_tamu_lain" class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#8C6A1A] mb-4" placeholder="Masukkan NIK Tamu (Optional)">
+                                <input type="text" name="nama_tamu_lain" class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117] mb-4" placeholder="Masukkan Nama Tamu (Optional)">
+                                <input type="text" name="nik_tamu_lain" class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117] mb-4" placeholder="Masukkan NIK Tamu (Optional)">
                             </div>
                         </div>
                         <div>
                             <label class="block text-sm font-bold text-gray-700 mb-1">Apakah ada permintaan lainnya?</label>
-                            <textarea name="permintaan_khusus" rows="4" class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#8C6A1A]" placeholder="Permintaan Khusus (Optional)"></textarea>
+                            <textarea name="permintaan_khusus" rows="4" class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117]" placeholder="Permintaan Khusus (Optional)"></textarea>
                         </div>
                     </div>
                 </div>
@@ -100,12 +106,12 @@
                     <div class="border-t border-gray-100 pt-4 mt-2">
                         <div class="flex justify-between items-center">
                             <span class="text-base font-black">Total Pembayaran</span>
-                            <span class="text-xl font-black text-[#8C6A1A]">Rp {{ number_format($total, 0, ',', '.') }}</span>
+                            <span class="text-xl font-black text-[#254117]">Rp {{ number_format($total, 0, ',', '.') }}</span>
                         </div>
                     </div>
                 </div>
 
-                <button type="submit" class="w-full bg-[#8C6A1A] text-white py-4 rounded-xl font-bold uppercase tracking-widest text-sm text-center block cursor-pointer transition-all shadow-md hover:shadow-[#8C6A1A]">
+                <button type="submit" class="w-full bg-[#254117] hover:bg-[#1a2f0f] text-white py-4 rounded-xl font-bold uppercase tracking-widest text-sm text-center block cursor-pointer transition-all shadow-md">
                     Lanjutkan Ke Pembayaran
                 </button>
             </div>

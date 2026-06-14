@@ -42,7 +42,7 @@
                         </a>
                         <h1 class="font-display text-3xl font-semibold text-forest-900">Verifikasi Reservasi</h1>
                     </div>
-                    <p class="text-[11px] text-forest-500 uppercase tracking-[0.2em] font-bold pb-1">ID: 001</p>
+                    <p class="text-[11px] text-forest-500 uppercase tracking-[0.2em] font-bold pb-1">ID: {{ str_pad($reservation->id, 3, '0', STR_PAD_LEFT) }}</p>
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
@@ -53,42 +53,52 @@
                         <div class="grid grid-cols-2 gap-x-8 gap-y-6 text-sm">
                             <div class="col-span-2 sm:col-span-1">
                                 <p class="text-gray-400 text-[10px] uppercase font-bold tracking-wider mb-1">Nama Pemesan</p>
-                                <p class="font-semibold text-forest-900 text-base">Dimas Cakra Surya Ananta</p>
+                                <p class="font-semibold text-forest-900 text-base">{{ $reservation->nama_lengkap }}</p>
                             </div>
                             <div class="col-span-2 sm:col-span-1">
                                 <p class="text-gray-400 text-[10px] uppercase font-bold tracking-wider mb-1">Nomor WhatsApp</p>
-                                <p class="font-semibold text-forest-900 text-base">+62 812-3456-7890</p>
+                                <p class="font-semibold text-forest-900 text-base">{{ $reservation->whatsapp }}</p>
                             </div>
 
                             <div class="col-span-2 sm:col-span-1">
                                 <p class="text-gray-400 text-[10px] uppercase font-bold tracking-wider mb-1">Alamat Email</p>
-                                <p class="font-semibold text-forest-900 text-base">dimas.cakra@polibatam.ac.id</p>
+                                <p class="font-semibold text-forest-900 text-base">{{ $reservation->email }}</p>
                             </div>
 
                             <div class="col-span-2 sm:col-span-1">
                                 <p class="text-gray-400 text-[10px] uppercase font-bold tracking-wider mb-1">Tipe Kamar</p>
-                                <p class="font-semibold text-forest-900 text-base">Deluxe Room (King Bed)</p>
+                                <p class="font-semibold text-forest-900 text-base">{{ $reservation->room_type }}</p>
                             </div>
 
+                            @if($reservation->nama_tamu_lain)
                             <div class="col-span-2 border-t border-gray-50 pt-4">
                                 <p class="text-gray-400 text-[10px] uppercase font-bold tracking-wider mb-2 text-amber-600">Detail Pemesanan</p>
-                                <p class="text-black-800 text-[15px]">Dipesankan untuk orang lain: <span class="font-bold">Damar Widi Nugroho</span></p>
+                                <p class="text-black-800 text-[15px]">Dipesankan untuk orang lain: <span class="font-bold">{{ $reservation->nama_tamu_lain }}</span></p>
                             </div>
+                            @endif
 
+                            @if($reservation->permintaan_khusus)
                             <div class="col-span-2 bg-gray-50 rounded-xl p-4 border border-gray-100">
                                 <p class="text-gray-500 text-[12px] uppercase font-bold tracking-wider mb-1">Catatan Tamu</p>
-                                <p class="text-gray-600 leading-relaxed text-[12px]">"Tolong berikan ekstra handuk"</p>
+                                <p class="text-gray-600 leading-relaxed text-[12px]">"{{ $reservation->permintaan_khusus }}"</p>
                             </div>
+                            @endif
                         </div>
                     </div>
                     <div class="lg:col-span-5 bg-white rounded-2xl shadow-sm border border-forest-100 p-8 flex flex-col">
                         <h2 class="font-display text-xl font-semibold text-forest-900 border-b border-gray-100 pb-4 mb-6">Bukti Pembayaran</h2>
                         <div class="flex-1 flex items-center justify-center bg-gray-50 rounded-2xl border-2 border-dashed border-gray-100 overflow-hidden relative">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzxj8OEorO6TJJ8YIQd2s0Dixplg_xR5zMZw&s" 
-                                 alt="Bukti Transfer" 
-                                 class="max-w-full h-auto max-h-[300px] object-contain shadow-sm">
+                            @if($reservation->bukti_pembayaran)
+                                <img src="{{ asset('storage/' . $reservation->bukti_pembayaran) }}" 
+                                     alt="Bukti Transfer" 
+                                     class="max-w-full h-auto max-h-[300px] object-contain shadow-sm">
+                            @else
+                                <p class="text-gray-400 font-medium">Belum ada bukti pembayaran</p>
+                            @endif
                         </div>
-                        <p class="text-center text-[10px] text-gray-400 mt-4 italic tracking-wide uppercase">File: bukti_transfer.png</p>
+                        @if($reservation->bukti_pembayaran)
+                        <p class="text-center text-[10px] text-gray-400 mt-4 italic tracking-wide uppercase">Pembayaran via {{ $reservation->payment_method ?? 'Unknown' }}</p>
+                        @endif
                     </div>
                 </div>
 
@@ -101,11 +111,11 @@
                             </div>
                             <div>
                                 <p class="text-forest-400 text-[10px] uppercase font-bold tracking-[0.2em] mb-2">Check-in / Out</p>
-                                <p class="text-base font-medium text-forest-100">10 - 12 Mei</p>
+                                <p class="text-base font-medium text-forest-100">{{ $reservation->check_in_out }}</p>
                             </div>
                             <div class="col-span-2 md:col-span-1">
                                 <p class="text-amber-400 text-[10px] uppercase font-bold tracking-[0.2em] mb-2 font-display">Total Dana Diterima</p>
-                                <p class="text-2xl font-bold text-white-400">Rp 1.650.000</p>
+                                <p class="text-2xl font-bold text-white-400">Rp {{ number_format($reservation->total_biaya, 0, ',', '.') }}</p>
                             </div>
                         </div>
                     </div>
@@ -114,14 +124,23 @@
                 <div class="bg-white rounded-2xl shadow-sm border border-forest-100 p-10 flex flex-col items-center justify-center text-center">
                     <h2 class="text-xl font-semibold text-forest-900 mb-8 uppercase tracking-[0.2em]">Verifikasi</h2>
                     
-                    <form action="{{ route('receptionist.index') }}" method="GET" class="w-full">
+                    <form action="{{ route('resepsionis.verifikasi.update', $reservation->id) }}" method="POST" class="w-full">
+                        @csrf
                         <div class="flex items-center justify-center gap-6">
-                            <button type="submit" class="w-48 py-4 bg-red-500 border-2 border-red-100 text-white font-bold rounded-md hover:bg-red-700 shadow-md shadow-red-200 transition-all text-[13px] uppercase tracking-widest">
-                                Tolak
-                            </button>
-                            <button type="submit" class="w-64 py-4 bg-forest-600 text-white font-bold rounded-md hover:bg-forest-700 shadow-sm shadow-forest-200 transition-all text-[14px] uppercase tracking-widest">
-                                Konfirmasi Reservasi
-                            </button>
+                            @if($reservation->bukti_pembayaran)
+                                <button type="submit" name="action" value="tolak" class="w-48 py-4 bg-red-500 border-2 border-red-100 text-white font-bold rounded-md hover:bg-red-700 shadow-md shadow-red-200 transition-all text-[13px] uppercase tracking-widest">
+                                    Tolak
+                                </button>
+                                <button type="submit" name="action" value="konfirmasi" class="w-64 py-4 bg-forest-600 text-white font-bold rounded-md hover:bg-forest-700 shadow-sm shadow-forest-200 transition-all text-[14px] uppercase tracking-widest">
+                                    Konfirmasi Reservasi
+                                </button>
+                            @else
+                                <p class="text-gray-500 font-semibold italic">Tamu belum mengunggah bukti pembayaran.</p>
+                                <!-- Optional: disabled buttons to show UI -->
+                                <button type="button" disabled class="w-48 py-4 bg-gray-300 border-2 border-gray-100 text-gray-500 font-bold rounded-md cursor-not-allowed text-[13px] uppercase tracking-widest hidden">
+                                    Tolak
+                                </button>
+                            @endif
                         </div>
                     </form>
                 </div>

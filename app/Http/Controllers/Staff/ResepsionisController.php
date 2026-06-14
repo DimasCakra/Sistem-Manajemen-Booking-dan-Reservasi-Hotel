@@ -59,9 +59,36 @@ class ResepsionisController extends Controller
         return view('resepsionis.detailreservasi', compact('detail'));
     }
 
-    public function verifikasi()
+    public function verifikasi($id)
     {
-        return view('resepsionis.verifikasitamu');
+        $reservation = $this->findReservationById($id);
+        
+        if (!$reservation) {
+            return redirect()->route('receptionist.index')->with('error', 'Reservasi tidak ditemukan');
+        }
+
+        return view('resepsionis.verifikasitamu', compact('reservation'));
+    }
+
+    public function updateVerifikasi(Request $request, $id)
+    {
+        $reservation = $this->findReservationById($id);
+        
+        if (!$reservation) {
+            return redirect()->route('receptionist.index')->with('error', 'Reservasi tidak ditemukan');
+        }
+
+        $action = $request->input('action'); // 'tolak' or 'konfirmasi'
+
+        if ($action === 'tolak') {
+            $reservation->update(['status' => 'rejected']);
+            return redirect()->route('receptionist.index')->with('success', 'Reservasi ditolak');
+        } elseif ($action === 'konfirmasi') {
+            $reservation->update(['status' => 'ongoing']);
+            return redirect()->route('receptionist.index')->with('success', 'Reservasi dikonfirmasi');
+        }
+
+        return back();
     }
 
     protected function fetchAllTamus()

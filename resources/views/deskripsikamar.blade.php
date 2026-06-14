@@ -5,9 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detail {{ $kamar->nama_tipe }} - StayEase</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'DM Sans', sans-serif; }
+        .font-display, h1, h2, h3 { font-family: 'Playfair Display', serif; }
+    </style>
 </head>
-<body class="bg-gray-200 text-[#1e293b] font-sans">
+<body class="bg-[#FFF4DE] text-[#1e293b] font-sans">
 
     @include('components.navbar')
 
@@ -72,7 +77,11 @@
                 <div class="text-2xl font-black text-black mb-6">
                     Rp {{ number_format($kamar->harga, 0, ',', '.') }}
                 </div>
+<<<<<<< HEAD
                 <a href="{{ route('booking.biodata', ['id' => request()->route('id'), 'checkin' => request()->query('checkin'), 'checkout' => request()->query('checkout')]) }}" class="w-full bg-[#8C6A1A] text-white mt-6 py-4 rounded-xl font-bold uppercase tracking-widest text-sm text-center block cursor-pointer transition-all shadow-md hover:shadow-[#8C6A1A]">
+=======
+                <a href="{{ route('booking.biodata', request()->route('id')) }}" class="w-full bg-[#254117] text-white mt-6 py-4 rounded-xl font-bold uppercase tracking-widest text-sm text-center block cursor-pointer transition-all shadow-md hover:bg-[#1a2f0f]">
+>>>>>>> 051359a4f48caa63b5427dae0597595928e2f064
                     Pesan Sekarang
                 </a>
             </div>

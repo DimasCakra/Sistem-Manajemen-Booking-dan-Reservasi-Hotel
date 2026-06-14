@@ -6,8 +6,14 @@
     <title>Katalog Kamar</title>
     <link rel="stylesheet" href="{{ asset('css/katalog.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'DM Sans', sans-serif; }
+        .font-display, h1, h2, h3 { font-family: 'Playfair Display', serif; }
+    </style>
 </head>
-<body>
+<body class="bg-[#FFF4DE]">
 
     @include('components.navbar')
 
@@ -34,7 +40,7 @@
         </div>
     </nav>
 
-    <main class="w-full px-[5%] py-8 bg-gray-200">
+    <main class="w-full px-[5%] py-8 bg-[#FFF4DE]">
         @foreach($kamars as $index => $kamar)
         <div class="bg-white w-full flex mb-8 rounded-2xl shadow-[0_10px_25px_-5px_rgba(0,0,0,0.05)] overflow-hidden border border-gray-100 transition-transform">
 
@@ -68,11 +74,19 @@
                     Rp {{ number_format($kamar->harga, 0, ',', '.') }}
                 </div>
                 <span class="text-xs text-gray-400">/ Malam</span>
+<<<<<<< HEAD
                      @if($kamar->available > 0)
                           <a href="{{ route('kamar.show', ['id' => $kamar->id_tipe_kamar, 'checkin' => $checkin, 'checkout' => $checkout, 'guests' => $guests]) }}"
                               class="w-full bg-[#8C6A1A] text-white mt-6 py-4 rounded-xl font-bold uppercase tracking-widest text-sm text-center block cursor-pointer transition-all shadow-md hover:shadow-[#8C6A1A]">
                               Pesan Sekarang
                           </a>
+=======
+                @if($kamar->available > 0)
+                    <a href="{{ route('kamar.show', $kamar->id_tipe_kamar) }}"
+                       class="w-full bg-[#254117] text-white mt-6 py-4 rounded-xl font-bold uppercase tracking-widest text-sm text-center block cursor-pointer transition-all shadow-md hover:bg-[#1a2f0f]">
+                       Pesan Sekarang
+                    </a>
+>>>>>>> 051359a4f48caa63b5427dae0597595928e2f064
                 @else
                     <button type="button" disabled
                        class="w-full bg-slate-300 text-slate-700 mt-6 py-4 rounded-xl font-bold uppercase tracking-widest text-sm text-center block cursor-not-allowed">
