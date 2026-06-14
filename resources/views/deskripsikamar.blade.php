@@ -17,7 +17,7 @@
     @include('components.navbar')
 
     <main class="max-w-8xl mx-auto px-6 py-10">
-        
+
         <!-- <div class="flex overflow-x-auto gap-4 no-scrollbar snap-x snap-mandatory pb-4 mb-10">
             <div class="min-w-[85%] md:min-w-[32%] snap-start">
                 <img src="{{ $kamar->gambar }}" class="w-full h-64 object-cover rounded-2xl shadow-sm border border-gray-100" alt="Foto 1">
@@ -46,7 +46,7 @@
         </div>
 
         <div class="grid grid-cols-12 gap-6">
-            
+
             <div class="col-span-10 lg:col-span-3 space-y-4 p-1 ml-2">
                 <div class="flex flex-wrap gap-2">
                     <span class="bg-blue-50 text-[#1E40AF] border border-blue-100 px-6 py-2 rounded text-[10px] font-black uppercase">
@@ -77,11 +77,7 @@
                 <div class="text-2xl font-black text-black mb-6">
                     Rp {{ number_format($kamar->harga, 0, ',', '.') }}
                 </div>
-<<<<<<< HEAD
-                <a href="{{ route('booking.biodata', ['id' => request()->route('id'), 'checkin' => request()->query('checkin'), 'checkout' => request()->query('checkout')]) }}" class="w-full bg-[#8C6A1A] text-white mt-6 py-4 rounded-xl font-bold uppercase tracking-widest text-sm text-center block cursor-pointer transition-all shadow-md hover:shadow-[#8C6A1A]">
-=======
                 <a href="{{ route('booking.biodata', request()->route('id')) }}" class="w-full bg-[#254117] text-white mt-6 py-4 rounded-xl font-bold uppercase tracking-widest text-sm text-center block cursor-pointer transition-all shadow-md hover:bg-[#1a2f0f]">
->>>>>>> 051359a4f48caa63b5427dae0597595928e2f064
                     Pesan Sekarang
                 </a>
             </div>
