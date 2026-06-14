@@ -74,19 +74,11 @@
                     Rp {{ number_format($kamar->harga, 0, ',', '.') }}
                 </div>
                 <span class="text-xs text-gray-400">/ Malam</span>
-<<<<<<< HEAD
-                     @if($kamar->available > 0)
-                          <a href="{{ route('kamar.show', ['id' => $kamar->id_tipe_kamar, 'checkin' => $checkin, 'checkout' => $checkout, 'guests' => $guests]) }}"
-                              class="w-full bg-[#8C6A1A] text-white mt-6 py-4 rounded-xl font-bold uppercase tracking-widest text-sm text-center block cursor-pointer transition-all shadow-md hover:shadow-[#8C6A1A]">
-                              Pesan Sekarang
-                          </a>
-=======
                 @if($kamar->available > 0)
                     <a href="{{ route('kamar.show', $kamar->id_tipe_kamar) }}"
                        class="w-full bg-[#254117] text-white mt-6 py-4 rounded-xl font-bold uppercase tracking-widest text-sm text-center block cursor-pointer transition-all shadow-md hover:bg-[#1a2f0f]">
                        Pesan Sekarang
                     </a>
->>>>>>> 051359a4f48caa63b5427dae0597595928e2f064
                 @else
                     <button type="button" disabled
                        class="w-full bg-slate-300 text-slate-700 mt-6 py-4 rounded-xl font-bold uppercase tracking-widest text-sm text-center block cursor-not-allowed">
