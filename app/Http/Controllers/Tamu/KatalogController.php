@@ -43,18 +43,25 @@ class KatalogController extends TamuController
 
             if ($searchHasDates && $totalRooms > 0) {
                 $reservedCount = Reservation::where('room_type', $type->nama_tipe)
-                    ->where('status', '!=', 'done')
+                    ->whereNotIn('status', ['done', 'cancelled'])
                     ->get()
                     ->filter(function (Reservation $reservation) use ($searchStart, $searchEnd) {
-                        if (!str_contains($reservation->check_in_out, ' - ')) {
+                        if ($reservation->status === 'pending' && $reservation->created_at->diffInMinutes(now()) >= 15) {
+                            $reservation->update(['status' => 'cancelled']);
                             return false;
                         }
 
-                        [$startString, $endString] = explode(' - ', $reservation->check_in_out);
+                        if (!str_contains($reservation->check_in_out, ' - ') && !str_contains($reservation->check_in_out, ' to ')) {
+                            return false;
+                        }
+
+                        $separator = str_contains($reservation->check_in_out, ' to ') ? ' to ' : ' - ';
+                        [$startString, $endString] = explode($separator, $reservation->check_in_out);
 
                         try {
-                            $start = Carbon::createFromFormat('d/F/Y', trim($startString))->startOfDay();
-                            $end = Carbon::createFromFormat('d/F/Y', trim($endString))->endOfDay();
+                            $format = str_contains($reservation->check_in_out, ' to ') ? 'Y-m-d' : 'd/F/Y';
+                            $start = Carbon::createFromFormat($format, trim($startString))->startOfDay();
+                            $end = Carbon::createFromFormat($format, trim($endString))->endOfDay();
                         } catch (\Exception $e) {
                             return false;
                         }

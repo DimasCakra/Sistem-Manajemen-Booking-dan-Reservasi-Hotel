@@ -6,8 +6,14 @@
     <title>Payment - StayEase</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'DM Sans', sans-serif; }
+        .font-display, h1, h2, h3 { font-family: 'Playfair Display', serif; }
+    </style>
 </head>
-<body class="bg-gray-200 text-[#1e293b] font-sans">
+<body class="bg-[#FFF4DE] text-[#1e293b] font-sans">
     @include('components.navbar')
 
     <main class="max-w-8xl mx-auto px-6 py-10" x-data="{ method: 'bca', va: '0031 0586 8669' }">
@@ -18,21 +24,20 @@
                 <div class="bg-white p-8 rounded-md border border-gray-100 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
                         <h2 class="text-sm font-bold text-gray-500 uppercase tracking-widest mb-1">Batas Waktu Pembayaran</h2>
-                        <p class="text-xl font-black text-[#0f172a]">{{ \Carbon\Carbon::now()->addHours(2)->format('d M Y, H:i') }}</p>
+                        <p class="text-xl font-black text-[#0f172a]">{{ $reservation->created_at->addMinutes(15)->format('d M Y, H:i') }}</p>
                     </div>
                     <div x-data="{ 
-                            timeLeft: 7200, 
+                            timeLeft: {{ max(0, \Carbon\Carbon::now()->diffInSeconds($reservation->created_at->addMinutes(15), false)) }}, 
                             get formattedTime() { 
-                                const h = String(Math.floor(this.timeLeft / 3600)).padStart(2, '0');
-                                const m = String(Math.floor((this.timeLeft % 3600) / 60)).padStart(2, '0');
-                                const s = String(this.timeLeft % 60).padStart(2, '0');
-                                return `${h}:${m}:${s}`;
+                                const m = String(Math.floor(this.timeLeft / 60)).padStart(2, '0');
+                                const s = String(Math.floor(this.timeLeft % 60)).padStart(2, '0');
+                                return `${m}:${s}`;
                             } 
                         }" 
-                        x-init="setInterval(() => { if (timeLeft > 0) timeLeft-- }, 1000)"
+                        x-init="setInterval(() => { if (timeLeft > 0) { timeLeft--; } else { window.location.href = '{{ route('home') }}'; } }, 1000)"
                         class="bg-red-50 text-red-600 px-6 py-3 rounded-md font-bold text-xl text-center border border-red-100 tabular-nums"
                         x-text="formattedTime">
-                        02:00:00
+                        15:00
                     </div>
                 </div>
 
@@ -41,34 +46,32 @@
                     <h2 class="text-xl font-black text-[#0f172a] mb-6 border-b pb-4 border-gray-50 uppercase tracking-widest">Metode Pembayaran</h2>
                     
                     <div class="space-y-4">
-                        <label class="flex items-center justify-between p-5 border rounded-md cursor-pointer transition-all" :class="method === 'bca' ? 'border-[#8C6A1A] bg-yellow-50/20' : 'border-gray-200 hover:bg-gray-50'">
+                        <label class="flex items-center justify-between p-5 border rounded-md cursor-pointer transition-all" :class="method === 'bca' ? 'border-[#254117] bg-green-50/20' : 'border-gray-200 hover:bg-gray-50'">
                             <div class="flex items-center gap-4">
-                                <input type="radio" name="payment_method" value="bca" x-model="method" @change="va = '8800 1234 5678 9012'" class="w-5 h-5 text-[#8C6A1A] focus:ring-[#8C6A1A]">
-                                <span class="font-bold text-lg">BCA Virtual Account</span>
+                                <input type="radio" name="payment_method" value="bca" x-model="method" @change="va = '8800 1234 5678 9012'" class="w-5 h-5 text-[#254117] focus:ring-[#254117]">
+                                <span class="font-bold text-lg">BCA Rekening</span>
                             </div>
                             <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" alt="BCA" class="h-6">
                         </label>
                         
-                        <label class="flex items-center justify-between p-5 border rounded-md cursor-pointer transition-all" :class="method === 'mandiri' ? 'border-[#8C6A1A] bg-yellow-50/20' : 'border-gray-200 hover:bg-gray-50'">
+                        <label class="flex items-center justify-between p-5 border rounded-md cursor-pointer transition-all" :class="method === 'mandiri' ? 'border-[#254117] bg-green-50/20' : 'border-gray-200 hover:bg-gray-50'">
                             <div class="flex items-center gap-4">
-                                <input type="radio" name="payment_method" value="mandiri" x-model="method" @change="va = '1090 0247 0262 3'" class="w-5 h-5 text-[#8C6A1A] focus:ring-[#8C6A1A]">
-                                <span class="font-bold text-lg">Mandiri Virtual Account</span>
+                                <input type="radio" name="payment_method" value="mandiri" x-model="method" @change="va = '1090 0247 0262 3'" class="w-5 h-5 text-[#254117] focus:ring-[#254117]">
+                                <span class="font-bold text-lg">Mandiri Rekening</span>
                             </div>
                             <img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/Bank_Mandiri_logo_2016.svg" alt="Mandiri" class="h-6">
                         </label>
 
-                        <label class="flex items-center justify-between p-5 border rounded-md cursor-pointer transition-all" :class="method === 'qris' ? 'border-[#8C6A1A] bg-yellow-50/20' : 'border-gray-200 hover:bg-gray-50'">
+                        <label class="flex items-center justify-between p-5 border rounded-md cursor-pointer transition-all" :class="method === 'qris' ? 'border-[#254117] bg-green-50/20' : 'border-gray-200 hover:bg-gray-50'">
                             <div class="flex items-center gap-4">
-                                <input type="radio" name="payment_method" value="qris" x-model="method" @change="va = 'Scan QR Code Below'" class="w-5 h-5 text-[#8C6A1A] focus:ring-[#8C6A1A]">
+                                <input type="radio" name="payment_method" value="qris" x-model="method" @change="va = 'Scan QR Code Below'" class="w-5 h-5 text-[#254117] focus:ring-[#254117]">
                                 <span class="font-bold text-lg">QRIS</span>
                             </div>
                             <img src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Logo_QRIS.svg" alt="QRIS" class="h-6">
                         </label>
                     </div>
                 </div>
-                <a href="{{ route('booking.payment', ['id' => $id, 'checkin' => $checkin, 'checkout' => $checkout]) }}" class="mt-4 w-full bg-white border border-gray-300 text-[#0f172a] py-4 rounded-xl font-bold uppercase tracking-widest text-sm text-center block cursor-pointer transition-all shadow-sm hover:bg-gray-50">
-                    Saya Sudah Bayar (Refresh)
-                </a>
+
             </div>
 
             <!-- Right Column -->
@@ -86,7 +89,7 @@
                     <div class="border-t border-gray-100 pt-4 mt-2">
                         <div class="flex justify-between items-center">
                             <span class="text-base font-black">Total Pembayaran</span>
-                            <span class="text-xl font-black text-[#8C6A1A]">Rp {{ number_format($total, 0, ',', '.') }}</span>
+                            <span class="text-xl font-black text-[#254117]">Rp {{ number_format($total, 0, ',', '.') }}</span>
                         </div>
                     </div>
                 </div>
@@ -94,7 +97,7 @@
                 <div class="bg-white p-8 rounded-md border border-gray-100 shadow-sm" x-data="{ photoPreview: null }">
                     <h2 class="text-lg font-black text-[#0f172a] mb-4 uppercase tracking-widest">Upload Bukti</h2>
                     
-                    <form action="{{ route('booking.payment.store', ['id' => $id, 'checkin' => $checkin, 'checkout' => $checkout]) }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+                    <form action="{{ route('booking.payment.store', ['reservation_id' => $id]) }}" method="POST" enctype="multipart/form-data" class="space-y-4">
                         @csrf
                         <input type="hidden" name="payment_method" x-bind:value="method">
                         <div class="relative">
@@ -124,7 +127,7 @@
                                     ">
                             </label>
                         </div>
-                        <button type="submit" class="w-full bg-[#8C6A1A] hover:bg-[#6e5314] text-white py-4 rounded-xl font-bold uppercase tracking-widest text-sm transition-all shadow-md">
+                        <button type="submit" class="w-full bg-[#254117] hover:bg-[#1a2f0f] text-white py-4 rounded-xl font-bold uppercase tracking-widest text-sm transition-all shadow-md">
                             Konfirmasi Pembayaran
                         </button>
                     </form>
@@ -136,7 +139,7 @@
         <div class="bg-white p-10 rounded-md border border-gray-100 shadow-sm text-center flex flex-col items-center">
             <h3 class="text-sm font-bold text-gray-500 uppercase tracking-widest mb-2" x-text="method === 'qris' ? 'Scan to Pay' : 'NOMOR REKENING'"></h3>
             
-            <div x-show="method !== 'qris'" class="text-4xl font-black text-[#8C6A1A] tracking-widest py-4" x-text="va">
+            <div x-show="method !== 'qris'" class="text-4xl font-black text-[#254117] tracking-widest py-4" x-text="va">
                 8800 1234 5678 9012
             </div>
             

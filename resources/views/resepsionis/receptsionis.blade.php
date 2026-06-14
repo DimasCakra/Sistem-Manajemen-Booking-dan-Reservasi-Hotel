@@ -70,38 +70,29 @@
                     <div class="col-span-2 text-center">Status</div>
                 </div>
 
-                <a href="{{ route('verifikasitamu') }}" class="reservation-row grid grid-cols-12 gap-4 px-6 py-4 border-b border-gray-100 items-center cursor-pointer block">
-                    <div class="col-span-1 text-gray-400 text-sm">1</div>
+                @foreach($reservations as $index => $reservation)
+                <a href="{{ route('verifikasitamu', $reservation->id) }}" class="reservation-row grid grid-cols-12 gap-4 px-6 py-4 border-b border-gray-100 items-center cursor-pointer block">
+                    <div class="col-span-1 text-gray-400 text-sm">{{ $index + 1 }}</div>
                     <div class="col-span-3">
-                        <p class="font-medium text-forest-900 text-sm">Data Tamu</p>
-                        <p class="text-gray-400 text-[11px]">Tamu1@gmail.com</p>
+                        <p class="font-medium text-forest-900 text-sm">{{ $reservation->nama_lengkap }}</p>
+                        <p class="text-gray-400 text-[11px]">{{ $reservation->email }}</p>
                     </div>
-                    <div class="col-span-2 text-center text-sm text-gray-600">Deluxe Room</div>
+                    <div class="col-span-2 text-center text-sm text-gray-600">{{ $reservation->room_type }}</div>
                     <div class="col-span-4 text-center text-xs text-gray-600">
-                        <span class="font-medium text-forest-800">-</span>
+                        @php
+                            $dates = explode(' to ', $reservation->check_in_out);
+                            $checkin = isset($dates[0]) ? \Carbon\Carbon::parse($dates[0])->format('d M') : '-';
+                            $checkout = isset($dates[1]) ? \Carbon\Carbon::parse($dates[1])->format('d M') : '-';
+                        @endphp
+                        <span class="font-medium text-forest-800">{{ $checkin }}</span>
                         <span class="mx-1 text-gray-300">→</span>
-                        <span class="font-medium text-forest-800">-</span>
+                        <span class="font-medium text-forest-800">{{ $checkout }}</span>
                     </div>
                     <div class="col-span-2 flex justify-center">
-                        <span class="text-amber-600 bg-amber-50 px-2 py-1 rounded text-[10px] font-bold uppercase">PENDING</span>
+                        <span class="text-amber-600 bg-amber-50 px-2 py-1 rounded text-[10px] font-bold uppercase">{{ $reservation->status }}</span>
                     </div>
                 </a>
-                <a href="{{ route('verifikasitamu') }}" class="reservation-row grid grid-cols-12 gap-4 px-6 py-4 border-b border-gray-100 items-center cursor-pointer block">
-                    <div class="col-span-1 text-gray-400 text-sm">2</div>
-                    <div class="col-span-3">
-                        <p class="font-medium text-forest-900 text-sm">Data Tamu</p>
-                        <p class="text-gray-400 text-[11px]">Tamu2@gmail.com</p>
-                    </div>
-                    <div class="col-span-2 text-center text-sm text-gray-600">Standard Room</div>
-                    <div class="col-span-4 text-center text-xs text-gray-600">
-                        <span class="font-medium text-forest-800">-</span>
-                        <span class="mx-1 text-gray-300">→</span>
-                        <span class="font-medium text-forest-800">-</span>
-                    </div>
-                    <div class="col-span-2 flex justify-center">
-                        <span class="text-amber-600 bg-amber-50 px-2 py-1 rounded text-[10px] font-bold uppercase">PENDING</span>
-                    </div>
-                </a>
+                @endforeach
 
             </div>
         </main>

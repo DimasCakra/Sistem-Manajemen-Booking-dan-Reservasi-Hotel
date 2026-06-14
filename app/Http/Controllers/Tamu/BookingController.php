@@ -68,84 +68,98 @@ class BookingController extends TamuController
             'permintaan_khusus' => 'nullable|string',
         ]);
 
-        $sessionData = $request->only([
-            'nama_lengkap', 'nik', 'whatsapp', 'email', 
-            'nama_tamu_lain', 'nik_tamu_lain', 'permintaan_khusus'
-        ]);
-
-        $request->session()->put('booking_biodata_' . $id, $sessionData);
-
-        return redirect()->route('booking.payment', [
-            'id' => $id, 
-            'checkin' => $request->query('checkin'), 
-            'checkout' => $request->query('checkout')
-        ]);
-    }
-
-    public function payment(Request $request, $id)
-    {
         $kamar = $this->loadKamar($id);
         $dates = $this->resolveDates($request);
-
         $pajak = $kamar->harga * 0.10;
         $total = ($kamar->harga * $dates['durasi']) + $pajak;
 
-        // Redirect back if biodata is not filled
-        if (!$request->session()->has('booking_biodata_' . $id)) {
-            return redirect()->route('booking.biodata', [
-                'id' => $id,
-                'checkin' => $dates['checkin'],
-                'checkout' => $dates['checkout']
-            ])->with('error', 'Silakan isi biodata terlebih dahulu.');
-        }
+        $reservation = \App\Models\Reservation::create([
+            'user_id' => auth()->id(),
+            'room_type' => $kamar->nama_tipe,
+            'room_number' => '-',
+            'nama_lengkap' => $request->nama_lengkap,
+            'nik' => $request->nik,
+            'whatsapp' => $request->whatsapp,
+            'email' => $request->email,
+            'jumlah_tamu' => $kamar->jumlah_tamu,
+            'check_in_out' => $dates['checkin'] . ' to ' . $dates['checkout'],
+            'status' => 'pending',
+            'total_biaya' => $total,
+            'nama_tamu_lain' => $request->nama_tamu_lain,
+            'nik_tamu_lain' => $request->nik_tamu_lain,
+            'permintaan_khusus' => $request->permintaan_khusus,
+        ]);
 
-        return view('payment', array_merge(compact('kamar', 'id'), $dates, compact('pajak', 'total')));
+        return redirect()->route('booking.payment', [
+            'reservation_id' => $reservation->id
+        ]);
     }
 
-    public function storePayment(Request $request, $id)
+    public function payment(Request $request, $reservation_id)
+    {
+        $reservation = \App\Models\Reservation::findOrFail($reservation_id);
+
+        if ($reservation->status !== 'pending') {
+            return redirect()->route('home')->with('error', 'Reservasi ini sudah diproses atau tidak valid.');
+        }
+
+        if ($reservation->created_at->diffInMinutes(now()) >= 15) {
+            $reservation->update(['status' => 'cancelled']);
+            return redirect()->route('home')->with('error', 'Waktu pembayaran telah habis. Reservasi Anda dibatalkan otomatis.');
+        }
+
+        // Parse dates for durasi
+        $datesParts = explode(' to ', $reservation->check_in_out);
+        $checkin = $datesParts[0];
+        $checkout = $datesParts[1] ?? now()->addDay()->format('Y-m-d');
+        
+        $start = Carbon::parse($checkin)->startOfDay();
+        $end = Carbon::parse($checkout)->startOfDay();
+        $durasi = max(1, $start->diffInDays($end));
+
+        $kamar = (object) [
+            'nama_tipe' => $reservation->room_type,
+            'harga' => ($reservation->total_biaya / 1.1) / $durasi // approximate back
+        ];
+        
+        $pajak = $reservation->total_biaya - ($reservation->total_biaya / 1.1);
+        $total = $reservation->total_biaya;
+        $id = $reservation->id;
+
+        return view('payment', compact('kamar', 'id', 'checkin', 'checkout', 'durasi', 'pajak', 'total', 'reservation'));
+    }
+
+    public function storePayment(Request $request, $reservation_id)
     {
         $request->validate([
             'payment_method' => 'required|string',
             'bukti_pembayaran' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
-        $kamar = $this->loadKamar($id);
-        $dates = $this->resolveDates($request);
-        $biodata = $request->session()->get('booking_biodata_' . $id);
+        $reservation = \App\Models\Reservation::findOrFail($reservation_id);
 
-        if (!$biodata) {
-            return redirect()->route('booking.biodata', $id)->with('error', 'Biodata session expired.');
+        if ($reservation->status !== 'pending') {
+            return redirect()->route('home')->with('error', 'Reservasi ini sudah diproses atau dibatalkan.');
         }
 
-        $pajak = $kamar->harga * 0.10;
-        $total = ($kamar->harga * $dates['durasi']) + $pajak;
+        if ($reservation->created_at->diffInMinutes(now()) >= 15) {
+            $reservation->update(['status' => 'cancelled']);
+            return redirect()->route('home')->with('error', 'Waktu pembayaran telah habis. Reservasi Anda dibatalkan otomatis.');
+        }
 
         $buktiPath = null;
         if ($request->hasFile('bukti_pembayaran')) {
             $buktiPath = $request->file('bukti_pembayaran')->store('bukti_pembayaran', 'public');
         }
 
-        \App\Models\Reservation::create([
-            'user_id' => auth()->id(), // null if not logged in
-            'room_type' => $kamar->nama_tipe,
-            'room_number' => '-', // Wait for receptionist
-            'nama_lengkap' => $biodata['nama_lengkap'],
-            'nik' => $biodata['nik'],
-            'whatsapp' => $biodata['whatsapp'],
-            'email' => $biodata['email'],
-            'jumlah_tamu' => $kamar->jumlah_tamu,
-            'check_in_out' => $dates['checkin'] . ' to ' . $dates['checkout'],
-            'status' => 'ongoing',
-            'total_biaya' => $total,
-            'nama_tamu_lain' => $biodata['nama_tamu_lain'] ?? null,
-            'nik_tamu_lain' => $biodata['nik_tamu_lain'] ?? null,
-            'permintaan_khusus' => $biodata['permintaan_khusus'] ?? null,
+        $reservation->update([
             'payment_method' => $request->payment_method,
             'bukti_pembayaran' => $buktiPath,
+            // Keep status pending as receptionist uses it for awaiting verification, 
+            // or update it if you have specific status for 'awaiting_verification'. 
+            // Here we keep it pending as instructed, but since bukti_pembayaran != null, receptionist can verify.
         ]);
 
-        $request->session()->forget('booking_biodata_' . $id);
-
-        return redirect()->route('home')->with('success', 'Pemesanan berhasil dibuat! Menunggu konfirmasi resepsionis.');
+        return redirect()->route('home')->with('success', 'Pembayaran berhasil dikonfirmasi! Menunggu verifikasi resepsionis.');
     }
 }

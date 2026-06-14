@@ -11,7 +11,8 @@ use App\Http\Controllers\Staff\ResepsionisController;
 */
 Route::middleware('auth:staff')->group(function () {
     Route::get('/resepsionis/resepsionis', [ReceptsionistController::class, 'index'])->name('receptionist.index');
-    Route::get('/resepsionis/verifikasi', [ResepsionisController::class, 'verifikasi'])->name('verifikasitamu');
+    Route::get('/resepsionis/verifikasi/{id}', [ResepsionisController::class, 'verifikasi'])->name('verifikasitamu');
+    Route::post('/resepsionis/verifikasi/{id}', [ResepsionisController::class, 'updateVerifikasi'])->name('resepsionis.verifikasi.update');
     Route::get('/resepsionis/riwayat', [ResepsionisController::class, 'riwayat'])->name('resepsionis.riwayatreservasi');
     Route::get('/resepsionis/riwayat/{id}', [ResepsionisController::class, 'show'])->name('reservasi.show');
 
