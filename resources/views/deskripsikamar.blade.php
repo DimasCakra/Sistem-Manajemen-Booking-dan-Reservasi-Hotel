@@ -18,31 +18,20 @@
 
     <main class="max-w-8xl mx-auto px-6 py-10">
 
-        <!-- <div class="flex overflow-x-auto gap-4 no-scrollbar snap-x snap-mandatory pb-4 mb-10">
-            <div class="min-w-[85%] md:min-w-[32%] snap-start">
-                <img src="{{ $kamar->gambar }}" class="w-full h-64 object-cover rounded-2xl shadow-sm border border-gray-100" alt="Foto 1">
-            </div>
-            <div class="min-w-[85%] md:min-w-[32%] snap-start">
-                <img src="{{ $kamar->gambar }}" class="w-full h-64 object-cover rounded-2xl shadow-sm border border-gray-100" alt="Foto 2">
-            </div>
-            <div class="min-w-[85%] md:min-w-[32%] snap-start">
-                <img src="{{ $kamar->gambar }}" class="w-full h-64 object-cover rounded-2xl shadow-sm border border-gray-100" alt="Foto 3">
-            </div>
-            <div class="min-w-[85%] md:min-w-[32%] snap-start">
-                <img src="{{ $kamar->gambar }}" class="w-full h-64 object-cover rounded-2xl shadow-sm border border-gray-100" alt="Foto 4">
-            </div>
-        </div> -->
-
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
-            <div class="h-64 overflow-hidden rounded-2xl shadow-sm border border-gray-100">
-                <img src="{{ $kamar->gambar }}" class="w-full h-full object-cover transition-transform duration-500" alt="Foto Kamar 1">
-            </div>
-            <div class="h-64 overflow-hidden rounded-2xl shadow-sm border border-gray-100">
-                <img src="{{ $kamar->gambar }}" class="w-full h-full object-cover transition-transform duration-500" alt="Foto Kamar 2">
-            </div>
-            <div class="h-64 overflow-hidden rounded-2xl shadow-sm border border-gray-100">
-                <img src="{{ $kamar->gambar }}" class="w-full h-full object-cover transition-transform duration-500" alt="Foto Kamar 3">
-            </div>
+            @if(is_array($kamar->foto_kamar) && count($kamar->foto_kamar) > 0)
+                @foreach($kamar->foto_kamar as $index => $foto)
+                    <div class="h-64 overflow-hidden rounded-2xl shadow-sm border border-gray-100">
+                        <img src="{{ asset('storage/' . $foto) }}"
+                            class="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                            alt="Foto Kamar {{ $index + 1 }}">
+                    </div>
+                @endforeach
+            @else
+                <div class="col-span-3 bg-white p-8 rounded-2xl text-center text-gray-400">
+                    Tidak ada foto untuk kamar ini.
+                </div>
+            @endif
         </div>
 
         <div class="grid grid-cols-12 gap-6">

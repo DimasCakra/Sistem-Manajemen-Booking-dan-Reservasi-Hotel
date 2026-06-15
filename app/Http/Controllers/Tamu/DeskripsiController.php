@@ -13,13 +13,13 @@ class DeskripsiController extends TamuController
 
         $kamar = (object) [
             'id_tipe_kamar' => $type->id_tipe_kamar,
-            'nama_tipe' => $type->nama_tipe,
-            'harga' => $type->harga_per_malam,
-            'fasilitas' => $type->deskripsi,
-            'gambar' => $type->foto_kamar && count($type->foto_kamar) ? asset('storage/' . $type->foto_kamar[0]) : 'https://via.placeholder.com/380x260?text=No+Image',
-            'available' => $type->kamars()->count(),
-            'jumlah_tamu' => $type->jumlah_tamu,
-            'rating' => 4.7,
+            'nama_tipe'     => $type->nama_tipe,
+            'harga'         => $type->harga_per_malam,
+            'fasilitas'     => $type->deskripsi,
+            'foto_kamar'    => $type->foto_kamar, // KIRIM KAN DATA STRING JSON ASLI KE BLADE
+            'available'     => $type->kamars()->where('status_kamar', 'Tersedia')->count(),
+            'jumlah_tamu'   => $type->jumlah_tamu ?? 2,
+            'rating'        => 4.7,
         ];
 
         return view('deskripsikamar', compact('kamar'));
