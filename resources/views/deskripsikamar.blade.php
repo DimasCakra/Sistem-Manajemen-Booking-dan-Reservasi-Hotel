@@ -18,17 +18,37 @@
 
     <main class="max-w-8xl mx-auto px-6 py-10">
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
+        <div class="relative max-w-4xl mx-auto mb-10 overflow-hidden rounded-2xl shadow-sm border border-gray-100 bg-white">
             @if(is_array($kamar->foto_kamar) && count($kamar->foto_kamar) > 0)
-                @foreach($kamar->foto_kamar as $index => $foto)
-                    <div class="h-64 overflow-hidden rounded-2xl shadow-sm border border-gray-100">
-                        <img src="{{ asset('storage/' . $foto) }}"
-                            class="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                            alt="Foto Kamar {{ $index + 1 }}">
-                    </div>
-                @endforeach
+                <!-- Wrapper Slider -->
+                <div id="autoCarouselSlider" class="flex transition-transform duration-500 ease-out h-96 w-full" data-total="{{ count($kamar->foto_kamar) }}">
+                    @foreach($kamar->foto_kamar as $index => $foto)
+                        <div class="w-full h-full flex-shrink-0">
+                            <img src="{{ asset('storage/' . $foto) }}"
+                                class="w-full h-full object-cover"
+                                alt="Foto Kamar {{ $index + 1 }}">
+                        </div>
+                    @endforeach
+                </div>
+
+                <!-- Tombol Navigasi Kiri -->
+                <button id="prevBtn" class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-black w-10 h-10 rounded-full shadow-md cursor-pointer transition-all flex items-center justify-center font-bold select-none z-10">
+                    <
+                </button>
+
+                <!-- Tombol Navigasi Kanan -->
+                <button id="nextBtn" class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-black w-10 h-10 rounded-full shadow-md cursor-pointer transition-all flex items-center justify-center font-bold select-none z-10">
+                    >
+                </button>
+
+                <!-- Indikator Titik (Dots) -->
+                <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+                    @foreach($kamar->foto_kamar as $index => $foto)
+                        <span class="carousel-dot w-3 h-3 rounded-full bg-white/50 cursor-pointer transition-all" data-index="{{ $index }}"></span>
+                    @endforeach
+                </div>
             @else
-                <div class="col-span-3 bg-white p-8 rounded-2xl text-center text-gray-400">
+                <div class="p-8 text-center text-gray-400">
                     Tidak ada foto untuk kamar ini.
                 </div>
             @endif
@@ -89,5 +109,7 @@
 
         </div>
     </main>
+
+    <script src="{{ asset('js/tamu/carousel.js') }}"></script>
 </body>
 </html>
