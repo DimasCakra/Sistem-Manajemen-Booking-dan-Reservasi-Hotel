@@ -68,15 +68,7 @@
                     </div>
                 </div>
 
-                <div class="flex items-center gap-3 pt-1">
-                    <input id="remember" type="checkbox" name="remember"
-                           class="w-4 h-4 rounded border-white/20 bg-white/5 cursor-pointer accent-[#D4AF37]">
-                    <label for="remember" class="text-sm font-medium text-white/60 cursor-pointer hover:text-white transition-colors">
-                        Ingat sesi saya
-                    </label>
-                </div>
-
-                <div class="pt-6">
+                <div class="pt-2">
                     <button type="submit"
                             class="w-full bg-[#D4AF37] hover:from-[#D4AF37] text-[#0f1711] py-4 rounded-xl font-bold uppercase tracking-[0.2em] text-[11px]
                                    transition-all duration-500 shadow-[0_0_20px_rgba(212,175,55,0.2)] hover:shadow-[0_0_30px_rgba(212,175,55,0.4)] hover:-translate-y-0.5">

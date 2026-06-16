@@ -18,7 +18,7 @@
         <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=2070&q=80" alt="Hotel Interior" class="absolute inset-0 w-full h-full object-cover transform scale-105 hover:scale-100 transition-transform duration-[10s]">
         <div class="absolute inset-0 bg-[#254117]/60 mix-blend-multiply"></div>
         <div class="absolute inset-0 bg-gradient-to-t from-[#173014] via-[#173014]/20 to-transparent"></div>
-        
+
         <div class="absolute bottom-16 left-16 right-16 text-white">
             <div class="w-12 h-1 bg-[#8C6A1A] mb-8"></div>
             <h2 class="text-5xl font-bold font-serif mb-6 leading-tight">Selamat datang kembali di<br>StayEase.</h2>
@@ -28,7 +28,7 @@
 
     <!-- Right: Login Form -->
     <div class="w-full lg:w-1/2 flex flex-col items-center justify-center p-8 sm:p-12 lg:p-24 relative bg-[#FFF4DE]">
-        
+
         <!-- Back to home -->
         <a href="/home" class="absolute top-8 left-8 flex items-center gap-2 text-[#8C6A1A] hover:text-[#173014] font-bold text-sm uppercase tracking-wider transition-colors group">
             <svg class="transform group-hover:-translate-x-1 transition-transform" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
@@ -64,21 +64,12 @@
                 <div class="space-y-2">
                     <div class="flex justify-between items-center ml-1">
                         <label for="password" class="block text-xs font-bold text-[#254117] uppercase tracking-widest">Kata Sandi</label>
-                        <a href="#" class="text-xs font-bold text-[#8C6A1A] hover:text-[#173014] transition-colors">Lupa Kata Sandi?</a>
                     </div>
                     <input id="password" type="password" name="password" required autocomplete="current-password" placeholder="••••••••"
                         class="w-full px-5 py-4 rounded-xl bg-white border-2 border-transparent focus:border-[#8C6A1A] outline-none text-gray-800 transition-all shadow-[0_4px_20px_-5px_rgba(0,0,0,0.05)]">
                 </div>
 
-                <div class="flex items-center gap-3 pt-2">
-                    <input id="remember" type="checkbox" name="remember" 
-                           class="w-5 h-5 rounded border-gray-300 text-[#8C6A1A] focus:ring-[#8C6A1A] cursor-pointer">
-                    <label for="remember" class="text-sm font-medium text-gray-600 cursor-pointer select-none">
-                        Ingat untuk 30 hari
-                    </label>
-                </div>
-
-                <button type="submit" 
+                <button type="submit"
                         class="w-full bg-[#254117] text-white mt-8 py-4 rounded-xl font-bold tracking-widest uppercase hover:bg-[#173014] transition-all transform active:scale-[0.98] shadow-xl shadow-[#254117]/20 flex justify-center items-center gap-2">
                     Masuk
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -86,7 +77,7 @@
             </form>
 
             <p class="text-center text-gray-500 mt-12 font-medium">
-                Belum punya akun? 
+                Belum punya akun?
                 <a href="/register" class="font-bold text-[#8C6A1A] hover:text-[#173014] transition-colors border-b-2 border-[#8C6A1A] pb-0.5 ml-1">Daftar</a>
             </p>
         </div>
