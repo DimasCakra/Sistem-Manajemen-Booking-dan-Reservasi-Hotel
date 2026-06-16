@@ -74,7 +74,7 @@ class BookingController extends TamuController
         $total = ($kamar->harga * $dates['durasi']) + $pajak;
 
         $reservation = \App\Models\Reservation::create([
-            'user_id' => auth()->id(),
+            'user_id' => $request->user()->id,
             'room_type' => $kamar->nama_tipe,
             'room_number' => '-',
             'nama_lengkap' => $request->nama_lengkap,
@@ -112,7 +112,7 @@ class BookingController extends TamuController
         $datesParts = explode(' to ', $reservation->check_in_out);
         $checkin = $datesParts[0];
         $checkout = $datesParts[1] ?? now()->addDay()->format('Y-m-d');
-        
+
         $start = Carbon::parse($checkin)->startOfDay();
         $end = Carbon::parse($checkout)->startOfDay();
         $durasi = max(1, $start->diffInDays($end));
@@ -121,7 +121,7 @@ class BookingController extends TamuController
             'nama_tipe' => $reservation->room_type,
             'harga' => ($reservation->total_biaya / 1.1) / $durasi // approximate back
         ];
-        
+
         $pajak = $reservation->total_biaya - ($reservation->total_biaya / 1.1);
         $total = $reservation->total_biaya;
         $id = $reservation->id;
@@ -155,8 +155,8 @@ class BookingController extends TamuController
         $reservation->update([
             'payment_method' => $request->payment_method,
             'bukti_pembayaran' => $buktiPath,
-            // Keep status pending as receptionist uses it for awaiting verification, 
-            // or update it if you have specific status for 'awaiting_verification'. 
+            // Keep status pending as receptionist uses it for awaiting verification,
+            // or update it if you have specific status for 'awaiting_verification'.
             // Here we keep it pending as instructed, but since bukti_pembayaran != null, receptionist can verify.
         ]);
 

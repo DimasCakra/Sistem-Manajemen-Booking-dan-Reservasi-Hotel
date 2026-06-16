@@ -162,13 +162,6 @@
                             @endforeach
                         </select>
                     </div>
-                    <div>
-                        <label class="text-sm font-semibold text-slate-700">Status</label>
-                        <select name="status_kamar" required class="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm text-slate-900 outline-none cursor-pointer focus:border-forest-500">
-                            <option value="tersedia">Tersedia</option>
-                            <option value="terisi">Terisi</option>
-                        </select>
-                    </div>
                 </div>
                 <div class="text-sm text-slate-500">Harga, deskripsi, dan foto akan mengikuti pilihan tipe kamar.</div>
                 <div class="flex justify-end gap-3 pt-4 border-t border-gray-100 sticky bottom-0 bg-white z-10 pb-1">
@@ -215,11 +208,11 @@
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
                     <div>
-                        <label class="text-sm font-semibold text-slate-700">Status</label>
-                        <select id="detailRoomStatus" name="status_kamar" class="modal-field mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm text-slate-900 outline-none" disabled>
-                            <option value="tersedia">Tersedia</option>
-                            <option value="terisi">Terisi</option>
-                        </select>
+                        <label class="text-sm font-semibold text-slate-700">
+                            Status
+                        </label>
+
+                        <input id="detailRoomStatus" type="text" class="modal-field mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm text-slate-900 bg-gray-100" readonly/>
                     </div>
                     <div class="md:col-span-2">
                         <label class="text-sm font-semibold text-slate-700">Deskripsi</label>

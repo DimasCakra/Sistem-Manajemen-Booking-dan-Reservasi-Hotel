@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Staff;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 use App\Models\User;
 use App\Models\Staff;
@@ -237,32 +238,32 @@ class AdminController extends Controller
     public function kamarStore(Request $request)
     {
         $validated = $request->validate([
-            'no_kamar' => 'required|string|max:20',
+            'no_kamar' => [
+                'required',
+                'digits:3',
+                'unique:kamar,no_kamar'
+            ],
             'id_tipe_kamar' => 'required|exists:tipe_kamar,id_tipe_kamar',
-            'status_kamar' => 'required|in:tersedia,terisi',
         ], [
             'no_kamar.required' => 'Nomor kamar wajib diisi.',
+            'no_kamar.digits' => 'Nomor kamar harus terdiri dari 3 angka.',
+            'no_kamar.unique' => 'Nomor kamar sudah digunakan.',
             'id_tipe_kamar.required' => 'Tipe kamar wajib dipilih.',
             'id_tipe_kamar.exists' => 'Tipe kamar tidak ditemukan.',
-            'status_kamar.required' => 'Status kamar wajib dipilih.',
-            'status_kamar.in' => 'Status kamar harus tersedia atau terisi.',
         ]);
 
-        $tipe = TipeKamar::findOrFail($validated['id_tipe_kamar']);
-        $id_kamar = $tipe->kode_tipe . $validated['no_kamar'];
-
-        if (Kamar::find($id_kamar)) {
-            return back()->withErrors(['no_kamar' => 'Kamar dengan kombinasi nomor dan tipe sudah ada.'])->withInput();
-        }
 
         Kamar::create([
-            'id_kamar' => $id_kamar,
+            'id_kamar' => $validated['no_kamar'],
             'no_kamar' => $validated['no_kamar'],
             'id_tipe_kamar' => $validated['id_tipe_kamar'],
-            'status_kamar' => $validated['status_kamar'],
+            'status_kamar' => 'tersedia',
         ]);
 
-        return redirect()->route('admin.kamar')->with('success', 'Kamar berhasil ditambahkan');
+
+        return redirect()
+            ->route('admin.kamar')
+            ->with('success', 'Kamar berhasil ditambahkan');
     }
 
     public function kamarShow($id)
@@ -280,38 +281,42 @@ class AdminController extends Controller
         $kamar = Kamar::where('id_kamar', $id)->first();
 
         if (!$kamar) {
-            return redirect()->route('admin.kamar')->with('error', 'Kamar tidak ditemukan');
+            return redirect()
+                ->route('admin.kamar')
+                ->with('error', 'Kamar tidak ditemukan');
         }
+
 
         $validated = $request->validate([
-            'no_kamar' => 'required|string|max:20',
+            'no_kamar' => [
+                'required',
+                'digits:3',
+                \Illuminate\Validation\Rule::unique('kamar','no_kamar')
+                    ->ignore($kamar->id_kamar, 'id_kamar')
+            ],
             'id_tipe_kamar' => 'required|exists:tipe_kamar,id_tipe_kamar',
-            'status_kamar' => 'required|in:tersedia,terisi',
         ], [
             'no_kamar.required' => 'Nomor kamar wajib diisi.',
+            'no_kamar.digits' => 'Nomor kamar harus terdiri dari 3 angka.',
+            'no_kamar.unique' => 'Nomor kamar sudah digunakan.',
             'id_tipe_kamar.required' => 'Tipe kamar wajib dipilih.',
             'id_tipe_kamar.exists' => 'Tipe kamar tidak ditemukan.',
-            'status_kamar.required' => 'Status kamar wajib dipilih.',
-            'status_kamar.in' => 'Status kamar harus tersedia atau terisi.',
         ]);
 
-        $tipe = TipeKamar::findOrFail($validated['id_tipe_kamar']);
-        $newId = $tipe->kode_tipe . $validated['no_kamar'];
 
-        if ($newId !== $kamar->id_kamar && Kamar::find($newId)) {
-            return back()->withErrors(['no_kamar' => 'Kamar dengan kombinasi tipe dan nomor sudah ada.'])->withInput();
-        }
+        $kamar->update([
+            'id_kamar' => $validated['no_kamar'],
+            'no_kamar' => $validated['no_kamar'],
+            'id_tipe_kamar' => $validated['id_tipe_kamar'],
 
-        DB::transaction(function () use ($kamar, $validated, $newId) {
-            DB::table('kamar')->where('id_kamar', $kamar->id_kamar)->update([
-                'id_kamar' => $newId,
-                'no_kamar' => $validated['no_kamar'],
-                'id_tipe_kamar' => $validated['id_tipe_kamar'],
-                'status_kamar' => $validated['status_kamar'],
-            ]);
-        });
+            // status tidak disentuh
+            'status_kamar' => $kamar->status_kamar,
+        ]);
 
-        return redirect()->route('admin.kamar')->with('success', 'Kamar berhasil diperbarui');
+
+        return redirect()
+            ->route('admin.kamar')
+            ->with('success', 'Kamar berhasil diperbarui');
     }
 
     public function kamarDestroy($id)
