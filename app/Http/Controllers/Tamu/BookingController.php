@@ -74,7 +74,7 @@ class BookingController extends TamuController
         $total = ($kamar->harga * $dates['durasi']) + $pajak;
 
         $reservation = \App\Models\Reservation::create([
-            'user_id' => $request->user()->id,
+            'user_id' => $request->user()?->id,
             'room_type' => $kamar->nama_tipe,
             'room_number' => '-',
             'nama_lengkap' => $request->nama_lengkap,
