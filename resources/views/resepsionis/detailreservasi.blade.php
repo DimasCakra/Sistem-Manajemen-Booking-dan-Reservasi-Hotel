@@ -33,51 +33,98 @@
                 <div class="grid grid-cols-3 gap-8 fade-up">
                     <div class="col-span-2 space-y-6">
                         
-                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-300">
-                            <div class="flex items-center gap-3 mb-8">
-                                <h3 class="text-[11px] font-black text-forest-900 uppercase tracking-[0.2em]">Data Diri Tamu</h3>
-                            </div>
+                        <!-- Informasi Pemesan -->
+                        <div class="bg-white rounded-2xl shadow-sm border border-forest-100 p-8">
+                            <h2 class="font-display text-xl font-semibold text-forest-900 border-b border-gray-100 pb-4 mb-6">Informasi Pemesan</h2>
                             
-                            <div class="grid grid-cols-2 gap-y-8 gap-x-12">
+                            <div class="grid grid-cols-2 gap-x-8 gap-y-6">
                                 <div>
-                                    <label class="block text-[10px] text-gray-400 uppercase font-bold mb-2 tracking-wider">Nama Lengkap</label>
-                                    <p class="text-base font-semibold text-gray-800">{{ $detail->nama_lengkap }}</p>
+                                    <p class="text-gray-400 text-[10px] uppercase font-bold tracking-wider mb-1">Nama Pemesan</p>
+                                    <p class="font-semibold text-forest-900 text-base">{{ $detail->nama_lengkap }}</p>
                                 </div>
                                 <div>
-                                    <label class="block text-[10px] text-gray-400 uppercase font-bold mb-2 tracking-wider">Nomor Telepon / WA</label>
-                                    <p class="text-base font-semibold text-gray-800">{{ $detail->whatsapp ?? '-' }}</p>
+                                    <p class="text-gray-400 text-[10px] uppercase font-bold tracking-wider mb-1">NIK</p>
+                                    <p class="font-semibold text-forest-900 text-base">{{ $detail->nik ?? '-' }}</p>
                                 </div>
-                                <div class="col-span-2">
-                                    <label class="block text-[10px] text-gray-400 uppercase font-bold mb-2 tracking-wider">Alamat Email</label>
-                                    <p class="text-base font-semibold text-gray-800">{{ $detail->email }}</p>
+                                <div>
+                                    <p class="text-gray-400 text-[10px] uppercase font-bold tracking-wider mb-1">Nomor WhatsApp</p>
+                                    <p class="font-semibold text-forest-900 text-base">{{ $detail->whatsapp }}</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-400 text-[10px] uppercase font-bold tracking-wider mb-1">Alamat Email</p>
+                                    <p class="font-semibold text-forest-900 text-base">{{ $detail->email }}</p>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-300">
-                            <div class="flex items-center gap-3 mb-8">
-                                <h3 class="text-[11px] font-black text-forest-900 uppercase tracking-[0.2em]">Detail Reservasi</h3>
-                            </div>
+                        <!-- Detail Kamar -->
+                        <div class="bg-white rounded-2xl shadow-sm border border-forest-100 p-8">
+                            <h2 class="font-display text-xl font-semibold text-forest-900 border-b border-gray-100 pb-4 mb-6">Detail Kamar & Tanggal</h2>
                             
-                            <div class="grid grid-cols-2 gap-y-8 gap-x-12">
+                            <div class="grid grid-cols-2 gap-x-8 gap-y-6">
                                 <div>
-                                    <label class="block text-[10px] text-gray-400 uppercase font-bold mb-2 tracking-wider">Tipe Kamar</label>
-                                    <p class="text-base font-semibold text-gray-800">{{ $detail->room_type }}</p>
+                                    <p class="text-gray-400 text-[10px] uppercase font-bold tracking-wider mb-1">Tipe Kamar</p>
+                                    <p class="font-semibold text-forest-900 text-base">{{ $detail->room_type }}</p>
                                 </div>
                                 <div>
-                                    <label class="block text-[10px] text-gray-400 uppercase font-bold mb-2 tracking-wider">Nomor Kamar</label>
-                                    <p class="text-base font-semibold text-forest-600 font-bold">{{ $detail->room_number }}</p>
+                                    <p class="text-gray-400 text-[10px] uppercase font-bold tracking-wider mb-1">Nomor Kamar</p>
+                                    <p class="font-semibold text-forest-600 text-base font-bold">{{ $detail->room_number }}</p>
                                 </div>
                                 <div>
-                                    <label class="block text-[10px] text-gray-400 uppercase font-bold mb-2 tracking-wider">Check In</label>
-                                    <p class="text-base font-semibold text-gray-800">{{ \Carbon\Carbon::parse($detail->check_in)->translatedFormat('d F Y') }}</p>
+                                    <p class="text-gray-400 text-[10px] uppercase font-bold tracking-wider mb-1">Jumlah Tamu</p>
+                                    <p class="font-semibold text-forest-900 text-base">{{ $detail->jumlah_tamu ?? '-' }} Orang</p>
                                 </div>
                                 <div>
-                                    <label class="block text-[10px] text-gray-400 uppercase font-bold mb-2 tracking-wider">Check Out</label>
-                                    <p class="text-base font-semibold text-gray-800">{{ \Carbon\Carbon::parse($detail->check_out)->translatedFormat('d F Y') }}</p>
+                                    <p class="text-gray-400 text-[10px] uppercase font-bold tracking-wider mb-1">Tanggal Check-In</p>
+                                    <p class="font-semibold text-forest-900 text-base">
+                                        @if($detail->check_in)
+                                            {{ \Carbon\Carbon::parse($detail->check_in)->format('d M Y') }}
+                                        @else
+                                            {{ $detail->check_in_out ? explode(' to ', $detail->check_in_out)[0] : '-' }}
+                                        @endif
+                                    </p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-400 text-[10px] uppercase font-bold tracking-wider mb-1">Tanggal Check-Out</p>
+                                    <p class="font-semibold text-forest-900 text-base">
+                                        @if($detail->check_out)
+                                            {{ \Carbon\Carbon::parse($detail->check_out)->format('d M Y') }}
+                                        @else
+                                            {{ $detail->check_in_out ? explode(' to ', $detail->check_in_out)[1] ?? '-' : '-' }}
+                                        @endif
+                                    </p>
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Data Tamu Lain (jika ada) -->
+                        @if($detail->nama_tamu_lain)
+                        <div class="bg-amber-50 rounded-2xl shadow-sm border border-amber-100 p-8">
+                            <h2 class="font-display text-xl font-semibold text-amber-900 border-b border-amber-100 pb-4 mb-6">Data Tamu Lain</h2>
+                            
+                            <div class="grid grid-cols-2 gap-x-8 gap-y-6">
+                                <div class="col-span-2 sm:col-span-1">
+                                    <p class="text-amber-700 text-[10px] uppercase font-bold tracking-wider mb-1">Nama Tamu</p>
+                                    <p class="font-semibold text-amber-900 text-base">{{ $detail->nama_tamu_lain }}</p>
+                                </div>
+                                <div class="col-span-2 sm:col-span-1">
+                                    <p class="text-amber-700 text-[10px] uppercase font-bold tracking-wider mb-1">NIK Tamu</p>
+                                    <p class="font-semibold text-amber-900 text-base">{{ $detail->nik_tamu_lain ?? '-' }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+
+                        <!-- Permintaan Khusus -->
+                        @if($detail->permintaan_khusus)
+                        <div class="bg-blue-50 rounded-2xl shadow-sm border border-blue-100 p-8">
+                            <h2 class="font-display text-xl font-semibold text-blue-900 border-b border-blue-100 pb-4 mb-6">Permintaan Khusus</h2>
+                            <p class="text-blue-900 leading-relaxed text-base italic">
+                                "{{ $detail->permintaan_khusus }}"
+                            </p>
+                        </div>
+                        @endif
+
                     </div>
 
                     <div class="col-span-1 space-y-6 h-fit sticky top-10">
@@ -102,14 +149,22 @@
 
                             <div class="mt-12 flex flex-col gap-3">
                                 <div class="text-center py-3 rounded-xl border border-white/20 bg-white/10">
-                                    <span class="text-[10px] font-black uppercase tracking-widest text-white">Status: {{ $detail->status }}</span>
+                                    <span class="text-[10px] font-black uppercase tracking-widest text-white">
+                                        Status: {{ $detail->status == 'checkout' || $detail->status == 'done' ? 'Check Out' : ($detail->status == 'ongoing' ? 'On Going' : ucfirst($detail->status)) }}
+                                    </span>
                                 </div>
                                 
                                 @if($detail->status === 'ongoing')
-                                <form action="{{ route('resepsionis.selesai', $detail->id) }}" method="POST">
+                                <form action="{{ route('resepsionis.selesai', $detail->id) }}" method="POST" class="w-full">
                                     @csrf
                                     <button type="submit" onclick="return confirm('Yakin ingin menyelesaikan reservasi ini? Tamu sudah check-out?')" class="w-full py-4 bg-white text-forest-900 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-forest-50 transition-colors">
                                         Selesaikan Reservasi
+                                    </button>
+                                </form>
+                                <form action="{{ route('resepsionis.refund', $detail->id) }}" method="POST" class="w-full">
+                                    @csrf
+                                    <button type="submit" onclick="return confirm('Yakin ingin merefund reservasi ini?')" class="w-full py-4 bg-red-600 hover:bg-red-700 text-white rounded-xl font-bold text-xs uppercase tracking-widest transition-colors">
+                                        Refund
                                     </button>
                                 </form>
                                 @endif

@@ -9,7 +9,12 @@ class Reservation extends Model
 {
     protected $fillable = [
         'user_id', 'room_type', 'room_number', 'nama_lengkap', 'nik', 'whatsapp', 
-        'email', 'jumlah_tamu', 'check_in_out', 'status', 'total_biaya',
+        'email', 'jumlah_tamu', 'check_in_out', 'check_in', 'check_out', 'status', 'total_biaya',
         'nama_tamu_lain', 'nik_tamu_lain', 'permintaan_khusus', 'bukti_pembayaran', 'payment_method'
+    ];
+
+    protected $casts = [
+        'check_in' => 'date',
+        'check_out' => 'date',
     ];
 }

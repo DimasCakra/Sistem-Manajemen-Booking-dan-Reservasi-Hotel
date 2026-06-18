@@ -52,10 +52,10 @@
 
             <div class="mb-8 fade-up">
                 <div class="inline-flex p-1 bg-white border border-gray-200 rounded-xl shadow-sm">
-                    @foreach(['' => 'All', 'ongoing' => 'On Going', 'refund' => 'Refund', 'done' => 'Done'] as $key => $label)
+                    @foreach(['' => 'All', 'ongoing' => 'On Going', 'refund' => 'Refund', 'checkout' => 'Check Out'] as $key => $label)
                         <a href="?status={{ $key }}" 
                         class="px-6 py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition-all 
-                        {{ request('status') == $key ? 'bg-forest-800 text-white shadow-sm' : 'text-gray-400 hover:text-forest-700' }}">
+                        {{ (request('status') === null && $key === '') || request('status') === $key ? 'bg-forest-800 text-white shadow-sm' : 'text-gray-400 hover:text-forest-700' }}">
                             {{ $label }}
                         </a>
                     @endforeach
@@ -70,33 +70,52 @@
 
                 <div class="grid grid-cols-12 gap-4 px-6 py-3 bg-forest-50 border-b border-forest-100 text-forest-600 text-[10px] font-semibold uppercase tracking-widest">
                     <div class="col-span-1">#</div>
-                    <div class="col-span-3">Nama Tamu</div>
+                    <div class="col-span-2">Nama Tamu</div>
                     <div class="col-span-2 text-center">Tipe Kamar</div>
-                    <div class="col-span-4 text-center">Check-in / Out</div>
+                    <div class="col-span-3 text-center">Check-in / Out</div>
                     <div class="col-span-2 text-center">Status</div>
+                    <div class="col-span-2 text-center">Aksi</div>
                 </div>
 
                  @forelse($reservations as $res)
                     <div onclick="window.location='{{ route('reservasi.show', $res->id) }}'" 
-                         class="reservation-row grid grid-cols-12 gap-4 px-6 py-4 border-b border-gray-100 items-center cursor-pointer group">
+                          class="reservation-row grid grid-cols-12 gap-4 px-6 py-4 border-b border-gray-100 items-center cursor-pointer group">
                         <div class="col-span-1 text-gray-400 text-sm font-medium">#{{ $res->id }}</div>
-                        <div class="col-span-3">
+                        <div class="col-span-2">
                             <p class="font-semibold text-forest-900 text-sm">{{ $res->nama_lengkap }}</p>
                             <p class="text-gray-400 text-[11px]">{{ $res->email }}</p>
                         </div>
                         <div class="col-span-2 text-center text-sm text-gray-600">
                             {{ $res->room_type }}
                         </div>
-                        <div class="col-span-4 text-center text-xs text-gray-600">
-                            <span class="font-medium text-forest-800">{{ $res->check_in }}</span>
+                        <div class="col-span-3 text-center text-xs text-gray-600">
+                            <span class="font-medium text-forest-800">{{ \Carbon\Carbon::parse($res->check_in)->format('d M Y') }}</span>
                             <span class="mx-1 text-forest-300">→</span>
-                            <span class="font-medium text-forest-800">{{ $res->check_out }}</span>
+                            <span class="font-medium text-forest-800">{{ \Carbon\Carbon::parse($res->check_out)->format('d M Y') }}</span>
                         </div>
                         <div class="col-span-2 flex justify-center">
                             <span class="px-3 py-1 text-[9px] font-black uppercase rounded-lg border 
-                                {{ $res->status == 'ongoing' ? 'text-blue-600 bg-blue-50 border-blue-100' : 'text-forest-600 bg-forest-50 border-forest-100' }}">
-                                {{ $res->status }}
+                                {{ $res->status == 'ongoing' ? 'text-blue-600 bg-blue-50 border-blue-100' : ($res->status == 'refund' ? 'text-red-600 bg-red-50 border-red-100' : 'text-forest-600 bg-forest-50 border-forest-100') }}">
+                                {{ $res->status == 'checkout' || $res->status == 'done' ? 'Check Out' : ($res->status == 'ongoing' ? 'On Going' : ucfirst($res->status)) }}
                             </span>
+                        </div>
+                        <div class="col-span-2 flex justify-center gap-2" onclick="event.stopPropagation()">
+                            @if($res->status == 'ongoing')
+                                <form action="{{ route('resepsionis.selesai', $res->id) }}" method="POST" class="inline">
+                                    @csrf
+                                    <button type="submit" onclick="return confirm('Selesaikan reservasi ini? Tamu sudah check-out?')" class="px-2 py-1 bg-forest-700 hover:bg-forest-800 text-white rounded text-[10px] font-bold transition">
+                                        Selesai
+                                    </button>
+                                </form>
+                                <form action="{{ route('resepsionis.refund', $res->id) }}" method="POST" class="inline">
+                                    @csrf
+                                    <button type="submit" onclick="return confirm('Yakin ingin merefund dan membatalkan reservasi ini?')" class="px-2 py-1 bg-red-600 hover:bg-red-700 text-white rounded text-[10px] font-bold transition">
+                                        Refund
+                                    </button>
+                                </form>
+                            @else
+                                <span class="text-gray-400 text-xs italic">-</span>
+                            @endif
                         </div>
                     </div>
                 @empty

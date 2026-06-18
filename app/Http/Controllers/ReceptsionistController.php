@@ -27,7 +27,11 @@ class ReceptsionistController extends Controller
         $query = Reservation::query();
 
         if ($status) {
-            $query->where('status', $status);
+            if ($status === 'checkout') {
+                $query->whereIn('status', ['checkout', 'done']);
+            } else {
+                $query->where('status', $status);
+            }
         }
 
         $reservations = $query->latest()->get();

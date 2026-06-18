@@ -7,6 +7,7 @@ use App\Models\Reservation;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class ResepsionisController extends Controller
 {
@@ -81,11 +82,17 @@ class ResepsionisController extends Controller
         $action = $request->input('action'); // 'tolak' or 'konfirmasi'
 
         if ($action === 'tolak') {
-            $reservation->update(['status' => 'rejected']);
-            return redirect()->route('receptionist.index')->with('success', 'Reservasi ditolak');
+            // Delete payment proof file if exists
+            if ($reservation->bukti_pembayaran) {
+                Storage::disk('public')->delete($reservation->bukti_pembayaran);
+            }
+            
+            // Delete the reservation
+            $reservation->delete();
+            return redirect()->route('receptionist.index')->with('success', 'Reservasi telah ditolak dan dihapus dari daftar verifikasi');
         } elseif ($action === 'konfirmasi') {
             $reservation->update(['status' => 'ongoing']);
-            return redirect()->route('receptionist.index')->with('success', 'Reservasi dikonfirmasi');
+            return redirect()->route('receptionist.index')->with('success', 'Reservasi dikonfirmasi dan dipindahkan ke riwayat reservasi');
         }
 
         return back();
@@ -100,11 +107,27 @@ class ResepsionisController extends Controller
         }
 
         if ($reservation->status === 'ongoing') {
-            $reservation->update(['status' => 'done']);
+            $reservation->update(['status' => 'checkout']);
             return redirect()->route('resepsionis.riwayatreservasi')->with('success', 'Reservasi telah diselesaikan. Tamu sudah check-out.');
         }
 
         return redirect()->route('resepsionis.riwayatreservasi')->with('error', 'Reservasi tidak dapat diselesaikan karena status tidak valid.');
+    }
+
+    public function refundReservasi($id)
+    {
+        $reservation = $this->findReservationById($id);
+        
+        if (!$reservation) {
+            return redirect()->route('resepsionis.riwayatreservasi')->with('error', 'Reservasi tidak ditemukan');
+        }
+
+        if ($reservation->status === 'ongoing') {
+            $reservation->update(['status' => 'refund']);
+            return redirect()->route('resepsionis.riwayatreservasi')->with('success', 'Reservasi telah direfund dan dibatalkan.');
+        }
+
+        return redirect()->route('resepsionis.riwayatreservasi')->with('error', 'Reservasi tidak dapat direfund karena status tidak valid.');
     }
 
     protected function fetchAllTamus()
@@ -153,7 +176,11 @@ class ResepsionisController extends Controller
         $query = Reservation::query();
 
         if ($status) {
-            $query->where('status', $status);
+            if ($status === 'checkout') {
+                $query->whereIn('status', ['checkout', 'done']);
+            } else {
+                $query->where('status', $status);
+            }
         }
 
         return $query->latest()->get();
