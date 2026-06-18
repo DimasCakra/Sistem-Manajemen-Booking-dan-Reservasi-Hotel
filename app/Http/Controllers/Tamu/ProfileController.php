@@ -61,11 +61,55 @@ class ProfileController extends TamuController
 
     public function orders()
     {
-        return view('profile.orders');
+        $reservations = \App\Models\Reservation::where('user_id', Auth::id())
+            ->where('status', 'done')
+            ->orderBy('id', 'desc')
+            ->get();
+
+        // Ambil review yang sudah diberikan oleh user ini untuk reservasi tersebut
+        $reviews = \App\Models\Review::where('user_id', Auth::id())
+            ->pluck('id', 'reservation_id')
+            ->toArray();
+
+        return view('profile.orders', compact('reservations', 'reviews'));
+    }
+
+    public function storeReview(Request $request, $id)
+    {
+        $request->validate([
+            'rating' => 'required|integer|min:1|max:5',
+            'comment' => 'required|string|max:1000',
+        ]);
+
+        $reservation = \App\Models\Reservation::where('user_id', Auth::id())->findOrFail($id);
+
+        if ($reservation->status !== 'done') {
+            return redirect()->back()->with('error', 'Reservasi belum selesai.');
+        }
+
+        $existingReview = \App\Models\Review::where('reservation_id', $id)->first();
+        if ($existingReview) {
+            return redirect()->back()->with('error', 'Anda sudah memberikan ulasan untuk pesanan ini.');
+        }
+
+        \App\Models\Review::create([
+            'user_id' => Auth::id(),
+            'reservation_id' => $reservation->id,
+            'room_type' => $reservation->room_type,
+            'rating' => $request->rating,
+            'comment' => $request->comment,
+        ]);
+
+        return redirect()->route('profile.orders')->with('success', 'Terima kasih atas ulasan Anda!');
     }
 
     public function reviews()
     {
-        return view('profile.reviews');
+        $reviews = \App\Models\Review::where('user_id', Auth::id())
+            ->with('reservation')
+            ->orderBy('id', 'desc')
+            ->get();
+
+        return view('profile.reviews', compact('reviews'));
     }
 }

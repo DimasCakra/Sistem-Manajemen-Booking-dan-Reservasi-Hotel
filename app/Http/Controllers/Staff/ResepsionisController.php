@@ -91,6 +91,22 @@ class ResepsionisController extends Controller
         return back();
     }
 
+    public function selesaikanReservasi($id)
+    {
+        $reservation = $this->findReservationById($id);
+        
+        if (!$reservation) {
+            return redirect()->route('resepsionis.riwayatreservasi')->with('error', 'Reservasi tidak ditemukan');
+        }
+
+        if ($reservation->status === 'ongoing') {
+            $reservation->update(['status' => 'done']);
+            return redirect()->route('resepsionis.riwayatreservasi')->with('success', 'Reservasi telah diselesaikan. Tamu sudah check-out.');
+        }
+
+        return redirect()->route('resepsionis.riwayatreservasi')->with('error', 'Reservasi tidak dapat diselesaikan karena status tidak valid.');
+    }
+
     protected function fetchAllTamus()
     {
         return User::latest()->get();

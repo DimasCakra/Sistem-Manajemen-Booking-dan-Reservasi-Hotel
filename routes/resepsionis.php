@@ -15,6 +15,7 @@ Route::middleware('auth:staff')->group(function () {
     Route::post('/resepsionis/verifikasi/{id}', [ResepsionisController::class, 'updateVerifikasi'])->name('resepsionis.verifikasi.update');
     Route::get('/resepsionis/riwayat', [ResepsionisController::class, 'riwayat'])->name('resepsionis.riwayatreservasi');
     Route::get('/resepsionis/riwayat/{id}', [ResepsionisController::class, 'show'])->name('reservasi.show');
+    Route::post('/resepsionis/riwayat/{id}/selesai', [ResepsionisController::class, 'selesaikanReservasi'])->name('resepsionis.selesai');
 
     // Tamu Management (Create & Read)
     Route::get('/resepsionis/tamu', [ResepsionisController::class, 'tamuIndex'])->name('resepsionis.tamu');

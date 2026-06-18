@@ -71,12 +71,14 @@ class KatalogController extends TamuController
                     ->count();
             }
 
+            $avgRating = \App\Models\Review::where('room_type', $type->nama_tipe)->avg('rating') ?? 0;
+
             return (object) [
                 'id_tipe_kamar' => $type->id_tipe_kamar,
                 'nama_tipe' => $type->nama_tipe,
                 'harga' => $type->harga_per_malam,
                 'available' => max(0, $totalRooms - $reservedCount),
-                'rating' => 4.7,
+                'rating' => round($avgRating, 1),
                 'fasilitas' => $type->deskripsi,
                 'gambar' => $type->foto_kamar && count($type->foto_kamar) ? asset('storage/' . $type->foto_kamar[0]) : 'https://via.placeholder.com/380x260?text=No+Image',
                 'jumlah_tamu' => $type->jumlah_tamu,

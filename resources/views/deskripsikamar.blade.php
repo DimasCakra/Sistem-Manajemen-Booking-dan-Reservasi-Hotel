@@ -65,7 +65,7 @@
                         Kapasitas {{ $kamar->jumlah_tamu }} Orang
                     </span>
                     <span class="bg-amber-50 text-amber-600 border border-amber-100 px-6 py-2 rounded text-[10px] font-black uppercase">
-                        Ulasan {{ $kamar->rating }}/5 (252)
+                        Ulasan {{ $kamar->rating }}/5 ({{ $reviews->count() }})
                     </span>
                 </div>
                 <div>
@@ -94,16 +94,33 @@
             <div class="col-span-12 mt-6 bg-white p-10 rounded-md border border-gray-100 shadow-sm">
                 <h3 class="text-lg font-black text-[#0f172a] mb-8 border-b pb-4 border-gray-50">Ulasan Kamar</h3>
                 <div class="space-y-8">
-                    <div class="flex gap-4 items-start">
-                        <div class="w-12 h-12 rounded-full bg-gray-100 flex-shrink-0 border border-gray-200"></div>
+                    @forelse($reviews as $review)
+                    <div class="flex gap-4 items-start border-b border-gray-50 pb-6">
+                        <div class="w-12 h-12 rounded-full bg-[#8C6A1A] text-white flex items-center justify-center font-bold flex-shrink-0 shadow-sm">
+                            {{ strtoupper(substr($review->user->name, 0, 1)) }}
+                        </div>
                         <div>
                             <div class="flex items-center gap-2 mb-1">
-                                <p class="font-bold text-sm">Budi Santoso</p>
-                                <span class="text-yellow-500 text-md">★★★★★</span>
+                                <p class="font-bold text-sm">{{ $review->user->name }}</p>
+                                <span class="text-yellow-500 text-xs flex">
+                                    @for($i = 1; $i <= 5; $i++)
+                                        @if($i <= $review->rating)
+                                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                                        @else
+                                            <svg class="w-4 h-4 text-gray-300 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                                        @endif
+                                    @endfor
+                                </span>
                             </div>
-                            <p class="text-gray-600 text-sm leading-relaxed">"Sangat puas dengan layanan StayEase. Fasilitas {{ $kamar->nama_tipe }} sesuai dengan yang dijanjikan, sangat bersih dan nyaman untuk keluarga."</p>
+                            <p class="text-xs text-gray-400 mb-2">{{ $review->created_at->diffForHumans() }}</p>
+                            <p class="text-gray-600 text-sm leading-relaxed">"{{ $review->comment }}"</p>
                         </div>
                     </div>
+                    @empty
+                    <div class="text-center py-8 text-gray-400">
+                        <p>Belum ada ulasan untuk tipe kamar ini.</p>
+                    </div>
+                    @endforelse
                 </div>
             </div>
 

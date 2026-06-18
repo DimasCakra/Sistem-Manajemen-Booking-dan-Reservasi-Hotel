@@ -105,10 +105,13 @@
                                     <span class="text-[10px] font-black uppercase tracking-widest text-white">Status: {{ $detail->status }}</span>
                                 </div>
                                 
-                                @if($detail->status !== 'done')
-                                <button class="w-full py-4 bg-white text-forest-900 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-forest-50 transition-colors">
-                                    Selesaikan Reservasi
-                                </button>
+                                @if($detail->status === 'ongoing')
+                                <form action="{{ route('resepsionis.selesai', $detail->id) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" onclick="return confirm('Yakin ingin menyelesaikan reservasi ini? Tamu sudah check-out?')" class="w-full py-4 bg-white text-forest-900 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-forest-50 transition-colors">
+                                        Selesaikan Reservasi
+                                    </button>
+                                </form>
                                 @endif
                             </div>
                         </div>

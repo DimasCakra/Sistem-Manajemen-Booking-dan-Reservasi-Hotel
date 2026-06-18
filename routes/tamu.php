@@ -29,5 +29,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
     Route::get('/profile/orders', [ProfileController::class, 'orders'])->name('profile.orders');
+    Route::post('/profile/orders/{id}/review', [ProfileController::class, 'storeReview'])->name('profile.review.store');
     Route::get('/profile/reviews', [ProfileController::class, 'reviews'])->name('profile.reviews');
 });
