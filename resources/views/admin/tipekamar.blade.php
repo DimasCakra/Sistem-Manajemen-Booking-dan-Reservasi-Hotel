@@ -121,12 +121,12 @@
                 @csrf
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
-                        <label class="text-sm font-semibold text-slate-700">Nama Tipe Kamar</label>
-                        <input name="nama_tipe" type="text" value="{{ old('nama_tipe') }}" required class="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm text-slate-900 outline-none focus:border-forest-500" placeholder="Contoh: Deluxe" />
-                    </div>
-                    <div>
                         <label class="text-sm font-semibold text-slate-700">Kode Tipe</label>
                         <input name="kode_tipe" type="text" value="{{ old('kode_tipe') }}" maxlength="3" required class="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm uppercase text-slate-900 outline-none focus:border-forest-500" placeholder="STD" />
+                    </div>
+                    <div>
+                        <label class="text-sm font-semibold text-slate-700">Nama Tipe Kamar</label>
+                        <input name="nama_tipe" type="text" value="{{ old('nama_tipe') }}" required class="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm text-slate-900 outline-none focus:border-forest-500" placeholder="Contoh: Deluxe" />
                     </div>
                     <div>
                         <label class="text-sm font-semibold text-slate-700">Harga per Malam</label>
@@ -168,12 +168,12 @@
                 @method('PUT')
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
-                        <label class="text-sm font-semibold text-slate-700">Nama Tipe Kamar</label>
-                        <input id="detailTypeName" name="nama_tipe" type="text" class="modal-field mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm text-slate-900 outline-none" readonly />
-                    </div>
-                    <div>
                         <label class="text-sm font-semibold text-slate-700">Kode Tipe</label>
                         <input id="detailTypeCode" name="kode_tipe" type="text" maxlength="3" class="modal-field mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm uppercase text-slate-900 outline-none" readonly />
+                    </div>
+                    <div>
+                        <label class="text-sm font-semibold text-slate-700">Nama Tipe Kamar</label>
+                        <input id="detailTypeName" name="nama_tipe" type="text" class="modal-field mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm text-slate-900 outline-none" readonly />
                     </div>
                     <div>
                         <label class="text-sm font-semibold text-slate-700">Harga per Malam</label>
