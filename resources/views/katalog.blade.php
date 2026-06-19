@@ -75,7 +75,7 @@
                 </div>
                 <span class="text-xs text-gray-400">/ Malam</span>
                 @if($kamar->available > 0)
-                    <a href="{{ route('kamar.show', $kamar->id_tipe_kamar) }}"
+                    <a href="{{ route('kamar.show', array_merge(['id' => $kamar->id_tipe_kamar], request()->query())) }}"
                        class="w-full bg-[#254117] text-white mt-6 py-4 rounded-xl font-bold uppercase tracking-widest text-sm text-center block cursor-pointer transition-all shadow-md hover:bg-[#1a2f0f]">
                        Pesan Sekarang
                     </a>
