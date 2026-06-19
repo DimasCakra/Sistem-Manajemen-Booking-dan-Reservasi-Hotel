@@ -25,7 +25,7 @@ class DashboardController extends Controller
     // Dashboard Admin
     protected function adminDashboard()
     {
-        return redirect()->route('admin.kamar');
+        return redirect()->route('admin.tipe-kamar.index');
     }
 
     // Dashboard Resepsionis
