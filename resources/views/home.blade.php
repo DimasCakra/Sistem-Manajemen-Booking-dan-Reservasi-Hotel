@@ -27,7 +27,7 @@
             <div class = "inline-flex items-center gap-2 px-4 py-2 mb-8 w-fit
                           bg-black/10 border border-black/20 rounded-full 
                           text-xs font-bold text-white uppercase tracking-widest">
-                          Sistem Reservasi Hotel
+                          Sistem Manajemen Booking dan Reservasi Hotel
             </div>
 
             <h1 class = "text-7xl font-black text-white leading-[1.1] mb-8">
@@ -44,7 +44,7 @@
 
             <div class = "flex gap-12 pt-10">
                 <div class = "stat-item">
-                    <div class = "text-4xl font-bold text-white">3</div>
+                    <div class = "text-4xl font-bold text-white">{{ \App\Models\TipeKamar::count() }}</div>
                     <div class = "text-xs font-bold text-white uppercase 
                                   tracking-widest mt-1">Tipe Kamar</div>
                 </div>
@@ -60,7 +60,7 @@
                 <div class = "w-px bg-black/10"></div>
                 
                 <div class = "stat-item">
-                    <div class = "text-4xl font-bold text-white">4.7★</div>
+                    <div class = "text-4xl font-bold text-white">{{ number_format(\App\Models\Review::avg('rating') ?? 0, 1) }}★</div>
                     <div class = "text-xs font-bold text-white uppercase 
                                   tracking-widest mt-1">Rating</div>
                 </div> 
