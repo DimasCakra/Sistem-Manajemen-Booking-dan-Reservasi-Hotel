@@ -99,7 +99,10 @@
                                 {{ $res->status == 'checkout' || $res->status == 'done' ? 'Check Out' : ($res->status == 'ongoing' ? 'On Going' : ucfirst($res->status)) }}
                             </span>
                         </div>
-                        <div class="col-span-2 flex justify-center gap-2" onclick="event.stopPropagation()">
+                        <div class="col-span-2 flex flex-wrap justify-center gap-2" onclick="event.stopPropagation()">
+                            <a href="{{ route('resepsionis.pdf', $res->id) }}" target="_blank" title="Download PDF" class="px-2 py-1 bg-gray-600 hover:bg-gray-700 text-white rounded text-[10px] font-bold transition flex items-center justify-center">
+                                PDF
+                            </a>
                             @if($res->status == 'ongoing')
                                 <form action="{{ route('resepsionis.selesai', $res->id) }}" method="POST" class="inline">
                                     @csrf
@@ -113,8 +116,6 @@
                                         Refund
                                     </button>
                                 </form>
-                            @else
-                                <span class="text-gray-400 text-xs italic">-</span>
                             @endif
                         </div>
                     </div>

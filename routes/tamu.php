@@ -19,6 +19,7 @@ Route::get('/booking/{id}', [BookingController::class, 'biodata'])->name('bookin
 Route::post('/booking/{id}/biodata', [BookingController::class, 'storeBiodata'])->name('booking.biodata.store');
 Route::get('/booking/payment/{reservation_id}', [BookingController::class, 'payment'])->name('booking.payment');
 Route::post('/booking/payment/{reservation_id}', [BookingController::class, 'storePayment'])->name('booking.payment.store');
+Route::post('/booking/payment/{reservation_id}/cancel', [BookingController::class, 'cancelPayment'])->name('booking.payment.cancel');
 
 /*
 |--------------------------------------------------------------------------

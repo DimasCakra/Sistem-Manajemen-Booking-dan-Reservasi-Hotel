@@ -57,8 +57,8 @@
                                 <span class="text-sm font-bold text-gray-700">booking untuk orang lain (Nama Tamu)</span>
                             </label>
                             <div x-show="bookingLain" style="display: none;">
-                                <input type="text" name="nama_tamu_lain" class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117] mb-4" placeholder="Masukkan Nama Tamu (Optional)">
-                                <input type="text" name="nik_tamu_lain" class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117] mb-4" placeholder="Masukkan NIK Tamu (Optional)">
+                                <input type="text" name="nama_tamu_lain" :required="bookingLain" class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117] mb-4" placeholder="Masukkan Nama Tamu (Wajib)">
+                                <input type="text" name="nik_tamu_lain" :required="bookingLain" class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117] mb-4" placeholder="Masukkan NIK Tamu (Wajib)">
                             </div>
                         </div>
                         <div>

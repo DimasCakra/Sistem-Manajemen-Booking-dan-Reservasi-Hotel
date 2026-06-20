@@ -63,8 +63,8 @@ class BookingController extends TamuController
             'whatsapp' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'booking_untuk_orang_lain' => 'nullable',
-            'nama_tamu_lain' => 'nullable|string|max:255',
-            'nik_tamu_lain' => 'nullable|string|max:255',
+            'nama_tamu_lain' => 'required_if:booking_untuk_orang_lain,1|nullable|string|max:255',
+            'nik_tamu_lain' => 'required_if:booking_untuk_orang_lain,1|nullable|string|max:255',
             'permintaan_khusus' => 'nullable|string',
         ]);
 
@@ -161,5 +161,21 @@ class BookingController extends TamuController
         ]);
 
         return redirect()->route('home')->with('success', 'Pembayaran berhasil dikonfirmasi! Menunggu verifikasi resepsionis.');
+    }
+
+    public function cancelPayment(Request $request, $reservation_id)
+    {
+        $reservation = \App\Models\Reservation::findOrFail($reservation_id);
+        
+        // Only allow cancellation if payment hasn't been made
+        if ($reservation->status === 'pending' && is_null($reservation->bukti_pembayaran)) {
+            $reservation->delete();
+        }
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json(['success' => true]);
+        }
+
+        return redirect()->route('home')->with('success', 'Reservasi berhasil dibatalkan.');
     }
 }

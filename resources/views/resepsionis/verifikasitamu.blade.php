@@ -196,6 +196,9 @@
                                 <button type="submit" name="action" value="konfirmasi" class="px-6 py-3 rounded-xl bg-forest-700 text-white font-bold hover:bg-forest-800 transition">
                                     Konfirmasi
                                 </button>
+                                <a href="{{ route('resepsionis.pdf', $reservation->id) }}" target="_blank" class="px-6 py-3 rounded-xl border border-forest-700 text-forest-700 font-bold hover:bg-forest-50 transition">
+                                    Download PDF
+                                </a>
                             @else
                                 <div class="text-center py-6">
                                     <div class="inline-block mb-4">

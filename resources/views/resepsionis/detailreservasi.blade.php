@@ -168,6 +168,10 @@
                                     </button>
                                 </form>
                                 @endif
+
+                                <a href="{{ route('resepsionis.pdf', $detail->id) }}" target="_blank" class="w-full py-4 text-center border-2 border-white text-white rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-white hover:text-forest-900 transition-colors block">
+                                    Download Bukti PDF
+                                </a>
                             </div>
                         </div>
                     </div>

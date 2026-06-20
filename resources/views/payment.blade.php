@@ -97,7 +97,7 @@
                 <div class="bg-white p-8 rounded-md border border-gray-100 shadow-sm" x-data="{ photoPreview: null }">
                     <h2 class="text-lg font-black text-[#0f172a] mb-4 uppercase tracking-widest">Upload Bukti</h2>
                     
-                    <form action="{{ route('booking.payment.store', ['reservation_id' => $id]) }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+                    <form id="payment-form" action="{{ route('booking.payment.store', ['reservation_id' => $id]) }}" method="POST" enctype="multipart/form-data" class="space-y-4">
                         @csrf
                         <input type="hidden" name="payment_method" x-bind:value="method">
                         <div class="relative">
@@ -131,6 +131,13 @@
                             Konfirmasi Pembayaran
                         </button>
                     </form>
+
+                    <form action="{{ route('booking.payment.cancel', ['reservation_id' => $id]) }}" method="POST" class="mt-4" onsubmit="isSubmitting = true;">
+                        @csrf
+                        <button type="submit" class="w-full bg-red-50 text-red-600 border border-red-100 hover:bg-red-100 py-4 rounded-xl font-bold uppercase tracking-widest text-sm transition-all shadow-sm">
+                            Batalkan Reservasi
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -153,5 +160,38 @@
 
     @include('components.footer')
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        let isSubmitting = false;
+
+        document.getElementById('payment-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            isSubmitting = true;
+            
+            Swal.fire({
+                title: 'Berhasil Diunggah!',
+                text: 'Harap tunggu konfirmasi reservasi oleh resepsionis. Bukti booking berupa file PDF akan dikirimkan via WhatsApp Anda.',
+                icon: 'success',
+                confirmButtonText: 'Baik, Mengerti',
+                confirmButtonColor: '#254117',
+                allowOutsideClick: false
+            }).then(() => {
+                this.submit();
+            });
+        });
+
+        window.addEventListener('beforeunload', function (e) {
+            if (!isSubmitting) {
+                // Show standard browser warning
+                e.preventDefault();
+                e.returnValue = '';
+
+                // Silently delete reservation in background if they leave
+                let formData = new FormData();
+                formData.append('_token', '{{ csrf_token() }}');
+                navigator.sendBeacon('{{ route('booking.payment.cancel', $id) }}', formData);
+            }
+        });
+    </script>
 </body>
 </html>

@@ -130,6 +130,27 @@ class ResepsionisController extends Controller
         return redirect()->route('resepsionis.riwayatreservasi')->with('error', 'Reservasi tidak dapat direfund karena status tidak valid.');
     }
 
+    public function generatePDF($id)
+    {
+        $detail = $this->findReservationById($id);
+        
+        if (!$detail) {
+            return redirect()->route('resepsionis.riwayatreservasi')->with('error', 'Reservasi tidak ditemukan');
+        }
+
+        // Generate base64 for image to avoid path issues in DOMPDF
+        $imagePath = public_path('storage/' . $detail->bukti_pembayaran);
+        $base64Image = '';
+        if ($detail->bukti_pembayaran && file_exists($imagePath)) {
+            $imageData = base64_encode(file_get_contents($imagePath));
+            $mime = mime_content_type($imagePath);
+            $base64Image = 'data:' . $mime . ';base64,' . $imageData;
+        }
+
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('resepsionis.pdf_reservasi', compact('detail', 'base64Image'));
+        return $pdf->download('Reservasi_' . $detail->id . '_' . $detail->nama_lengkap . '.pdf');
+    }
+
     protected function fetchAllTamus()
     {
         return User::latest()->get();
@@ -173,7 +194,7 @@ class ResepsionisController extends Controller
 
     protected function fetchReservations(?string $status = null)
     {
-        $query = Reservation::query();
+        $query = Reservation::query()->whereNotNull('bukti_pembayaran');
 
         if ($status) {
             if ($status === 'checkout') {
