@@ -51,15 +51,21 @@
             </div>
 
             <div class="mb-8 fade-up">
-                <div class="inline-flex p-1 bg-white border border-gray-200 rounded-xl shadow-sm">
-                    @foreach(['' => 'All', 'ongoing' => 'On Going', 'refund' => 'Refund', 'checkout' => 'Check Out'] as $key => $label)
-                        <a href="?status={{ $key }}" 
-                        class="px-6 py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition-all 
-                        {{ (request('status') === null && $key === '') || request('status') === $key ? 'bg-forest-800 text-white shadow-sm' : 'text-gray-400 hover:text-forest-700' }}">
-                            {{ $label }}
-                        </a>
-                    @endforeach
-                </div>
+                <form method="GET" action="{{ route('resepsionis.riwayatreservasi') }}" class="flex gap-3 items-center">
+                    <div class="relative w-1/3">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                        </span>
+                        <input type="text" name="search" value="{{ $search ?? '' }}" placeholder="Cari nama, WA, email, nomor kamar, tipe..." class="pl-10 pr-4 py-2 rounded-xl border border-forest-100 w-full" />
+                    </div>
+                    <select name="status" class="px-4 py-2 rounded-xl border border-forest-100">
+                        <option value="ongoing" {{ ($status === 'ongoing') ? 'selected' : '' }}>On Going</option>
+                        <option value="checkout" {{ ($status === 'checkout') ? 'selected' : '' }}>Check Out</option>
+                        <option value="refund" {{ ($status === 'refund') ? 'selected' : '' }}>Refund</option>
+                        <option value="all" {{ ($status === 'all') ? 'selected' : '' }}>All</option>
+                    </select>
+                    <button type="submit" class="px-4 py-2 rounded-xl bg-forest-800 text-white">Cari</button>
+                </form>
             </div>
 
             <div class="bg-white rounded-2xl shadow-sm border border-forest-100 overflow-hidden fade-up" style="animation-delay: 0.2s">
@@ -89,9 +95,25 @@
                             {{ $res->room_type }}
                         </div>
                         <div class="col-span-3 text-center text-xs text-gray-600">
-                            <span class="font-medium text-forest-800">{{ \Carbon\Carbon::parse($res->check_in)->format('d M Y') }}</span>
+                            @php
+                                try {
+                                    if ($res->check_in && $res->check_out) {
+                                        $start = \Carbon\Carbon::parse($res->check_in);
+                                        $end = \Carbon\Carbon::parse($res->check_out);
+                                    } else {
+                                        $parts = explode(' to ', $res->check_in_out ?? '');
+                                        $start = isset($parts[0]) && $parts[0] ? \Carbon\Carbon::parse(trim($parts[0])) : null;
+                                        $end = isset($parts[1]) && $parts[1] ? \Carbon\Carbon::parse(trim($parts[1])) : null;
+                                    }
+                                } catch (\Exception $e) {
+                                    $start = $res->created_at ? \Carbon\Carbon::parse($res->created_at) : null;
+                                    $end = $res->created_at ? \Carbon\Carbon::parse($res->created_at) : null;
+                                }
+                            @endphp
+
+                            <span class="font-medium text-forest-800">{{ $start ? $start->format('d M Y') : '-' }}</span>
                             <span class="mx-1 text-forest-300">→</span>
-                            <span class="font-medium text-forest-800">{{ \Carbon\Carbon::parse($res->check_out)->format('d M Y') }}</span>
+                            <span class="font-medium text-forest-800">{{ $end ? $end->format('d M Y') : '-' }}</span>
                         </div>
                         <div class="col-span-2 flex justify-center">
                             <span class="px-3 py-1 text-[9px] font-black uppercase rounded-lg border 
@@ -99,26 +121,12 @@
                                 {{ $res->status == 'checkout' || $res->status == 'done' ? 'Check Out' : ($res->status == 'ongoing' ? 'On Going' : ucfirst($res->status)) }}
                             </span>
                         </div>
-                        <div class="col-span-2 flex flex-wrap justify-center gap-2" onclick="event.stopPropagation()">
-                            <a href="{{ route('resepsionis.pdf', $res->id) }}" target="_blank" title="Download PDF" class="px-2 py-1 bg-gray-600 hover:bg-gray-700 text-white rounded text-[10px] font-bold transition flex items-center justify-center">
-                                PDF
+                        <div class="col-span-2 flex justify-center" onclick="event.stopPropagation()">
+                            <a href="{{ route('reservasi.show', $res->id) }}" title="Detail" class="px-2 py-1 bg-white border border-gray-200 rounded text-[10px] font-bold transition flex items-center justify-center hover:bg-gray-50">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
                             </a>
-                            @if($res->status == 'ongoing')
-                                <form action="{{ route('resepsionis.selesai', $res->id) }}" method="POST" class="inline">
-                                    @csrf
-                                    <button type="submit" onclick="return confirm('Selesaikan reservasi ini? Tamu sudah check-out?')" class="px-2 py-1 bg-forest-700 hover:bg-forest-800 text-white rounded text-[10px] font-bold transition">
-                                        Selesai
-                                    </button>
-                                </form>
-                                <form action="{{ route('resepsionis.refund', $res->id) }}" method="POST" class="inline">
-                                    @csrf
-                                    <button type="submit" onclick="return confirm('Yakin ingin merefund dan membatalkan reservasi ini?')" class="px-2 py-1 bg-red-600 hover:bg-red-700 text-white rounded text-[10px] font-bold transition">
-                                        Refund
-                                    </button>
-                                </form>
-                            @endif
                         </div>
-                    </div>
+                        </div>
                 @empty
                     <div class="p-20 text-center text-gray-400 font-medium italic">Belum ada riwayat reservasi.</div>
                 @endforelse

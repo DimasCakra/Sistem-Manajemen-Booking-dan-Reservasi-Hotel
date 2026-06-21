@@ -85,6 +85,10 @@
                                     <p class="font-semibold text-forest-900 text-base">{{ $reservation->room_type }}</p>
                                 </div>
                                 <div>
+                                    <p class="text-gray-400 text-[10px] uppercase font-bold tracking-wider mb-1">Nomor Kamar</p>
+                                    <p class="font-semibold text-forest-600 text-base font-bold">{{ $reservation->kamar?->no_kamar ?? $reservation->room_number ?? '-' }}</p>
+                                </div>
+                                <div>
                                     <p class="text-gray-400 text-[10px] uppercase font-bold tracking-wider mb-1">Jumlah Tamu</p>
                                     <p class="font-semibold text-forest-900 text-base">{{ $reservation->jumlah_tamu ?? '-' }} Orang</p>
                                 </div>

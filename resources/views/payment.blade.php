@@ -132,9 +132,9 @@
                         </button>
                     </form>
 
-                    <form action="{{ route('booking.payment.cancel', ['reservation_id' => $id]) }}" method="POST" class="mt-4" onsubmit="isSubmitting = true;">
+                    <form action="{{ route('booking.payment.cancel', ['reservation_id' => $id]) }}" method="POST" class="mt-4" id="cancel-form">
                         @csrf
-                        <button type="submit" class="w-full bg-red-50 text-red-600 border border-red-100 hover:bg-red-100 py-4 rounded-xl font-bold uppercase tracking-widest text-sm transition-all shadow-sm">
+                        <button type="button" id="cancel-reservation-btn" class="w-full bg-red-50 text-red-600 border border-red-100 hover:bg-red-100 py-4 rounded-xl font-bold uppercase tracking-widest text-sm transition-all shadow-sm">
                             Batalkan Reservasi
                         </button>
                     </form>
@@ -159,6 +159,54 @@
     </main>
 
     @include('components.footer')
+    <style>
+        /* Base: keep no entry animations */
+        .swal2-container, .swal2-popup {
+            transition: none !important;
+            -webkit-transition: none !important;
+            animation: none !important;
+            -webkit-animation: none !important;
+        }
+        .swal2-styled, .swal2-styled:focus, .swal2-styled:active {
+            transition: none !important;
+            -webkit-transition: none !important;
+            box-shadow: none !important;
+        }
+
+        /* Button hover colors: green (darker) and red (darker) */
+        .swal-btn-green:hover {
+            background-color: #1a2f0f !important; /* darker green */
+            color: #ffffff !important;
+        }
+
+        .swal-btn-red:hover {
+            background-color: #b91c1c !important; /* darker red */
+            color: #ffffff !important;
+        }
+
+        /* Ensure our specific button hover rules win over generic unset rules */
+        .swal-btn-green, .swal-btn-red { transition: none !important; }
+        /* Remove popup entry animations and hover/transition effects entirely */
+        .swal2-container, .swal2-popup {
+            transition: none !important;
+            -webkit-transition: none !important;
+            animation: none !important;
+            -webkit-animation: none !important;
+        }
+        .swal2-styled, .swal-nohover-confirm, .swal-nohover-cancel {
+            transition: none !important;
+            -webkit-transition: none !important;
+            box-shadow: none !important;
+        }
+        .swal2-styled:hover, .swal-nohover-confirm:hover, .swal-nohover-cancel:hover,
+        .swal2-styled:focus, .swal2-styled:active {
+            background-color: unset !important;
+            color: inherit !important;
+            box-shadow: none !important;
+            transform: none !important;
+            opacity: 1 !important;
+        }
+    </style>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
@@ -167,26 +215,137 @@
         document.getElementById('payment-form').addEventListener('submit', function(e) {
             e.preventDefault();
             isSubmitting = true;
-            
+
             Swal.fire({
-                title: 'Berhasil Diunggah!',
-                text: 'Harap tunggu konfirmasi reservasi oleh resepsionis. Bukti booking berupa file PDF akan dikirimkan via WhatsApp Anda.',
-                icon: 'success',
-                confirmButtonText: 'Baik, Mengerti',
+                title: 'Bukti berhasil diunggah',
+                text: 'Silakan tunggu verifikasi resepsionis. Bukti booking akan dikirimkan melalui WhatsApp jika diperlukan.',
+                showCancelButton: false,
+                confirmButtonText: 'Baik, mengerti',
                 confirmButtonColor: '#254117',
-                allowOutsideClick: false
+                allowOutsideClick: false,
+                customClass: { confirmButton: 'swal-btn-green' }
             }).then(() => {
                 this.submit();
             });
         });
 
+        // Prevent accidental navigation: intercept link clicks and back/forward via history
+        history.pushState(null, null, location.href);
+
+        const sendCancel = async () => {
+            try {
+                await fetch('{{ route('booking.payment.cancel', $id) }}', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
+                    },
+                    body: new URLSearchParams({}),
+                });
+            } catch (e) {
+                // best-effort
+                try {
+                    let formData = new FormData();
+                    formData.append('_token', '{{ csrf_token() }}');
+                    navigator.sendBeacon('{{ route('booking.payment.cancel', $id) }}', formData);
+                } catch (e) {}
+            }
+        };
+
+        // Intercept back/forward navigation
+        window.addEventListener('popstate', function (event) {
+            if (isSubmitting) return;
+
+            Swal.fire({
+                title: 'Konfirmasi pembatalan reservasi',
+                text: 'Keluar sekarang akan membatalkan proses reservasi dan menghapus data sementara. Lanjutkan?',
+                showCancelButton: true,
+                confirmButtonText: 'Keluar dan batalkan',
+                cancelButtonText: 'Tetap di halaman',
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#254117',
+                customClass: { confirmButton: 'swal-btn-red', cancelButton: 'swal-btn-green' }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    isSubmitting = true;
+                    sendCancel().then(() => {
+                        // allow back navigation now
+                        history.back();
+                    }).catch(() => {
+                        history.back();
+                    });
+                } else {
+                    // stay on page
+                    history.pushState(null, null, location.href);
+                }
+            });
+        });
+
+        // Intercept anchor clicks
+        document.addEventListener('click', function (e) {
+            const a = e.target.closest('a');
+            if (!a) return;
+            const href = a.getAttribute('href');
+            if (!href || href.startsWith('#') || a.target === '_blank') return;
+            if (isSubmitting) return;
+
+            e.preventDefault();
+
+            Swal.fire({
+                title: 'Konfirmasi pembatalan reservasi',
+                text: 'Keluar sekarang akan membatalkan proses reservasi dan menghapus data sementara. Lanjutkan?',
+                showCancelButton: true,
+                confirmButtonText: 'Keluar dan batalkan',
+                cancelButtonText: 'Tetap di halaman',
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#254117',
+                customClass: { confirmButton: 'swal-btn-red', cancelButton: 'swal-btn-green' }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    isSubmitting = true;
+                    sendCancel().then(() => {
+                        window.location.href = href;
+                    }).catch(() => {
+                        window.location.href = href;
+                    });
+                }
+            });
+        });
+
+        // Handle cancel-reservation button (show confirmation then cancel and redirect to home)
+        const cancelBtn = document.getElementById('cancel-reservation-btn');
+        if (cancelBtn) {
+            cancelBtn.addEventListener('click', function (e) {
+                if (isSubmitting) return;
+
+                Swal.fire({
+                    title: 'Konfirmasi pembatalan reservasi',
+                    text: 'Batalkan reservasi ini? Semua data sementara akan dihapus.',
+                    showCancelButton: true,
+                    confirmButtonText: 'Keluar dan batalkan',
+                    cancelButtonText: 'Tetap di halaman',
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#254117',
+                    customClass: { confirmButton: 'swal-btn-red', cancelButton: 'swal-btn-green' }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        isSubmitting = true;
+                        sendCancel().then(() => {
+                            window.location.href = '{{ route('home') }}';
+                        }).catch(() => {
+                            window.location.href = '{{ route('home') }}';
+                        });
+                    }
+                });
+            });
+        }
+
+        // Keep a last-resort beforeunload warning and best-effort cancel beacon
         window.addEventListener('beforeunload', function (e) {
             if (!isSubmitting) {
-                // Show standard browser warning
                 e.preventDefault();
                 e.returnValue = '';
-
-                // Silently delete reservation in background if they leave
                 let formData = new FormData();
                 formData.append('_token', '{{ csrf_token() }}');
                 navigator.sendBeacon('{{ route('booking.payment.cancel', $id) }}', formData);

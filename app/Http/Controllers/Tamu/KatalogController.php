@@ -46,6 +46,14 @@ class KatalogController extends TamuController
                     ->whereNotIn('status', ['done', 'checkout', 'refund', 'cancelled'])
                     ->get()
                     ->filter(function (Reservation $reservation) use ($searchStart, $searchEnd) {
+                        // Exclude temporary drafts and pending reservations without payment proof
+                        if ($reservation->status === 'temporary') {
+                            return false;
+                        }
+
+                        if ($reservation->status === 'pending' && is_null($reservation->bukti_pembayaran)) {
+                            return false;
+                        }
                         if ($reservation->status === 'pending' && $reservation->created_at->diffInMinutes(now()) >= 15) {
                             $reservation->update(['status' => 'cancelled']);
                             return false;

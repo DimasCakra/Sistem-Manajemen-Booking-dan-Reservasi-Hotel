@@ -43,10 +43,11 @@ class ResepsionisController extends Controller
 
     public function riwayat(Request $request)
     {
-        $status = $request->query('status');
-        $reservations = $this->fetchReservations($status);
+        $status = $request->query('status', 'ongoing');
+        $search = $request->query('search');
+        $reservations = $this->fetchReservations($status, $search);
 
-        return view('resepsionis.riwayatreservasi', compact('reservations', 'status'));
+        return view('resepsionis.riwayatreservasi', compact('reservations', 'status', 'search'));
     }
 
     public function show($id)
@@ -89,10 +90,10 @@ class ResepsionisController extends Controller
             
             // Delete the reservation
             $reservation->delete();
-            return redirect()->route('receptionist.index')->with('success', 'Reservasi telah ditolak dan dihapus dari daftar verifikasi');
+            return redirect()->route('resepsionis.riwayatreservasi')->with('success', 'Reservasi telah ditolak dan dihapus dari daftar verifikasi');
         } elseif ($action === 'konfirmasi') {
             $reservation->update(['status' => 'ongoing']);
-            return redirect()->route('receptionist.index')->with('success', 'Reservasi dikonfirmasi dan dipindahkan ke riwayat reservasi');
+            return redirect()->route('resepsionis.riwayatreservasi')->with('success', 'Reservasi dikonfirmasi dan dipindahkan ke riwayat reservasi');
         }
 
         return back();
@@ -192,16 +193,36 @@ class ResepsionisController extends Controller
         return $photo->store('foto_profil', 'public');
     }
 
-    protected function fetchReservations(?string $status = null)
+    protected function fetchReservations(?string $status = null, ?string $search = null)
     {
-        $query = Reservation::query()->whereNotNull('bukti_pembayaran');
+        $query = Reservation::query();
 
-        if ($status) {
+        // By default show only pending (awaiting verification)
+        if (!$status) $status = 'pending';
+
+        if ($status === 'all' || $status === '') {
+            // no status filter
+        } else {
             if ($status === 'checkout') {
                 $query->whereIn('status', ['checkout', 'done']);
             } else {
                 $query->where('status', $status);
             }
+        }
+
+        // Only show reservations that have payment proof for pending verifications and history
+        if ($status === 'pending') {
+            $query->whereNotNull('bukti_pembayaran');
+        }
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('nama_lengkap', 'like', "%{$search}%")
+                  ->orWhere('whatsapp', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhere('room_number', 'like', "%{$search}%")
+                  ->orWhere('room_type', 'like', "%{$search}%");
+            });
         }
 
         return $query->latest()->get();

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Reservation extends Model
 {
     protected $fillable = [
-        'user_id', 'room_type', 'room_number', 'nama_lengkap', 'nik', 'whatsapp', 
+        'user_id', 'room_type', 'room_number', 'kamar_id', 'nama_lengkap', 'nik', 'whatsapp', 
         'email', 'jumlah_tamu', 'check_in_out', 'check_in', 'check_out', 'status', 'total_biaya',
         'nama_tamu_lain', 'nik_tamu_lain', 'permintaan_khusus', 'bukti_pembayaran', 'payment_method'
     ];
@@ -17,4 +17,9 @@ class Reservation extends Model
         'check_in' => 'date',
         'check_out' => 'date',
     ];
+
+    public function kamar()
+    {
+        return $this->belongsTo(\App\Models\Kamar::class, 'kamar_id', 'id_kamar');
+    }
 }

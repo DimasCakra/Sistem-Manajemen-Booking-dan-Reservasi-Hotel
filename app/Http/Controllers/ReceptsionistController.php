@@ -11,8 +11,8 @@ class ReceptsionistController extends Controller
     // Dashboard Utama
     public function index()
     {
-        // Hapus 'with' karena tabel kita masih satu kesatuan
-        $reservations = Reservation::latest()->get();
+        // Hanya tampilkan reservasi dengan status 'pending' (menunggu verifikasi)
+        $reservations = Reservation::where('status', 'pending')->latest()->get();
 
         return view('resepsionis.receptsionis', [
             'receptionist' => Auth::user(),

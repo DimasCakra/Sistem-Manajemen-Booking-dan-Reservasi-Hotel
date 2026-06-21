@@ -79,6 +79,7 @@
                         <p class="text-gray-400 text-[10px] font-bold uppercase tracking-widest mb-1">Hotel</p>
                         <h3 class="text-lg font-black text-black">StayEase Hotel</h3>
                         <p class="text-sm text-gray-500 mt-1">{{ $kamar->nama_tipe }} - {{ $durasi }} Malam</p>
+                        <p class="text-sm text-gray-500 mt-1">Nomor Kamar: <span class="font-bold text-[#254117]">{{ $candidateNumber ?? '-' }}</span></p>
                     </div>
 
                     <div class="border-t border-gray-50 py-4 mb-4">
