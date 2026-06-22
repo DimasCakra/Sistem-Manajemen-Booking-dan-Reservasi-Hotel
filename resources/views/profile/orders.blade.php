@@ -72,7 +72,7 @@
                             </span>
 
                         @elseif($res->status == 'refund')
-                            <span class="px-3 py-1 bg-purple-100 text-purple-700 text-xs font-bold uppercase rounded-full tracking-wider">
+                            <span class="px-3 py-1 bg-red-100 text-red-700 text-xs font-bold uppercase rounded-full tracking-wider">
                                 Refund
                             </span>
 

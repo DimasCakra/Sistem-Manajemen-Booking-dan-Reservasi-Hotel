@@ -164,7 +164,15 @@ class ResepsionisController extends Controller
 
         if ($reservation->status === 'ongoing') {
             $reservation->update(['status' => 'refund']);
-            return redirect()->route('resepsionis.riwayatreservasi')->with('success', 'Reservasi telah direfund dan dibatalkan.');
+
+            if ($reservation->kamar_id) {
+                $kamar = \App\Models\Kamar::where('id_kamar', $reservation->kamar_id)->first();
+                if ($kamar) {
+                    $kamar->update(['status_kamar' => 'tersedia']);
+                }
+            }
+
+            return redirect()->route('resepsionis.riwayatreservasi')->with('success', 'Reservasi telah direfund dan dibatalkan, kamar kembali tersedia.');
         }
 
         return redirect()->route('resepsionis.riwayatreservasi')->with('error', 'Reservasi tidak dapat direfund karena status tidak valid.');
