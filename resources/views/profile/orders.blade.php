@@ -107,12 +107,24 @@
                     </div>
 
                     <div class="w-full md:w-auto text-center" x-data="{ openReview: false }">
-                        @if(array_key_exists($res->id, $reviews))
-                            <button disabled class="w-full md:w-auto px-6 py-3 bg-gray-200 text-gray-600 font-bold rounded-xl cursor-not-allowed">
+                        @if($res->status !== 'checkout' && $res->status !== 'done')
+
+                            <button disabled
+                                class="w-full md:w-auto px-6 py-3 bg-gray-200 text-gray-500 font-bold rounded-xl cursor-not-allowed">
+                                Belum Bisa Diulas
+                            </button>
+
+                        @elseif(array_key_exists($res->id, $reviews))
+
+                            <button disabled
+                                class="w-full md:w-auto px-6 py-3 bg-gray-200 text-gray-600 font-bold rounded-xl cursor-not-allowed">
                                 Sudah Diulas
                             </button>
+
                         @else
-                            <button @click="openReview = true" class="w-full md:w-auto px-6 py-3 bg-[#8C6A1A] hover:bg-[#6b5014] text-white font-bold rounded-xl transition-colors shadow-lg">
+
+                            <button @click="openReview = true"
+                                class="w-full md:w-auto px-6 py-3 bg-[#8C6A1A] hover:bg-[#6b5014] text-white font-bold rounded-xl transition-colors shadow-lg">
                                 Berikan Ulasan
                             </button>
 
