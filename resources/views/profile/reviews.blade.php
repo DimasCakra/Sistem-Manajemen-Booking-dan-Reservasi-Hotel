@@ -16,6 +16,12 @@
     @include('components.navbar')
 
     <main class="max-w-5xl mx-auto px-6 py-10">
+        <a href="{{ url('/home') }}"class="inline-flex items-center text-sm font-bold text-gray-500 hover:text-[#8C6A1A] transition-colors mb-4 uppercase tracking-widest">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+            Kembali
+        </a>
         <h1 class="text-3xl font-display font-bold text-[#8C6A1A] mb-8">Ulasan Saya</h1>
 
         <div class="grid grid-cols-1 gap-6">

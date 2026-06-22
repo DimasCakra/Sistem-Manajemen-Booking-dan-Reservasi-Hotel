@@ -67,7 +67,15 @@
                     </div>
                     <input id="password" type="password" name="password" required autocomplete="current-password" placeholder="••••••••"
                         class="w-full px-5 py-4 rounded-xl bg-white border-2 border-transparent focus:border-[#8C6A1A] outline-none text-gray-800 transition-all shadow-[0_4px_20px_-5px_rgba(0,0,0,0.05)]">
+                    <div class="flex items-center mt-2">
+                        <input type="checkbox" id="showPassword" class="mr-2">
+                        <label for="showPassword" class="text-sm text-gray-600">
+                            Lihat Password
+                        </label>
+                    </div>
                 </div>
+
+
 
                 <button type="submit"
                         class="w-full bg-[#254117] text-white mt-8 py-4 rounded-xl font-bold tracking-widest uppercase hover:bg-[#173014] transition-all transform active:scale-[0.98] shadow-xl shadow-[#254117]/20 flex justify-center items-center gap-2">
@@ -82,5 +90,8 @@
             </p>
         </div>
     </div>
+
+    <script src="{{ asset('js/tamu/liatpw.js') }}"></script>
+
 </body>
 </html>

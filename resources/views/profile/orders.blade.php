@@ -17,6 +17,13 @@
     @include('components.navbar')
 
     <main class="max-w-5xl mx-auto px-6 py-10">
+        <a href="{{ url('/home') }}"class="inline-flex items-center text-sm font-bold text-gray-500 hover:text-[#8C6A1A] transition-colors mb-4 uppercase tracking-widest">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+
+            Kembali
+        </a>
         <h1 class="text-3xl font-display font-bold text-[#8C6A1A] mb-8">Riwayat Pesanan Saya</h1>
 
         @if(session('success'))
@@ -44,12 +51,49 @@
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 flex flex-col md:flex-row items-center justify-between gap-6">
                     <div class="flex-1">
                         <div class="flex items-center gap-3 mb-2">
-                            <span class="px-3 py-1 bg-green-100 text-green-800 text-xs font-bold uppercase rounded-full tracking-wider">Selesai</span>
-                            <span class="text-sm text-gray-500">ID: #{{ $res->id }}</span>
-                        </div>
+                        @if($res->status == 'pending')
+                            <span class="px-3 py-1 bg-yellow-100 text-yellow-700 text-xs font-bold uppercase rounded-full tracking-wider">
+                                Menunggu Verifikasi
+                            </span>
+
+                        @elseif($res->status == 'ongoing')
+                            <span class="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-bold uppercase rounded-full tracking-wider">
+                                Berhasil di Verifikasi
+                            </span>
+
+                        @elseif($res->status == 'temporary')
+                            <span class="px-3 py-1 bg-orange-100 text-orange-700 text-xs font-bold uppercase rounded-full tracking-wider">
+                                Menunggu Pembayaran
+                            </span>
+
+                        @elseif($res->status == 'checkout' || $res->status == 'done')
+                            <span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-bold uppercase rounded-full tracking-wider">
+                                Selesai
+                            </span>
+
+                        @elseif($res->status == 'refund')
+                            <span class="px-3 py-1 bg-purple-100 text-purple-700 text-xs font-bold uppercase rounded-full tracking-wider">
+                                Refund
+                            </span>
+
+                        @elseif($res->status == 'cancelled')
+                            <span class="px-3 py-1 bg-red-100 text-red-700 text-xs font-bold uppercase rounded-full tracking-wider">
+                                Dibatalkan
+                            </span>
+
+                        @else
+                            <span class="px-3 py-1 bg-gray-100 text-gray-700 text-xs font-bold uppercase rounded-full tracking-wider">
+                                {{ ucfirst($res->status) }}
+                            </span>
+                        @endif
+                        <span class="text-sm text-gray-500">
+                            ID: #{{ $res->id }}
+                        </span>
+
+                    </div>
                         <h2 class="text-xl font-bold text-gray-900 mb-1">{{ $res->room_type }}</h2>
                         <p class="text-gray-600 text-sm mb-4">{{ $res->check_in_out }}</p>
-                        
+
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <p class="text-xs text-gray-400 uppercase font-bold tracking-wider">Total Biaya</p>
@@ -77,7 +121,7 @@
                                 <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                                     <div x-show="openReview" @click="openReview = false" class="fixed inset-0 bg-black/50 transition-opacity" aria-hidden="true"></div>
                                     <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-                                    
+
                                     <div x-show="openReview" class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full">
                                         <form action="{{ route('profile.review.store', $res->id) }}" method="POST">
                                             @csrf
@@ -85,7 +129,7 @@
                                                 <h3 class="text-lg leading-6 font-bold text-gray-900 mb-4" id="modal-title">
                                                     Ulasan Kamar {{ $res->room_type }}
                                                 </h3>
-                                                
+
                                                 <div class="mb-4">
                                                     <label class="block text-sm font-medium text-gray-700 mb-2">Rating (1-5 Bintang)</label>
                                                     <select name="rating" required class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-[#8C6A1A] focus:border-[#8C6A1A]">
