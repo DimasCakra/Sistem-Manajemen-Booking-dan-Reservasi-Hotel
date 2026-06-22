@@ -135,6 +135,26 @@
         </tr>
     </table>
 
+    @if($detail->nama_tamu_lain)
+    @php
+        $namaTamuLain = json_decode($detail->nama_tamu_lain, true);
+        $nikTamuLain = json_decode($detail->nik_tamu_lain, true);
+        if (!is_array($namaTamuLain)) {
+            $namaTamuLain = [$detail->nama_tamu_lain];
+            $nikTamuLain = [$detail->nik_tamu_lain];
+        }
+    @endphp
+    <div class="section-title">Data Tamu Lain</div>
+    <table>
+        @foreach($namaTamuLain as $index => $nama)
+        <tr>
+            <th>Tamu Tambahan {{ $index + 1 }}</th>
+            <td>{{ $nama }} (NIK: {{ $nikTamuLain[$index] ?? '-' }})</td>
+        </tr>
+        @endforeach
+    </table>
+    @endif
+
     <div class="section-title">Detail Pemesanan Kamar</div>
     <table>
         <tr>

@@ -249,7 +249,7 @@
 
             Swal.fire({
                 title: 'Bukti berhasil diunggah',
-                text: 'Silakan tunggu verifikasi resepsionis. Bukti booking akan dikirimkan melalui WhatsApp jika diperlukan.',
+                text: 'Silakan tunggu verifikasi resepsionis. Bukti booking akan dikirimkan melalui nomor WhatsApp anda.',
                 showCancelButton: false,
                 confirmButtonText: 'Baik, mengerti',
                 confirmButtonColor: '#254117',

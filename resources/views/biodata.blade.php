@@ -21,7 +21,7 @@
         <form action="{{ route('booking.biodata.store', ['id' => $id, 'checkin' => $checkin, 'checkout' => $checkout]) }}" method="POST" class="grid grid-cols-1 lg:grid-cols-12 gap-8">
             @csrf
             <!-- Left Column -->
-            <div class="lg:col-span-8 space-y-6" x-data="{ bookingLain: false }">
+            <div class="lg:col-span-8 space-y-6" x-data="{ bookingLain: false, tamuTambahan: [], maxTamu: {{ max(0, $kamar->jumlah_tamu - 1) }} }">
                 <!-- Biodata Form Card -->
                 <div class="bg-white p-8 rounded-md border border-gray-100 shadow-sm">
                     <h2 class="text-xl font-black text-[#0f172a] mb-6 border-b pb-4 border-gray-50 uppercase tracking-widest">Masukkan Biodata Anda</h2>
@@ -53,12 +53,31 @@
                     <div class="space-y-4">
                         <div>
                             <label class="flex items-center space-x-3 cursor-pointer mb-4">
-                                <input type="checkbox" name="booking_untuk_orang_lain" value="1" class="w-5 h-5 rounded border-gray-300 text-[#254117] focus:ring-[#254117]" x-model="bookingLain">
-                                <span class="text-sm font-bold text-gray-700">booking untuk orang lain (Nama Tamu)</span>
+                                <input type="checkbox" name="booking_untuk_orang_lain" value="1" class="w-5 h-5 rounded border-gray-300 text-[#254117] focus:ring-[#254117]" x-model="bookingLain" @change="if(bookingLain && tamuTambahan.length === 0 && maxTamu > 0) tamuTambahan.push({id: Date.now()})">
+                                <span class="text-sm font-bold text-gray-700">Booking untuk orang lain / Tambah Tamu <span x-show="maxTamu > 0">(Maks. <span x-text="maxTamu"></span> Tambahan)</span></span>
                             </label>
-                            <div x-show="bookingLain" style="display: none;">
-                                <input type="text" name="nama_tamu_lain" :required="bookingLain" class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117] mb-4" placeholder="Masukkan Nama Tamu (Wajib)">
-                                <input type="text" name="nik_tamu_lain" :required="bookingLain" class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117] mb-4" placeholder="Masukkan NIK Tamu (Wajib)">
+                            <div x-show="bookingLain" style="display: none;" class="space-y-4">
+                                <template x-if="maxTamu === 0">
+                                    <div class="p-4 bg-yellow-50 text-yellow-800 text-sm rounded-md border border-yellow-200">
+                                        Kapasitas kamar ini hanya untuk 1 orang, tidak dapat menambah tamu lain.
+                                    </div>
+                                </template>
+
+                                <template x-for="(tamu, index) in tamuTambahan" :key="tamu.id">
+                                    <div class="p-4 border border-gray-200 rounded-md bg-gray-50 relative">
+                                        <h4 class="text-sm font-bold text-[#254117] mb-3">Data Tamu Tambahan <span x-text="index + 1"></span></h4>
+                                        <input type="text" name="nama_tamu_lain[]" :required="bookingLain" class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117] mb-3" placeholder="Masukkan Nama Tamu (Wajib)">
+                                        <input type="text" name="nik_tamu_lain[]" :required="bookingLain" class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117]" placeholder="Masukkan NIK Tamu (Wajib)">
+                                        
+                                        <button type="button" @click="tamuTambahan.splice(index, 1); if(tamuTambahan.length === 0) bookingLain = false;" class="absolute top-4 right-4 text-red-500 hover:text-red-700 text-sm font-bold">
+                                            Hapus
+                                        </button>
+                                    </div>
+                                </template>
+
+                                <button type="button" x-show="tamuTambahan.length < maxTamu" @click="tamuTambahan.push({id: Date.now()})" class="w-full py-3 border-2 border-dashed border-[#254117] text-[#254117] rounded-md font-bold text-sm hover:bg-[#254117] hover:text-white transition-colors">
+                                    + Tambah Tamu Lainnya
+                                </button>
                             </div>
                         </div>
                         <div>

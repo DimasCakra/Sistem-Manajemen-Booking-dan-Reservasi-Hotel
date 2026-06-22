@@ -121,8 +121,10 @@ class BookingController extends TamuController
             'whatsapp' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'booking_untuk_orang_lain' => 'nullable',
-            'nama_tamu_lain' => 'required_if:booking_untuk_orang_lain,1|nullable|string|max:255',
-            'nik_tamu_lain' => 'required_if:booking_untuk_orang_lain,1|nullable|string|max:255',
+            'nama_tamu_lain' => 'required_if:booking_untuk_orang_lain,1|nullable|array',
+            'nama_tamu_lain.*' => 'string|max:255',
+            'nik_tamu_lain' => 'required_if:booking_untuk_orang_lain,1|nullable|array',
+            'nik_tamu_lain.*' => 'string|max:255',
             'permintaan_khusus' => 'nullable|string',
         ]);
 
@@ -154,8 +156,8 @@ class BookingController extends TamuController
             // Mark as temporary draft so it is not treated as active reservation
             'status' => 'temporary',
             'total_biaya' => $total,
-            'nama_tamu_lain' => $request->nama_tamu_lain,
-            'nik_tamu_lain' => $request->nik_tamu_lain,
+            'nama_tamu_lain' => $request->has('nama_tamu_lain') && is_array($request->nama_tamu_lain) ? json_encode($request->nama_tamu_lain) : null,
+            'nik_tamu_lain' => $request->has('nik_tamu_lain') && is_array($request->nik_tamu_lain) ? json_encode($request->nik_tamu_lain) : null,
             'permintaan_khusus' => $request->permintaan_khusus,
         ]);
 

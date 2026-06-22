@@ -99,18 +99,38 @@
 
                         <!-- Data Tamu Lain (jika ada) -->
                         @if($detail->nama_tamu_lain)
+                        @php
+                            $namaTamuLain = json_decode($detail->nama_tamu_lain, true);
+                            $nikTamuLain = json_decode($detail->nik_tamu_lain, true);
+                            
+                            // fallback for old string records
+                            if (!is_array($namaTamuLain)) {
+                                $namaTamuLain = [$detail->nama_tamu_lain];
+                                $nikTamuLain = [$detail->nik_tamu_lain];
+                            }
+                        @endphp
                         <div class="bg-amber-50 rounded-2xl shadow-sm border border-amber-100 p-8">
                             <h2 class="font-display text-xl font-semibold text-amber-900 border-b border-amber-100 pb-4 mb-6">Data Tamu Lain</h2>
                             
-                            <div class="grid grid-cols-2 gap-x-8 gap-y-6">
-                                <div class="col-span-2 sm:col-span-1">
-                                    <p class="text-amber-700 text-[10px] uppercase font-bold tracking-wider mb-1">Nama Tamu</p>
-                                    <p class="font-semibold text-amber-900 text-base">{{ $detail->nama_tamu_lain }}</p>
+                            <div class="space-y-6">
+                                @foreach($namaTamuLain as $index => $nama)
+                                <div class="grid grid-cols-2 gap-x-8 gap-y-2">
+                                    <div class="col-span-2">
+                                        <p class="text-amber-700 text-xs font-bold mb-1">Tamu Tambahan {{ $index + 1 }}</p>
+                                    </div>
+                                    <div class="col-span-2 sm:col-span-1">
+                                        <p class="text-amber-700 text-[10px] uppercase font-bold tracking-wider mb-1">Nama Tamu</p>
+                                        <p class="font-semibold text-amber-900 text-base">{{ $nama }}</p>
+                                    </div>
+                                    <div class="col-span-2 sm:col-span-1">
+                                        <p class="text-amber-700 text-[10px] uppercase font-bold tracking-wider mb-1">NIK Tamu</p>
+                                        <p class="font-semibold text-amber-900 text-base">{{ $nikTamuLain[$index] ?? '-' }}</p>
+                                    </div>
                                 </div>
-                                <div class="col-span-2 sm:col-span-1">
-                                    <p class="text-amber-700 text-[10px] uppercase font-bold tracking-wider mb-1">NIK Tamu</p>
-                                    <p class="font-semibold text-amber-900 text-base">{{ $detail->nik_tamu_lain ?? '-' }}</p>
-                                </div>
+                                @if(!$loop->last)
+                                    <hr class="border-amber-200">
+                                @endif
+                                @endforeach
                             </div>
                         </div>
                         @endif

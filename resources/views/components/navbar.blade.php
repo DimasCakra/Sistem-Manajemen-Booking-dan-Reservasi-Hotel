@@ -1,3 +1,100 @@
+<!-- Page Loader Overlay -->
+<div id="page-loader" class="fixed inset-0 z-[9999] bg-[#173014] flex flex-col items-center justify-center transition-opacity duration-500">
+    <div class="relative flex flex-col items-center gap-6">
+        <!-- Logo StayEase with elegant pulse animation -->
+        <img src="{{ asset('gambar/stayease.png') }}" alt="StayEase Loader" class="h-16 w-auto object-contain brightness-0 invert animate-pulse">
+        
+        <!-- Loading line progress -->
+        <div class="w-32 h-1 bg-white/10 rounded-full overflow-hidden relative">
+            <div class="absolute top-0 bottom-0 left-0 w-1/2 bg-[#C4922A] rounded-full animate-loading-bar"></div>
+        </div>
+    </div>
+</div>
+
+<style>
+@keyframes loading-bar {
+    0% { left: -50%; }
+    100% { left: 100%; }
+}
+.animate-loading-bar {
+    animation: loading-bar 1.5s infinite linear;
+}
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const loader = document.getElementById('page-loader');
+        
+        const fadeOutLoader = () => {
+            if (loader && !loader.classList.contains('opacity-0')) {
+                loader.classList.add('opacity-0');
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                }, 500);
+            }
+        };
+
+        // Fade out on load or after a safety timeout (to prevent loading screen freeze)
+        window.addEventListener('load', fadeOutLoader);
+        setTimeout(fadeOutLoader, 1200);
+
+        // Handle page show event when loaded from back/forward cache (bfcache)
+        window.addEventListener('pageshow', (event) => {
+            if (event.persisted) {
+                fadeOutLoader();
+            }
+        });
+
+        // Show loader when navigating to local links
+        document.addEventListener('click', (e) => {
+            const anchor = e.target.closest('a');
+            if (!anchor) return;
+
+            // Skip if navigation is already prevented
+            if (e.defaultPrevented) return;
+
+            const href = anchor.getAttribute('href');
+            const target = anchor.getAttribute('target');
+
+            // Skip anchor links, target="_blank", external links, javascript/void/mail/tel, button-like behaviors
+            if (
+                !href || 
+                href.startsWith('#') || 
+                href.startsWith('javascript:') || 
+                href.startsWith('mailto:') || 
+                href.startsWith('tel:') || 
+                target === '_blank' ||
+                e.metaKey || 
+                e.ctrlKey || 
+                e.shiftKey || 
+                e.altKey
+            ) {
+                return;
+            }
+
+            // Check if it's a local link (matches host or starts with /)
+            const isLocal = href.startsWith('/') || href.startsWith(window.location.origin);
+            if (isLocal) {
+                e.preventDefault();
+                if (loader) {
+                    loader.style.display = 'flex';
+                    // Force reflow
+                    loader.offsetHeight;
+                    loader.classList.remove('opacity-0');
+                }
+                setTimeout(() => {
+                    window.location.href = href;
+                }, 300); // 300ms transition time
+            }
+        });
+        
+        // Fallback: If page load event has already fired
+        if (document.readyState === 'complete') {
+            fadeOutLoader();
+        }
+    });
+</script>
+
 <header class="bg-[#173014] shadow-lg sticky top-0 z-50 px-12 h-20 flex items-center justify-between">
     <a href="/home" class="flex items-center gap-2 no-underline">
         <img src="{{ asset('gambar/stayease.png') }}" alt="Logo" class="h-9 w-auto object-contain mt-2">
