@@ -42,7 +42,7 @@ class BookingController extends TamuController
                 $q->where('kamar_id', $kamar->id_kamar)
                   ->orWhere('room_number', $kamar->id_kamar);
             })
-            ->whereNotIn('status', ['temporary', 'cancelled', 'refund', 'done'])
+            ->whereNotIn('status', ['temporary', 'cancelled', 'refund', 'done', 'checkout'])
             ->get()
             ->filter(function ($reservation) use ($start, $end) {
                 // If pending without bukti, treat as not occupying
