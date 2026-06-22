@@ -107,7 +107,7 @@
                     </div>
 
                     <div class="w-full md:w-auto text-center" x-data="{ openReview: false }">
-                        @if($res->status !== 'checkout' && $res->status !== 'done')
+                        @if(!in_array($res->status, ['checkout','done','refund']))
 
                             <button disabled
                                 class="w-full md:w-auto px-6 py-3 bg-gray-200 text-gray-500 font-bold rounded-xl cursor-not-allowed">
