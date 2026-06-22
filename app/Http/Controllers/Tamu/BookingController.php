@@ -33,7 +33,8 @@ class BookingController extends TamuController
         // Get all kamars for the tipe, ordered by nomor (assuming id_kamar holds ordering)
         $kamars = \App\Models\Kamar::whereHas('tipe', function ($q) use ($tipeNama) {
             $q->where('nama_tipe', $tipeNama);
-        })->orderBy('id_kamar', 'asc')->get();
+        })
+        ->where('status_kamar','tersedia')->orderBy('created_at','asc')->get();
 
         foreach ($kamars as $kamar) {
             // Check if this kamar has any overlapping confirmed or ongoing reservations
@@ -230,13 +231,27 @@ class BookingController extends TamuController
             'status' => 'pending',
         ]);
 
+        if ($reservation->kamar_id) {
+
+            $kamar = \App\Models\Kamar::where(
+                'id_kamar',
+                $reservation->kamar_id
+            )->first();
+
+            if ($kamar) {
+                $kamar->update([
+                    'status_kamar' => 'terisi'
+                ]);
+            }
+        }
+
         return redirect()->route('home')->with('success', 'Pembayaran berhasil dikonfirmasi! Menunggu verifikasi resepsionis.');
     }
 
     public function cancelPayment(Request $request, $reservation_id)
     {
         $reservation = \App\Models\Reservation::findOrFail($reservation_id);
-        
+
         // Allow cancellation/deletion for temporary or pending reservations without payment proof
         if (in_array($reservation->status, ['temporary', 'pending']) && is_null($reservation->bukti_pembayaran)) {
             $reservation->delete();

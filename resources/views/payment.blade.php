@@ -16,7 +16,7 @@
 <body class="bg-[#FFF4DE] text-[#1e293b] font-sans">
     @include('components.navbar')
 
-    <main class="max-w-8xl mx-auto px-6 py-10" x-data="{ method: 'bca', va: '0031 0586 8669' }">
+    <main class="max-w-8xl mx-auto px-6 py-10" x-data="{ method: 'bca' }">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-8">
             <!-- Left Column -->
             <div class="lg:col-span-8 space-y-6">
@@ -26,14 +26,14 @@
                         <h2 class="text-sm font-bold text-gray-500 uppercase tracking-widest mb-1">Batas Waktu Pembayaran</h2>
                         <p class="text-xl font-black text-[#0f172a]">{{ $reservation->created_at->addMinutes(15)->format('d M Y, H:i') }}</p>
                     </div>
-                    <div x-data="{ 
-                            timeLeft: {{ max(0, \Carbon\Carbon::now()->diffInSeconds($reservation->created_at->addMinutes(15), false)) }}, 
-                            get formattedTime() { 
+                    <div x-data="{
+                            timeLeft: {{ max(0, \Carbon\Carbon::now()->diffInSeconds($reservation->created_at->addMinutes(15), false)) }},
+                            get formattedTime() {
                                 const m = String(Math.floor(this.timeLeft / 60)).padStart(2, '0');
                                 const s = String(Math.floor(this.timeLeft % 60)).padStart(2, '0');
                                 return `${m}:${s}`;
-                            } 
-                        }" 
+                            }
+                        }"
                         x-init="setInterval(() => { if (timeLeft > 0) { timeLeft--; } else { window.location.href = '{{ route('home') }}'; } }, 1000)"
                         class="bg-red-50 text-red-600 px-6 py-3 rounded-md font-bold text-xl text-center border border-red-100 tabular-nums"
                         x-text="formattedTime">
@@ -44,31 +44,52 @@
                 <!-- Payment Method -->
                 <div class="bg-white p-8 rounded-md border border-gray-100 shadow-sm">
                     <h2 class="text-xl font-black text-[#0f172a] mb-6 border-b pb-4 border-gray-50 uppercase tracking-widest">Metode Pembayaran</h2>
-                    
-                    <div class="space-y-4">
-                        <label class="flex items-center justify-between p-5 border rounded-md cursor-pointer transition-all" :class="method === 'bca' ? 'border-[#254117] bg-green-50/20' : 'border-gray-200 hover:bg-gray-50'">
-                            <div class="flex items-center gap-4">
-                                <input type="radio" name="payment_method" value="bca" x-model="method" @change="va = '8800 1234 5678 9012'" class="w-5 h-5 text-[#254117] focus:ring-[#254117]">
-                                <span class="font-bold text-lg">BCA Rekening</span>
-                            </div>
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" alt="BCA" class="h-6">
-                        </label>
-                        
-                        <label class="flex items-center justify-between p-5 border rounded-md cursor-pointer transition-all" :class="method === 'mandiri' ? 'border-[#254117] bg-green-50/20' : 'border-gray-200 hover:bg-gray-50'">
-                            <div class="flex items-center gap-4">
-                                <input type="radio" name="payment_method" value="mandiri" x-model="method" @change="va = '1090 0247 0262 3'" class="w-5 h-5 text-[#254117] focus:ring-[#254117]">
-                                <span class="font-bold text-lg">Mandiri Rekening</span>
-                            </div>
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/Bank_Mandiri_logo_2016.svg" alt="Mandiri" class="h-6">
-                        </label>
 
-                        <label class="flex items-center justify-between p-5 border rounded-md cursor-pointer transition-all" :class="method === 'qris' ? 'border-[#254117] bg-green-50/20' : 'border-gray-200 hover:bg-gray-50'">
-                            <div class="flex items-center gap-4">
-                                <input type="radio" name="payment_method" value="qris" x-model="method" @change="va = 'Scan QR Code Below'" class="w-5 h-5 text-[#254117] focus:ring-[#254117]">
-                                <span class="font-bold text-lg">QRIS</span>
+                    <div class="space-y-4">
+                        <div x-data="{open:false}">
+                            <label @click="method='bca'; open=!open" class="flex items-center justify-between p-5 border rounded-md cursor-pointer transition-all" :class="method === 'bca' ? 'border-[#254117] bg-green-50/20' : 'border-gray-200 hover:bg-gray-50'">
+                                <div class="flex items-center gap-4">
+                                    <input type="radio" name="payment_method" value="bca" x-model="method" class="w-5 h-5 text-[#254117]">
+                                    <span class="font-bold text-lg">BCA Rekening</span>
+                                </div>
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" class="h-6">
+                            </label>
+
+                            <div x-show="method==='bca'" x-transition class="mt-2 p-5 bg-gray-50 border rounded-md">
+                                <p class="text-sm text-gray-500 uppercase font-bold">Nomor Rekening Hotel</p>
+                                <p class="text-2xl font-black text-[#254117] mt-2">8800 1234 5678 9012</p>
                             </div>
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Logo_QRIS.svg" alt="QRIS" class="h-6">
-                        </label>
+                        </div>
+
+                        <div>
+                            <label @click="method='mandiri'" class="flex items-center justify-between p-5 border rounded-md cursor-pointer transition-all" :class="method === 'mandiri' ? 'border-[#254117] bg-green-50/20' : 'border-gray-200 hover:bg-gray-50'">
+                                <div class="flex items-center gap-4">
+                                    <input type="radio" name="payment_method" value="mandiri" x-model="method" class="w-5 h-5 text-[#254117]">
+                                    <span class="font-bold text-lg">Mandiri Rekening</span>
+                                </div>
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/Bank_Mandiri_logo_2016.svg" class="h-6">
+                            </label>
+
+                            <div x-show="method==='mandiri'" x-transition class="mt-2 p-5 bg-gray-50 border rounded-md">
+                                <p class="text-sm text-gray-500 uppercase font-bold">Nomor Rekening Hotel</p>
+                                <p class="text-2xl font-black text-[#254117] mt-2">1090 0247 0262 3</p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label @click="method='qris'" class="flex items-center justify-between p-5 border rounded-md cursor-pointer transition-all" :class="method === 'qris' ? 'border-[#254117] bg-green-50/20' : 'border-gray-200 hover:bg-gray-50'">
+                                <div class="flex items-center gap-4">
+                                    <input type="radio" name="payment_method" value="qris" x-model="method" class="w-5 h-5 text-[#254117]">
+                                    <span class="font-bold text-lg">QRIS</span>
+                                </div>
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Logo_QRIS.svg" class="h-6">
+                            </label>
+
+                            <div x-show="method==='qris'" x-transition class="mt-2 p-5 bg-gray-50 border rounded-md text-center">
+                                <p class="text-sm text-gray-500 uppercase font-bold mb-3">Scan QRIS Hotel</p>
+                                <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=StayEasePayment-{{ $id }}-{{ $total }}" class="mx-auto border rounded-lg">
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -79,7 +100,7 @@
                 <!-- Summary Card -->
                 <div class="bg-white p-8 rounded-md border border-gray-100 shadow-sm">
                     <h2 class="text-xl font-black text-[#0f172a] mb-6 border-b pb-4 border-gray-50 uppercase tracking-widest">Lihat Pesanan</h2>
-                    
+
                     <div class="mb-6">
                         <p class="text-gray-400 text-[10px] font-bold uppercase tracking-widest mb-1">Hotel</p>
                         <h3 class="text-lg font-black text-black">StayEase Luxury Hotel</h3>
@@ -96,7 +117,7 @@
 
                 <div class="bg-white p-8 rounded-md border border-gray-100 shadow-sm" x-data="{ photoPreview: null }">
                     <h2 class="text-lg font-black text-[#0f172a] mb-4 uppercase tracking-widest">Upload Bukti</h2>
-                    
+
                     <form id="payment-form" action="{{ route('booking.payment.store', ['reservation_id' => $id]) }}" method="POST" enctype="multipart/form-data" class="space-y-4">
                         @csrf
                         <input type="hidden" name="payment_method" x-bind:value="method">
@@ -141,21 +162,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Account Number Bottom Card -->
-        <div class="bg-white p-10 rounded-md border border-gray-100 shadow-sm text-center flex flex-col items-center">
-            <h3 class="text-sm font-bold text-gray-500 uppercase tracking-widest mb-2" x-text="method === 'qris' ? 'Scan to Pay' : 'NOMOR REKENING'"></h3>
-            
-            <div x-show="method !== 'qris'" class="text-4xl font-black text-[#254117] tracking-widest py-4" x-text="va">
-                8800 1234 5678 9012
-            </div>
-            
-            <div x-show="method === 'qris'" class="py-4" style="display: none;">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=StayEasePayment-{{ $id }}-{{ $total }}" alt="QR Code" class="border-4 border-gray-100 rounded-xl shadow-sm">
-            </div>
-
-            <p class="text-sm text-gray-500 mt-2">Harap membayar sesuai jumlah yaitu <span class="font-black text-lg text-[#0f172a] block mt-1">Rp {{ number_format($total, 0, ',', '.') }}</span></p>
-        </div>
     </main>
 
     @include('components.footer')
@@ -198,13 +204,38 @@
             -webkit-transition: none !important;
             box-shadow: none !important;
         }
-        .swal2-styled:hover, .swal-nohover-confirm:hover, .swal-nohover-cancel:hover,
-        .swal2-styled:focus, .swal2-styled:active {
-            background-color: unset !important;
-            color: inherit !important;
+        /* Hilangkan animasi popup */
+        .swal2-container,
+        .swal2-popup {
+            transition: none !important;
+            animation: none !important;
+        }
+
+        /* Tombol konfirmasi hijau */
+        .swal-btn-green {
+            background-color: #254117 !important;
+            color: white !important;
+            border-radius: 8px !important;
+        }
+        .swal-btn-green:hover {
+            background-color: #1a2f0f !important;
+            color: white !important;
+        }
+
+        /* Tombol batal merah */
+        .swal-btn-red {
+            background-color: #dc2626 !important;
+            color: white !important;
+            border-radius: 8px !important;
+        }
+        .swal-btn-red:hover {
+            background-color: #991b1b !important;
+            color: white !important;
+        }
+
+        /* Hilangkan efek default SweetAlert */
+        .swal2-styled:focus {
             box-shadow: none !important;
-            transform: none !important;
-            opacity: 1 !important;
         }
     </style>
 
@@ -263,7 +294,7 @@
                 showCancelButton: true,
                 confirmButtonText: 'Keluar dan batalkan',
                 cancelButtonText: 'Tetap di halaman',
-                confirmButtonColor: '#d33',
+                confirmButtonColor: '#d2626',
                 cancelButtonColor: '#254117',
                 customClass: { confirmButton: 'swal-btn-red', cancelButton: 'swal-btn-green' }
             }).then((result) => {
@@ -298,7 +329,7 @@
                 showCancelButton: true,
                 confirmButtonText: 'Keluar dan batalkan',
                 cancelButtonText: 'Tetap di halaman',
-                confirmButtonColor: '#d33',
+                confirmButtonColor: '#dc2626',
                 cancelButtonColor: '#254117',
                 customClass: { confirmButton: 'swal-btn-red', cancelButton: 'swal-btn-green' }
             }).then((result) => {
@@ -325,7 +356,7 @@
                     showCancelButton: true,
                     confirmButtonText: 'Keluar dan batalkan',
                     cancelButtonText: 'Tetap di halaman',
-                    confirmButtonColor: '#d33',
+                    confirmButtonColor: '#dc2626',
                     cancelButtonColor: '#254117',
                     customClass: { confirmButton: 'swal-btn-red', cancelButton: 'swal-btn-green' }
                 }).then((result) => {

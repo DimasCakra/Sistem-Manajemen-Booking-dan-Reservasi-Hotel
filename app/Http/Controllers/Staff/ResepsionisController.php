@@ -64,7 +64,7 @@ class ResepsionisController extends Controller
     public function verifikasi($id)
     {
         $reservation = $this->findReservationById($id);
-        
+
         if (!$reservation) {
             return redirect()->route('receptionist.index')->with('error', 'Reservasi tidak ditemukan');
         }
@@ -75,7 +75,7 @@ class ResepsionisController extends Controller
     public function updateVerifikasi(Request $request, $id)
     {
         $reservation = $this->findReservationById($id);
-        
+
         if (!$reservation) {
             return redirect()->route('receptionist.index')->with('error', 'Reservasi tidak ditemukan');
         }
@@ -87,9 +87,24 @@ class ResepsionisController extends Controller
             if ($reservation->bukti_pembayaran) {
                 Storage::disk('public')->delete($reservation->bukti_pembayaran);
             }
-            
-            // Delete the reservation
-            $reservation->delete();
+
+        if ($reservation->kamar_id) {
+
+            $kamar = \App\Models\Kamar::where(
+                'id_kamar',
+                $reservation->kamar_id
+            )->first();
+
+            if ($kamar) {
+                $kamar->update([
+                    'status_kamar' => 'tersedia'
+                ]);
+            }
+        }
+
+        $reservation->update([
+            'status'=>'refund'
+        ]);
             return redirect()->route('resepsionis.riwayatreservasi')->with('success', 'Reservasi telah ditolak dan dihapus dari daftar verifikasi');
         } elseif ($action === 'konfirmasi') {
             $reservation->update(['status' => 'ongoing']);
@@ -102,14 +117,38 @@ class ResepsionisController extends Controller
     public function selesaikanReservasi($id)
     {
         $reservation = $this->findReservationById($id);
-        
+
         if (!$reservation) {
             return redirect()->route('resepsionis.riwayatreservasi')->with('error', 'Reservasi tidak ditemukan');
         }
 
         if ($reservation->status === 'ongoing') {
-            $reservation->update(['status' => 'checkout']);
-            return redirect()->route('resepsionis.riwayatreservasi')->with('success', 'Reservasi telah diselesaikan. Tamu sudah check-out.');
+
+            $reservation->update([
+                'status'=>'checkout'
+            ]);
+
+            if ($reservation->kamar_id) {
+
+                $kamar = \App\Models\Kamar::where(
+                    'id_kamar',
+                    $reservation->kamar_id
+                )->first();
+
+
+                if ($kamar) {
+                    $kamar->update([
+                        'status_kamar'=>'tersedia'
+                    ]);
+                }
+            }
+
+            return redirect()
+                ->route('resepsionis.riwayatreservasi')
+                ->with(
+                    'success',
+                    'Reservasi selesai dan kamar tersedia kembali.'
+                );
         }
 
         return redirect()->route('resepsionis.riwayatreservasi')->with('error', 'Reservasi tidak dapat diselesaikan karena status tidak valid.');
@@ -118,7 +157,7 @@ class ResepsionisController extends Controller
     public function refundReservasi($id)
     {
         $reservation = $this->findReservationById($id);
-        
+
         if (!$reservation) {
             return redirect()->route('resepsionis.riwayatreservasi')->with('error', 'Reservasi tidak ditemukan');
         }
@@ -134,7 +173,7 @@ class ResepsionisController extends Controller
     public function generatePDF($id)
     {
         $detail = $this->findReservationById($id);
-        
+
         if (!$detail) {
             return redirect()->route('resepsionis.riwayatreservasi')->with('error', 'Reservasi tidak ditemukan');
         }
