@@ -5,56 +5,105 @@
             <div class="md:col-span-5">
                 <a href="/home" class="flex items-center gap-2 no-underline mb-8">
                     <!-- Added brightness-0 invert to make the logo white for the dark background -->
-                    <img src="{{ asset('gambar/stayease.png') }}" alt="StayEase Logo" class="h-12 w-auto object-contain brightness-0 invert opacity-90 hover:opacity-100 transition-opacity">
+                    <img src="{{ asset('gambar/stayease.png') }}" alt="StayEase Logo"
+                        class="h-12 w-auto object-contain brightness-0 invert opacity-90 hover:opacity-100 transition-opacity">
                 </a>
                 <p class="text-[#FFF4DE]/70 text-sm leading-relaxed max-w-sm mb-8 font-light">
-                    Menikmati kenyamanan dan pelayanan terbaik. 
-                    StayEase adalah partner terpercaya untuk reservasi hotel Anda sejak 2026    .
+                    Menikmati kenyamanan dan pelayanan terbaik.
+                    StayEase adalah partner terpercaya untuk reservasi hotel Anda sejak 2026.
                 </p>
                 <div class="flex gap-4">
-                    <a href="#" class="w-10 h-10 rounded-full border border-[#8C6A1A]/30 flex items-center justify-center text-[#8C6A1A] transition-all hover:bg-[#8C6A1A] hover:text-white hover:scale-110">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                    <a href="https://www.facebook.com/ibis.seajpkr/?brand_redir=267444173285598#"
+                        class="w-10 h-10 rounded-full border border-[#8C6A1A]/30 flex items-center justify-center text-[#8C6A1A] transition-all hover:bg-[#8C6A1A] hover:text-white hover:scale-110">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                        </svg>
                     </a>
-                    <a href="#" class="w-10 h-10 rounded-full border border-[#8C6A1A]/30 flex items-center justify-center text-[#8C6A1A] transition-all hover:bg-[#8C6A1A] hover:text-white hover:scale-110">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                    <a href="https://www.instagram.com/ibishotels?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+                        class="w-10 h-10 rounded-full border border-[#8C6A1A]/30 flex items-center justify-center text-[#8C6A1A] transition-all hover:bg-[#8C6A1A] hover:text-white hover:scale-110">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                        </svg>
                     </a>
-                    <a href="#" class="w-10 h-10 rounded-full border border-[#8C6A1A]/30 flex items-center justify-center text-[#8C6A1A] transition-all hover:bg-[#8C6A1A] hover:text-white hover:scale-110">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
+                    <a href="https://www.youtube.com/ibis"
+                        class="w-10 h-10 rounded-full border border-[#8C6A1A]/30 flex items-center justify-center text-[#8C6A1A] transition-all hover:bg-[#8C6A1A] hover:text-white hover:scale-110">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.97C18.88 4 12 4 12 4s-6.88 0-8.59.45A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.97C5.12 20 12 20 12 20s6.88 0 8.59-.45a2.78 2.78 0 0 0 1.95-1.97A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z">
+                            </path>
+                            <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"></polygon>
+                        </svg>
                     </a>
                 </div>
             </div>
 
-            <div class="md:col-span-2 md:col-start-7">
-                <h4 class="font-bold text-white mb-8 uppercase text-xs tracking-widest font-serif">
-                    Layanan Kami
-                </h4>
-                <ul class="space-y-4 text-sm text-[#FFF4DE]/60 list-none p-0">
-                    <li><a href="#" class="hover:text-[#8C6A1A] transition-colors flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-[#8C6A1A]"></span> Reservasi Kamar</a></li>
-                    <li><a href="#" class="hover:text-[#8C6A1A] transition-colors flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-[#8C6A1A]"></span> Paket Liburan</a></li>
-                    <li><a href="#" class="hover:text-[#8C6A1A] transition-colors flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-[#8C6A1A]"></span> Ruang Pertemuan</a></li>
-                    <li><a href="#" class="hover:text-[#8C6A1A] transition-colors flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-[#8C6A1A]"></span> Promo Spesial</a></li>
-                </ul>
-            </div>
 
-            <div class="md:col-span-2">
+
+            <div class="md:col-span-3 md:col-start-7">
                 <h4 class="font-bold text-white mb-8 uppercase text-xs tracking-widest font-serif">
                     Akun
                 </h4>
                 <ul class="space-y-4 text-sm text-[#FFF4DE]/60 list-none p-0">
                     <li><a href="/login" class="hover:text-[#8C6A1A] transition-colors">Masuk</a></li>
                     <li><a href="/register" class="hover:text-[#8C6A1A] transition-colors">Daftar</a></li>
-                    <li><a href="#" class="hover:text-[#8C6A1A] transition-colors">Reservasi Saya</a></li>
+                    <li>
+                        @auth
+                            <a href="{{ route('profile.orders') }}" class="hover:text-[#8C6A1A] transition-colors">Pesanan
+                                Saya</a>
+                        @else
+                            <a href="#" onclick="showLoginPopup(); return false;"
+                                class="hover:text-[#8C6A1A] transition-colors">Pesanan Saya</a>
+                        @endauth
+                    </li>
                 </ul>
             </div>
 
-            <div class="md:col-span-2">
+            {{-- Login Required Popup (for guests) --}}
+            <div id="login-required-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center">
+                <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="hideLoginPopup()"></div>
+                <div class="relative bg-[#FFF4DE] rounded-2xl shadow-2xl p-10 max-w-sm w-full mx-4 text-center">
+                    <div class="w-16 h-16 rounded-full bg-[#254117]/10 flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-8 h-8 text-[#254117]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-[#173014] mb-2">Login Diperlukan</h3>
+                    <p class="text-sm text-gray-500 mb-8">Anda perlu masuk ke akun terlebih dahulu untuk melihat pesanan
+                        Anda.</p>
+                    <div class="flex gap-3">
+                        <button onclick="hideLoginPopup()"
+                            class="flex-1 py-3 rounded-xl border border-gray-200 text-gray-600 font-semibold text-sm hover:bg-gray-50 transition-colors">Batal</button>
+                        <a href="/login"
+                            class="flex-1 py-3 rounded-xl bg-[#254117] text-white font-semibold text-sm hover:bg-[#173014] transition-colors">Masuk
+                            Sekarang</a>
+                    </div>
+                </div>
+            </div>
+            <script>
+                function showLoginPopup() {
+                    document.getElementById('login-required-modal').classList.remove('hidden');
+                }
+                function hideLoginPopup() {
+                    document.getElementById('login-required-modal').classList.add('hidden');
+                }
+            </script>
+
+            <div class="md:col-span-3 md:col-start-10">
                 <h4 class="font-bold text-white mb-8 uppercase text-xs tracking-widest font-serif">
                     Perusahaan
                 </h4>
                 <ul class="space-y-4 text-sm text-[#FFF4DE]/60 list-none p-0">
-                    <li><a href="#" class="hover:text-[#8C6A1A] transition-colors">Tentang Kami</a></li>
-                    <li><a href="#" class="hover:text-[#8C6A1A] transition-colors">Kontak</a></li>
-                    <li><a href="#" class="hover:text-[#8C6A1A] transition-colors">Kebijakan Privasi</a></li>
+                    <li><a href="{{ route('tentang-kami') }}" class="hover:text-[#8C6A1A] transition-colors">Tentang
+                            Kami</a></li>
+                    <li><a href="{{ route('kontak') }}" class="hover:text-[#8C6A1A] transition-colors">Kontak</a></li>
+                    <li><a href="{{ route('kebijakan-privasi') }}"
+                            class="hover:text-[#8C6A1A] transition-colors">Kebijakan Privasi</a></li>
                 </ul>
             </div>
 
@@ -65,7 +114,8 @@
                 © {{ date('Y') }} <span class="text-[#8C6A1A] font-bold">StayEase</span>.
                 Semua Hak Cipta Dilindungi.
             </p>
-            <div class="px-5 py-2.5 bg-[#8C6A1A]/10 text-[#8C6A1A] text-[10px] font-bold rounded-full uppercase tracking-[0.2em] border border-[#8C6A1A]/20">
+            <div
+                class="px-5 py-2.5 bg-[#8C6A1A]/10 text-[#8C6A1A] text-[10px] font-bold rounded-full uppercase tracking-[0.2em] border border-[#8C6A1A]/20">
                 Sistem Manajemen Booking dan Reservasi Hotel
             </div>
         </div>

@@ -19,6 +19,10 @@ Route::middleware('auth:staff')->group(function () {
 
 Route::get('/viewuser', [UserController::class, 'showUsers'])->name('viewuser');
 
+Route::get('/tentang-kami', fn() => view('pages.tentang-kami'))->name('tentang-kami');
+Route::get('/kontak', fn() => view('pages.kontak'))->name('kontak');
+Route::get('/kebijakan-privasi', fn() => view('pages.kebijakan-privasi'))->name('kebijakan-privasi');
+
 /*
 |--------------------------------------------------------------------------
 | IMPORT PECAHAN ROUTE (MODULAR)

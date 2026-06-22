@@ -113,7 +113,11 @@
                       md:divide-x divide-slate-800">
             
             <div class = "flex items-center gap-5 px-10 py-4 md:py-0">
-                <span class = "text-3xl">⚡</span>
+                <div class="p-3 rounded-2xl bg-[#C4922A]/10 text-[#C4922A] shrink-0 border border-[#C4922A]/20">
+                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z" />
+                    </svg>
+                </div>
                 <div>
                     <div class = "text-white font-bold text-sm">Booking Instan</div>
                     <div class = "text-gray-400 text-xs mt-1">Konfirmasi real-time</div>
@@ -121,7 +125,11 @@
             </div>
 
             <div class = "flex items-center gap-5 px-10 py-4 md:py-0">
-                <span class = "text-3xl">🔒</span>
+                <div class="p-3 rounded-2xl bg-[#C4922A]/10 text-[#C4922A] shrink-0 border border-[#C4922A]/20">
+                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+                    </svg>
+                </div>
                 <div>
                     <div class = "text-white font-bold text-sm">Pembayaran Aman</div>
                     <div class = "text-gray-400 text-xs mt-1">Transaksi terenkripsi</div>
@@ -129,7 +137,11 @@
             </div>
 
             <div class = "flex items-center gap-5 px-10 py-4 md:py-0">
-                <span class = "text-3xl">🎯</span>
+                <div class="p-3 rounded-2xl bg-[#C4922A]/10 text-[#C4922A] shrink-0 border border-[#C4922A]/20">
+                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
+                    </svg>
+                </div>
                 <div>
                     <div class = "text-white font-bold text-sm">Best Price Guarantee</div>
                     <div class = "text-gray-400 text-xs mt-1">Harga terbaik dijamin</div>
@@ -137,7 +149,11 @@
             </div>
 
             <div class = "flex items-center gap-5 px-10 py-4 md:py-0">
-                <span class = "text-3xl">🛎️</span>
+                <div class="p-3 rounded-2xl bg-[#C4922A]/10 text-[#C4922A] shrink-0 border border-[#C4922A]/20">
+                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2 18h20M12 4v2M12 6a6 6 0 0 1 6 6v2H6v-2a6 6 0 0 1 6-6Zm-2 8h4" />
+                    </svg>
+                </div>
                 <div>
                     <div class = "text-white font-bold text-sm">Layanan 24/7</div>
                     <div class = "text-gray-400 text-xs mt-1">Siap membantu kapan saja</div>
