@@ -10,27 +10,56 @@ class TamuController extends Controller implements Searchable
 {
     public function index(Request $request)
     {
-        return view('home');
+        $checkin = $request->query(
+            'checkin',
+            now()->format('d-m-y')
+        );
+
+        $checkout = $request->query(
+            'checkout',
+            now()->addDay()->format('d-m-y')
+        );
+
+        $guests = $request->query(
+            'guests',1
+        );
+
+        return view('home', compact(
+            'checkin',
+            'checkout',
+            'guests'
+        ));
     }
+
 
     public function tampilkanDashboard()
     {
         if (Auth::check()) {
             return view('profile.edit');
         }
-        return redirect('/login')->with('error', 'Silakan login untuk mengakses halaman ini.');
+
+        return redirect('/login')
+            ->with('error', 'Silakan login untuk mengakses halaman ini.');
     }
+
 
     public function cariKamar(Request $request)
     {
         $checkin = $request->query('checkin');
         $checkout = $request->query('checkout');
+        $guests = $request->query('guests');
 
-        return redirect()->route('katalog.index', compact('checkin', 'checkout'));
+
+        return redirect()->route('katalog.index', [
+            'checkin' => $checkin,
+            'checkout' => $checkout,
+            'guests' => $guests
+        ]);
     }
+
 
     public function pesanKamar()
     {
-        return view('booking.biodata'); // Contoh halaman pemesanan
+        return view('booking.biodata');
     }
 }

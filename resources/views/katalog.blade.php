@@ -17,7 +17,7 @@
 
     @include('components.navbar')
 
-    <nav class="w-full bg-[#254117] px-[5%] py-4 border-b border-white/10 flex justify-center">
+    <nav class="w-full bg-[#254117] px-[5%] py-4 border-b border-white/10 flex justify-center fixed">
         <div class="bg-white flex items-center border border-gray-200 rounded-xl shadow-md overflow-hidden min-w-[600px]">
 
             <div class="flex-1 flex flex-col px-40 py-2 border-r border-gray-400">
@@ -33,14 +33,15 @@
             </div>
 
             <div class="px-40 py-2 bg-gray-50/50">
-                <a href="/home" class="text-[#254117] font-extrabold text-xs uppercase tracking-tighter hover:text-[#1a2f0f] transition-colors">
+                <a href="/home?checkin={{ $checkin }}&checkout={{ $checkout }}&guests={{ $guests }}"
+                class="text-[#254117] font-extrabold text-xs uppercase tracking-tighter hover:text-[#1a2f0f] transition-colors">
                     Ubah
                 </a>
             </div>
         </div>
     </nav>
 
-    <main class="w-full px-[5%] py-8 bg-[#FFF4DE]">
+    <main class="max-w-8xl mx-auto px-6 py-10 pt-32 bg-[#FFF4DE]">
         @foreach($kamars as $index => $kamar)
         <div class="bg-white w-full flex mb-8 rounded-2xl shadow-[0_10px_25px_-5px_rgba(0,0,0,0.05)] overflow-hidden border border-gray-100 transition-transform">
 

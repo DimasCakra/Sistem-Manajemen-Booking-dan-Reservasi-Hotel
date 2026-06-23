@@ -82,10 +82,11 @@
             </div>
 
             <div class="col-span-12 lg:col-span-3 bg-white p-8 rounded-md border border-gray-100 shadow-sm text-center flex flex-col justify-center">
-                <p class="text-gray-400 text-[10px] font-bold uppercase tracking-widest mb-1">Harga Kamar</p>
-                <div class="text-2xl font-black text-black mb-6">
+                <span class="text-[11px] text-gray-400 font-bold uppercase tracking-widest">Harga Kamar</span>
+                <div class="text-[23px] font-black text-[black]">
                     Rp {{ number_format($kamar->harga, 0, ',', '.') }}
                 </div>
+                <span class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">/ Malam</span>
                 <a href="{{ route('booking.biodata', array_merge(['id' => request()->route('id')], request()->query())) }}" class="w-full bg-[#254117] text-white mt-6 py-4 rounded-xl font-bold uppercase tracking-widest text-sm text-center block cursor-pointer transition-all shadow-md hover:bg-[#1a2f0f]">
                     Pesan Sekarang
                 </a>
