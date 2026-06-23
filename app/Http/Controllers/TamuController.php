@@ -12,12 +12,12 @@ class TamuController extends Controller implements Searchable
     {
         $checkin = $request->query(
             'checkin',
-            now()->format('d-m-y')
+            now()->format('d-m-Y')
         );
 
         $checkout = $request->query(
             'checkout',
-            now()->addDay()->format('d-m-y')
+            now()->addDay()->format('d-m-Y')
         );
 
         $guests = $request->query(

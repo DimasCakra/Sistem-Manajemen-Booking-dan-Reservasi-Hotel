@@ -34,7 +34,7 @@
 
         <main class="flex-1 overflow-y-auto custom-scroll px-8 py-8 bg-gray-50">
             <div class="max-w-6xl mx-auto space-y-6">
-                
+
                 <div class="flex justify-between items-end">
                     <div>
                         <a href="{{ route('receptionist.index') }}" class="text-forest-600 text-xs hover:underline flex items-center mb-2">
@@ -47,14 +47,14 @@
 
                 <!-- Main Content Grid -->
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-                    
+
                     <!-- Left Column: Reservation Information -->
                     <div class="lg:col-span-7 space-y-6">
-                        
+
                         <!-- Informasi Pemesan -->
                         <div class="bg-white rounded-2xl shadow-sm border border-forest-100 p-8">
                             <h2 class="font-display text-xl font-semibold text-forest-900 border-b border-gray-100 pb-4 mb-6">Informasi Pemesan</h2>
-                            
+
                             <div class="grid grid-cols-2 gap-x-8 gap-y-6">
                                 <div>
                                     <p class="text-gray-400 text-[10px] uppercase font-bold tracking-wider mb-1">Nama Pemesan</p>
@@ -78,7 +78,7 @@
                         <!-- Detail Kamar -->
                         <div class="bg-white rounded-2xl shadow-sm border border-forest-100 p-8">
                             <h2 class="font-display text-xl font-semibold text-forest-900 border-b border-gray-100 pb-4 mb-6">Detail Kamar & Tanggal</h2>
-                            
+
                             <div class="grid grid-cols-2 gap-x-8 gap-y-6">
                                 <div>
                                     <p class="text-gray-400 text-[10px] uppercase font-bold tracking-wider mb-1">Tipe Kamar</p>
@@ -96,7 +96,7 @@
                                     <p class="text-gray-400 text-[10px] uppercase font-bold tracking-wider mb-1">Tanggal Check-In</p>
                                     <p class="font-semibold text-forest-900 text-base">
                                         @if($reservation->check_in)
-                                            {{ \Carbon\Carbon::parse($reservation->check_in)->format('d M Y') }}
+                                            {{ \Carbon\Carbon::parse($reservation->check_in)->format('d-M-Y') }}
                                         @else
                                             {{ $reservation->check_in_out ? explode(' to ', $reservation->check_in_out)[0] : '-' }}
                                         @endif
@@ -106,7 +106,7 @@
                                     <p class="text-gray-400 text-[10px] uppercase font-bold tracking-wider mb-1">Tanggal Check-Out</p>
                                     <p class="font-semibold text-forest-900 text-base">
                                         @if($reservation->check_out)
-                                            {{ \Carbon\Carbon::parse($reservation->check_out)->format('d M Y') }}
+                                            {{ \Carbon\Carbon::parse($reservation->check_out)->format('d-M-Y') }}
                                         @else
                                             {{ $reservation->check_in_out ? explode(' to ', $reservation->check_in_out)[1] ?? '-' : '-' }}
                                         @endif
@@ -120,7 +120,7 @@
                         @php
                             $namaTamuLain = json_decode($reservation->nama_tamu_lain, true);
                             $nikTamuLain = json_decode($reservation->nik_tamu_lain, true);
-                            
+
                             // fallback for old string records
                             if (!is_array($namaTamuLain)) {
                                 $namaTamuLain = [$reservation->nama_tamu_lain];
@@ -129,7 +129,7 @@
                         @endphp
                         <div class="bg-amber-50 rounded-2xl shadow-sm border border-amber-100 p-8">
                             <h2 class="font-display text-xl font-semibold text-amber-900 border-b border-amber-100 pb-4 mb-6">Data Tamu Lain</h2>
-                            
+
                             <div class="space-y-6">
                                 @foreach($namaTamuLain as $index => $nama)
                                 <div class="grid grid-cols-2 gap-x-8 gap-y-2">
@@ -170,8 +170,8 @@
                         <h2 class="font-display text-xl font-semibold text-forest-900 border-b border-gray-100 pb-4 mb-6">Bukti Pembayaran</h2>
                         <div class="flex-1 flex items-center justify-center bg-gray-50 rounded-2xl border-2 border-dashed border-gray-100 overflow-hidden relative min-h-80">
                             @if($reservation->bukti_pembayaran)
-                                <img src="{{ asset('storage/' . $reservation->bukti_pembayaran) }}" 
-                                     alt="Bukti Transfer" 
+                                <img src="{{ asset('storage/' . $reservation->bukti_pembayaran) }}"
+                                     alt="Bukti Transfer"
                                      class="max-w-full h-auto max-h-96 object-contain shadow-sm">
                             @else
                                 <p class="text-gray-400 font-medium">Belum ada bukti pembayaran</p>
@@ -208,7 +208,7 @@
                 <!-- Action Buttons -->
                 <div class="bg-white rounded-2xl shadow-sm border border-forest-100 p-10">
                     <h2 class="text-xl font-semibold text-forest-900 mb-8 uppercase tracking-[0.2em] text-center">Keputusan Verifikasi</h2>
-                    
+
                     @if($reservation->status === 'pending' || !in_array($reservation->status, ['ongoing', 'done', 'checkout', 'refund']))
                     <form action="{{ route('resepsionis.verifikasi.update', $reservation->id) }}" method="POST" class="w-full">
                         @csrf

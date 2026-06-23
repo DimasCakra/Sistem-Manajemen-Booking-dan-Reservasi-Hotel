@@ -84,7 +84,7 @@
                 </div>
 
                  @forelse($reservations as $res)
-                    <div onclick="window.location='{{ route('reservasi.show', $res->id) }}'" 
+                    <div onclick="window.location='{{ route('reservasi.show', $res->id) }}'"
                           class="reservation-row grid grid-cols-12 gap-4 px-6 py-4 border-b border-gray-100 items-center cursor-pointer group">
                         <div class="col-span-1 text-gray-400 text-sm font-medium">#{{ $res->id }}</div>
                         <div class="col-span-2">
@@ -116,7 +116,7 @@
                             <span class="font-medium text-forest-800">{{ $end ? $end->format('d M Y') : '-' }}</span>
                         </div>
                         <div class="col-span-2 flex justify-center">
-                            <span class="px-3 py-1 text-[9px] font-black uppercase rounded-lg border 
+                            <span class="px-3 py-1 text-[9px] font-black uppercase rounded-lg border
                                 {{ $res->status == 'ongoing' ? 'text-blue-600 bg-blue-50 border-blue-100' : ($res->status == 'refund' ? 'text-red-600 bg-red-50 border-red-100' : 'text-forest-600 bg-forest-50 border-forest-100') }}">
                                 {{ $res->status == 'checkout' || $res->status == 'done' ? 'Check Out' : ($res->status == 'ongoing' ? 'On Going' : ucfirst($res->status)) }}
                             </span>

@@ -68,7 +68,7 @@
                                         <h4 class="text-sm font-bold text-[#254117] mb-3">Data Tamu Tambahan <span x-text="index + 1"></span></h4>
                                         <input type="text" name="nama_tamu_lain[]" :required="bookingLain" class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117] mb-3" placeholder="Masukkan Nama Tamu (Wajib)">
                                         <input type="text" name="nik_tamu_lain[]" :required="bookingLain" class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117]" placeholder="Masukkan NIK Tamu (Wajib)">
-                                        
+
                                         <button type="button" @click="tamuTambahan.splice(index, 1); if(tamuTambahan.length === 0) bookingLain = false;" class="absolute top-4 right-4 text-red-500 hover:text-red-700 text-sm font-bold">
                                             Hapus
                                         </button>
@@ -93,7 +93,7 @@
                 <!-- Summary Card -->
                 <div class="bg-white p-8 rounded-md border border-gray-100 shadow-sm">
                     <h2 class="text-xl font-black text-[#0f172a] mb-6 border-b pb-4 border-gray-50 uppercase tracking-widest">Lihat Detail Pesanan</h2>
-                    
+
                     <div class="mb-6">
                         <p class="text-gray-400 text-[10px] font-bold uppercase tracking-widest mb-1">Hotel</p>
                         <h3 class="text-lg font-black text-black">StayEase Hotel</h3>
@@ -104,11 +104,11 @@
                     <div class="border-t border-gray-50 py-4 mb-4">
                         <div class="flex justify-between items-center mb-2">
                             <span class="text-sm text-gray-600">Check-in</span>
-                            <span class="text-sm font-bold">{{ $checkin }}</span>
+                            <span class="text-sm font-bold">{{ \Carbon\Carbon::parse($checkin)->format('d-M-Y') }}</span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-sm text-gray-600">Check-out</span>
-                            <span class="text-sm font-bold">{{ $checkout }}</span>
+                            <span class="text-sm font-bold">{{ \Carbon\Carbon::parse($checkout)->format('d-M-Y') }}</span>
                         </div>
                     </div>
 

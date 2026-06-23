@@ -107,6 +107,18 @@
                         <p class="text-sm text-gray-500 mt-1">{{ $kamar->nama_tipe }} - {{ $durasi }} Night(s)</p>
                     </div>
 
+                   <div class="mb-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm text-gray-600">Check-in</span>
+                            <span class="text-sm font-bold">{{ \Carbon\Carbon::parse($checkin)->format('d-M-Y') }}</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Check-out</span>
+                            <span class="text-sm font-bold">{{ \Carbon\Carbon::parse($checkout)->format('d-M-Y') }}</span>
+                        </div>
+                    </div>
+
+
                     <div class="border-t border-gray-100 pt-4 mt-2">
                         <div class="flex justify-between items-center">
                             <span class="text-base font-black">Total Pembayaran</span>

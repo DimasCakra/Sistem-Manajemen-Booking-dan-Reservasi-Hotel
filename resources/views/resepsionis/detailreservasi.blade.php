@@ -78,7 +78,7 @@
                                     <p class="text-gray-400 text-[10px] uppercase font-bold tracking-wider mb-1">Tanggal Check-In</p>
                                     <p class="font-semibold text-forest-900 text-base">
                                         @if($detail->check_in)
-                                            {{ \Carbon\Carbon::parse($detail->check_in)->format('d M Y') }}
+                                            {{ \Carbon\Carbon::parse($detail->check_in)->format('d-M-Y') }}
                                         @else
                                             {{ $detail->check_in_out ? explode(' to ', $detail->check_in_out)[0] : '-' }}
                                         @endif
@@ -88,7 +88,7 @@
                                     <p class="text-gray-400 text-[10px] uppercase font-bold tracking-wider mb-1">Tanggal Check-Out</p>
                                     <p class="font-semibold text-forest-900 text-base">
                                         @if($detail->check_out)
-                                            {{ \Carbon\Carbon::parse($detail->check_out)->format('d M Y') }}
+                                            {{ \Carbon\Carbon::parse($detail->check_out)->format('d-M-Y') }}
                                         @else
                                             {{ $detail->check_in_out ? explode(' to ', $detail->check_in_out)[1] ?? '-' : '-' }}
                                         @endif
