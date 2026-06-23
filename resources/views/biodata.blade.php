@@ -102,17 +102,38 @@
                     </div>
 
                     <div class="border-t border-gray-50 py-4 mb-4">
-                        <div class="flex justify-between items-center mb-2">
-                            <span class="text-sm text-gray-600">Check-in</span>
-                            <span class="text-sm font-bold">{{ \Carbon\Carbon::parse($checkin)->format('d-M-Y') }}</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-sm text-gray-600">Check-out</span>
-                            <span class="text-sm font-bold">{{ \Carbon\Carbon::parse($checkout)->format('d-M-Y') }}</span>
-                        </div>
-                    </div>
+    <div class="flex justify-between items-center mb-2">
+        <span class="text-sm text-gray-600">Check-in</span>
+        <span class="text-sm font-bold">{{ \Carbon\Carbon::parse($checkin)->format('d-M-Y') }} 12.00 WIB</span>
+    </div>
+    <div class="flex justify-between items-center mb-2">
+        <span class="text-sm text-gray-600">Check-out</span>
+        <span class="text-sm font-bold">{{ \Carbon\Carbon::parse($checkout)->format('d-M-Y') }} 15.00 WIB</span>
+    </div>
+</div>
 
                     <div class="border-t border-gray-50 py-4 mb-4">
+    <div class="flex justify-between items-center mb-2">
+        <span class="text-sm text-gray-600">Harga Kamar per Malam</span>
+        <span class="text-sm font-bold">Rp {{ number_format($kamar->harga, 0, ',', '.') }}</span>
+    </div>
+    @php
+        $nightCount = \Carbon\Carbon::parse($checkin)->diffInDays(\Carbon\Carbon::parse($checkout));
+        $subtotal = $kamar->harga * $nightCount;
+    @endphp
+    <div class="flex justify-between items-center mb-2">
+        <span class="text-sm text-gray-600">Lama Menginap</span>
+        <span class="text-sm font-bold">{{ $nightCount }} malam</span>
+    </div>
+    <div class="flex justify-between items-center mb-2">
+        <span class="text-sm text-gray-600">Subtotal</span>
+        <span class="text-sm font-bold">Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
+    </div>
+    <div class="flex justify-between items-center mb-2">
+        <span class="text-sm text-gray-600">Pajak (Termasuk)</span>
+        <span class="text-sm font-bold">Rp {{ number_format($pajak, 0, ',', '.') }}</span>
+    </div>
+</div>
                         <div class="flex justify-between items-center mb-2">
                             <span class="text-sm text-gray-600">Harga Kamar</span>
                             <span class="text-sm font-bold">Rp {{ number_format($kamar->harga, 0, ',', '.') }}</span>
@@ -129,11 +150,10 @@
                             <span class="text-xl font-black text-[#254117]">Rp {{ number_format($total, 0, ',', '.') }}</span>
                         </div>
                     </div>
+                    <button type="submit" class="w-full bg-[#254117] hover:bg-[#1a2f0f] text-white py-4 rounded-xl font-bold uppercase tracking-widest text-sm text-center block cursor-pointer transition-all shadow-md">Lanjutkan Ke Pembayaran</button>
                 </div>
 
-                <button type="submit" class="w-full bg-[#254117] hover:bg-[#1a2f0f] text-white py-4 rounded-xl font-bold uppercase tracking-widest text-sm text-center block cursor-pointer transition-all shadow-md">
-                    Lanjutkan Ke Pembayaran
-                </button>
+
             </div>
         </form>
     </main>
