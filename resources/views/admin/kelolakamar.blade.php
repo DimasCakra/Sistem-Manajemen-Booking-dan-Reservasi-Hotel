@@ -79,7 +79,7 @@
                         <th class="px-8 py-5 font-semibold">Nomor Kamar</th>
                         <th class="px-6 py-5 font-semibold text-center">Tipe Kamar</th>
                         <th class="px-6 py-5 font-semibold text-center">Harga</th>
-                        <th class="px-6 py-5 font-semibold text-center">ID Kamar</th>
+                        <th class="px-6 py-5 font-semibold text-center">Kode Kamar</th>
                         <th class="px-6 py-5 font-semibold text-center">Status</th>
                         <th class="px-8 py-5 font-semibold">Deskripsi</th>
                         <th class="px-8 py-5 font-semibold text-center border-l border-forest-700">Aksi</th>
@@ -98,6 +98,7 @@
                             data-room-number="{{ $kamar->no_kamar }}"
                             data-room-type-id="{{ $kamar->id_tipe_kamar }}"
                             data-room-type="{{ $typeRelation->nama_tipe ?? '-' }}"
+                            data-type-code="{{ ($typeRelation->kode_tipe ?? '-') . '-' . $kamar->no_kamar }}"
                             data-price="{{ $typeRelation->harga_per_malam ?? 0 }}"
                             data-room-status="{{ $kamar->status_kamar }}"
                             data-room-description="{{ $typeRelation->deskripsi ?? '' }}"
@@ -105,7 +106,7 @@
                             <td class="px-8 py-6 font-bold text-black">{{ $kamar->no_kamar }}</td>
                             <td class="px-6 py-6 text-center text-sm text-black">{{ $typeRelation->nama_tipe ?? '-' }}</td>
                             <td class="px-6 py-6 text-center text-sm font-semibold text-black">Rp {{ number_format($typeRelation->harga_per_malam ?? 0, 0, ',', '.') }}</td>
-                            <td class="px-6 py-6 text-center text-sm font-mono text-black uppercase">{{ $kamar->id_kamar }}</td>
+                            <td class="px-6 py-6 text-center text-sm font-mono text-black uppercase">{{ ($typeRelation->kode_tipe ?? '-') . '-' . $kamar->no_kamar }}</td>
                             <td class="px-6 py-6 text-center">
                                 <span class="{{ $kamar->status_kamar === 'tersedia' ? 'bg-forest-200 text-forest-700' : 'bg-red-100 text-red-600' }} px-6 py-2 rounded-md text-[10px] font-bold uppercase tracking-wider">
                                     {{ ucfirst($kamar->status_kamar) }}
@@ -202,7 +203,7 @@
                         <input id="detailRoomPrice" type="number" min="0" class="modal-field mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm text-slate-900 outline-none" readonly />
                     </div>
                     <div>
-                        <label class="text-sm font-semibold text-slate-700">ID Kamar</label>
+                        <label class="text-sm font-semibold text-slate-700">Kode Kamar</label>
                         <input id="detailRoomCode" type="text" class="modal-field mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm text-slate-900 outline-none bg-gray-50" readonly />
                     </div>
                 </div>
