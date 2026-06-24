@@ -48,7 +48,7 @@
                 </h2>
                 <p class="text-gray-600 leading-relaxed mb-4">Dalam rangka menyediakan layanan reservasi hotel, kami mengumpulkan beberapa jenis informasi dari pengguna, antara lain:</p>
                 <ul class="space-y-2 text-gray-600 text-sm">
-                    <li class="flex items-start gap-3"><span class="w-1.5 h-1.5 rounded-full bg-[#8C6A1A] mt-2 flex-shrink-0"></span><span><strong>Informasi Identitas:</strong> Nama lengkap, Nomor Induk Kependudukan (NIK), dan tanggal lahir.</span></li>
+                    <li class="flex items-start gap-3"><span class="w-1.5 h-1.5 rounded-full bg-[#8C6A1A] mt-2 flex-shrink-0"></span><span><strong>Informasi Identitas:</strong> Nama lengkap, Nomor Induk Kependudukan (Nomor Identitas), dan tanggal lahir.</span></li>
                     <li class="flex items-start gap-3"><span class="w-1.5 h-1.5 rounded-full bg-[#8C6A1A] mt-2 flex-shrink-0"></span><span><strong>Informasi Kontak:</strong> Alamat email dan nomor WhatsApp yang aktif.</span></li>
                     <li class="flex items-start gap-3"><span class="w-1.5 h-1.5 rounded-full bg-[#8C6A1A] mt-2 flex-shrink-0"></span><span><strong>Informasi Reservasi:</strong> Tanggal check-in/check-out, tipe kamar, jumlah tamu, dan permintaan khusus.</span></li>
                     <li class="flex items-start gap-3"><span class="w-1.5 h-1.5 rounded-full bg-[#8C6A1A] mt-2 flex-shrink-0"></span><span><strong>Informasi Pembayaran:</strong> Bukti transfer atau bukti pembayaran (dalam format gambar).</span></li>

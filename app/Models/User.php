@@ -23,7 +23,7 @@ class User extends Authenticatable
         'name',
         'email',
         'whatsapp',
-        'nik',
+        'id_number',
         'password',
         'tanggal_lahir',
         'photo'

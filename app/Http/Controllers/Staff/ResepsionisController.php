@@ -88,23 +88,23 @@ class ResepsionisController extends Controller
                 Storage::disk('public')->delete($reservation->bukti_pembayaran);
             }
 
-        if ($reservation->kamar_id) {
+            if ($reservation->kamar_id) {
 
-            $kamar = \App\Models\Kamar::where(
-                'id_kamar',
-                $reservation->kamar_id
-            )->first();
+                $kamar = \App\Models\Kamar::where(
+                    'id_kamar',
+                    $reservation->kamar_id
+                )->first();
 
-            if ($kamar) {
-                $kamar->update([
-                    'status_kamar' => 'tersedia'
-                ]);
+                if ($kamar) {
+                    $kamar->update([
+                        'status_kamar' => 'tersedia'
+                    ]);
+                }
             }
-        }
 
-        $reservation->update([
-            'status'=>'refund'
-        ]);
+            $reservation->update([
+                'status' => 'refund'
+            ]);
             return redirect()->route('resepsionis.riwayatreservasi')->with('success', 'Reservasi telah ditolak dan dihapus dari daftar verifikasi');
         } elseif ($action === 'konfirmasi') {
             $reservation->update(['status' => 'ongoing']);
@@ -125,7 +125,7 @@ class ResepsionisController extends Controller
         if ($reservation->status === 'ongoing') {
 
             $reservation->update([
-                'status'=>'checkout'
+                'status' => 'checkout'
             ]);
 
             if ($reservation->kamar_id) {
@@ -138,7 +138,7 @@ class ResepsionisController extends Controller
 
                 if ($kamar) {
                     $kamar->update([
-                        'status_kamar'=>'tersedia'
+                        'status_kamar' => 'tersedia'
                     ]);
                 }
             }
@@ -216,7 +216,7 @@ class ResepsionisController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'whatsapp' => 'required|string|max:20',
             'tanggal_lahir' => 'nullable|date',
-            'nik' => 'required|string|numeric|digits:16|unique:users,nik',
+            'id_number' => 'required|string|numeric|digits:16|unique:users,id_number',
             'password' => 'required|string|min:8',
             'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
@@ -245,7 +245,8 @@ class ResepsionisController extends Controller
         $query = Reservation::query();
 
         // By default show only pending (awaiting verification)
-        if (!$status) $status = 'pending';
+        if (!$status)
+            $status = 'pending';
 
         if ($status === 'all' || $status === '') {
             // no status filter
@@ -265,10 +266,10 @@ class ResepsionisController extends Controller
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('nama_lengkap', 'like', "%{$search}%")
-                  ->orWhere('whatsapp', 'like', "%{$search}%")
-                  ->orWhere('email', 'like', "%{$search}%")
-                  ->orWhere('room_number', 'like', "%{$search}%")
-                  ->orWhere('room_type', 'like', "%{$search}%");
+                    ->orWhere('whatsapp', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%")
+                    ->orWhere('room_number', 'like', "%{$search}%")
+                    ->orWhere('room_type', 'like', "%{$search}%");
             });
         }
 

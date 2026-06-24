@@ -61,8 +61,8 @@
                                     <p class="font-semibold text-forest-900 text-base">{{ $reservation->nama_lengkap }}</p>
                                 </div>
                                 <div>
-                                    <p class="text-gray-400 text-[10px] uppercase font-bold tracking-wider mb-1">NIK</p>
-                                    <p class="font-semibold text-forest-900 text-base">{{ $reservation->nik ?? '-' }}</p>
+                                    <p class="text-gray-400 text-[10px] uppercase font-bold tracking-wider mb-1">Nomor Identitas</p>
+                                    <p class="font-semibold text-forest-900 text-base">{{ $reservation->id_number ?? '-' }}</p>
                                 </div>
                                 <div>
                                     <p class="text-gray-400 text-[10px] uppercase font-bold tracking-wider mb-1">Nomor WhatsApp</p>
@@ -119,12 +119,12 @@
                         @if($reservation->nama_tamu_lain)
                         @php
                             $namaTamuLain = json_decode($reservation->nama_tamu_lain, true);
-                            $nikTamuLain = json_decode($reservation->nik_tamu_lain, true);
+                            $idNumberTamuLain = json_decode($reservation->id_number_tamu_lain, true);
 
                             // fallback for old string records
                             if (!is_array($namaTamuLain)) {
                                 $namaTamuLain = [$reservation->nama_tamu_lain];
-                                $nikTamuLain = [$reservation->nik_tamu_lain];
+                                $idNumberTamuLain = [$reservation->id_number_tamu_lain];
                             }
                         @endphp
                         <div class="bg-amber-50 rounded-2xl shadow-sm border border-amber-100 p-8">
@@ -141,8 +141,8 @@
                                         <p class="font-semibold text-amber-900 text-base">{{ $nama }}</p>
                                     </div>
                                     <div class="col-span-2 sm:col-span-1">
-                                        <p class="text-amber-700 text-[10px] uppercase font-bold tracking-wider mb-1">NIK Tamu</p>
-                                        <p class="font-semibold text-amber-900 text-base">{{ $nikTamuLain[$index] ?? '-' }}</p>
+                                        <p class="text-amber-700 text-[10px] uppercase font-bold tracking-wider mb-1">Nomor Identitas Tamu</p>
+                                        <p class="font-semibold text-amber-900 text-base">{{ $idNumberTamuLain[$index] ?? '-' }}</p>
                                     </div>
                                 </div>
                                 @if(!$loop->last)

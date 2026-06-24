@@ -167,11 +167,11 @@
                         <div class="space-y-2">
                             <label class="text-xs font-bold text-gray-500 uppercase tracking-widest ml-1">
 
-                                NIK
+                                Nomor Identitas
                             </label>
 
-                            <input type="text" name="nik" value="{{ old('nik', $user->nik ?? '') }}" readonly
-                                placeholder="NIK belum diisi"
+                            <input type="text" name="id_number" value="{{ old('id_number', $user->id_number ?? '') }}" readonly
+                                placeholder="Nomor Identitas belum diisi"
                                 class="w-full px-5 py-4 bg-gray-100 border border-gray-200 rounded-xl outline-none text-gray-400 font-medium cursor-not-allowed">
                         </div>
 

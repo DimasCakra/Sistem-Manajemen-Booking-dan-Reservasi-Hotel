@@ -34,39 +34,40 @@ class BookingController extends TamuController
         $kamars = \App\Models\Kamar::whereHas('tipe', function ($q) use ($tipeNama) {
             $q->where('nama_tipe', $tipeNama);
         })
-        ->where('status_kamar','tersedia')->orderBy('created_at','asc')->get();
+            ->where('status_kamar', 'tersedia')->orderBy('created_at', 'asc')->get();
 
         foreach ($kamars as $kamar) {
             // Check if this kamar has any overlapping confirmed or ongoing reservations
             $conflict = \App\Models\Reservation::where(function ($q) use ($kamar) {
                 $q->where('kamar_id', $kamar->id_kamar)
-                  ->orWhere('room_number', $kamar->id_kamar);
+                    ->orWhere('room_number', $kamar->id_kamar);
             })
-            ->whereNotIn('status', ['temporary', 'cancelled', 'refund', 'done', 'checkout'])
-            ->get()
-            ->filter(function ($reservation) use ($start, $end) {
-                // If pending without bukti, treat as not occupying
-                if ($reservation->status === 'pending' && is_null($reservation->bukti_pembayaran)) {
-                    return false;
-                }
-
-                // compute reservation dates
-                if ($reservation->check_in && $reservation->check_out) {
-                    $resStart = Carbon::parse($reservation->check_in)->startOfDay();
-                    $resEnd = Carbon::parse($reservation->check_out)->startOfDay();
-                } else {
-                    if (!str_contains($reservation->check_in_out, ' to ')) return false;
-                    [$s, $e] = explode(' to ', $reservation->check_in_out);
-                    try {
-                        $resStart = Carbon::parse(trim($s))->startOfDay();
-                        $resEnd = Carbon::parse(trim($e))->startOfDay();
-                    } catch (\Exception $ex) {
+                ->whereNotIn('status', ['temporary', 'cancelled', 'refund', 'done', 'checkout'])
+                ->get()
+                ->filter(function ($reservation) use ($start, $end) {
+                    // If pending without bukti, treat as not occupying
+                    if ($reservation->status === 'pending' && is_null($reservation->bukti_pembayaran)) {
                         return false;
                     }
-                }
 
-                return $resStart <= $end && $resEnd >= $start;
-            })->count() > 0;
+                    // compute reservation dates
+                    if ($reservation->check_in && $reservation->check_out) {
+                        $resStart = Carbon::parse($reservation->check_in)->startOfDay();
+                        $resEnd = Carbon::parse($reservation->check_out)->startOfDay();
+                    } else {
+                        if (!str_contains($reservation->check_in_out, ' to '))
+                            return false;
+                        [$s, $e] = explode(' to ', $reservation->check_in_out);
+                        try {
+                            $resStart = Carbon::parse(trim($s))->startOfDay();
+                            $resEnd = Carbon::parse(trim($e))->startOfDay();
+                        } catch (\Exception $ex) {
+                            return false;
+                        }
+                    }
+
+                    return $resStart <= $end && $resEnd >= $start;
+                })->count() > 0;
 
             if (!$conflict) {
                 return $kamar->id_kamar;
@@ -117,14 +118,14 @@ class BookingController extends TamuController
     {
         $request->validate([
             'nama_lengkap' => 'required|string|max:255',
-            'nik' => 'required|string|max:255',
+            'id_number' => 'required|string|max:255',
             'whatsapp' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'booking_untuk_orang_lain' => 'nullable',
             'nama_tamu_lain' => 'required_if:booking_untuk_orang_lain,1|nullable|array',
             'nama_tamu_lain.*' => 'string|max:255',
-            'nik_tamu_lain' => 'required_if:booking_untuk_orang_lain,1|nullable|array',
-            'nik_tamu_lain.*' => 'string|max:255',
+            'id_number_tamu_lain' => 'required_if:booking_untuk_orang_lain,1|nullable|array',
+            'id_number_tamu_lain.*' => 'string|max:255',
             'permintaan_khusus' => 'nullable|string',
         ]);
 
@@ -148,7 +149,7 @@ class BookingController extends TamuController
             'room_number' => $allocatedKamar?->no_kamar ?? $allocatedKamarId,
             'kamar_id' => $allocatedKamarId,
             'nama_lengkap' => $request->nama_lengkap,
-            'nik' => $request->nik,
+            'id_number' => $request->id_number,
             'whatsapp' => $request->whatsapp,
             'email' => $request->email,
             'jumlah_tamu' => $kamar->jumlah_tamu,
@@ -157,7 +158,7 @@ class BookingController extends TamuController
             'status' => 'temporary',
             'total_biaya' => $total,
             'nama_tamu_lain' => $request->has('nama_tamu_lain') && is_array($request->nama_tamu_lain) ? json_encode($request->nama_tamu_lain) : null,
-            'nik_tamu_lain' => $request->has('nik_tamu_lain') && is_array($request->nik_tamu_lain) ? json_encode($request->nik_tamu_lain) : null,
+            'id_number_tamu_lain' => $request->has('id_number_tamu_lain') && is_array($request->id_number_tamu_lain) ? json_encode($request->id_number_tamu_lain) : null,
             'permintaan_khusus' => $request->permintaan_khusus,
         ]);
 
