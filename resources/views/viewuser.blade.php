@@ -35,7 +35,7 @@
                                 <td class="py-3 px-4 text-black">{{ $user->email }}</td>
                                 <td class="py-3 px-4 text-black">{{ $user->whatsapp }}</td>
                                 <td class="py-3 px-4 text-sm font-mono text-indigo-600">
-                                    {{ $user->id_number }}
+                                    {{ $user->id_type ?? 'NIK' }}: {{ $user->id_number ?? '-' }}
                                 </td>
                             </tr>
                         @endforeach

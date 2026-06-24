@@ -44,7 +44,7 @@
                                 </div>
                                 <div>
                                     <p class="text-gray-400 text-[10px] uppercase font-bold tracking-wider mb-1">Nomor Identitas</p>
-                                    <p class="font-semibold text-forest-900 text-base">{{ $detail->id_number ?? '-' }}</p>
+                                    <p class="font-semibold text-forest-900 text-base">{{ $detail->id_type ?? 'NIK' }}: {{ $detail->id_number ?? '-' }}</p>
                                 </div>
                                 <div>
                                     <p class="text-gray-400 text-[10px] uppercase font-bold tracking-wider mb-1">Nomor WhatsApp</p>
@@ -102,11 +102,13 @@
                         @php
                             $namaTamuLain = json_decode($detail->nama_tamu_lain, true);
                             $idNumberTamuLain = json_decode($detail->id_number_tamu_lain, true);
+                            $idTypeTamuLain = json_decode($detail->id_type_tamu_lain ?? '[]', true);
                             
                             // fallback for old string records
                             if (!is_array($namaTamuLain)) {
                                 $namaTamuLain = [$detail->nama_tamu_lain];
                                 $idNumberTamuLain = [$detail->id_number_tamu_lain];
+                                $idTypeTamuLain = ['NIK'];
                             }
                         @endphp
                         <div class="bg-amber-50 rounded-2xl shadow-sm border border-amber-100 p-8">
@@ -124,7 +126,7 @@
                                     </div>
                                     <div class="col-span-2 sm:col-span-1">
                                         <p class="text-amber-700 text-[10px] uppercase font-bold tracking-wider mb-1">Nomor Identitas Tamu</p>
-                                        <p class="font-semibold text-amber-900 text-base">{{ $idNumberTamuLain[$index] ?? '-' }}</p>
+                                        <p class="font-semibold text-amber-900 text-base">{{ $idTypeTamuLain[$index] ?? 'NIK' }}: {{ $idNumberTamuLain[$index] ?? '-' }}</p>
                                     </div>
                                 </div>
                                 @if(!$loop->last)

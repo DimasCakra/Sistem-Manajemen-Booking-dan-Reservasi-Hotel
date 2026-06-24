@@ -82,12 +82,12 @@
                 <form action="{{ url('/katalog') }}" method="GET" class="space-y-6">
                     <div class="form-group">
                         <label class="block text-xs font-bold text-gray-400 uppercase mb-3 ml-1 tracking-wider">Tanggal Check-in</label>
-                        <input type="date" id="checkin" name="checkin" value="{{ request('checkin', now()->toDateString()) }}" class="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-[#254117]">
+                        <input type="date" id="checkin" name="checkin" value="{{ request('checkin', now()->toDateString()) }}" min="{{ now()->toDateString() }}" max="{{ now()->addYear()->toDateString() }}" class="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-[#254117]">
                     </div>
 
                     <div class="form-group">
                         <label class="block text-xs font-bold text-gray-400 uppercase mb-3 ml-1 tracking-wider">Tanggal Check-out</label>
-                        <input type="date" id="checkout" name="checkout" value="{{ request('checkout', now()->addDay()->toDateString()) }}" required class="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-[#254117]">
+                        <input type="date" id="checkout" name="checkout" value="{{ request('checkout', now()->addDay()->toDateString()) }}" min="{{ now()->addDay()->toDateString() }}" max="{{ now()->addYear()->addDay()->toDateString() }}" required class="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-[#254117]">
                     </div>
 
                     <div class="form-group">
@@ -174,9 +174,17 @@
             const checkinInput = document.getElementById('checkin');
             const checkoutInput = document.getElementById('checkout');
 
-            // Set minimum checkin date to hari ini (today)
-            const today = new Date().toISOString().split('T')[0];
-            checkinInput.min = today;
+            // Set minimum checkin date to hari ini (today) and max to 1 year ahead
+            const today = new Date();
+            const todayStr = today.toISOString().split('T')[0];
+            
+            const nextYear = new Date(today);
+            nextYear.setFullYear(today.getFullYear() + 1);
+            const nextYearStr = nextYear.toISOString().split('T')[0];
+
+            checkinInput.min = todayStr;
+            checkinInput.max = nextYearStr;
+            checkoutInput.max = nextYearStr;
 
             checkinInput.addEventListener('change', function() {
                 if (this.value) {
@@ -186,13 +194,24 @@
                     const minCheckoutDate = checkinDate.toISOString().split('T')[0];
 
                     checkoutInput.min = minCheckoutDate;
+                    
+                    // Update max checkout date to 1 year after the selected checkin
+                    const maxCheckoutDate = new Date(checkinDate);
+                    maxCheckoutDate.setFullYear(maxCheckoutDate.getFullYear() + 1);
+                    checkoutInput.max = maxCheckoutDate.toISOString().split('T')[0];
 
                     // Jika checkout yang sudah dipilih lebih kecil dari minimum yang baru, reset atau atur ke minimum
                     if (checkoutInput.value && checkoutInput.value < minCheckoutDate) {
                         checkoutInput.value = minCheckoutDate;
                     }
+                    
+                    // Jika checkout yang sudah dipilih lebih besar dari maksimum yang baru, atur ke maksimum
+                    if (checkoutInput.value && checkoutInput.value > checkoutInput.max) {
+                        checkoutInput.value = checkoutInput.max;
+                    }
                 } else {
                     checkoutInput.min = '';
+                    checkoutInput.max = nextYearStr;
                 }
             });
         });

@@ -34,7 +34,7 @@
             <div class="text-center mb-12">
                 <img src="{{ asset('gambar/stayease.png') }}" alt="StayEase Logo" class="h-16 mx-auto mb-8 object-contain">
                 <h1 class="text-4xl font-bold text-[#173014] mb-3 font-serif">Masukkan Nomor Identitas Anda</h1>
-                <p class="text-gray-500 font-medium">Masukkan 16 digit Nomor Identitas resmi Anda.</p>
+                <p class="text-gray-500 font-medium">Pilih jenis identitas Anda: <strong>NIK</strong> (16 digit) untuk WNI, atau <strong>Nomor Paspor</strong> (maks. 9 karakter) untuk WNA.</p>
             </div>
 
             <form action="{{ route('id_number.post') }}" method="POST" class="space-y-6">
@@ -52,8 +52,14 @@
 
                 <div class="space-y-2">
                     <label for="id_number" class="block text-xs font-bold text-[#254117] uppercase tracking-widest ml-1">Nomor Identitas</label>
-                    <input id="id_number" type="text" name="id_number" required minlength="16" maxlength="16" placeholder="e.g. 1234567890123456"
-                        class="w-full px-5 py-4 rounded-xl bg-white border-2 border-transparent focus:border-[#254117] outline-none text-gray-800 transition-all shadow-[0_4px_20px_-5px_rgba(0,0,0,0.05)]">
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <select name="id_type" id="id_type" class="w-full sm:w-1/3 px-5 py-4 rounded-xl bg-white border-2 border-transparent focus:border-[#254117] outline-none text-gray-800 transition-all shadow-[0_4px_20px_-5px_rgba(0,0,0,0.05)] appearance-none cursor-pointer">
+                            <option value="NIK">🇮🇩 NIK</option>
+                            <option value="Paspor">🌐 Paspor</option>
+                        </select>
+                        <input id="id_number" type="text" name="id_number" required placeholder="e.g. 1234567890123456"
+                            class="w-full sm:w-2/3 px-5 py-4 rounded-xl bg-white border-2 border-transparent focus:border-[#254117] outline-none text-gray-800 transition-all shadow-[0_4px_20px_-5px_rgba(0,0,0,0.05)]">
+                    </div>
                 </div>
 
                 <button type="submit" 
@@ -64,5 +70,38 @@
             </form>
         </div>
     </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const idTypeSelect = document.getElementById('id_type');
+            const idNumberInput = document.getElementById('id_number');
+
+            function updateValidation() {
+                if (idTypeSelect.value === 'NIK') {
+                    idNumberInput.setAttribute('minlength', '16');
+                    idNumberInput.setAttribute('maxlength', '16');
+                    idNumberInput.setAttribute('pattern', '[0-9]{16}');
+                    idNumberInput.setAttribute('title', 'NIK harus 16 digit angka');
+                    idNumberInput.placeholder = 'e.g. 1234567890123456';
+                    // Allow only numbers
+                    idNumberInput.value = idNumberInput.value.replace(/[^0-9]/g, '').slice(0, 16);
+                } else {
+                    idNumberInput.removeAttribute('minlength');
+                    idNumberInput.setAttribute('maxlength', '9');
+                    idNumberInput.setAttribute('pattern', '[A-Za-z0-9]{1,9}');
+                    idNumberInput.setAttribute('title', 'Paspor maksimal 9 karakter huruf/angka');
+                    idNumberInput.placeholder = 'e.g. A1234567';
+                    // Allow only alphanumeric
+                    idNumberInput.value = idNumberInput.value.replace(/[^a-zA-Z0-9]/g, '').slice(0, 9);
+                }
+            }
+
+            idTypeSelect.addEventListener('change', updateValidation);
+            idNumberInput.addEventListener('input', updateValidation);
+            
+            // Initialize
+            updateValidation();
+        });
+    </script>
 </body>
 </html>

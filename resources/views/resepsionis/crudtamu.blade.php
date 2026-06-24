@@ -120,7 +120,7 @@
                                 <td class="px-8 py-6"><span class="font-bold text-forest-900">{{ $item->name }}</span></td>
                                 <td class="px-6 py-6 text-sm text-black">{{ $item->email }}</td>
                                 <td class="px-6 py-6 text-center text-sm text-black">{{ $item->whatsapp ?? '-' }}</td>
-                                <td class="px-6 py-6 text-center"><span class="bg-blue-100 text-blue-700 px-5 py-2 rounded-lg text-xs font-semibold">{{ $item->id_number ?? '-' }}</span></td>
+                                <td class="px-6 py-6 text-center"><span class="bg-blue-100 text-blue-700 px-5 py-2 rounded-lg text-xs font-semibold">{{ $item->id_type ?? 'NIK' }}: {{ $item->id_number ?? '-' }}</span></td>
                                 <td class="px-6 py-6 text-center text-sm text-black">TMU-{{ str_pad($item->id, 3, '0', STR_PAD_LEFT) }}</td>
                                 <td class="px-8 py-6 border-l border-forest-600/40">
                                     <div class="flex justify-center gap-3">
@@ -182,7 +182,13 @@
                     </div>
                     <div>
                         <label class="text-sm font-semibold text-slate-700">Nomor Identitas</label>
-                        <input name="id_number" type="text" required minlength="16" maxlength="16" class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm" placeholder="Contoh: 1234567890123456" />
+                        <div class="flex flex-col sm:flex-row gap-2 mt-2">
+                            <select name="id_type" id="id_type" class="w-full sm:w-1/3 rounded-xl border border-slate-200 px-4 py-3 text-sm bg-white cursor-pointer">
+                                <option value="NIK">🇮🇩 NIK</option>
+                                <option value="Paspor">🌐 Paspor</option>
+                            </select>
+                            <input name="id_number" id="id_number" type="text" required class="w-full sm:w-2/3 rounded-xl border border-slate-200 px-4 py-3 text-sm" placeholder="Contoh: 1234567890123456" />
+                        </div>
                     </div>
                     <div>
                         <label class="text-sm font-semibold text-slate-700">Password</label>
@@ -198,6 +204,36 @@
     </div>
 
     <script src="{{ asset('js/resepsionis/crudtamu.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const idTypeSelect = document.getElementById('id_type');
+            const idNumberInput = document.getElementById('id_number');
+
+            if (idTypeSelect && idNumberInput) {
+                function updateValidation() {
+                    if (idTypeSelect.value === 'NIK') {
+                        idNumberInput.setAttribute('minlength', '16');
+                        idNumberInput.setAttribute('maxlength', '16');
+                        idNumberInput.setAttribute('pattern', '[0-9]{16}');
+                        idNumberInput.setAttribute('title', 'NIK harus 16 digit angka');
+                        idNumberInput.placeholder = 'Contoh: 1234567890123456';
+                        idNumberInput.value = idNumberInput.value.replace(/[^0-9]/g, '').slice(0, 16);
+                    } else {
+                        idNumberInput.removeAttribute('minlength');
+                        idNumberInput.setAttribute('maxlength', '9');
+                        idNumberInput.setAttribute('pattern', '[A-Za-z0-9]{1,9}');
+                        idNumberInput.setAttribute('title', 'Paspor maksimal 9 karakter huruf/angka');
+                        idNumberInput.placeholder = 'Contoh: A1234567';
+                        idNumberInput.value = idNumberInput.value.replace(/[^a-zA-Z0-9]/g, '').slice(0, 9);
+                    }
+                }
+
+                idTypeSelect.addEventListener('change', updateValidation);
+                idNumberInput.addEventListener('input', updateValidation);
+                updateValidation();
+            }
+        });
+    </script>
 </body>
 
 </html>

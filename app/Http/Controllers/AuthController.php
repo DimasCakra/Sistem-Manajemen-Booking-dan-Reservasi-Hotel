@@ -70,7 +70,14 @@ class AuthController extends Controller implements Authenticable
     public function processNik(Request $request)
     {
         $validatedData = $request->validate([
-            'id_number' => 'required|string|numeric|digits:16|unique:users,id_number',
+            'id_type' => 'required|in:NIK,Paspor',
+            'id_number' => [
+                'required',
+                'string',
+                $request->id_type === 'NIK' ? 'numeric' : 'alpha_num',
+                $request->id_type === 'NIK' ? 'digits:16' : 'max:9',
+                'unique:users,id_number'
+            ],
         ]);
 
         $userId = $request->session()->get('registered_user_id');
@@ -82,6 +89,7 @@ class AuthController extends Controller implements Authenticable
         $user = User::find($userId);
 
         if ($user) {
+            $user->id_type = $validatedData['id_type'];
             $user->id_number = $validatedData['id_number'];
             $user->save();
         }

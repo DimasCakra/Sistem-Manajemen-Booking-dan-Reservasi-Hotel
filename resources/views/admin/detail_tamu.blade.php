@@ -61,7 +61,7 @@
                         </div>
                         <div class="rounded-3xl border border-slate-200 p-5 bg-slate-50">
                             <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Nomor Identitas</p>
-                            <p class="mt-2 font-semibold text-slate-900">{{ $tamu->id_number ?? '-' }}</p>
+                            <p class="mt-2 font-semibold text-slate-900">{{ $tamu->id_type ?? 'NIK' }}: {{ $tamu->id_number ?? '-' }}</p>
                         </div>
                         <div class="rounded-3xl border border-slate-200 p-5 bg-slate-50">
                             <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Tanggal Lahir</p>

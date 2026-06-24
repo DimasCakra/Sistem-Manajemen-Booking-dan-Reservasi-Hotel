@@ -216,7 +216,14 @@ class ResepsionisController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'whatsapp' => 'required|string|max:20',
             'tanggal_lahir' => 'nullable|date',
-            'id_number' => 'required|string|numeric|digits:16|unique:users,id_number',
+            'id_type' => 'nullable|in:NIK,Paspor',
+            'id_number' => [
+                'required',
+                'string',
+                $request->id_type === 'Paspor' ? 'alpha_num' : 'numeric',
+                $request->id_type === 'Paspor' ? 'max:9' : 'digits:16',
+                'unique:users,id_number'
+            ],
             'password' => 'required|string|min:8',
             'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);

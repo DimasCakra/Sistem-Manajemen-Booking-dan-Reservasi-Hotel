@@ -170,7 +170,7 @@
                                 Nomor Identitas
                             </label>
 
-                            <input type="text" name="id_number" value="{{ old('id_number', $user->id_number ?? '') }}" readonly
+                            <input type="text" name="id_number_display" value="{{ $user->id_type ?? 'NIK' }}: {{ old('id_number', $user->id_number ?? '') }}" readonly
                                 placeholder="Nomor Identitas belum diisi"
                                 class="w-full px-5 py-4 bg-gray-100 border border-gray-200 rounded-xl outline-none text-gray-400 font-medium cursor-not-allowed">
                         </div>

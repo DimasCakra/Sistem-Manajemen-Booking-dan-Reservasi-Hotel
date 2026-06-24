@@ -32,7 +32,13 @@
                         </div>
                         <div>
                             <label class="block text-sm font-bold text-gray-700 mb-1">Nomor Identitas</label>
-                            <input type="text" name="id_number" value="{{ Auth::check() ? Auth::user()->id_number : '' }}" {{ Auth::check() ? 'readonly' : '' }} class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117] {{ Auth::check() ? 'bg-gray-100 cursor-not-allowed text-gray-500' : '' }}" placeholder="Masukkan Nomor Identitas Anda" required>
+                            <div class="flex flex-col sm:flex-row gap-2">
+                                <select name="id_type" id="id_type" class="w-full sm:w-1/3 px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117] bg-white cursor-pointer" {{ Auth::check() && Auth::user()->id_type ? 'style=pointer-events:none;background-color:#f3f4f6;' : '' }}>
+                                    <option value="NIK" {{ Auth::check() && Auth::user()->id_type === 'NIK' ? 'selected' : '' }}>🇮🇩 NIK</option>
+                                    <option value="Paspor" {{ Auth::check() && Auth::user()->id_type === 'Paspor' ? 'selected' : '' }}>🌐 Paspor</option>
+                                </select>
+                                <input type="text" name="id_number" id="id_number" value="{{ Auth::check() ? Auth::user()->id_number : '' }}" {{ Auth::check() ? 'readonly' : '' }} class="w-full sm:w-2/3 px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117] {{ Auth::check() ? 'bg-gray-100 cursor-not-allowed text-gray-500' : '' }}" placeholder="Masukkan Nomor Identitas Anda" required>
+                            </div>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
@@ -53,7 +59,7 @@
                     <div class="space-y-4">
                         <div>
                             <label class="flex items-center space-x-3 cursor-pointer mb-4">
-                                <input type="checkbox" name="booking_untuk_orang_lain" value="1" class="w-5 h-5 rounded border-gray-300 text-[#254117] focus:ring-[#254117]" x-model="bookingLain" @change="if(bookingLain && tamuTambahan.length === 0 && maxTamu > 0) tamuTambahan.push({id: Date.now()})">
+                                <input type="checkbox" name="booking_untuk_orang_lain" value="1" class="w-5 h-5 rounded border-gray-300 text-[#254117] focus:ring-[#254117]" x-model="bookingLain" @change="if(bookingLain && tamuTambahan.length === 0 && maxTamu > 0) tamuTambahan.push({id: Date.now(), idType: 'NIK', idNumber: ''})">
                                 <span class="text-sm font-bold text-gray-700">Booking untuk orang lain / Tambah Tamu <span x-show="maxTamu > 0">(Maks. <span x-text="maxTamu"></span> Tambahan)</span></span>
                             </label>
                             <div x-show="bookingLain" style="display: none;" class="space-y-4">
@@ -67,7 +73,14 @@
                                     <div class="p-4 border border-gray-200 rounded-md bg-gray-50 relative">
                                         <h4 class="text-sm font-bold text-[#254117] mb-3">Data Tamu Tambahan <span x-text="index + 1"></span></h4>
                                         <input type="text" name="nama_tamu_lain[]" :required="bookingLain" class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117] mb-3" placeholder="Masukkan Nama Tamu (Wajib)">
-                                        <input type="text" name="id_number_tamu_lain[]" :required="bookingLain" class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117]" placeholder="Masukkan Nomor Identitas Tamu (Wajib)">
+                                        
+                                        <div class="flex flex-col sm:flex-row gap-2">
+                                            <select name="id_type_tamu_lain[]" class="w-full sm:w-1/3 px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117] bg-white cursor-pointer" :required="bookingLain" x-model="tamu.idType" @change="tamu.idType = $event.target.value; tamu.idNumber = ''">
+                                                <option value="NIK">🇮🇩 NIK</option>
+                                                <option value="Paspor">🌐 Paspor</option>
+                                            </select>
+                                            <input type="text" name="id_number_tamu_lain[]" :required="bookingLain" class="w-full sm:w-2/3 px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117]" :placeholder="tamu.idType === 'Paspor' ? 'Masukkan No. Paspor (Wajib)' : 'Masukkan NIK (Wajib)'" :maxlength="tamu.idType === 'Paspor' ? '9' : '16'" x-model="tamu.idNumber" @input="tamu.idNumber = tamu.idType === 'Paspor' ? tamu.idNumber.replace(/[^a-zA-Z0-9]/g, '').slice(0, 9) : tamu.idNumber.replace(/[^0-9]/g, '').slice(0, 16)">
+                                        </div>
 
                                         <button type="button" @click="tamuTambahan.splice(index, 1); if(tamuTambahan.length === 0) bookingLain = false;" class="absolute top-4 right-4 text-red-500 hover:text-red-700 text-sm font-bold">
                                             Hapus

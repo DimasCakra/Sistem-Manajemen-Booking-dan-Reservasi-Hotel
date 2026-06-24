@@ -118,14 +118,31 @@ class BookingController extends TamuController
     {
         $request->validate([
             'nama_lengkap' => 'required|string|max:255',
-            'id_number' => 'required|string|max:255',
+            'id_type' => 'required|in:NIK,Paspor',
+            'id_number' => [
+                'required',
+                'string',
+                $request->id_type === 'NIK' ? 'numeric' : 'alpha_num',
+                $request->id_type === 'NIK' ? 'digits:16' : 'max:9',
+            ],
             'whatsapp' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'booking_untuk_orang_lain' => 'nullable',
             'nama_tamu_lain' => 'required_if:booking_untuk_orang_lain,1|nullable|array',
             'nama_tamu_lain.*' => 'string|max:255',
+            'id_type_tamu_lain' => 'required_if:booking_untuk_orang_lain,1|nullable|array',
+            'id_type_tamu_lain.*' => 'in:NIK,Paspor',
             'id_number_tamu_lain' => 'required_if:booking_untuk_orang_lain,1|nullable|array',
-            'id_number_tamu_lain.*' => 'string|max:255',
+            'id_number_tamu_lain.*' => function ($attribute, $value, $fail) use ($request) {
+                $index = explode('.', $attribute)[1];
+                $type = $request->id_type_tamu_lain[$index] ?? 'NIK';
+                if ($type === 'NIK' && !preg_match('/^[0-9]{16}$/', $value)) {
+                    $fail('Nomor Identitas Tamu (NIK) harus 16 digit angka.');
+                }
+                if ($type === 'Paspor' && (!ctype_alnum($value) || strlen($value) > 9)) {
+                    $fail('Nomor Identitas Tamu (Paspor) maksimal 9 karakter huruf/angka.');
+                }
+            },
             'permintaan_khusus' => 'nullable|string',
         ]);
 
@@ -149,6 +166,7 @@ class BookingController extends TamuController
             'room_number' => $allocatedKamar?->no_kamar ?? $allocatedKamarId,
             'kamar_id' => $allocatedKamarId,
             'nama_lengkap' => $request->nama_lengkap,
+            'id_type' => $request->id_type,
             'id_number' => $request->id_number,
             'whatsapp' => $request->whatsapp,
             'email' => $request->email,
@@ -158,6 +176,7 @@ class BookingController extends TamuController
             'status' => 'temporary',
             'total_biaya' => $total,
             'nama_tamu_lain' => $request->has('nama_tamu_lain') && is_array($request->nama_tamu_lain) ? json_encode($request->nama_tamu_lain) : null,
+            'id_type_tamu_lain' => $request->has('id_type_tamu_lain') && is_array($request->id_type_tamu_lain) ? json_encode($request->id_type_tamu_lain) : null,
             'id_number_tamu_lain' => $request->has('id_number_tamu_lain') && is_array($request->id_number_tamu_lain) ? json_encode($request->id_number_tamu_lain) : null,
             'permintaan_khusus' => $request->permintaan_khusus,
         ]);
