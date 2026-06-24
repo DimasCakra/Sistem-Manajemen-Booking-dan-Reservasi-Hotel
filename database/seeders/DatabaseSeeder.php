@@ -48,7 +48,7 @@ class DatabaseSeeder extends Seeder
         \App\Models\Staff::updateOrCreate(
             ['name' => 'resepsionis'],
             [
-                'id_resepsionis' => 'RES-001',
+                'id_resepsionis' => '#',
                 'email' => 'resepsionis@stayease.com',
                 'no_hp' => '08123456789',
                 'password' => Hash::make('123456789'),
