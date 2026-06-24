@@ -12,8 +12,8 @@ Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'processLogin'])->name('login.post');
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
 Route::post('/register', [AuthController::class, 'processRegister'])->name('register.post');
-Route::get('/nik', [AuthController::class, 'showNik'])->name('nik');
-Route::post('/nik', [AuthController::class, 'processNik'])->name('nik.post');
+Route::get('/id_number', [AuthController::class, 'showNik'])->name('id_number');
+Route::post('/id_number', [AuthController::class, 'processNik'])->name('id_number.post');
 
 /*
 |--------------------------------------------------------------------------

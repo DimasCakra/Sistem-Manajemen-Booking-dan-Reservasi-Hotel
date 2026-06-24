@@ -117,7 +117,7 @@
                             <th class="px-8 py-6 font-semibold">Nama Tamu</th>
                             <th class="px-6 py-6 font-semibold">Alamat Email</th>
                             <th class="px-6 py-6 font-semibold text-center">No WA</th>
-                            <th class="px-6 py-6 font-semibold text-center">NIK</th>
+                            <th class="px-6 py-6 font-semibold text-center">Nomor Identitas</th>
                             <th class="px-6 py-6 font-semibold text-center">ID Tamu</th>
                             <th class="px-8 py-6 font-semibold text-center border-l border-forest-700">Aksi</th>
                         </tr>
@@ -135,7 +135,7 @@
                                 <td class="px-8 py-6"><span class="font-bold text-forest-900">{{ $item->name }}</span></td>
                                 <td class="px-6 py-6 text-sm text-black">{{ $item->email }}</td>
                                 <td class="px-6 py-6 text-center text-sm text-black">{{ $item->whatsapp ?? '-' }}</td>
-                                <td class="px-6 py-6 text-center"><span class="bg-blue-100 text-blue-700 px-5 py-2 rounded-lg text-xs font-semibold">{{ $item->nik ?? '-' }}</span></td>
+                                <td class="px-6 py-6 text-center"><span class="bg-blue-100 text-blue-700 px-5 py-2 rounded-lg text-xs font-semibold">{{ $item->id_number ?? '-' }}</span></td>
                                 <td class="px-6 py-6 text-center text-sm text-black">TMU-{{ str_pad($item->id, 3, '0', STR_PAD_LEFT) }}</td>
                                 <td class="px-8 py-6 border-l border-forest-600/40">
                                     <div class="flex justify-center gap-5">

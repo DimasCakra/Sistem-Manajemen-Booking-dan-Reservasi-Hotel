@@ -122,8 +122,8 @@
             <td>{{ $detail->nama_lengkap }}</td>
         </tr>
         <tr>
-            <th>NIK</th>
-            <td>{{ $detail->nik }}</td>
+            <th>Nomor Identitas</th>
+            <td>{{ $detail->id_number }}</td>
         </tr>
         <tr>
             <th>Email</th>
@@ -138,10 +138,10 @@
     @if($detail->nama_tamu_lain)
     @php
         $namaTamuLain = json_decode($detail->nama_tamu_lain, true);
-        $nikTamuLain = json_decode($detail->nik_tamu_lain, true);
+        $idNumberTamuLain = json_decode($detail->id_number_tamu_lain, true);
         if (!is_array($namaTamuLain)) {
             $namaTamuLain = [$detail->nama_tamu_lain];
-            $nikTamuLain = [$detail->nik_tamu_lain];
+            $idNumberTamuLain = [$detail->id_number_tamu_lain];
         }
     @endphp
     <div class="section-title">Data Tamu Lain</div>
@@ -149,7 +149,7 @@
         @foreach($namaTamuLain as $index => $nama)
         <tr>
             <th>Tamu Tambahan {{ $index + 1 }}</th>
-            <td>{{ $nama }} (NIK: {{ $nikTamuLain[$index] ?? '-' }})</td>
+            <td>{{ $nama }} (Nomor Identitas: {{ $idNumberTamuLain[$index] ?? '-' }})</td>
         </tr>
         @endforeach
     </table>

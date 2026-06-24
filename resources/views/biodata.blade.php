@@ -31,8 +31,8 @@
                             <input type="text" name="nama_lengkap" value="{{ Auth::check() ? Auth::user()->name : '' }}" {{ Auth::check() ? 'readonly' : '' }} class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117] {{ Auth::check() ? 'bg-gray-100 cursor-not-allowed text-gray-500' : '' }}" placeholder="Masukkan Nama Lengkap Anda" required>
                         </div>
                         <div>
-                            <label class="block text-sm font-bold text-gray-700 mb-1">NIK</label>
-                            <input type="text" name="nik" value="{{ Auth::check() ? Auth::user()->nik : '' }}" {{ Auth::check() ? 'readonly' : '' }} class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117] {{ Auth::check() ? 'bg-gray-100 cursor-not-allowed text-gray-500' : '' }}" placeholder="Masukkan NIK Anda" required>
+                            <label class="block text-sm font-bold text-gray-700 mb-1">Nomor Identitas</label>
+                            <input type="text" name="id_number" value="{{ Auth::check() ? Auth::user()->id_number : '' }}" {{ Auth::check() ? 'readonly' : '' }} class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117] {{ Auth::check() ? 'bg-gray-100 cursor-not-allowed text-gray-500' : '' }}" placeholder="Masukkan Nomor Identitas Anda" required>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
@@ -67,7 +67,7 @@
                                     <div class="p-4 border border-gray-200 rounded-md bg-gray-50 relative">
                                         <h4 class="text-sm font-bold text-[#254117] mb-3">Data Tamu Tambahan <span x-text="index + 1"></span></h4>
                                         <input type="text" name="nama_tamu_lain[]" :required="bookingLain" class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117] mb-3" placeholder="Masukkan Nama Tamu (Wajib)">
-                                        <input type="text" name="nik_tamu_lain[]" :required="bookingLain" class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117]" placeholder="Masukkan NIK Tamu (Wajib)">
+                                        <input type="text" name="id_number_tamu_lain[]" :required="bookingLain" class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117]" placeholder="Masukkan Nomor Identitas Tamu (Wajib)">
 
                                         <button type="button" @click="tamuTambahan.splice(index, 1); if(tamuTambahan.length === 0) bookingLain = false;" class="absolute top-4 right-4 text-red-500 hover:text-red-700 text-sm font-bold">
                                             Hapus
