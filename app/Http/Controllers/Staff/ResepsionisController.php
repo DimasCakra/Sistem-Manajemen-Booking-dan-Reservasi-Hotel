@@ -177,7 +177,7 @@ class ResepsionisController extends Controller
 
     protected function fetchAllTamus()
     {
-        return User::latest()->get();
+        return User::latest()->paginate(5);
     }
 
     protected function findTamuById($id)
@@ -256,7 +256,7 @@ class ResepsionisController extends Controller
             });
         }
 
-        return $query->latest()->get();
+        return $query->latest()->paginate(5);
     }
 
     protected function findReservationById($id)

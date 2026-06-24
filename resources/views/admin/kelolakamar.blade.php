@@ -136,6 +136,7 @@
                 </tbody>
             </table>
         </div>
+        @include('components.pagination', ['paginator' => $kamars])
     </main>
 
     <div id="createModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 px-4 py-6">

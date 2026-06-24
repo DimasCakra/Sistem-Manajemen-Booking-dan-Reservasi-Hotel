@@ -105,6 +105,7 @@
                     </tbody>
                 </table>
             </div>
+            @include('components.pagination', ['paginator' => $tipeKamars])
         </div>
     </main>
 

@@ -12,7 +12,7 @@ class ReceptsionistController extends Controller
     public function index()
     {
         // Hanya tampilkan reservasi dengan status 'pending' (menunggu verifikasi)
-        $reservations = Reservation::where('status', 'pending')->latest()->get();
+        $reservations = Reservation::where('status', 'pending')->latest()->paginate(5);
 
         return view('resepsionis.receptsionis', [
             'receptionist' => Auth::user(),

@@ -13,7 +13,7 @@ class TipeKamarController extends Controller
 {
     public function index()
     {
-        $tipeKamars = TipeKamar::orderBy('id_tipe_kamar', 'desc')->get();
+        $tipeKamars = TipeKamar::orderBy('id_tipe_kamar', 'desc')->paginate(5);
         return view('admin.tipekamar', compact('tipeKamars'));
     }
 

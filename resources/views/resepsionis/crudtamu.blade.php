@@ -145,6 +145,7 @@
                     </tbody>
                 </table>
             </div>
+            @include('components.pagination', ['paginator' => $tamus])
         </div>
     </main>
 

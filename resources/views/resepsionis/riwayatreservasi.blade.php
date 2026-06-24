@@ -130,6 +130,7 @@
                     <div class="p-20 text-center text-gray-400 font-medium italic">Belum ada riwayat reservasi.</div>
                 @endforelse
             </div>
+            @include('components.pagination', ['paginator' => $reservations])
         </main>
     </div>
 </body>

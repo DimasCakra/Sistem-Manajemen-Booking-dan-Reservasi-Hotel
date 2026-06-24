@@ -137,6 +137,7 @@
                     </tbody>
                 </table>
             </div>
+            @include('components.pagination', ['paginator' => $resepsionis])
         </div>
     </main>
 

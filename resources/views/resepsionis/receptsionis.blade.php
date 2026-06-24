@@ -72,7 +72,7 @@
 
                 @foreach($reservations as $index => $reservation)
                 <a href="{{ route('verifikasitamu', $reservation->id) }}" class="reservation-row grid grid-cols-12 gap-4 px-6 py-4 border-b border-gray-100 items-center cursor-pointer block">
-                    <div class="col-span-1 text-gray-400 text-sm">{{ $index + 1 }}</div>
+                    <div class="col-span-1 text-gray-400 text-sm">{{ $reservation->id }}</div>
                     <div class="col-span-3">
                         <p class="font-medium text-forest-900 text-sm">{{ $reservation->nama_lengkap }}</p>
                         <p class="text-gray-400 text-[11px]">{{ $reservation->email }}</p>
@@ -95,6 +95,7 @@
                 @endforeach
 
             </div>
+            @include('components.pagination', ['paginator' => $reservations])
         </main>
     </div>
 

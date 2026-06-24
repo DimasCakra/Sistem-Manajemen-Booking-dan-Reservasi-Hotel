@@ -20,7 +20,7 @@ class AdminController extends Controller
     // Tamu
     public function tamuIndex()
     {
-        $tamus = User::latest()->get();
+        $tamus = User::latest()->paginate(5);
         return view('admin.crudtamu', compact('tamus'));
     }
 
@@ -126,7 +126,7 @@ class AdminController extends Controller
     // resepsionis
     public function resepsionisIndex()
     {
-        $resepsionis = Staff::where('role', 'receptionist')->latest()->get();
+        $resepsionis = Staff::where('role', 'receptionist')->latest()->paginate(5);
         return view('admin.crudresepsionis', compact('resepsionis'));
     }
 
@@ -238,7 +238,7 @@ class AdminController extends Controller
             $kamars->where('status_kamar', $status);
         }
 
-        $kamars = $kamars->orderBy('id_kamar', 'desc')->get();
+        $kamars = $kamars->orderBy('id_kamar', 'desc')->paginate(5);
         $tipeKamars = TipeKamar::orderBy('nama_tipe')->get();
 
         return view('admin.kelolakamar', compact('kamars', 'search', 'type', 'status', 'tipeKamars'));
