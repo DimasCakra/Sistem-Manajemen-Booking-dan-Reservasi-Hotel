@@ -71,11 +71,6 @@
                                 Selesai
                             </span>
 
-                        @elseif($res->status == 'refund')
-                            <span class="px-3 py-1 bg-red-100 text-red-700 text-xs font-bold uppercase rounded-full tracking-wider">
-                                Refund
-                            </span>
-
                         @elseif($res->status == 'cancelled')
                             <span class="px-3 py-1 bg-red-100 text-red-700 text-xs font-bold uppercase rounded-full tracking-wider">
                                 Dibatalkan
@@ -107,7 +102,7 @@
                     </div>
 
                     <div class="w-full md:w-auto text-center" x-data="{ openReview: false }">
-                        @if(!in_array($res->status, ['checkout','done','refund']))
+                        @if(!in_array($res->status, ['checkout','done']))
 
                             <button disabled
                                 class="w-full md:w-auto px-6 py-3 bg-gray-200 text-gray-500 font-bold rounded-xl cursor-not-allowed">

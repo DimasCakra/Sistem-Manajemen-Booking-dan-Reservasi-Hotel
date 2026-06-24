@@ -211,7 +211,7 @@
                 <div class="bg-white rounded-2xl shadow-sm border border-forest-100 p-10">
                     <h2 class="text-xl font-semibold text-forest-900 mb-8 uppercase tracking-[0.2em] text-center">Keputusan Verifikasi</h2>
 
-                    @if($reservation->status === 'pending' || !in_array($reservation->status, ['ongoing', 'done', 'checkout', 'refund']))
+                    @if($reservation->status === 'pending' || !in_array($reservation->status, ['ongoing', 'done', 'checkout']))
                     <form action="{{ route('resepsionis.verifikasi.update', $reservation->id) }}" method="POST" class="w-full">
                         @csrf
                         <div class="flex items-center justify-center gap-4">

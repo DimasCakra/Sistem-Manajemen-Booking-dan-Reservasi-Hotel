@@ -61,7 +61,6 @@
                     <select name="status" class="px-4 py-2 rounded-xl border border-forest-100">
                         <option value="ongoing" {{ ($status === 'ongoing') ? 'selected' : '' }}>On Going</option>
                         <option value="checkout" {{ ($status === 'checkout') ? 'selected' : '' }}>Check Out</option>
-                        <option value="refund" {{ ($status === 'refund') ? 'selected' : '' }}>Refund</option>
                         <option value="all" {{ ($status === 'all') ? 'selected' : '' }}>All</option>
                     </select>
                     <button type="submit" class="px-4 py-2 rounded-xl bg-forest-800 text-white">Cari</button>
@@ -117,7 +116,7 @@
                         </div>
                         <div class="col-span-2 flex justify-center">
                             <span class="px-3 py-1 text-[9px] font-black uppercase rounded-lg border
-                                {{ $res->status == 'ongoing' ? 'text-blue-600 bg-blue-50 border-blue-100' : ($res->status == 'refund' ? 'text-red-600 bg-red-50 border-red-100' : 'text-forest-600 bg-forest-50 border-forest-100') }}">
+                                {{ $res->status == 'ongoing' ? 'text-blue-600 bg-blue-50 border-blue-100' : 'text-forest-600 bg-forest-50 border-forest-100' }}">
                                 {{ $res->status == 'checkout' || $res->status == 'done' ? 'Check Out' : ($res->status == 'ongoing' ? 'On Going' : ucfirst($res->status)) }}
                             </span>
                         </div>

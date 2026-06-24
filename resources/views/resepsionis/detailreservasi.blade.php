@@ -183,12 +183,6 @@
                                         Selesaikan Reservasi
                                     </button>
                                 </form>
-                                <form action="{{ route('resepsionis.refund', $detail->id) }}" method="POST" class="w-full">
-                                    @csrf
-                                    <button type="submit" onclick="return confirm('Yakin ingin merefund reservasi ini?')" class="w-full py-4 bg-red-600 hover:bg-red-700 text-white rounded-xl font-bold text-xs uppercase tracking-widest transition-colors">
-                                        Refund
-                                    </button>
-                                </form>
                                 @endif
 
                                 <a href="{{ route('resepsionis.pdf', $detail->id) }}" target="_blank" class="w-full py-4 text-center border-2 border-white text-white rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-white hover:text-forest-900 transition-colors block">

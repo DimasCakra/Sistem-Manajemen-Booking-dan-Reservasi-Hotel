@@ -79,7 +79,6 @@
         .status-done { background: #3b82f6; }
         .status-checkout { background: #6b7280; }
         .status-cancelled { background: #ef4444; }
-        .status-refund { background: #8b5cf6; }
     </style>
 </head>
 <body>
@@ -101,7 +100,6 @@
                         case 'done': $statusClass = 'status-done'; break;
                         case 'checkout': $statusClass = 'status-checkout'; break;
                         case 'cancelled': $statusClass = 'status-cancelled'; break;
-                        case 'refund': $statusClass = 'status-refund'; break;
                     }
                 @endphp
                 <span class="status-badge {{ $statusClass }}">

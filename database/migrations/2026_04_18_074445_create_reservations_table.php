@@ -17,7 +17,7 @@ return new class extends Migration
         $table->string('email');
         $table->string('jumlah_tamu');
         $table->string('check_in_out');
-        $table->string('status')->default('ongoing'); // ongoing, done, refund
+        $table->string('status')->default('ongoing'); // ongoing, done
         $table->integer('total_biaya');
         $table->timestamps();
     });

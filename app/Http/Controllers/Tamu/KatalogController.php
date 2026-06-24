@@ -43,7 +43,7 @@ class KatalogController extends TamuController
 
             if ($searchHasDates && $totalRooms > 0) {
                 $reservedCount = Reservation::where('room_type', $type->nama_tipe)
-                    ->whereNotIn('status', ['done', 'checkout', 'refund', 'cancelled'])
+                    ->whereNotIn('status', ['done', 'checkout', 'cancelled'])
                     ->get()
                     ->filter(function (Reservation $reservation) use ($searchStart, $searchEnd) {
                         // Exclude temporary drafts and pending reservations without payment proof

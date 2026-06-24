@@ -62,7 +62,7 @@ class ProfileController extends TamuController
     public function orders()
     {
         $reservations = \App\Models\Reservation::where('user_id', Auth::id())
-            ->whereIn('status', ['pending', 'ongoing', 'checkout', 'done', 'refund'])
+            ->whereIn('status', ['pending', 'ongoing', 'checkout', 'done'])
             ->latest()
             ->get();
 
@@ -83,7 +83,7 @@ class ProfileController extends TamuController
 
         $reservation = \App\Models\Reservation::where('user_id', Auth::id())->findOrFail($id);
 
-        if (!in_array($reservation->status, ['checkout', 'done', 'refund'])) {
+        if (!in_array($reservation->status, ['checkout', 'done'])) {
             return redirect()->back()->with('error', 'Reservasi belum selesai.');
         }
 

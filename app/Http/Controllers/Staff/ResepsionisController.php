@@ -103,9 +103,9 @@ class ResepsionisController extends Controller
             }
 
             $reservation->update([
-                'status' => 'refund'
+                'status' => 'cancelled'
             ]);
-            return redirect()->route('resepsionis.riwayatreservasi')->with('success', 'Reservasi telah ditolak dan dihapus dari daftar verifikasi');
+            return redirect()->route('resepsionis.riwayatreservasi')->with('success', 'Reservasi telah ditolak dan dibatalkan.');
         } elseif ($action === 'konfirmasi') {
             $reservation->update(['status' => 'ongoing']);
             return redirect()->route('resepsionis.riwayatreservasi')->with('success', 'Reservasi dikonfirmasi dan dipindahkan ke riwayat reservasi');
@@ -152,30 +152,6 @@ class ResepsionisController extends Controller
         }
 
         return redirect()->route('resepsionis.riwayatreservasi')->with('error', 'Reservasi tidak dapat diselesaikan karena status tidak valid.');
-    }
-
-    public function refundReservasi($id)
-    {
-        $reservation = $this->findReservationById($id);
-
-        if (!$reservation) {
-            return redirect()->route('resepsionis.riwayatreservasi')->with('error', 'Reservasi tidak ditemukan');
-        }
-
-        if ($reservation->status === 'ongoing') {
-            $reservation->update(['status' => 'refund']);
-
-            if ($reservation->kamar_id) {
-                $kamar = \App\Models\Kamar::where('id_kamar', $reservation->kamar_id)->first();
-                if ($kamar) {
-                    $kamar->update(['status_kamar' => 'tersedia']);
-                }
-            }
-
-            return redirect()->route('resepsionis.riwayatreservasi')->with('success', 'Reservasi telah direfund dan dibatalkan, kamar kembali tersedia.');
-        }
-
-        return redirect()->route('resepsionis.riwayatreservasi')->with('error', 'Reservasi tidak dapat direfund karena status tidak valid.');
     }
 
     public function generatePDF($id)
