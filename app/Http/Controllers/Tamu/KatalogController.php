@@ -3,19 +3,28 @@
 namespace App\Http\Controllers\Tamu;
 
 use App\Http\Controllers\TamuController;
-use App\Models\Reservation;
+use App\Models\Review;
 use App\Models\TipeKamar;
+use App\Services\AvailabilityService;
+use App\Services\ReservationService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class KatalogController extends TamuController
 {
+    public function __construct(
+        protected AvailabilityService $availability,
+        protected ReservationService $reservationService
+    ) {}
+
     public function index(Request $request)
     {
         $request = $request ?? request();
         $checkin = $request->query('checkin');
         $checkout = $request->query('checkout');
         $guests = (int) $request->query('guests', 2);
+
+        $this->reservationService->expireStaleReservations();
 
         $tipeKamars = TipeKamar::with('kamars')->orderBy('id_tipe_kamar', 'desc')->get();
 
@@ -26,7 +35,7 @@ class KatalogController extends TamuController
         if ($checkin && $checkout) {
             try {
                 $searchStart = Carbon::parse($checkin)->startOfDay();
-                $searchEnd = Carbon::parse($checkout)->endOfDay();
+                $searchEnd = Carbon::parse($checkout)->startOfDay();
                 $searchHasDates = true;
             } catch (\Exception $e) {
                 $searchHasDates = false;
@@ -42,44 +51,14 @@ class KatalogController extends TamuController
             $reservedCount = 0;
 
             if ($searchHasDates && $totalRooms > 0) {
-                $reservedCount = Reservation::where('room_type', $type->nama_tipe)
-                    ->whereNotIn('status', ['done', 'checkout', 'cancelled'])
-                    ->get()
-                    ->filter(function (Reservation $reservation) use ($searchStart, $searchEnd) {
-                        // Exclude temporary drafts and pending reservations without payment proof
-                        if ($reservation->status === 'temporary') {
-                            return false;
-                        }
-
-                        if ($reservation->status === 'pending' && is_null($reservation->bukti_pembayaran)) {
-                            return false;
-                        }
-                        if ($reservation->status === 'pending' && $reservation->created_at->diffInMinutes(now()) >= 15) {
-                            $reservation->update(['status' => 'cancelled']);
-                            return false;
-                        }
-
-                        if (!str_contains($reservation->check_in_out, ' - ') && !str_contains($reservation->check_in_out, ' to ')) {
-                            return false;
-                        }
-
-                        $separator = str_contains($reservation->check_in_out, ' to ') ? ' to ' : ' - ';
-                        [$startString, $endString] = explode($separator, $reservation->check_in_out);
-
-                        try {
-                            $format = str_contains($reservation->check_in_out, ' to ') ? 'Y-m-d' : 'd/F/Y';
-                            $start = Carbon::createFromFormat($format, trim($startString))->startOfDay();
-                            $end = Carbon::createFromFormat($format, trim($endString))->endOfDay();
-                        } catch (\Exception $e) {
-                            return false;
-                        }
-
-                        return $start <= $searchEnd && $end >= $searchStart;
-                    })
-                    ->count();
+                $reservedCount = $this->availability->countReservedRoomsForType(
+                    $type->nama_tipe,
+                    $searchStart,
+                    $searchEnd
+                );
             }
 
-            $avgRating = \App\Models\Review::where('room_type', $type->nama_tipe)->avg('rating') ?? 0;
+            $avgRating = Review::where('room_type', $type->nama_tipe)->avg('rating') ?? 0;
 
             return (object) [
                 'id_tipe_kamar' => $type->id_tipe_kamar,

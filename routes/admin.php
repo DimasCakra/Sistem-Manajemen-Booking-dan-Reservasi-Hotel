@@ -9,7 +9,7 @@ use App\Http\Controllers\Staff\TipeKamarController;
 | DASHBOARD ADMIN
 |--------------------------------------------------------------------------
 */
-Route::middleware('auth:staff')->prefix('admin')->group(function () {
+Route::middleware(['auth:staff', 'staff.role:admin'])->prefix('admin')->group(function () {
     // Tamu Management (CRUD)
     Route::get('/tamu', [AdminController::class, 'tamuIndex'])->name('admin.tamu');
     Route::get('/tamu/create', [AdminController::class, 'tamuCreate'])->name('admin.tamu.create');

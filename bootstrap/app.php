@@ -11,6 +11,11 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->alias([
+            'reservation.owner' => \App\Http\Middleware\EnsureReservationOwner::class,
+            'staff.role' => \App\Http\Middleware\EnsureStaffRole::class,
+        ]);
+
         $middleware->redirectGuestsTo(function (\Illuminate\Http\Request $request) {
             if ($request->is('admin/*') || $request->is('resepsionis/*') || $request->is('staff/*')) {
                 return route('staff.login');

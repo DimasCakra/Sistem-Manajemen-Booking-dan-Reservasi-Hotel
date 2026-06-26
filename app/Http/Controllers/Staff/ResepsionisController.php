@@ -2,15 +2,34 @@
 
 namespace App\Http\Controllers\Staff;
 
+use App\Enums\ReservationStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Reservation;
 use App\Models\User;
+use App\Services\ReservationService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
 
 class ResepsionisController extends Controller
 {
+    public function __construct(
+        protected ReservationService $reservationService
+    ) {}
+
+    public function index()
+    {
+        $reservations = Reservation::where('status', ReservationStatus::Pending->value)
+            ->whereNotNull('bukti_pembayaran')
+            ->latest()
+            ->paginate(5);
+
+        return view('resepsionis.receptsionis', [
+            'receptionist' => Auth::guard('staff')->user(),
+            'reservations' => $reservations,
+        ]);
+    }
+
     public function tamuIndex()
     {
         $tamus = $this->fetchAllTamus();
@@ -80,34 +99,15 @@ class ResepsionisController extends Controller
             return redirect()->route('receptionist.index')->with('error', 'Reservasi tidak ditemukan');
         }
 
-        $action = $request->input('action'); // 'tolak' or 'konfirmasi'
+        $action = $request->input('action');
 
         if ($action === 'tolak') {
-            // Delete payment proof file if exists
-            if ($reservation->bukti_pembayaran) {
-                Storage::disk('public')->delete($reservation->bukti_pembayaran);
-            }
-
-            if ($reservation->kamar_id) {
-
-                $kamar = \App\Models\Kamar::where(
-                    'id_kamar',
-                    $reservation->kamar_id
-                )->first();
-
-                if ($kamar) {
-                    $kamar->update([
-                        'status_kamar' => 'tersedia'
-                    ]);
-                }
-            }
-
-            $reservation->update([
-                'status' => 'cancelled'
-            ]);
+            $this->reservationService->cancel($reservation);
             return redirect()->route('resepsionis.riwayatreservasi')->with('success', 'Reservasi telah ditolak dan dibatalkan.');
-        } elseif ($action === 'konfirmasi') {
-            $reservation->update(['status' => 'ongoing']);
+        }
+
+        if ($action === 'konfirmasi') {
+            $reservation->update(['status' => ReservationStatus::Ongoing->value]);
             return redirect()->route('resepsionis.riwayatreservasi')->with('success', 'Reservasi dikonfirmasi dan dipindahkan ke riwayat reservasi');
         }
 
@@ -122,33 +122,10 @@ class ResepsionisController extends Controller
             return redirect()->route('resepsionis.riwayatreservasi')->with('error', 'Reservasi tidak ditemukan');
         }
 
-        if ($reservation->status === 'ongoing') {
-
-            $reservation->update([
-                'status' => 'checkout'
-            ]);
-
-            if ($reservation->kamar_id) {
-
-                $kamar = \App\Models\Kamar::where(
-                    'id_kamar',
-                    $reservation->kamar_id
-                )->first();
-
-
-                if ($kamar) {
-                    $kamar->update([
-                        'status_kamar' => 'tersedia'
-                    ]);
-                }
-            }
-
+        if ($this->reservationService->completeStay($reservation)) {
             return redirect()
                 ->route('resepsionis.riwayatreservasi')
-                ->with(
-                    'success',
-                    'Reservasi selesai dan kamar tersedia kembali.'
-                );
+                ->with('success', 'Reservasi selesai dan kamar tersedia kembali.');
         }
 
         return redirect()->route('resepsionis.riwayatreservasi')->with('error', 'Reservasi tidak dapat diselesaikan karena status tidak valid.');
@@ -162,7 +139,6 @@ class ResepsionisController extends Controller
             return redirect()->route('resepsionis.riwayatreservasi')->with('error', 'Reservasi tidak ditemukan');
         }
 
-        // Generate base64 for image to avoid path issues in DOMPDF
         $imagePath = public_path('storage/' . $detail->bukti_pembayaran);
         $base64Image = '';
         if ($detail->bukti_pembayaran && file_exists($imagePath)) {
@@ -227,22 +203,19 @@ class ResepsionisController extends Controller
     {
         $query = Reservation::query();
 
-        // By default show only pending (awaiting verification)
-        if (!$status)
-            $status = 'pending';
+        if (!$status) {
+            $status = ReservationStatus::Pending->value;
+        }
 
-        if ($status === 'all' || $status === '') {
-            // no status filter
-        } else {
-            if ($status === 'checkout') {
-                $query->whereIn('status', ['checkout', 'done']);
+        if ($status !== 'all' && $status !== '') {
+            if ($status === ReservationStatus::Checkout->value) {
+                $query->whereIn('status', ReservationStatus::completedValues());
             } else {
                 $query->where('status', $status);
             }
         }
 
-        // Only show reservations that have payment proof for pending verifications and history
-        if ($status === 'pending') {
+        if ($status === ReservationStatus::Pending->value) {
             $query->whereNotNull('bukti_pembayaran');
         }
 

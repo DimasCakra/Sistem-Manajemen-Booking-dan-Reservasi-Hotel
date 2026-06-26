@@ -18,8 +18,13 @@ class Reservation extends Model
         'check_out' => 'date',
     ];
 
-    public function kamar()
+    public function kamar(): BelongsTo
     {
-        return $this->belongsTo(\App\Models\Kamar::class, 'kamar_id', 'id_kamar');
+        return $this->belongsTo(Kamar::class, 'kamar_id', 'id_kamar');
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

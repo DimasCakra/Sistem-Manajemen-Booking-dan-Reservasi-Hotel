@@ -23,7 +23,7 @@ class DeskripsiController extends TamuController
             'harga'         => $type->harga_per_malam,
             'fasilitas'     => $type->deskripsi,
             'foto_kamar'    => $type->foto_kamar, // KIRIM KAN DATA STRING JSON ASLI KE BLADE
-            'available'     => $type->kamars()->where('status_kamar', 'Tersedia')->count(),
+            'available'     => $type->kamars()->where('status_kamar', 'tersedia')->count(),
             'jumlah_tamu'   => $type->jumlah_tamu ?? 2,
             'rating'        => round($avgRating, 1),
         ];

@@ -2,13 +2,23 @@
 
 namespace App\Http\Controllers\Tamu;
 
+use App\Enums\ReservationStatus;
+use App\Models\Kamar;
+use App\Models\Reservation;
 use App\Models\TipeKamar;
 use App\Http\Controllers\TamuController;
+use App\Services\AvailabilityService;
+use App\Services\ReservationService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class BookingController extends TamuController
 {
+    public function __construct(
+        protected AvailabilityService $availability,
+        protected ReservationService $reservationService
+    ) {}
+
     protected function loadKamar($id)
     {
         $type = TipeKamar::findOrFail($id);
@@ -19,62 +29,6 @@ class BookingController extends TamuController
             'jumlah_tamu' => $type->jumlah_tamu,
             'gambar' => $type->foto_kamar && count($type->foto_kamar) ? asset('storage/' . $type->foto_kamar[0]) : 'https://via.placeholder.com/380x260?text=No+Image',
         ];
-    }
-
-    /**
-     * Find the first available kamar id for the given tipe name and date range.
-     * Returns kamar id string or null if none available.
-     */
-    protected function findAvailableKamar(string $tipeNama, string $checkin, string $checkout)
-    {
-        $start = Carbon::parse($checkin)->startOfDay();
-        $end = Carbon::parse($checkout)->startOfDay();
-
-        // Get all kamars for the tipe, ordered by nomor (assuming id_kamar holds ordering)
-        $kamars = \App\Models\Kamar::whereHas('tipe', function ($q) use ($tipeNama) {
-            $q->where('nama_tipe', $tipeNama);
-        })
-            ->where('status_kamar', 'tersedia')->orderBy('created_at', 'asc')->get();
-
-        foreach ($kamars as $kamar) {
-            // Check if this kamar has any overlapping confirmed or ongoing reservations
-            $conflict = \App\Models\Reservation::where(function ($q) use ($kamar) {
-                $q->where('kamar_id', $kamar->id_kamar)
-                    ->orWhere('room_number', $kamar->id_kamar);
-            })
-                ->whereNotIn('status', ['temporary', 'cancelled', 'done', 'checkout'])
-                ->get()
-                ->filter(function ($reservation) use ($start, $end) {
-                    // If pending without bukti, treat as not occupying
-                    if ($reservation->status === 'pending' && is_null($reservation->bukti_pembayaran)) {
-                        return false;
-                    }
-
-                    // compute reservation dates
-                    if ($reservation->check_in && $reservation->check_out) {
-                        $resStart = Carbon::parse($reservation->check_in)->startOfDay();
-                        $resEnd = Carbon::parse($reservation->check_out)->startOfDay();
-                    } else {
-                        if (!str_contains($reservation->check_in_out, ' to '))
-                            return false;
-                        [$s, $e] = explode(' to ', $reservation->check_in_out);
-                        try {
-                            $resStart = Carbon::parse(trim($s))->startOfDay();
-                            $resEnd = Carbon::parse(trim($e))->startOfDay();
-                        } catch (\Exception $ex) {
-                            return false;
-                        }
-                    }
-
-                    return $resStart <= $end && $resEnd >= $start;
-                })->count() > 0;
-
-            if (!$conflict) {
-                return $kamar->id_kamar;
-            }
-        }
-
-        return null;
     }
 
     protected function resolveDates(Request $request)
@@ -107,8 +61,7 @@ class BookingController extends TamuController
         $pajak = $kamar->harga * 0.10;
         $total = ($kamar->harga * $dates['durasi']) + $pajak;
 
-        // Determine a suggested room number (not reserved yet) to show to user
-        $candidateKamarId = $this->findAvailableKamar($kamar->nama_tipe, $dates['checkin'], $dates['checkout']);
+        $candidateKamarId = $this->availability->findAvailableKamar($kamar->nama_tipe, $dates['checkin'], $dates['checkout']);
         $candidateNumber = $candidateKamarId ? $candidateKamarId : '-';
 
         return view('biodata', array_merge(compact('kamar', 'id'), $dates, compact('pajak', 'total', 'candidateNumber')));
@@ -151,16 +104,15 @@ class BookingController extends TamuController
         $pajak = $kamar->harga * 0.10;
         $total = ($kamar->harga * $dates['durasi']) + $pajak;
 
-        // Allocate the first available kamar for the selected dates
-        $allocatedKamarId = $this->findAvailableKamar($kamar->nama_tipe, $dates['checkin'], $dates['checkout']);
+        $allocatedKamarId = $this->availability->findAvailableKamar($kamar->nama_tipe, $dates['checkin'], $dates['checkout']);
 
         if (!$allocatedKamarId) {
             return back()->withInput()->with('error', 'Tidak ada kamar tersedia untuk tipe ini pada tanggal yang dipilih.');
         }
 
-        $allocatedKamar = \App\Models\Kamar::where('id_kamar', $allocatedKamarId)->first();
+        $allocatedKamar = Kamar::where('id_kamar', $allocatedKamarId)->first();
 
-        $reservation = \App\Models\Reservation::create([
+        $reservation = Reservation::create([
             'user_id' => $request->user()?->id,
             'room_type' => $kamar->nama_tipe,
             'room_number' => $allocatedKamar?->no_kamar ?? $allocatedKamarId,
@@ -172,14 +124,17 @@ class BookingController extends TamuController
             'email' => $request->email,
             'jumlah_tamu' => $kamar->jumlah_tamu,
             'check_in_out' => $dates['checkin'] . ' to ' . $dates['checkout'],
-            // Mark as temporary draft so it is not treated as active reservation
-            'status' => 'temporary',
+            'check_in' => $dates['checkin'],
+            'check_out' => $dates['checkout'],
+            'status' => ReservationStatus::Temporary->value,
             'total_biaya' => $total,
             'nama_tamu_lain' => $request->has('nama_tamu_lain') && is_array($request->nama_tamu_lain) ? json_encode($request->nama_tamu_lain) : null,
             'id_type_tamu_lain' => $request->has('id_type_tamu_lain') && is_array($request->id_type_tamu_lain) ? json_encode($request->id_type_tamu_lain) : null,
             'id_number_tamu_lain' => $request->has('id_number_tamu_lain') && is_array($request->id_number_tamu_lain) ? json_encode($request->id_number_tamu_lain) : null,
             'permintaan_khusus' => $request->permintaan_khusus,
         ]);
+
+        session(['booking_reservation_id' => $reservation->id]);
 
         return redirect()->route('booking.payment', [
             'reservation_id' => $reservation->id
@@ -188,23 +143,22 @@ class BookingController extends TamuController
 
     public function payment(Request $request, $reservation_id)
     {
-        $reservation = \App\Models\Reservation::findOrFail($reservation_id);
+        $reservation = Reservation::findOrFail($reservation_id);
 
-        // Accept both temporary (just filled biodata) and pending (awaiting payment confirmation)
-        if (!in_array($reservation->status, ['temporary', 'pending'])) {
+        if (!in_array($reservation->status, ReservationStatus::payableValues(), true)) {
             return redirect()->route('home')->with('error', 'Reservasi ini sudah diproses atau tidak valid.');
         }
 
-        // Expire temporary or pending reservations after 15 minutes
-        if ($reservation->created_at->diffInMinutes(now()) >= 15) {
-            $reservation->update(['status' => 'cancelled']);
+        if ($this->reservationService->expireIfTimedOut($reservation)) {
+            session()->forget('booking_reservation_id');
             return redirect()->route('home')->with('error', 'Waktu pembayaran telah habis. Reservasi Anda dibatalkan otomatis.');
         }
 
-        // Parse dates for durasi
-        $datesParts = explode(' to ', $reservation->check_in_out);
-        $checkin = $datesParts[0];
-        $checkout = $datesParts[1] ?? now()->addDay()->format('Y-m-d');
+        $reservation->refresh();
+
+        $dates = $this->availability->parseReservationDates($reservation);
+        $checkin = $dates ? $dates['start']->format('Y-m-d') : now()->format('Y-m-d');
+        $checkout = $dates ? $dates['end']->format('Y-m-d') : now()->addDay()->format('Y-m-d');
 
         $start = Carbon::parse($checkin)->startOfDay();
         $end = Carbon::parse($checkout)->startOfDay();
@@ -212,7 +166,7 @@ class BookingController extends TamuController
 
         $kamar = (object) [
             'nama_tipe' => $reservation->room_type,
-            'harga' => ($reservation->total_biaya / 1.1) / $durasi // approximate back
+            'harga' => ($reservation->total_biaya / 1.1) / $durasi
         ];
 
         $pajak = $reservation->total_biaya - ($reservation->total_biaya / 1.1);
@@ -229,63 +183,41 @@ class BookingController extends TamuController
             'bukti_pembayaran' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
-        $reservation = \App\Models\Reservation::findOrFail($reservation_id);
+        $reservation = Reservation::findOrFail($reservation_id);
 
-        // Allow uploading payment proof for temporary or previously pending reservations
-        if (!in_array($reservation->status, ['temporary', 'pending'])) {
+        if (!in_array($reservation->status, ReservationStatus::payableValues(), true)) {
             return redirect()->route('home')->with('error', 'Reservasi ini sudah diproses atau dibatalkan.');
         }
 
-        if ($reservation->created_at->diffInMinutes(now()) >= 15) {
-            $reservation->update(['status' => 'cancelled']);
+        if ($this->reservationService->expireIfTimedOut($reservation)) {
+            session()->forget('booking_reservation_id');
             return redirect()->route('home')->with('error', 'Waktu pembayaran telah habis. Reservasi Anda dibatalkan otomatis.');
         }
 
-        $buktiPath = null;
-        if ($request->hasFile('bukti_pembayaran')) {
-            $buktiPath = $request->file('bukti_pembayaran')->store('bukti_pembayaran', 'public');
-        }
+        $buktiPath = $request->file('bukti_pembayaran')->store('bukti_pembayaran', 'public');
 
         $reservation->update([
             'payment_method' => $request->payment_method,
             'bukti_pembayaran' => $buktiPath,
-            // Mark as pending so receptionist can verify; temporary -> pending on confirmation
-            'status' => 'pending',
+            'status' => ReservationStatus::Pending->value,
         ]);
 
-        if ($reservation->kamar_id) {
+        $this->reservationService->markKamarTerisi($reservation);
 
-            $kamar = \App\Models\Kamar::where(
-                'id_kamar',
-                $reservation->kamar_id
-            )->first();
-
-            if ($kamar) {
-                $kamar->update([
-                    'status_kamar' => 'terisi'
-                ]);
-            }
-        }
+        session()->forget('booking_reservation_id');
 
         return redirect()->route('home')->with('success', 'Pembayaran berhasil dikonfirmasi! Menunggu verifikasi resepsionis.');
     }
 
     public function cancelPayment(Request $request, $reservation_id)
     {
-        $reservation = \App\Models\Reservation::findOrFail($reservation_id);
+        $reservation = Reservation::findOrFail($reservation_id);
 
-        // Allow cancellation/deletion for temporary or pending reservations without payment proof
-        if (in_array($reservation->status, ['temporary', 'pending']) && is_null($reservation->bukti_pembayaran)) {
-            $reservation->delete();
-        } elseif ($reservation->bukti_pembayaran) {
-            // If a payment proof exists and cancellation requested, delete the file then delete record
-            try {
-                \Illuminate\Support\Facades\Storage::disk('public')->delete($reservation->bukti_pembayaran);
-            } catch (\Exception $e) {
-                // ignore file deletion errors
-            }
-            $reservation->delete();
+        if (in_array($reservation->status, ReservationStatus::payableValues(), true)) {
+            $this->reservationService->cancel($reservation);
         }
+
+        session()->forget('booking_reservation_id');
 
         if ($request->ajax() || $request->wantsJson()) {
             return response()->json(['success' => true]);

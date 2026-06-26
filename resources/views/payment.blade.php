@@ -384,14 +384,11 @@
             });
         }
 
-        // Keep a last-resort beforeunload warning and best-effort cancel beacon
+        // Warn before leaving without auto-cancelling the reservation
         window.addEventListener('beforeunload', function (e) {
             if (!isSubmitting) {
                 e.preventDefault();
                 e.returnValue = '';
-                let formData = new FormData();
-                formData.append('_token', '{{ csrf_token() }}');
-                navigator.sendBeacon('{{ route('booking.payment.cancel', $id) }}', formData);
             }
         });
     </script>
