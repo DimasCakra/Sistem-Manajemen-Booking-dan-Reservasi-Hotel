@@ -14,6 +14,7 @@ Route::get('/register', [AuthController::class, 'showRegister'])->name('register
 Route::post('/register', [AuthController::class, 'processRegister'])->name('register.post');
 Route::get('/id_number', [AuthController::class, 'showNik'])->name('id_number');
 Route::post('/id_number', [AuthController::class, 'processNik'])->name('id_number.post');
+Route::post('/register/cancel', [AuthController::class, 'cancelRegister'])->name('register.cancel')->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
 
 /*
 |--------------------------------------------------------------------------

@@ -40,14 +40,14 @@ class AuthController extends Controller implements Authenticable
             'password' => 'required|string|min:8',
         ]);
 
-        $user = User::create([
+        $registrationData = [
             'name' => $validatedData['name'],
             'email' => $validatedData['email'],
             'whatsapp' => $validatedData['whatsapp'],
             'password' => Hash::make($validatedData['password']),
-        ]);
+        ];
 
-        $request->session()->put('registered_user_id', $user->id);
+        $request->session()->put('registration_data', $registrationData);
 
         return redirect()->route('id_number');
     }
@@ -60,7 +60,7 @@ class AuthController extends Controller implements Authenticable
 
     public function showNik(Request $request)
     {
-        if (!$request->session()->has('registered_user_id')) {
+        if (!$request->session()->has('registration_data')) {
             return redirect()->route('register');
         }
 
@@ -80,24 +80,32 @@ class AuthController extends Controller implements Authenticable
             ],
         ]);
 
-        $userId = $request->session()->get('registered_user_id');
+        $registrationData = $request->session()->get('registration_data');
 
-        if (!$userId) {
+        if (!$registrationData) {
             return redirect()->route('register');
         }
 
-        $user = User::find($userId);
+        User::create([
+            'name' => $registrationData['name'],
+            'email' => $registrationData['email'],
+            'whatsapp' => $registrationData['whatsapp'],
+            'password' => $registrationData['password'],
+            'id_type' => $validatedData['id_type'],
+            'id_number' => $validatedData['id_number'],
+        ]);
 
-        if ($user) {
-            $user->id_type = $validatedData['id_type'];
-            $user->id_number = $validatedData['id_number'];
-            $user->save();
-        }
-
-        $request->session()->forget('registered_user_id');
+        $request->session()->forget('registration_data');
 
         return redirect()->route('login')
-            ->with('success', 'Nomor Identitas berhasil disimpan. Silakan login.');
+            ->with('success', 'Pendaftaran berhasil! Silakan masuk dengan akun Anda.');
+    }
+
+    public function cancelRegister(Request $request)
+    {
+        $request->session()->forget('registration_data');
+
+        return redirect()->route('register');
     }
 
     /*
@@ -147,15 +155,11 @@ class AuthController extends Controller implements Authenticable
             'role' => 'required|string|in:admin,receptionist',
         ]);
 
-        $loginData = $request->only('name', 'password');
+        $loginData = $request->only('name', 'password', 'role');
 
         if (Auth::guard('staff')->attempt($loginData, $request->boolean('remember'))) {
             $request->session()->regenerate();
-            $staff = Auth::guard('staff')->user();
-
-            if ($staff->role === 'admin' || $staff->role === 'receptionist') {
-                return redirect()->route('dashboard');
-            }
+            return redirect()->route('dashboard');
         }
 
         return back()->withErrors([

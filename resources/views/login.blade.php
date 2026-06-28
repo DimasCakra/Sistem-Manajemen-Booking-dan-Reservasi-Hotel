@@ -45,6 +45,12 @@
             <form action="{{ route('login.post') }}" method="POST" class="space-y-6">
                 @csrf
 
+                @if (session('success'))
+                    <div class="p-4 bg-emerald-50 border-l-4 border-emerald-500 text-emerald-700 rounded-r-xl text-sm mb-8 shadow-sm">
+                        <p class="font-medium">{{ session('success') }}</p>
+                    </div>
+                @endif
+
                 @if ($errors->any())
                     <div class="p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded-r-xl text-sm mb-8 shadow-sm">
                         <ul class="list-disc list-inside font-medium">

@@ -67,7 +67,26 @@
                     Mulai
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </button>
-            </form>
+</form>
+
+<script>
+    // Prevent cancel action when the form is submitted normally
+    let isSubmitting = false;
+    const mainForm = document.querySelector('form[action="{{ route('id_number.post') }}"]');
+    if (mainForm) {
+        mainForm.addEventListener('submit', function () {
+            isSubmitting = true;
+        });
+    }
+    // When user navigates away (e.g., back button), clear registration data via beacon
+    window.addEventListener('beforeunload', function (e) {
+        if (isSubmitting) return;
+        // send a POST request without blocking navigation
+        if (navigator.sendBeacon) {
+            navigator.sendBeacon('{{ route('register.cancel') }}', '');
+        }
+    });
+</script>
         </div>
     </div>
     
@@ -102,6 +121,4 @@
             // Initialize
             updateValidation();
         });
-    </script>
-</body>
-</html>
+
