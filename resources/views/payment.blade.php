@@ -3,28 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment - StayEase</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Pembayaran | StayEase</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: 'DM Sans', sans-serif; }
-        .font-display, h1, h2, h3 { font-family: 'Playfair Display', serif; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #FFF4DE; color: #1a1a1a; }
+        .font-playfair { font-family: 'Playfair Display', serif; }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 15px 40px -10px rgba(0,0,0,0.05);
+        }
+
+        .btn-gradient {
+            background: linear-gradient(135deg, #2a5a3b 0%, #1e3c28 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-gradient:hover {
+            background: linear-gradient(135deg, #1e3c28 0%, #14281a 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -10px rgba(30, 60, 40, 0.4);
+        }
+        
+        .btn-outline-red {
+            border: 2px solid #fee2e2;
+            color: #ef4444;
+            transition: all 0.3s ease;
+        }
+        .btn-outline-red:hover {
+            background: #fef2f2;
+            border-color: #fca5a5;
+            color: #dc2626;
+        }
+
+        /* Base: keep no entry animations */
+        .swal2-container, .swal2-popup {
+            transition: none !important;
+            -webkit-transition: none !important;
+            animation: none !important;
+            -webkit-animation: none !important;
+        }
+        .swal2-styled, .swal2-styled:focus, .swal2-styled:active {
+            transition: none !important;
+            -webkit-transition: none !important;
+            box-shadow: none !important;
+        }
+
+        /* Button hover colors: green (darker) and red (darker) */
+        .swal-btn-green {
+            background-color: #254117 !important;
+            color: white !important;
+            border-radius: 8px !important;
+        }
+        .swal-btn-green:hover {
+            background-color: #1a2f0f !important;
+            color: white !important;
+        }
+
+        .swal-btn-red {
+            background-color: #dc2626 !important;
+            color: white !important;
+            border-radius: 8px !important;
+        }
+        .swal-btn-red:hover {
+            background-color: #991b1b !important;
+            color: white !important;
+        }
     </style>
 </head>
-<body class="bg-[#FFF4DE] text-[#1e293b] font-sans">
+<body class="antialiased selection:bg-[#2a5a3b] selection:text-white">
     @include('components.navbar')
 
-    <main class="max-w-8xl mx-auto px-6 py-10" x-data="{ method: 'bca' }">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-8">
+    <main class="max-w-7xl mx-auto px-6 pt-12 pb-20" x-data="{ method: 'bca' }">
+        
+        <!-- Header -->
+        <div class="mb-10 text-center md:text-left">
+            <h1 class="font-playfair text-4xl md:text-5xl font-bold text-[#1a2f0f] mb-3">Pembayaran</h1>
+            <p class="text-gray-600">Pilih metode pembayaran dan unggah bukti transfer Anda.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
             <!-- Left Column -->
-            <div class="lg:col-span-8 space-y-6">
+            <div class="lg:col-span-8 space-y-8">
+                
                 <!-- Payment Deadline -->
-                <div class="bg-white p-8 rounded-md border border-gray-100 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    <div>
-                        <h2 class="text-sm font-bold text-gray-500 uppercase tracking-widest mb-1">Batas Waktu Pembayaran</h2>
-                        <p class="text-xl font-black text-[#0f172a]">{{ $reservation->created_at->addMinutes(15)->format('d M Y, H:i') }}</p>
+                <div class="glass-panel p-8 rounded-[2rem] flex flex-col md:flex-row items-center justify-between gap-6 border-l-4 border-l-orange-400">
+                    <div class="text-center md:text-left">
+                        <h2 class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2"><i class="fa-regular fa-clock mr-1"></i> Batas Waktu Pembayaran</h2>
+                        <p class="text-2xl font-playfair font-bold text-[#1a2f0f]">{{ $reservation->created_at->addMinutes(15)->format('d M Y, H:i') }}</p>
                     </div>
                     <div x-data="{
                             timeLeft: {{ max(0, \Carbon\Carbon::now()->diffInSeconds($reservation->created_at->addMinutes(15), false)) }},
@@ -35,142 +108,181 @@
                             }
                         }"
                         x-init="setInterval(() => { if (timeLeft > 0) { timeLeft--; } else { window.location.href = '{{ route('home') }}'; } }, 1000)"
-                        class="bg-red-50 text-red-600 px-6 py-3 rounded-md font-bold text-xl text-center border border-red-100 tabular-nums"
+                        class="bg-orange-50 text-orange-600 px-6 py-4 rounded-xl font-bold text-3xl tracking-wider text-center border border-orange-100 tabular-nums shadow-inner"
                         x-text="formattedTime">
                         15:00
                     </div>
                 </div>
 
                 <!-- Payment Method -->
-                <div class="bg-white p-8 rounded-md border border-gray-100 shadow-sm">
-                    <h2 class="text-xl font-black text-[#0f172a] mb-6 border-b pb-4 border-gray-50 uppercase tracking-widest">Metode Pembayaran</h2>
+                <div class="glass-panel p-8 md:p-10 rounded-[2rem]">
+                    <div class="flex items-center gap-4 mb-8">
+                        <div class="w-12 h-12 rounded-full bg-[#2a5a3b]/10 flex items-center justify-center text-[#2a5a3b]">
+                            <i class="fa-solid fa-credit-card text-xl"></i>
+                        </div>
+                        <h2 class="font-playfair text-2xl font-bold text-[#1a2f0f]">Metode Pembayaran</h2>
+                    </div>
 
                     <div class="space-y-4">
-                        <div x-data="{open:false}">
-                            <label @click="method='bca'; open=!open" class="flex items-center justify-between p-5 border rounded-md cursor-pointer transition-all" :class="method === 'bca' ? 'border-[#254117] bg-green-50/20' : 'border-gray-200 hover:bg-gray-50'">
+                        <!-- BCA -->
+                        <div class="bg-gray-50/50 rounded-xl overflow-hidden border border-gray-200 transition-all" :class="method === 'bca' ? 'ring-2 ring-[#2a5a3b] border-transparent shadow-sm' : ''">
+                            <label @click="method='bca'" class="flex items-center justify-between p-6 cursor-pointer">
                                 <div class="flex items-center gap-4">
-                                    <input type="radio" name="payment_method" value="bca" x-model="method" class="w-5 h-5 text-[#254117]">
-                                    <span class="font-bold text-lg">BCA Rekening</span>
+                                    <div class="w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors" :class="method === 'bca' ? 'border-[#2a5a3b]' : 'border-gray-300'">
+                                        <div class="w-3 h-3 rounded-full bg-[#2a5a3b] transition-transform" :class="method === 'bca' ? 'scale-100' : 'scale-0'"></div>
+                                    </div>
+                                    <span class="font-bold text-lg text-gray-800">Transfer BCA</span>
                                 </div>
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" class="h-6">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" class="h-6 object-contain">
                             </label>
-
-                            <div x-show="method==='bca'" x-transition class="mt-2 p-5 bg-gray-50 border rounded-md">
-                                <p class="text-sm text-gray-500 uppercase font-bold">Nomor Rekening Hotel</p>
-                                <p class="text-2xl font-black text-[#254117] mt-2">8800 1234 5678 9012</p>
+                            <div x-show="method==='bca'" x-collapse>
+                                <div class="p-6 bg-white border-t border-gray-100 flex items-center justify-between">
+                                    <div>
+                                        <p class="text-xs text-gray-500 uppercase tracking-widest font-bold mb-1">Nomor Rekening StayEase</p>
+                                        <p class="text-2xl font-bold text-[#1a2f0f] tracking-widest">8800 1234 5678 9012</p>
+                                    </div>
+                                    <button type="button" @click="navigator.clipboard.writeText('8800123456789012')" class="text-[#2a5a3b] hover:text-[#1a2f0f] p-3 bg-[#2a5a3b]/10 rounded-xl transition-colors" title="Salin Rekening">
+                                        <i class="fa-regular fa-copy text-xl"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
 
-                        <div>
-                            <label @click="method='mandiri'" class="flex items-center justify-between p-5 border rounded-md cursor-pointer transition-all" :class="method === 'mandiri' ? 'border-[#254117] bg-green-50/20' : 'border-gray-200 hover:bg-gray-50'">
+                        <!-- Mandiri -->
+                        <div class="bg-gray-50/50 rounded-xl overflow-hidden border border-gray-200 transition-all" :class="method === 'mandiri' ? 'ring-2 ring-[#2a5a3b] border-transparent shadow-sm' : ''">
+                            <label @click="method='mandiri'" class="flex items-center justify-between p-6 cursor-pointer">
                                 <div class="flex items-center gap-4">
-                                    <input type="radio" name="payment_method" value="mandiri" x-model="method" class="w-5 h-5 text-[#254117]">
-                                    <span class="font-bold text-lg">Mandiri Rekening</span>
+                                    <div class="w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors" :class="method === 'mandiri' ? 'border-[#2a5a3b]' : 'border-gray-300'">
+                                        <div class="w-3 h-3 rounded-full bg-[#2a5a3b] transition-transform" :class="method === 'mandiri' ? 'scale-100' : 'scale-0'"></div>
+                                    </div>
+                                    <span class="font-bold text-lg text-gray-800">Transfer Mandiri</span>
                                 </div>
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/Bank_Mandiri_logo_2016.svg" class="h-6">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/Bank_Mandiri_logo_2016.svg" class="h-6 object-contain">
                             </label>
-
-                            <div x-show="method==='mandiri'" x-transition class="mt-2 p-5 bg-gray-50 border rounded-md">
-                                <p class="text-sm text-gray-500 uppercase font-bold">Nomor Rekening Hotel</p>
-                                <p class="text-2xl font-black text-[#254117] mt-2">1090 0247 0262 3</p>
+                            <div x-show="method==='mandiri'" x-collapse>
+                                <div class="p-6 bg-white border-t border-gray-100 flex items-center justify-between">
+                                    <div>
+                                        <p class="text-xs text-gray-500 uppercase tracking-widest font-bold mb-1">Nomor Rekening StayEase</p>
+                                        <p class="text-2xl font-bold text-[#1a2f0f] tracking-widest">1090 0247 0262 3</p>
+                                    </div>
+                                    <button type="button" @click="navigator.clipboard.writeText('1090024702623')" class="text-[#2a5a3b] hover:text-[#1a2f0f] p-3 bg-[#2a5a3b]/10 rounded-xl transition-colors" title="Salin Rekening">
+                                        <i class="fa-regular fa-copy text-xl"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
 
-                        <div>
-                            <label @click="method='qris'" class="flex items-center justify-between p-5 border rounded-md cursor-pointer transition-all" :class="method === 'qris' ? 'border-[#254117] bg-green-50/20' : 'border-gray-200 hover:bg-gray-50'">
+                        <!-- QRIS -->
+                        <div class="bg-gray-50/50 rounded-xl overflow-hidden border border-gray-200 transition-all" :class="method === 'qris' ? 'ring-2 ring-[#2a5a3b] border-transparent shadow-sm' : ''">
+                            <label @click="method='qris'" class="flex items-center justify-between p-6 cursor-pointer">
                                 <div class="flex items-center gap-4">
-                                    <input type="radio" name="payment_method" value="qris" x-model="method" class="w-5 h-5 text-[#254117]">
-                                    <span class="font-bold text-lg">QRIS</span>
+                                    <div class="w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors" :class="method === 'qris' ? 'border-[#2a5a3b]' : 'border-gray-300'">
+                                        <div class="w-3 h-3 rounded-full bg-[#2a5a3b] transition-transform" :class="method === 'qris' ? 'scale-100' : 'scale-0'"></div>
+                                    </div>
+                                    <span class="font-bold text-lg text-gray-800">QRIS</span>
                                 </div>
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Logo_QRIS.svg" class="h-6">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Logo_QRIS.svg" class="h-6 object-contain">
                             </label>
-
-                            <div x-show="method==='qris'" x-transition class="mt-2 p-5 bg-gray-50 border rounded-md text-center">
-                                <p class="text-sm text-gray-500 uppercase font-bold mb-3">Scan QRIS Hotel</p>
-                                <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=StayEasePayment-{{ $id }}-{{ $total }}" class="mx-auto border rounded-lg">
+                            <div x-show="method==='qris'" x-collapse>
+                                <div class="p-8 bg-white border-t border-gray-100 text-center flex flex-col items-center">
+                                    <p class="text-sm text-gray-500 font-medium mb-4">Scan QR Code di bawah menggunakan aplikasi E-Wallet atau M-Banking Anda</p>
+                                    <div class="p-4 bg-white border-2 border-dashed border-[#2a5a3b]/30 rounded-2xl inline-block shadow-sm">
+                                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=StayEasePayment-{{ $id }}-{{ $total }}" class="w-48 h-48">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
 
             <!-- Right Column -->
-            <div class="lg:col-span-4 space-y-6">
-                <!-- Summary Card -->
-                <div class="bg-white p-8 rounded-md border border-gray-100 shadow-sm">
-                    <h2 class="text-xl font-black text-[#0f172a] mb-6 border-b pb-4 border-gray-50 uppercase tracking-widest">Lihat Pesanan</h2>
+            <div class="lg:col-span-4 relative">
+                <div class="sticky top-28 space-y-6">
+                    
+                    <!-- Summary Card -->
+                    <div class="glass-panel p-8 rounded-[2rem]">
+                        <h2 class="text-xs font-bold text-gray-400 mb-6 uppercase tracking-widest border-b border-gray-100 pb-4">Rincian Pesanan</h2>
 
-                    <div class="mb-6">
-                        <p class="text-gray-400 text-[10px] font-bold uppercase tracking-widest mb-1">Hotel</p>
-                        <h3 class="text-lg font-black text-black">StayEase Luxury Hotel</h3>
-                        <p class="text-sm text-gray-500 mt-1">{{ $kamar->nama_tipe }} - {{ $durasi }} Night(s)</p>
+                        <div class="mb-6">
+                            <h3 class="font-playfair text-xl font-bold text-[#1a2f0f]">{{ $kamar->nama_tipe }}</h3>
+                            <p class="text-sm text-gray-500 mt-1">{{ $durasi }} Malam</p>
+                        </div>
+
+                        <div class="bg-gray-50/80 rounded-xl p-4 mb-6 grid grid-cols-2 gap-4 border border-gray-100">
+                            <div>
+                                <span class="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">Check-in</span>
+                                <span class="block text-sm font-bold text-gray-900">{{ \Carbon\Carbon::parse($checkin)->format('d M Y') }}</span>
+                            </div>
+                            <div class="border-l border-gray-200 pl-4">
+                                <span class="block text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">Check-out</span>
+                                <span class="block text-sm font-bold text-gray-900">{{ \Carbon\Carbon::parse($checkout)->format('d M Y') }}</span>
+                            </div>
+                        </div>
+
+                        <div class="border-t border-gray-100 pt-6 flex justify-between items-center">
+                            <span class="text-sm font-medium text-gray-600">Total Harga</span>
+                            <span class="text-2xl font-bold text-[#2a5a3b]">Rp {{ number_format($total, 0, ',', '.') }}</span>
+                        </div>
                     </div>
 
-                   <div class="mb-4">
-                        <div class="flex justify-between items-center mb-2">
-                            <span class="text-sm text-gray-600">Check-in</span>
-                            <span class="text-sm font-bold">{{ \Carbon\Carbon::parse($checkin)->format('d-M-Y') }}</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-sm text-gray-600">Check-out</span>
-                            <span class="text-sm font-bold">{{ \Carbon\Carbon::parse($checkout)->format('d-M-Y') }}</span>
-                        </div>
+                    <!-- Upload & Confirm -->
+                    <div class="glass-panel p-8 rounded-[2rem]" x-data="{ photoPreview: null }">
+                        <h2 class="text-xs font-bold text-gray-400 mb-6 uppercase tracking-widest border-b border-gray-100 pb-4"><i class="fa-solid fa-upload mr-1"></i> Upload Bukti</h2>
+
+                        <form id="payment-form" action="{{ route('booking.payment.store', ['reservation_id' => $id]) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+                            @csrf
+                            <input type="hidden" name="payment_method" x-bind:value="method">
+                            
+                            <div class="relative">
+                                <!-- Preview Area -->
+                                <template x-if="photoPreview">
+                                    <div class="relative rounded-2xl overflow-hidden border-2 border-[#2a5a3b]/30 shadow-sm group bg-white">
+                                        <img :src="photoPreview" class="w-full h-40 object-cover">
+                                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                            <button type="button" @click="photoPreview = null; $refs.photoInput.value = ''" class="bg-red-500 hover:bg-red-600 text-white w-10 h-10 rounded-full shadow-lg flex items-center justify-center transform transition-transform hover:scale-110">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </template>
+
+                                <!-- Upload Area -->
+                                <label x-show="!photoPreview" class="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-[#2a5a3b]/30 rounded-2xl cursor-pointer bg-white hover:bg-green-50/30 hover:border-[#2a5a3b] transition-all group">
+                                    <div class="flex flex-col items-center justify-center p-6 text-center">
+                                        <div class="w-12 h-12 rounded-full bg-gray-50 flex items-center justify-center group-hover:bg-[#2a5a3b]/10 group-hover:text-[#2a5a3b] text-gray-400 transition-colors mb-3">
+                                            <i class="fa-solid fa-image text-xl"></i>
+                                        </div>
+                                        <p class="text-sm font-bold text-gray-700 mb-1">Pilih File Bukti</p>
+                                        <p class="text-[10px] text-gray-400 uppercase tracking-widest">Format: JPG, PNG, JPEG</p>
+                                    </div>
+                                    <input type="file" name="bukti_pembayaran" class="hidden" x-ref="photoInput" accept="image/*" required
+                                        @change="
+                                            const file = $event.target.files[0];
+                                            if (file) {
+                                                const reader = new FileReader();
+                                                reader.onload = (e) => { photoPreview = e.target.result; };
+                                                reader.readAsDataURL(file);
+                                            }
+                                        ">
+                                </label>
+                            </div>
+
+                            <button type="submit" class="btn-gradient w-full text-white py-4 rounded-xl font-bold tracking-wide flex items-center justify-center gap-2 group shadow-md">
+                                Konfirmasi Pembayaran
+                                <i class="fa-solid fa-check text-sm group-hover:scale-110 transition-transform"></i>
+                            </button>
+                        </form>
+
+                        <form action="{{ route('booking.payment.cancel', ['reservation_id' => $id]) }}" method="POST" class="mt-4" id="cancel-form">
+                            @csrf
+                            <button type="button" id="cancel-reservation-btn" class="btn-outline-red w-full py-4 rounded-xl font-bold tracking-wide flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-xmark text-sm"></i>
+                                Batalkan Reservasi
+                            </button>
+                        </form>
                     </div>
 
-
-                    <div class="border-t border-gray-100 pt-4 mt-2">
-                        <div class="flex justify-between items-center">
-                            <span class="text-base font-black">Total Pembayaran</span>
-                            <span class="text-xl font-black text-[#254117]">Rp {{ number_format($total, 0, ',', '.') }}</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-white p-8 rounded-md border border-gray-100 shadow-sm" x-data="{ photoPreview: null }">
-                    <h2 class="text-lg font-black text-[#0f172a] mb-4 uppercase tracking-widest">Upload Bukti</h2>
-
-                    <form id="payment-form" action="{{ route('booking.payment.store', ['reservation_id' => $id]) }}" method="POST" enctype="multipart/form-data" class="space-y-4">
-                        @csrf
-                        <input type="hidden" name="payment_method" x-bind:value="method">
-                        <div class="relative">
-                            <!-- Preview Area -->
-                            <template x-if="photoPreview">
-                                <div class="mb-4 relative">
-                                    <img :src="photoPreview" class="w-full h-48 object-cover rounded-lg border-2 border-dashed border-gray-200">
-                                    <button type="button" @click="photoPreview = null; $refs.photoInput.value = ''" class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 shadow-lg hover:bg-red-600">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                                    </button>
-                                </div>
-                            </template>
-
-                            <label x-show="!photoPreview" class="flex flex-col items-center justify-center w-full h-31 border-2 border-dashed border-gray-200 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors">
-                                <div class="flex flex-col items-center justify-center pt-5 pb-6 text-center px-4">
-                                    <svg class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.587-1.587a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                    <p class="text-xs font-bold text-gray-500 uppercase">Klik untuk Upload Bukti</p>
-                                </div>
-                                <input type="file" name="bukti_pembayaran" class="hidden" x-ref="photoInput" accept="image/*" required
-                                    @change="
-                                        const file = $event.target.files[0];
-                                        if (file) {
-                                            const reader = new FileReader();
-                                            reader.onload = (e) => { photoPreview = e.target.result; };
-                                            reader.readAsDataURL(file);
-                                        }
-                                    ">
-                            </label>
-                        </div>
-                        <button type="submit" class="w-full bg-[#254117] hover:bg-[#1a2f0f] text-white py-4 rounded-xl font-bold uppercase tracking-widest text-sm transition-all shadow-md">
-                            Konfirmasi Pembayaran
-                        </button>
-                    </form>
-
-                    <form action="{{ route('booking.payment.cancel', ['reservation_id' => $id]) }}" method="POST" class="mt-4" id="cancel-form">
-                        @csrf
-                        <button type="button" id="cancel-reservation-btn" class="w-full bg-red-50 text-red-600 border border-red-100 hover:bg-red-100 py-4 rounded-xl font-bold uppercase tracking-widest text-sm transition-all shadow-sm">
-                            Batalkan Reservasi
-                        </button>
-                    </form>
                 </div>
             </div>
         </div>
