@@ -1,11 +1,9 @@
 <!-- Page Loader Overlay -->
-<div id="page-loader"
-    class="fixed inset-0 z-[9999] bg-[#173014] flex flex-col items-center justify-center transition-opacity duration-500">
+<div id="page-loader" class="fixed inset-0 z-[9999] bg-[#173014] flex flex-col items-center justify-center transition-opacity duration-500">
     <div class="relative flex flex-col items-center gap-6">
         <!-- Logo StayEase with elegant pulse animation -->
-        <img src="{{ asset('gambar/stayease.png') }}" alt="StayEase Loader"
-            class="h-16 w-auto object-contain brightness-0 invert animate-pulse">
-
+        <img src="{{ asset('gambar/stayease.png') }}" alt="StayEase Loader" class="h-16 w-auto object-contain brightness-0 invert animate-pulse">
+        
         <!-- Loading line progress -->
         <div class="w-32 h-1 bg-white/10 rounded-full overflow-hidden relative">
             <div class="absolute top-0 bottom-0 left-0 w-1/2 bg-[#C4922A] rounded-full animate-loading-bar"></div>
@@ -14,25 +12,19 @@
 </div>
 
 <style>
-    @keyframes loading-bar {
-        0% {
-            left: -50%;
-        }
-
-        100% {
-            left: 100%;
-        }
-    }
-
-    .animate-loading-bar {
-        animation: loading-bar 1.5s infinite linear;
-    }
+@keyframes loading-bar {
+    0% { left: -50%; }
+    100% { left: 100%; }
+}
+.animate-loading-bar {
+    animation: loading-bar 1.5s infinite linear;
+}
 </style>
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const loader = document.getElementById('page-loader');
-
+        
         const fadeOutLoader = () => {
             if (loader && !loader.classList.contains('opacity-0')) {
                 loader.classList.add('opacity-0');
@@ -66,15 +58,15 @@
 
             // Skip anchor links, target="_blank", external links, javascript/void/mail/tel, button-like behaviors
             if (
-                !href ||
-                href.startsWith('#') ||
-                href.startsWith('javascript:') ||
-                href.startsWith('mailto:') ||
-                href.startsWith('tel:') ||
+                !href || 
+                href.startsWith('#') || 
+                href.startsWith('javascript:') || 
+                href.startsWith('mailto:') || 
+                href.startsWith('tel:') || 
                 target === '_blank' ||
-                e.metaKey ||
-                e.ctrlKey ||
-                e.shiftKey ||
+                e.metaKey || 
+                e.ctrlKey || 
+                e.shiftKey || 
                 e.altKey
             ) {
                 return;
@@ -95,7 +87,7 @@
                 }, 300); // 300ms transition time
             }
         });
-
+        
         // Fallback: If page load event has already fired
         if (document.readyState === 'complete') {
             fadeOutLoader();
@@ -133,8 +125,7 @@
                         <div class="text-white font-semibold text-sm leading-tight tracking-wide">{{ Auth::user()->name }}
                         </div>
                         <div class="text-[#D4AF37] text-[11px] font-medium tracking-wider lowercase mt-0.5">
-                            {{ Auth::user()->email }}
-                        </div>
+                            {{ Auth::user()->email }}</div>
                     </div>
                     <svg class="w-4 h-4 text-white/70 ml-2 transition-transform duration-300 group-hover:rotate-180"
                         fill="none" stroke="currentColor" viewBox="0 0 24 24">
