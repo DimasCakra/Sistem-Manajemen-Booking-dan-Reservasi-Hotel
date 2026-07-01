@@ -18,17 +18,34 @@
 
     <main class="max-w-8xl mx-auto px-6 py-10">
         <!-- 2 Column Layout: Left (Forms), Right (Summary) -->
-        <form action="{{ route('booking.biodata.store', ['id' => $id, 'checkin' => $checkin, 'checkout' => $checkout]) }}" method="POST" class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <form id="biodataForm" action="{{ route('booking.biodata.store', ['id' => $id, 'checkin' => $checkin, 'checkout' => $checkout]) }}" method="POST" class="grid grid-cols-1 lg:grid-cols-12 gap-8">
             @csrf
+
             <!-- Left Column -->
             <div class="lg:col-span-8 space-y-6" x-data="{ bookingLain: false, tamuTambahan: [], maxTamu: {{ max(0, $kamar->jumlah_tamu - 1) }} }">
+
+                <!-- Error Box -->
+                <div id="biodataErrorBox" class="hidden p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm font-semibold">
+                    <ul id="biodataErrorList" class="list-disc pl-5 space-y-1"></ul>
+                </div>
+
+                @if ($errors->any())
+                    <div class="p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm font-semibold">
+                        <ul class="list-disc pl-5 space-y-1">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                 <!-- Biodata Form Card -->
                 <div class="bg-white p-8 rounded-md border border-gray-100 shadow-sm">
                     <h2 class="text-xl font-black text-[#0f172a] mb-6 border-b pb-4 border-gray-50 uppercase tracking-widest">Masukkan Biodata Anda</h2>
                     <div class="space-y-4">
                         <div>
                             <label class="block text-sm font-bold text-gray-700 mb-1">Nama Lengkap</label>
-                            <input type="text" name="nama_lengkap" value="{{ Auth::check() ? Auth::user()->name : '' }}" {{ Auth::check() ? 'readonly' : '' }} class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117] {{ Auth::check() ? 'bg-gray-100 cursor-not-allowed text-gray-500' : '' }}" placeholder="Masukkan Nama Lengkap Anda" required>
+                            <input type="text" name="nama_lengkap" id="input_nama" value="{{ Auth::check() ? Auth::user()->name : '' }}" {{ Auth::check() ? 'readonly' : '' }} class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117] {{ Auth::check() ? 'bg-gray-100 cursor-not-allowed text-gray-500' : '' }}" placeholder="Masukkan Nama Lengkap Anda" required>
                         </div>
                         <div>
                             <label class="block text-sm font-bold text-gray-700 mb-1">Nomor Identitas</label>
@@ -43,11 +60,11 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-sm font-bold text-gray-700 mb-1">Nomor WhatsApp</label>
-                                <input type="text" name="whatsapp" value="{{ Auth::check() ? Auth::user()->whatsapp : '' }}" {{ Auth::check() ? 'readonly' : '' }} class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117] {{ Auth::check() ? 'bg-gray-100 cursor-not-allowed text-gray-500' : '' }}" placeholder="Masukkan Nomor WhatsApp" required>
+                                <input type="text" name="whatsapp" id="input_whatsapp" value="{{ Auth::check() ? Auth::user()->whatsapp : '' }}" {{ Auth::check() ? 'readonly' : '' }} class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117] {{ Auth::check() ? 'bg-gray-100 cursor-not-allowed text-gray-500' : '' }}" placeholder="Masukkan Nomor WhatsApp" required>
                             </div>
                             <div>
                                 <label class="block text-sm font-bold text-gray-700 mb-1">Alamat Email</label>
-                                <input type="email" name="email" value="{{ Auth::check() ? Auth::user()->email : '' }}" {{ Auth::check() ? 'readonly' : '' }} class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117] {{ Auth::check() ? 'bg-gray-100 cursor-not-allowed text-gray-500' : '' }}" placeholder="Masukkan Alamat Email" required>
+                                <input type="email" name="email" id="input_email" value="{{ Auth::check() ? Auth::user()->email : '' }}" {{ Auth::check() ? 'readonly' : '' }} class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117] {{ Auth::check() ? 'bg-gray-100 cursor-not-allowed text-gray-500' : '' }}" placeholder="Masukkan Alamat Email" required>
                             </div>
                         </div>
                     </div>
@@ -172,6 +189,142 @@
     </main>
 
     @include('components.footer')
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const namaInput     = document.getElementById('input_nama');
+        const idNumberInput = document.getElementById('id_number');
+        const idTypeSelect  = document.getElementById('id_type');
+        const whatsappInput = document.getElementById('input_whatsapp');
+        const emailInput    = document.getElementById('input_email');
+        const form          = document.getElementById('biodataForm');
+        const errorBox      = document.getElementById('biodataErrorBox');
+        const errorList     = document.getElementById('biodataErrorList');
+
+        /* ── Nama: hanya huruf & spasi (blokir angka & simbol saat ketik) ── */
+        function showNamaError(msg) {
+            if (!errorBox || !errorList) return;
+            // Hapus pesan nama sebelumnya jika ada
+            const existing = errorList.querySelector('[data-nama-error]');
+            if (existing) existing.remove();
+            const li = document.createElement('li');
+            li.setAttribute('data-nama-error', '1');
+            li.textContent = msg;
+            errorList.appendChild(li);
+            errorBox.classList.remove('hidden');
+            if (namaInput) namaInput.classList.add('border-red-400');
+        }
+        function clearNamaError() {
+            if (!errorList) return;
+            const existing = errorList.querySelector('[data-nama-error]');
+            if (existing) existing.remove();
+            if (namaInput) namaInput.classList.remove('border-red-400');
+            // Sembunyikan kotak jika tidak ada error lain
+            if (errorList.children.length === 0) errorBox.classList.add('hidden');
+        }
+
+
+
+        /* ── Validasi submit form ── */
+        if (form) {
+            form.addEventListener('submit', function (e) {
+                const errors = [];
+                const nama     = namaInput     ? namaInput.value.trim()     : '';
+                const idNum    = idNumberInput ? idNumberInput.value.trim()  : '';
+                const idType   = idTypeSelect  ? idTypeSelect.value          : 'NIK';
+                const whatsapp = whatsappInput ? whatsappInput.value.trim()  : '';
+                const email    = emailInput    ? emailInput.value.trim()     : '';
+
+                const isReadonlyNama     = namaInput     && namaInput.readOnly;
+                const isReadonlyIdNum    = idNumberInput && idNumberInput.readOnly;
+                const isReadonlyWa       = whatsappInput && whatsappInput.readOnly;
+                const isReadonlyEmail    = emailInput    && emailInput.readOnly;
+
+                /* TC-02: Nama Kosong */
+                if (!isReadonlyNama && nama === '') {
+                    errors.push('Nama Lengkap tidak boleh kosong.');
+                }
+
+                /* TC-09: Nama Berupa Simbol | TC-14: Nama Berupa Angka */
+                if (!isReadonlyNama && nama !== '') {
+                    if (/[0-9]/.test(nama)) {
+                        errors.push('Nama Lengkap tidak boleh mengandung angka.');
+                    }
+                    if (/[^a-zA-Z\s\u00C0-\u024F]/.test(nama)) {
+                        errors.push('Nama Lengkap tidak boleh mengandung simbol.');
+                    }
+                }
+
+                /* TC-03/TC-04: NIK atau Paspor Kosong */
+                if (!isReadonlyIdNum && idNum === '') {
+                    if (idType === 'NIK') {
+                        errors.push('Nomor NIK tidak boleh kosong.');
+                    } else {
+                        errors.push('Nomor Paspor tidak boleh kosong.');
+                    }
+                }
+
+                /* TC-07: NIK Berupa Huruf | TC-10: NIK Berupa Simbol */
+                if (!isReadonlyIdNum && idNum !== '' && idType === 'NIK') {
+                    if (/[a-zA-Z]/.test(idNum)) {
+                        errors.push('NIK tidak boleh mengandung huruf, hanya angka yang diperbolehkan.');
+                    } else if (/[^0-9]/.test(idNum)) {
+                        errors.push('NIK tidak boleh mengandung simbol, hanya angka yang diperbolehkan.');
+                    }
+                }
+
+                /* TC-11: Nomor Paspor Berupa Simbol */
+                if (!isReadonlyIdNum && idNum !== '' && idType === 'Paspor') {
+                    if (/[^a-zA-Z0-9]/.test(idNum)) {
+                        errors.push('Nomor Paspor tidak boleh mengandung simbol.');
+                    }
+                }
+
+                /* TC-05: Nomor HP/WhatsApp Kosong */
+                if (!isReadonlyWa && whatsapp === '') {
+                    errors.push('Nomor HP/WhatsApp tidak boleh kosong.');
+                }
+
+                /* TC-08: Nomor HP/WhatsApp Berupa Huruf | TC-12: Berupa Simbol */
+                if (!isReadonlyWa && whatsapp !== '') {
+                    if (/[a-zA-Z]/.test(whatsapp)) {
+                        errors.push('Nomor HP/WhatsApp tidak boleh mengandung huruf, hanya angka yang diperbolehkan.');
+                    } else if (/[^0-9]/.test(whatsapp)) {
+                        errors.push('Nomor HP/WhatsApp tidak boleh mengandung simbol.');
+                    }
+                }
+
+                /* TC-06: Alamat Email Kosong */
+                if (!isReadonlyEmail && email === '') {
+                    errors.push('Alamat Email tidak boleh kosong.');
+                }
+
+                /* TC-13: Alamat Email Berupa Simbol / Format Tidak Valid */
+                if (!isReadonlyEmail && email !== '') {
+                    const emailRegex = /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/;
+                    if (!emailRegex.test(email)) {
+                        errors.push('Alamat Email tidak valid. Gunakan format yang benar, contoh: nama@email.com');
+                    }
+                }
+
+                /* Tampilkan error atau lanjutkan submit */
+                if (errors.length > 0) {
+                    e.preventDefault();
+                    errorList.innerHTML = '';
+                    errors.forEach(function (msg) {
+                        const li = document.createElement('li');
+                        li.textContent = msg;
+                        errorList.appendChild(li);
+                    });
+                    errorBox.classList.remove('hidden');
+                    errorBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else {
+                    errorBox.classList.add('hidden');
+                }
+            });
+        }
+    });
+    </script>
 
 </body>
 </html>

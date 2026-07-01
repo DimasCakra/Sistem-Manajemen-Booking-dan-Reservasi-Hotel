@@ -46,6 +46,8 @@ class AdminController extends Controller
             ],
             'password' => 'required|string|min:8',
             'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ], [
+            'id_number.max' => 'Kolom nomor identitas (PASPOR) tidak boleh lebih dari 9 karakter.',
         ]);
 
         $validatedData['password'] = Hash::make($validatedData['password']);
@@ -90,6 +92,8 @@ class AdminController extends Controller
             ],
             'password' => 'nullable|string|min:8',
             'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ], [
+            'id_number.max' => 'Kolom nomor identitas (PASPOR) tidak boleh lebih dari 9 karakter.',
         ]);
 
         if (!empty($validatedData['password'])) {

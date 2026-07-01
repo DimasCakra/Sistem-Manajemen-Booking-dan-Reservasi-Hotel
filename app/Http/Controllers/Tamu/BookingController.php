@@ -144,6 +144,8 @@ class BookingController extends TamuController
                 }
             },
             'permintaan_khusus' => 'nullable|string',
+        ], [
+            'id_number.max' => 'Kolom nomor identitas (PASPOR) tidak boleh lebih dari 9 karakter.',
         ]);
 
         $kamar = $this->loadKamar($id);
