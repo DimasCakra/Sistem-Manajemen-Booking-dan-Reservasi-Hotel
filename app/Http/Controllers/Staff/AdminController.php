@@ -32,9 +32,9 @@ class AdminController extends Controller
     public function tamuStore(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'whatsapp' => 'required|string|max:20',
+            'name' => 'required|string|max:255|unique:users,name',
+            'email' => 'required|string|email|max:255|unique:users,email',
+            'no_hp' => 'required|string|max:20|unique:users,whatsapp',
             'tanggal_lahir' => 'nullable|date',
             'id_type' => 'nullable|in:NIK,Paspor',
             'id_number' => [
@@ -47,8 +47,16 @@ class AdminController extends Controller
             'password' => 'required|string|min:8',
             'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ], [
+            'name.unique' => 'Nama sudah terpakai.',
+            'email.unique' => 'Email sudah terpakai.',
+            'no_hp.unique' => 'Nomor HP sudah terpakai.',
+            'id_number.unique' => 'Nomor Identitas sudah terpakai.',
             'id_number.max' => 'Kolom nomor identitas (PASPOR) tidak boleh lebih dari 9 karakter.',
         ]);
+
+        // Map no_hp to whatsapp column
+        $validatedData['whatsapp'] = $validatedData['no_hp'];
+        unset($validatedData['no_hp']);
 
         $validatedData['password'] = Hash::make($validatedData['password']);
 
@@ -78,9 +86,9 @@ class AdminController extends Controller
         $tamu = User::findOrFail($id);
 
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $tamu->id,
-            'whatsapp' => 'required|string|max:20',
+            'name' => 'required|string|max:255|unique:users,name,' . $tamu->id,
+            'email' => 'required|string,email|max:255|unique:users,email,' . $tamu->id,
+            'no_hp' => 'required|string|max:20|unique:users,whatsapp,' . $tamu->id,
             'tanggal_lahir' => 'nullable|date',
             'id_type' => 'nullable|in:NIK,Paspor',
             'id_number' => [
@@ -88,11 +96,15 @@ class AdminController extends Controller
                 'string',
                 $request->id_type === 'Paspor' ? 'alpha_num' : 'numeric',
                 $request->id_type === 'Paspor' ? 'max:9' : 'digits:16',
-                'unique:users,id_number,' . $tamu->id
+                'unique:users,id_number'
             ],
-            'password' => 'nullable|string|min:8',
+            'password' => 'required|string|min:8',
             'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ], [
+            'name.unique' => 'Nama sudah terpakai.',
+            'email.unique' => 'Email sudah terpakai.',
+            'no_hp.unique' => 'Nomor HP sudah terpakai.',
+            'id_number.unique' => 'Nomor Identitas sudah terpakai.',
             'id_number.max' => 'Kolom nomor identitas (PASPOR) tidak boleh lebih dari 9 karakter.',
         ]);
 
@@ -142,11 +154,11 @@ class AdminController extends Controller
     public function resepsionisStore(Request $request)
 {
     $validatedData = $request->validate([
-        'name' => 'required|string|max:100|unique:staffs,name',
-        'email' => 'required|email|max:100|unique:staffs,email',
-        'no_hp' => 'nullable|string|max:20',
-        'password' => 'required|string|min:8',
-    ]);
+            'name' => 'required|string|max:100|unique:staffs,name',
+            'email' => 'required|email|max:100|unique:staffs,email',
+            'no_hp' => 'nullable|string|max:20|unique:staffs,no_hp',
+            'password' => 'required|string|min:8',
+        ]);
 
     $lastStaff = Staff::where('role', 'receptionist')
                       ->where('id_resepsionis', 'LIKE', 'RSP-%')
@@ -190,7 +202,7 @@ class AdminController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string|max:100|unique:staffs,name,' . $resepsionis->id,
             'email' => 'required|email|max:100|unique:staffs,email,' . $resepsionis->id,
-            'no_hp' => 'nullable|string|max:20',
+            'no_hp' => 'nullable|string|max:20|unique:staffs,no_hp,' . $resepsionis->id,
             'password' => 'nullable|string|min:8',
         ]);
 

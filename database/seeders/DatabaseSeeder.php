@@ -61,6 +61,7 @@ class DatabaseSeeder extends Seeder
             [
                 'id_admin' => 'ADM-001',
                 'email' => 'admin@stayease.com',
+                'no_hp' => '08123456788',
                 'password' => Hash::make('123456789'),
                 'role' => 'admin'
             ]

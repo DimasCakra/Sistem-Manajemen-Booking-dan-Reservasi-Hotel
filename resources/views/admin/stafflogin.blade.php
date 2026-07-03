@@ -46,8 +46,14 @@
                 <div>
                     <label for="password" class="block text-[10px] font-bold text-white/60 uppercase tracking-[0.2em] mb-2 ml-1">Kata Sandi</label>
                     <input id="password" type="password" name="password" required autocomplete="current-password" placeholder="••••••••"
-                        class="w-full rounded-xl bg-white/5 border border-white/10 py-4 px-5 text-white placeholder-white/20
+                        class="w-full rounded-xl bg-white/5 border border-white/10 py-4  px-5 text-white placeholder-white/20
                         transition-all duration-300 focus:outline-none focus:border-[#D4AF37] focus:bg-white/10 focus:ring-4 focus:ring-[#D4AF37]/10">
+                    <div class="flex items-center mt-2">
+                        <input type="checkbox" id="showPassword" class="mr-2">
+                        <label for="showPassword" class="text-sm text-gray-600">
+                            Lihat Password
+                        </label>
+                    </div>
                 </div>
 
                 <div>
@@ -82,5 +88,7 @@
             <a href="/home" class="text-white/40 hover:text-white text-[15px] uppercase tracking-widest transition-colors duration-300">&larr; Kembali ke Website</a>
         </div>
     </div>
+
+    <script src="{{ asset('js/tamu/liatpw.js') }}"></script>
 </body>
 </html>

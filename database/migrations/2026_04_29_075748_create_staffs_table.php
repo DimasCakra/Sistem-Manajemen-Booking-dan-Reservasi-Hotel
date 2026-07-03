@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('id_resepsionis', 100)->nullable()->unique();
             $table->string('name', 100)->unique();
             $table->string('email', 100)->unique();
-            $table->string('no_hp', 20)->nullable();
+            $table->string('no_hp', 20)->unique();
             $table->string('password');
             $table->enum('role', ['admin', 'receptionist']);
             $table->timestamps();

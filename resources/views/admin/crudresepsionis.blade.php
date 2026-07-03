@@ -163,8 +163,8 @@
                         <input name="email" type="email" required class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 focus:border-forest-500 focus:ring-4 focus:ring-forest-100 outline-none" placeholder="contoh@gmail.com" />
                     </div>
                     <div>
-                        <label class="text-sm font-semibold text-slate-700">Nomor HP / WhatsApp <span class="text-xs text-gray-400 font-normal">(Opsional)</span></label>
-                        <input name="no_hp" type="text" class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 focus:border-forest-500 focus:ring-4 focus:ring-forest-100 outline-none" placeholder="Contoh: 08123456789" />
+                        <label class="text-sm font-semibold text-slate-700">Nomor HP / WhatsApp <span class="text-xs text-gray-400 font-normal"></span></label>
+                        <input name="no_hp" type="text" required pattern="[0-9]+" class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 focus:border-forest-500 focus:ring-4 focus:ring-forest-100 outline-none" placeholder="Contoh: 08123456789" />
                     </div>
                     <div>
                         <label class="text-sm font-semibold text-slate-700">Password</label>
@@ -202,8 +202,8 @@
                         <input id="editEmail" name="email" type="email" required class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 focus:border-forest-500 focus:ring-4 focus:ring-forest-100 outline-none" />
                     </div>
                     <div>
-                        <label class="text-sm font-semibold text-slate-700">Nomor HP / WhatsApp <span class="text-xs text-gray-400 font-normal">(Opsional)</span></label>
-                        <input id="editNoHp" name="no_hp" type="text" class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 focus:border-forest-500 focus:ring-4 focus:ring-forest-100 outline-none" />
+                        <label class="text-sm font-semibold text-slate-700">Nomor HP / WhatsApp <span class="text-xs text-gray-400 font-normal">(Wajib)</span></label>
+                        <input id="editNoHp" name="no_hp" type="text" required pattern="[0-9]+" class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 focus:border-forest-500 focus:ring-4 focus:ring-forest-100 outline-none" />
                     </div>
                     <div>
                         <label class="text-sm font-semibold text-slate-700">Password Baru</label>

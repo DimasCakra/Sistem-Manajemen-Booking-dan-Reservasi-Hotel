@@ -188,9 +188,9 @@ class ResepsionisController extends Controller
     protected function validateTamu(Request $request): array
     {
         return $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'whatsapp' => 'required|string|max:20',
+            'name' => 'required|string|max:255|unique:users,name',
+            'email' => 'required|string|email|max:255|unique:users,email',
+            'whatsapp' => 'required|string|max:20|unique:users,whatsapp',
             'tanggal_lahir' => 'nullable|date',
             'id_type' => 'nullable|in:NIK,Paspor',
             'id_number' => [
@@ -203,6 +203,10 @@ class ResepsionisController extends Controller
             'password' => 'required|string|min:8',
             'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ], [
+            'name.unique' => 'Nama sudah terpakai, gunakan nama lain.',
+            'email.unique' => 'Email sudah terpakai, gunakan email lain.',
+            'whatsapp.unique' => 'Nomor HP/WhatsApp sudah terpakai.',
+            'id_number.unique' => 'Nomor Identitas sudah terpakai.',
             'id_number.max' => 'Kolom nomor identitas (PASPOR) tidak boleh lebih dari 9 karakter.',
         ]);
     }

@@ -34,9 +34,9 @@ class AuthController extends Controller implements Authenticable
     public function processRegister(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'whatsapp' => 'required|string|max:20',
+            'name' => 'required|string|max:255|unique:users,name',
+            'email' => 'required|string|email|max:255|unique:users,email',
+            'whatsapp' => 'required|string|max:20|unique:users,whatsapp',
             'password' => 'required|string|min:8',
         ]);
 
