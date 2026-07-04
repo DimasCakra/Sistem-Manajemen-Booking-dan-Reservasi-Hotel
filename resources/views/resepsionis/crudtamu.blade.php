@@ -167,7 +167,7 @@
                     </div>
                     <div>
                         <label class="text-sm font-semibold text-slate-700">Nama Lengkap</label>
-                        <input name="name" type="text" required class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm" placeholder="Masukkan nama lengkap" />
+                        <input id="modal_name" name="name" type="text" required class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm" placeholder="Masukkan nama lengkap" />
                     </div>
                     <div>
                         <label class="text-sm font-semibold text-slate-700">Alamat Email</label>
@@ -175,7 +175,7 @@
                     </div>
                     <div>
                         <label class="text-sm font-semibold text-slate-700">No WhatsApp</label>
-                        <input name="whatsapp" type="text" required class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm" placeholder="Contoh: 08123456789" />
+                        <input id="modal_whatsapp" name="whatsapp" type="text" required inputmode="numeric" class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm" placeholder="Contoh: 08123456789" />
                     </div>
                     <div>
                         <label class="text-sm font-semibold text-slate-700">Tanggal Lahir</label>
@@ -232,6 +232,22 @@
                 idTypeSelect.addEventListener('change', updateValidation);
                 idNumberInput.addEventListener('input', updateValidation);
                 updateValidation();
+            }
+
+            // Validasi Nama Lengkap: hanya huruf dan spasi
+            const modalName = document.getElementById('modal_name');
+            if (modalName) {
+                modalName.addEventListener('input', function () {
+                    this.value = this.value.replace(/[^a-zA-Z\s]/g, '');
+                });
+            }
+
+            // Validasi No WhatsApp: hanya angka
+            const modalWhatsapp = document.getElementById('modal_whatsapp');
+            if (modalWhatsapp) {
+                modalWhatsapp.addEventListener('input', function () {
+                    this.value = this.value.replace(/[^0-9]/g, '');
+                });
             }
         });
     </script>

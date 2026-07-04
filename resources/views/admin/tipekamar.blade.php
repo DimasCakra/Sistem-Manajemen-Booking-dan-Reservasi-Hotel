@@ -139,7 +139,7 @@
                     </div>
                     <div class="md:col-span-2">
                         <label class="text-sm font-semibold text-slate-700">Deskripsi</label>
-                        <textarea name="deskripsi" rows="4" class="mt-1.5 w-full rounded-2xl border border-slate-200 px-4 py-2.5 text-sm text-slate-900 outline-none focus:border-forest-500" placeholder="Deskripsi singkat tipe kamar">{{ old('deskripsi') }}</textarea>
+                        <textarea name="deskripsi" rows="4" required class="mt-1.5 w-full rounded-2xl border border-slate-200 px-4 py-2.5 text-sm text-slate-900 outline-none focus:border-forest-500" placeholder="Deskripsi singkat tipe kamar">{{ old('deskripsi') }}</textarea>
                     </div>
                 </div>
                 <div>
@@ -186,7 +186,7 @@
                     </div>
                     <div class="md:col-span-2">
                         <label class="text-sm font-semibold text-slate-700">Deskripsi</label>
-                        <textarea id="detailTypeDescription" name="deskripsi" rows="4" class="modal-field mt-1.5 w-full rounded-2xl border border-slate-200 px-4 py-2.5 text-sm text-slate-900 outline-none resize-none" readonly></textarea>
+                        <textarea id="detailTypeDescription" name="deskripsi" rows="4" required class="modal-field mt-1.5 w-full rounded-2xl border border-slate-200 px-4 py-2.5 text-sm text-slate-900 outline-none resize-none" readonly></textarea>
                     </div>
                 </div>
                 <div>

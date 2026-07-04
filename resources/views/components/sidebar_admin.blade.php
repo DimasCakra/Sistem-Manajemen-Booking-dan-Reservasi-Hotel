@@ -3,7 +3,7 @@
     <div class="relative flex flex-col items-center gap-6">
         <!-- Logo StayEase with elegant pulse animation -->
         <img src="{{ asset('gambar/stayease.png') }}" alt="StayEase Loader" class="h-16 w-auto object-contain brightness-0 invert animate-pulse">
-        
+
         <!-- Loading line progress -->
         <div class="w-32 h-1 bg-white/10 rounded-full overflow-hidden relative">
             <div class="absolute top-0 bottom-0 left-0 w-1/2 bg-[#C4922A] rounded-full animate-loading-bar"></div>
@@ -24,7 +24,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const loader = document.getElementById('page-loader');
-        
+
         const fadeOutLoader = () => {
             if (loader && !loader.classList.contains('opacity-0')) {
                 loader.classList.add('opacity-0');
@@ -58,15 +58,15 @@
 
             // Skip anchor links, target="_blank", external links, javascript/void/mail/tel, button-like behaviors
             if (
-                !href || 
-                href.startsWith('#') || 
-                href.startsWith('javascript:') || 
-                href.startsWith('mailto:') || 
-                href.startsWith('tel:') || 
+                !href ||
+                href.startsWith('#') ||
+                href.startsWith('javascript:') ||
+                href.startsWith('mailto:') ||
+                href.startsWith('tel:') ||
                 target === '_blank' ||
-                e.metaKey || 
-                e.ctrlKey || 
-                e.shiftKey || 
+                e.metaKey ||
+                e.ctrlKey ||
+                e.shiftKey ||
                 e.altKey
             ) {
                 return;
@@ -87,7 +87,7 @@
                 }, 300); // 300ms transition time
             }
         });
-        
+
         // Fallback: If page load event has already fired
         if (document.readyState === 'complete') {
             fadeOutLoader();
@@ -95,7 +95,7 @@
     });
 </script>
 
-<aside class="bg-[#173014] w-72 flex-shrink-0 flex flex-col shadow-2xl z-20">
+<aside class="bg-[#173014] w-72 h-screen sticky top-0 flex-shrink-0 flex flex-col shadow-2xl z-20 overflow-y-auto">
     <div class="px-8 pt-10 pb-6 fade-up">
         <a href="{{ route('admin.kamar') }}" class="flex items-center gap-2 no-underline">
             <img src="{{ asset('gambar/stayease.png') }}" alt="Logo" class="h-7 w-auto object-contain mt-2">
@@ -183,7 +183,7 @@
             </span>
 
             <div class="flex flex-col">
-                <span class="font-body font-semibold text-sm tracking-wide">Kelola Tamu</span>
+                <span class="font-body font-semibold text-sm tracking-wide">Kelola Data Tamu</span>
                 <span class="text-[10px] {{ request()->routeIs('admin.tamu') ? 'text-white' : 'text-forest-300' }} group-hover:text-white">
                     Manajemen Data Tamu
                 </span>
