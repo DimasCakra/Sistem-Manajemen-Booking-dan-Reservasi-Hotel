@@ -11,10 +11,12 @@ use Illuminate\Support\Facades\Storage;
 
 class ResepsionisController extends Controller
 {
-    public function tamuIndex()
+    public function tamuIndex(Request $request)
     {
-        $tamus = $this->fetchAllTamus();
-        return view('resepsionis.crudtamu', compact('tamus'));
+        $search = $request->query('search');
+        $field = $request->query('field', 'nama');
+        $tamus = $this->fetchAllTamus($request);
+        return view('resepsionis.crudtamu', compact('tamus', 'search', 'field'));
     }
 
     public function tamuCreate()
@@ -175,9 +177,22 @@ class ResepsionisController extends Controller
         return $pdf->download('Reservasi_' . $detail->id . '_' . $detail->nama_lengkap . '.pdf');
     }
 
-    protected function fetchAllTamus()
+    protected function fetchAllTamus(Request $request)
     {
-        return User::latest()->paginate(5);
+        $search = $request->query('search');
+        $field = $request->query('field', 'nama');
+
+        $query = User::query();
+
+        if ($search) {
+            if ($field === 'email') {
+                $query->where('email', 'like', '%' . $search . '%');
+            } else {
+                $query->where('name', 'like', '%' . $search . '%');
+            }
+        }
+
+        return $query->latest()->paginate(5)->withQueryString();
     }
 
     protected function findTamuById($id)
@@ -262,7 +277,7 @@ class ResepsionisController extends Controller
             });
         }
 
-        return $query->latest()->paginate(5);
+        return $query->latest()->paginate(5)->withQueryString();
     }
 
     protected function findReservationById($id)

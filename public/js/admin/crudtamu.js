@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('searchTamu');
     const filterSelect = document.getElementById('filterField');
     const noResultRow = document.getElementById('noResultRow');
+    const searchForm = document.getElementById('searchFilterForm');
 
     function openModal(modal) {
         if (!modal) return;
@@ -44,39 +45,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function filterTable() {
-        const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
-        const filterField = filterSelect ? filterSelect.value : 'nama';
-        const rows = tableBody ? Array.from(tableBody.querySelectorAll('.tamu-row')) : [];
-        let visibleCount = 0;
-
-        rows.forEach(row => {
-            const name = row.dataset.name || '';
-            const email = row.dataset.email || '';
-            const target = filterField === 'email' ? email : name;
-            if (target.includes(query)) {
-                row.classList.remove('hidden');
-                visibleCount += 1;
-            } else {
-                row.classList.add('hidden');
-            }
-        });
-
-        if (noResultRow) {
-            if (visibleCount === 0 && rows.length > 0) {
-                noResultRow.classList.remove('hidden');
-            } else {
-                noResultRow.classList.add('hidden');
-            }
-        }
-    }
-
-    if (searchInput) {
-        searchInput.addEventListener('input', filterTable);
+    function submitFilterForm() {
+        if (searchForm) searchForm.submit();
     }
 
     if (filterSelect) {
-        filterSelect.addEventListener('change', filterTable);
+        filterSelect.addEventListener('change', submitFilterForm);
     }
 
     document.addEventListener('keydown', event => {
@@ -87,5 +61,5 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    filterTable();
+    // filterTable removed, handled server side
 });

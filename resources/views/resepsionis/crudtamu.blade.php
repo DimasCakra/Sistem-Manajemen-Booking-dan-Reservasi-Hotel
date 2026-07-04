@@ -75,23 +75,26 @@
             </div>
         @endif
 
-        <div class="mb-6 flex flex-col md:flex-row gap-4 items-center justify-between fade-up" style="animation-delay: 0.05s">
+        <form id="searchFilterForm" method="GET" action="{{ route('resepsionis.tamu') }}" class="mb-6 flex flex-col md:flex-row gap-4 items-center justify-between fade-up" style="animation-delay: 0.05s">
             <div class="w-full md:w-96 relative">
                 <span class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-400">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                 </span>
-                <input id="searchTamu" type="text" placeholder="Cari nama atau email tamu..." class="w-full rounded-xl border border-forest-100 bg-white pl-11 pr-4 py-3 text-sm text-slate-900 focus:border-forest-500 focus:ring-4 focus:ring-forest-100 outline-none transition-all shadow-sm" />
+                <input id="searchTamu" name="search" type="text" value="{{ $search ?? '' }}" placeholder="Cari nama atau email tamu..." class="w-full rounded-xl border border-forest-100 bg-white pl-11 pr-4 py-3 text-sm text-slate-900 focus:border-forest-500 focus:ring-4 focus:ring-forest-100 outline-none transition-all shadow-sm" />
             </div>
             <div class="w-full md:w-auto flex items-center gap-3">
                 <label for="filterField" class="text-sm font-semibold text-forest-800 whitespace-nowrap">Filter Berdasarkan:</label>
-                <select id="filterField" class="rounded-xl border border-forest-100 bg-white px-4 py-3 text-sm text-slate-900 focus:border-forest-500 focus:ring-4 focus:ring-forest-100 outline-none transition-all shadow-sm cursor-pointer font-medium">
-                    <option value="nama">Nama Akun</option>
-                    <option value="email">Email Akun</option>
+                <select id="filterField" name="field" class="rounded-xl border border-forest-100 bg-white px-4 py-3 text-sm text-slate-900 focus:border-forest-500 focus:ring-4 focus:ring-forest-100 outline-none transition-all shadow-sm cursor-pointer font-medium">
+                    <option value="nama" {{ ($field ?? 'nama') === 'nama' ? 'selected' : '' }}>Nama Akun</option>
+                    <option value="email" {{ ($field ?? 'nama') === 'email' ? 'selected' : '' }}>Email Akun</option>
                 </select>
+                <button type="submit" class="px-5 py-3 bg-forest-700 hover:bg-forest-800 text-white text-sm font-semibold rounded-xl transition-all whitespace-nowrap">
+                    Cari
+                </button>
             </div>
-        </div>
+        </form>
 
         <div class="bg-white rounded-md shadow-sm border border-forest-100 overflow-hidden fade-up" style="animation-delay: 0.1s">
             <div class="overflow-x-auto">

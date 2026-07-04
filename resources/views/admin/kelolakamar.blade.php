@@ -57,7 +57,7 @@
                 </span>
                 <input name="search" type="text" id="searchInput" value="{{ old('search', $search ?? '') }}" class="w-full pl-10 pr-4 py-3 bg-white border border-forest-100 rounded-xl text-sm focus:border-forest-500 outline-none transition-all text-slate-900" placeholder="Cari nomor atau tipe kamar..." />
             </div>
-            <div class="flex gap-3 w-full md:w-auto">
+            <div class="flex gap-3 w-full md:w-auto items-center">
                 <select name="type" id="filterType" class="w-full md:w-44 px-4 py-3 bg-white border border-forest-100 rounded-xl text-sm focus:border-forest-500 outline-none text-slate-700 font-medium cursor-pointer">
                     <option value="">Semua Tipe</option>
                     @foreach($tipeKamars as $tipe)
@@ -69,6 +69,9 @@
                     <option value="tersedia" {{ (isset($status) && $status === 'tersedia') ? 'selected' : '' }}>Tersedia</option>
                     <option value="terisi" {{ (isset($status) && $status === 'terisi') ? 'selected' : '' }}>Terisi</option>
                 </select>
+                <button type="submit" class="px-5 py-3 bg-forest-700 hover:bg-forest-800 text-white text-sm font-semibold rounded-xl transition-all whitespace-nowrap">
+                    Cari
+                </button>
             </div>
         </form>
 

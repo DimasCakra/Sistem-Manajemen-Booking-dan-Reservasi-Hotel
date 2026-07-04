@@ -63,7 +63,7 @@
                         <option value="checkout" {{ ($status === 'checkout') ? 'selected' : '' }}>Check Out</option>
                         <option value="all" {{ ($status === 'all') ? 'selected' : '' }}>All</option>
                     </select>
-                    <button type="submit" class="px-4 py-2 rounded-xl bg-forest-800 text-white">Cari</button>
+                    <button type="submit" class="px-5 py-2.5 rounded-xl bg-forest-700 hover:bg-forest-800 text-white text-sm font-semibold transition-all whitespace-nowrap">Cari</button>
                 </form>
             </div>
 

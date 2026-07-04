@@ -16,10 +16,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const deleteForm = document.getElementById('deleteForm');
     const deleteNameLabel = document.getElementById('deleteNameLabel');
 
-    // Search & Filter
     const searchInput = document.getElementById('searchResepsionis');
     const filterSelect = document.getElementById('filterUrutan');
     const noResultRow = document.getElementById('noResultRow');
+    const searchForm = document.getElementById('searchFilterForm');
 
     function openModal(modal) {
         if (!modal) return;
@@ -79,46 +79,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // LOGIKA SEARCH & FILTER REAL-TIME
-    function filterAndSortTable() {
-        const query = searchInput.value.toLowerCase().trim();
-        const sortOrder = filterSelect.value;
-        const rows = Array.from(tableBody.querySelectorAll('.resepsionis-row'));
-
-        let visibleCount = 0;
-
-        rows.forEach(row => {
-            const name = row.dataset.name;
-            if (name.includes(query)) {
-                row.classList.remove('hidden');
-                visibleCount++;
-            } else {
-                row.classList.add('hidden');
-            }
-        });
-
-        if (visibleCount === 0 && rows.length > 0) {
-            noResultRow.classList.remove('hidden');
-        } else {
-            noResultRow.classList.add('hidden');
-        }
-
-        rows.sort((rowA, rowB) => {
-            const nameA = rowA.querySelector('.name-label').textContent.toLowerCase();
-            const nameB = rowB.querySelector('.name-label').textContent.toLowerCase();
-            return sortOrder === 'asc' ? nameA.localeCompare(nameB) : nameB.localeCompare(nameA);
-        });
-
-        rows.forEach(row => {
-            if (row.id !== 'noResultRow' && row.id !== 'emptyRow') {
-                tableBody.appendChild(row);
-            }
-        });
+    function submitFilterForm() {
+        if (searchForm) searchForm.submit();
     }
 
-    if (searchInput && filterSelect) {
-        searchInput.addEventListener('input', filterAndSortTable);
-        filterSelect.addEventListener('change', filterAndSortTable);
+    if (filterSelect) {
+        filterSelect.addEventListener('change', submitFilterForm);
     }
 
     document.addEventListener('keydown', event => {
