@@ -27,12 +27,12 @@
     </style>
 </head>
 
-<body class="bg-gray-50 h-screen overflow-hidden">
+<body class="bg-[#FFF4DE] h-screen overflow-hidden">
 
     <div class="flex h-full">
         @include('components.sidebar_resepsionis')
 
-        <main class="flex-1 overflow-y-auto custom-scroll px-8 py-8 bg-gray-50">
+        <main class="flex-1 overflow-y-auto custom-scroll px-8 py-8 bg-[#FFF4DE]">
             <div class="max-w-6xl mx-auto space-y-6">
 
                 <div class="flex justify-between items-end">

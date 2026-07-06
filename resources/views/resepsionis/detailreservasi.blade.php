@@ -22,21 +22,21 @@
         body { font-family: 'DM Sans', sans-serif; }
     </style>
 </head>
-<body class="bg-gray-50 min-h-screen flex flex-col">
+<body class="bg-[#FFF4DE] min-h-screen flex flex-col">
 
     <div class="flex flex-1 overflow-hidden">
         @include('components.sidebar_resepsionis')
 
-        <main class="flex-1 overflow-y-auto px-10 py-10 bg-gray-50">
+        <main class="flex-1 overflow-y-auto px-10 py-10 bg-[#FFF4DE]">
             <div class="max-w-5xl mx-auto">
 
                 <div class="grid grid-cols-3 gap-8 fade-up">
                     <div class="col-span-2 space-y-6">
-                        
+
                         <!-- Informasi Pemesan -->
                         <div class="bg-white rounded-2xl shadow-sm border border-forest-100 p-8">
                             <h2 class="font-display text-xl font-semibold text-forest-900 border-b border-gray-100 pb-4 mb-6">Informasi Pemesan</h2>
-                            
+
                             <div class="grid grid-cols-2 gap-x-8 gap-y-6">
                                 <div>
                                     <p class="text-gray-400 text-[10px] uppercase font-bold tracking-wider mb-1">Nama Pemesan</p>
@@ -60,7 +60,7 @@
                         <!-- Detail Kamar -->
                         <div class="bg-white rounded-2xl shadow-sm border border-forest-100 p-8">
                             <h2 class="font-display text-xl font-semibold text-forest-900 border-b border-gray-100 pb-4 mb-6">Detail Kamar & Tanggal</h2>
-                            
+
                             <div class="grid grid-cols-2 gap-x-8 gap-y-6">
                                 <div>
                                     <p class="text-gray-400 text-[10px] uppercase font-bold tracking-wider mb-1">Tipe Kamar</p>
@@ -103,7 +103,7 @@
                             $namaTamuLain = json_decode($detail->nama_tamu_lain, true);
                             $idNumberTamuLain = json_decode($detail->id_number_tamu_lain, true);
                             $idTypeTamuLain = json_decode($detail->id_type_tamu_lain ?? '[]', true);
-                            
+
                             // fallback for old string records
                             if (!is_array($namaTamuLain)) {
                                 $namaTamuLain = [$detail->nama_tamu_lain];
@@ -113,7 +113,7 @@
                         @endphp
                         <div class="bg-amber-50 rounded-2xl shadow-sm border border-amber-100 p-8">
                             <h2 class="font-display text-xl font-semibold text-amber-900 border-b border-amber-100 pb-4 mb-6">Data Tamu Lain</h2>
-                            
+
                             <div class="space-y-6">
                                 @foreach($namaTamuLain as $index => $nama)
                                 <div class="grid grid-cols-2 gap-x-8 gap-y-2">
@@ -151,9 +151,9 @@
 
                     <div class="col-span-1 space-y-6 h-fit sticky top-10">
                         <div class="bg-forest-900 p-8 rounded-[2rem] shadow-xl text-white relative overflow-hidden">
-                            
+
                             <h3 class="text-[11px] font-black text-white uppercase tracking-[0.2em] mb-12">Ringkasan Biaya</h3>
-                            
+
                             <div class="space-y-5">
                                 <div class="flex justify-between items-center text-sm opacity-70">
                                     <span>Harga per Malam</span>
@@ -175,7 +175,7 @@
                                         Status: {{ $detail->status == 'checkout' || $detail->status == 'done' ? 'Check Out' : ($detail->status == 'ongoing' ? 'On Going' : ucfirst($detail->status)) }}
                                     </span>
                                 </div>
-                                
+
                                 @if($detail->status === 'ongoing')
                                 <form action="{{ route('resepsionis.selesai', $detail->id) }}" method="POST" class="w-full">
                                     @csrf

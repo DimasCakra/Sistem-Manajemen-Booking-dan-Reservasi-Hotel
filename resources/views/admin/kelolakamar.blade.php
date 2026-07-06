@@ -24,7 +24,7 @@
         .fade-up { animation: fadeUp .45s ease both; }
     </style>
 </head>
-<body class="bg-gray-50 min-h-screen flex">
+<body class="bg-[#FFF4DE] min-h-screen flex">
 
     @include('components.sidebar_admin')
 
