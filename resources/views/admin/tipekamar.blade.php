@@ -24,10 +24,10 @@
         .fade-up { animation: fadeUp .45s ease both; }
     </style>
 </head>
-<body class="bg-gray-50 min-h-screen flex">
+<body class="bg-[#FFF4DE] min-h-screen flex flex-col lg:flex-row">
     @include('components.sidebar_admin')
 
-    <main class="flex-1 overflow-y-auto px-10 py-10">
+    <main class="flex-1 overflow-y-auto px-4 md:px-10 py-6 md:py-10">
         <div class="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6 mb-10 fade-up">
             <div>
                 <h1 class="font-display text-4xl font-bold text-forest-900">Kelola Tipe Kamar</h1>
@@ -139,7 +139,7 @@
                     </div>
                     <div class="md:col-span-2">
                         <label class="text-sm font-semibold text-slate-700">Deskripsi</label>
-                        <textarea name="deskripsi" rows="4" class="mt-1.5 w-full rounded-2xl border border-slate-200 px-4 py-2.5 text-sm text-slate-900 outline-none focus:border-forest-500" placeholder="Deskripsi singkat tipe kamar">{{ old('deskripsi') }}</textarea>
+                        <textarea name="deskripsi" rows="4" required class="mt-1.5 w-full rounded-2xl border border-slate-200 px-4 py-2.5 text-sm text-slate-900 outline-none focus:border-forest-500" placeholder="Deskripsi singkat tipe kamar">{{ old('deskripsi') }}</textarea>
                     </div>
                 </div>
                 <div>
@@ -186,7 +186,7 @@
                     </div>
                     <div class="md:col-span-2">
                         <label class="text-sm font-semibold text-slate-700">Deskripsi</label>
-                        <textarea id="detailTypeDescription" name="deskripsi" rows="4" class="modal-field mt-1.5 w-full rounded-2xl border border-slate-200 px-4 py-2.5 text-sm text-slate-900 outline-none resize-none" readonly></textarea>
+                        <textarea id="detailTypeDescription" name="deskripsi" rows="4" required class="modal-field mt-1.5 w-full rounded-2xl border border-slate-200 px-4 py-2.5 text-sm text-slate-900 outline-none resize-none" readonly></textarea>
                     </div>
                 </div>
                 <div>

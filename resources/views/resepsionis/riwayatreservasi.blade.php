@@ -39,12 +39,12 @@
 
     </style>
 </head>
-<body class="bg-gray-50 min-h-screen flex flex-col">
+<body class="bg-[#FFF4DE] min-h-screen flex flex-col">
 
     <div class="flex flex-1 overflow-hidden">
         @include('components.sidebar_resepsionis')
 
-        <main class="flex-1 overflow-y-auto px-8 py-8 bg-gray-50">
+        <main class="flex-1 overflow-y-auto px-8 py-8 bg-[#FFF4DE]">
             <div class="mb-6 fade-up">
                 <h1 class="font-display text-3xl font-semibold text-forest-900">Riwayat Reservasi</h1>
                 <p class="text-sm text-forest-500 mt-1">Daftar keseluruhan data tamu dan riwayat menginap.</p>
@@ -63,7 +63,7 @@
                         <option value="checkout" {{ ($status === 'checkout') ? 'selected' : '' }}>Check Out</option>
                         <option value="all" {{ ($status === 'all') ? 'selected' : '' }}>All</option>
                     </select>
-                    <button type="submit" class="px-4 py-2 rounded-xl bg-forest-800 text-white">Cari</button>
+                    <button type="submit" class="px-5 py-2.5 rounded-xl bg-forest-700 hover:bg-forest-800 text-white text-sm font-semibold transition-all whitespace-nowrap">Cari</button>
                 </form>
             </div>
 

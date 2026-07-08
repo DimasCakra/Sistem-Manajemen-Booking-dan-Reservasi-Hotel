@@ -3,7 +3,7 @@
     <div class="relative flex flex-col items-center gap-6">
         <!-- Logo StayEase with elegant pulse animation -->
         <img src="{{ asset('gambar/stayease.png') }}" alt="StayEase Loader" class="h-16 w-auto object-contain brightness-0 invert animate-pulse">
-        
+
         <!-- Loading line progress -->
         <div class="w-32 h-1 bg-white/10 rounded-full overflow-hidden relative">
             <div class="absolute top-0 bottom-0 left-0 w-1/2 bg-[#C4922A] rounded-full animate-loading-bar"></div>
@@ -24,7 +24,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const loader = document.getElementById('page-loader');
-        
+
         const fadeOutLoader = () => {
             if (loader && !loader.classList.contains('opacity-0')) {
                 loader.classList.add('opacity-0');
@@ -58,15 +58,15 @@
 
             // Skip anchor links, target="_blank", external links, javascript/void/mail/tel, button-like behaviors
             if (
-                !href || 
-                href.startsWith('#') || 
-                href.startsWith('javascript:') || 
-                href.startsWith('mailto:') || 
-                href.startsWith('tel:') || 
+                !href ||
+                href.startsWith('#') ||
+                href.startsWith('javascript:') ||
+                href.startsWith('mailto:') ||
+                href.startsWith('tel:') ||
                 target === '_blank' ||
-                e.metaKey || 
-                e.ctrlKey || 
-                e.shiftKey || 
+                e.metaKey ||
+                e.ctrlKey ||
+                e.shiftKey ||
                 e.altKey
             ) {
                 return;
@@ -87,7 +87,7 @@
                 }, 300); // 300ms transition time
             }
         });
-        
+
         // Fallback: If page load event has already fired
         if (document.readyState === 'complete') {
             fadeOutLoader();
@@ -95,7 +95,20 @@
     });
 </script>
 
-<aside class="bg-[#173014] w-72 flex-shrink-0 flex flex-col shadow-2xl z-20">
+<div class="lg:hidden flex items-center justify-between px-6 py-4 bg-[#173014] text-white w-full sticky top-0 z-30 shadow-md">
+    <a href="{{ route('admin.kamar') }}" class="flex items-center gap-2">
+        <img src="{{ asset('gambar/stayease.png') }}" alt="Logo" class="h-7 w-auto object-contain">
+    </a>
+    <button id="mobile-sidebar-toggle" class="p-2 rounded-lg hover:bg-white/10 text-white focus:outline-none transition">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+    </button>
+</div>
+
+<div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-30 hidden lg:hidden opacity-0 transition-opacity duration-300"></div>
+
+<aside id="admin-sidebar" class="bg-[#173014] w-72 h-screen fixed lg:sticky top-0 left-0 z-40 flex-shrink-0 flex flex-col shadow-2xl transition-transform duration-300 transform -translate-x-full lg:translate-x-0 overflow-y-auto">
     <div class="px-8 pt-10 pb-6 fade-up">
         <a href="{{ route('admin.kamar') }}" class="flex items-center gap-2 no-underline">
             <img src="{{ asset('gambar/stayease.png') }}" alt="Logo" class="h-7 w-auto object-contain mt-2">
@@ -124,7 +137,7 @@
 
         <div class="my-2 mx-0 border-t border-white/40"></div>
 
-                <a href="{{ route('admin.kamar') }}"
+        <a href="{{ route('admin.kamar') }}"
             class="flex items-center gap-4 px-4 py-3.5 rounded-md transition-all duration-300 group
             {{ request()->routeIs('admin.kamar') ? 'bg-white/15 border border-white/20 text-white' : 'text-white hover:bg-white/15' }}">
 
@@ -170,11 +183,11 @@
         <div class="my-2 mx-0 border-t border-white/40"></div>
 
         <a href="{{ route('admin.tamu') }}"
-                class="flex items-center gap-4 px-4 py-3.5 rounded-md transition-all duration-300 group
-                {{ request()->routeIs('admin.tamu') ? 'bg-white/15 border border-white/20 text-white' : 'text-white hover:bg-white/15' }}">
+            class="flex items-center gap-4 px-4 py-3.5 rounded-md transition-all duration-300 group
+            {{ request()->routeIs('admin.tamu') ? 'bg-white/15 border border-white/20 text-white' : 'text-white hover:bg-white/15' }}">
 
             <span class="w-10 h-10 rounded-lg flex items-center justify-center shadow-inner transition-transform group-hover:scale-110
-                    {{ request()->routeIs('admin.tamu') ? 'bg-forest-600' : 'bg-forest-600/50' }}">
+                {{ request()->routeIs('admin.tamu') ? 'bg-forest-600' : 'bg-forest-600/50' }}">
                 <svg class="w-5 h-5 text-forest-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                         d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
@@ -183,7 +196,7 @@
             </span>
 
             <div class="flex flex-col">
-                <span class="font-body font-semibold text-sm tracking-wide">Kelola Tamu</span>
+                <span class="font-body font-semibold text-sm tracking-wide">Kelola Data Tamu</span>
                 <span class="text-[10px] {{ request()->routeIs('admin.tamu') ? 'text-white' : 'text-forest-300' }} group-hover:text-white">
                     Manajemen Data Tamu
                 </span>
@@ -207,3 +220,34 @@
         </form>
     </div>
 </aside>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const toggleBtn = document.getElementById('mobile-sidebar-toggle');
+    const sidebar = document.getElementById('admin-sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+
+    if (toggleBtn && sidebar && overlay) {
+        const openSidebar = () => {
+            sidebar.classList.remove('-translate-x-full');
+            overlay.classList.remove('hidden');
+            setTimeout(() => {
+                overlay.classList.remove('opacity-0');
+            }, 10);
+            document.body.classList.add('overflow-hidden');
+        };
+
+        const closeSidebar = () => {
+            sidebar.classList.add('-translate-x-full');
+            overlay.classList.add('opacity-0');
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+            }, 300);
+            document.body.classList.remove('overflow-hidden');
+        };
+
+        toggleBtn.addEventListener('click', openSidebar);
+        overlay.addEventListener('click', closeSidebar);
+    }
+});
+</script>

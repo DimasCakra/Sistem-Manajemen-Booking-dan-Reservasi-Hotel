@@ -18,10 +18,23 @@ use Illuminate\Support\Facades\DB;
 class AdminController extends Controller
 {
     // Tamu
-    public function tamuIndex()
+    public function tamuIndex(Request $request)
     {
-        $tamus = User::latest()->paginate(5);
-        return view('admin.crudtamu', compact('tamus'));
+        $search = $request->query('search');
+        $field = $request->query('field', 'nama');
+
+        $query = User::query();
+
+        if ($search) {
+            if ($field === 'email') {
+                $query->where('email', 'like', '%' . $search . '%');
+            } else {
+                $query->where('name', 'like', '%' . $search . '%');
+            }
+        }
+
+        $tamus = $query->latest()->paginate(5)->withQueryString();
+        return view('admin.crudtamu', compact('tamus', 'search', 'field'));
     }
 
     public function tamuCreate()
@@ -140,10 +153,28 @@ class AdminController extends Controller
     }
 
     // resepsionis
-    public function resepsionisIndex()
+    public function resepsionisIndex(Request $request)
     {
-        $resepsionis = Staff::where('role', 'receptionist')->latest()->paginate(5);
-        return view('admin.crudresepsionis', compact('resepsionis'));
+        $search = $request->query('search');
+        $order = $request->query('order', 'asc');
+
+        $query = Staff::where('role', 'receptionist');
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%')
+                  ->orWhere('email', 'like', '%' . $search . '%');
+            });
+        }
+
+        if ($order === 'desc') {
+            $query->orderBy('name', 'desc');
+        } else {
+            $query->orderBy('name', 'asc');
+        }
+
+        $resepsionis = $query->paginate(5)->withQueryString();
+        return view('admin.crudresepsionis', compact('resepsionis', 'search', 'order'));
     }
 
     public function resepsionisCreate()
@@ -254,7 +285,7 @@ class AdminController extends Controller
             $kamars->where('status_kamar', $status);
         }
 
-        $kamars = $kamars->orderBy('id_kamar', 'desc')->paginate(5);
+        $kamars = $kamars->orderBy('id_kamar', 'desc')->paginate(5)->withQueryString();
         $tipeKamars = TipeKamar::orderBy('nama_tipe')->get();
 
         return view('admin.kelolakamar', compact('kamars', 'search', 'type', 'status', 'tipeKamars'));

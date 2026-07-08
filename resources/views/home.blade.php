@@ -19,9 +19,9 @@
 
     @include('components.navbar')
 
-    <section class = "flex flex-col md:flex-row min-h-screen">
+    <section class="flex flex-col md:flex-row min-h-screen">
 
-        <div class = "w-full md:w-1/2 bg-[#254117] px-20 py-16 relative
+        <div class="w-full md:w-1/2 bg-[#254117] px-8 md:px-20 py-12 md:py-16 relative
                       flex flex-col justify-center">
 
             <div class = "inline-flex items-center gap-2 px-4 py-2 mb-8 w-fit
@@ -30,10 +30,10 @@
                           Sistem Manajemen Booking dan Reservasi Hotel
             </div>
 
-            <h1 class = "text-7xl font-black text-white leading-[1.1] mb-8">
+            <h1 class="text-5xl md:text-7xl font-black text-white leading-[1.1] mb-8">
                 Temukan<br>
-                <span class = "text-white">Kenyamanan</span><br>
-                <span class = "italic font-normal">yang Sempurna</span>
+                <span class="text-white">Kenyamanan</span><br>
+                <span class="italic font-normal">yang Sempurna</span>
             </h1>
 
             <p class = "text-white text-lg max-w-md mb-12 opacity-90 leading-relaxed">
@@ -42,7 +42,7 @@
                 Anda dalam hitungan menit.
             </p>
 
-            <div class = "flex gap-12 pt-10">
+            <div class="flex flex-wrap gap-8 md:gap-12 pt-10">
                 <div class = "stat-item">
                     <div class = "text-4xl font-bold text-white">{{ \App\Models\TipeKamar::count() }}</div>
                     <div class = "text-xs font-bold text-white uppercase
@@ -68,8 +68,8 @@
             </div>
         </div>
 
-        <div class = "w-full md:w-1/2 bg-[#FFF4DE] flex items-center justify-center p-20">
-            <div class = "w-full max-w-md bg-white p-10 rounded-3xl border border-gray-100
+        <div class="w-full md:w-1/2 bg-[#FFF4DE] flex items-center justify-center p-8 md:p-20">
+            <div class="w-full max-w-md bg-white p-8 md:p-10 rounded-3xl border border-gray-100
                           shadow-[0_30px_70px_rgba(0,0,0,0.1)]">
 
                 <div class = "mb-10">
@@ -113,9 +113,9 @@
         </div>
     </section>
 
-    <div class = "bg-[#173014] py-12 px-12 flex justify-center items-center">
-        <div class = "grid grid-cols-1 md:grid-cols-4 w-full max-w-7xl
-                      md:divide-x divide-slate-800">
+    <div class="bg-[#173014] py-12 px-4 md:px-12 flex justify-center items-center">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-0 w-full max-w-7xl
+                      lg:divide-x divide-slate-800">
 
             <div class = "flex items-center gap-5 px-10 py-4 md:py-0">
                 <div class="p-3 rounded-2xl bg-[#C4922A]/10 text-[#C4922A] shrink-0 border border-[#C4922A]/20">

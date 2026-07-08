@@ -21,6 +21,7 @@ class TipeKamarController extends Controller
     {
         $messages = [
             'nama_tipe.required' => 'Nama tipe kamar wajib diisi.',
+            'nama_tipe.unique' => 'Nama tipe kamar sudah digunakan,',
             'kode_tipe.required' => 'Kode tipe kamar wajib diisi.',
             'kode_tipe.max' => 'Kode tipe kamar maksimal :max karakter.',
             'kode_tipe.unique' => 'Kode tipe kamar sudah digunakan.',
@@ -39,14 +40,15 @@ class TipeKamarController extends Controller
             'foto_kamar.*.image' => 'Setiap file harus berupa gambar.',
             'foto_kamar.*.mimes' => 'Setiap file harus bertipe jpeg, png, atau jpg.',
             'foto_kamar.*.max' => 'Setiap file maksimal 5 MB.',
+            'deskripsi.required' => 'Deskripsi tipe kamar wajib diisi.',
         ];
 
         $validated = $request->validate([
-            'nama_tipe' => 'required|string|max:255',
+            'nama_tipe' => 'required|string|max:255|unique:tipe_kamar,nama_tipe',
             'kode_tipe' => 'required|string|max:3|unique:tipe_kamar,kode_tipe|regex:/^[A-Z]{1,3}$/',
             'harga_per_malam' => 'required|integer|min:0',
             'jumlah_tamu' => 'required|integer|min:1|max:20',
-            'deskripsi' => 'nullable|string',
+            'deskripsi' => 'required|string',
             'foto_kamar' => 'required|array|min:2|max:6',
             'foto_kamar.*' => 'image|mimes:jpeg,png,jpg|max:5120',
         ], $messages);
@@ -70,6 +72,7 @@ class TipeKamarController extends Controller
 
         $messages = [
             'nama_tipe.required' => 'Nama tipe kamar wajib diisi.',
+            'nama_tipe.unique' => 'Nama tipe kamar sudah digunakan.',
             'kode_tipe.required' => 'Kode tipe kamar wajib diisi.',
             'kode_tipe.max' => 'Kode tipe kamar maksimal :max karakter.',
             'kode_tipe.unique' => 'Kode tipe kamar sudah digunakan.',
@@ -87,14 +90,15 @@ class TipeKamarController extends Controller
             'foto_kamar.*.image' => 'Setiap file harus berupa gambar.',
             'foto_kamar.*.mimes' => 'Setiap file harus bertipe jpeg, png, atau jpg.',
             'foto_kamar.*.max' => 'Setiap file maksimal 5 MB.',
+            'deskripsi.required' => 'Deskripsi tipe kamar wajib diisi.',
         ];
 
         $validated = $request->validate([
-            'nama_tipe' => 'required|string|max:255',
+            'nama_tipe' => 'required|string|max:255|unique:tipe_kamar,nama_tipe,' . $tipe->id_tipe_kamar . ',id_tipe_kamar',
             'kode_tipe' => 'required|string|max:3|regex:/^[A-Z]{1,3}$/|unique:tipe_kamar,kode_tipe,' . $tipe->id_tipe_kamar . ',id_tipe_kamar',
             'harga_per_malam' => 'required|integer|min:0',
             'jumlah_tamu' => 'required|integer|min:1|max:20',
-            'deskripsi' => 'nullable|string',
+            'deskripsi' => 'required|string',
             'foto_kamar' => 'nullable|array|min:2|max:6',
             'foto_kamar.*' => 'image|mimes:jpeg,png,jpg|max:5120',
         ], $messages);

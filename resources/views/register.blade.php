@@ -70,7 +70,7 @@
 
                 <div class="space-y-1.5">
                     <label for="whatsapp" class="block text-xs font-bold text-[#254117] uppercase tracking-widest ml-1">Nomor WhatsApp</label>
-                    <input id="whatsapp" type="text" name="whatsapp" required autocomplete="whatsapp" placeholder="Masukkan Nomor WhatsApp"
+                    <input id="whatsapp" type="text" name="whatsapp" required autocomplete="whatsapp" placeholder="Masukkan Nomor WhatsApp" inputmode="numeric"
                         class="w-full px-5 py-4 rounded-xl bg-white border-2 border-transparent focus:border-[#8C6A1A] outline-none text-gray-800 transition-all shadow-[0_4px_20px_-5px_rgba(0,0,0,0.05)]">
                 </div>
 
@@ -101,5 +101,16 @@
     </div>
 
     <script src="{{ asset('js/tamu/liatpw.js') }}"></script>
+    <script>
+        // Validasi Nama Lengkap: hanya huruf dan spasi
+        document.getElementById('name').addEventListener('input', function () {
+            this.value = this.value.replace(/[^a-zA-Z\s]/g, '');
+        });
+
+        // Validasi Nomor WhatsApp: hanya angka
+        document.getElementById('whatsapp').addEventListener('input', function () {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+    </script>
 </body>
 </html>

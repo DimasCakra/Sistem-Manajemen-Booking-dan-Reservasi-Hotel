@@ -17,22 +17,22 @@
 
     @include('components.navbar')
 
-    <nav class="w-full bg-[#254117] px-[5%] py-4 border-b border-white/10 flex justify-center fixed">
-        <div class="bg-white flex items-center border border-gray-200 rounded-xl shadow-md overflow-hidden min-w-[600px]">
+    <nav class="w-full bg-[#254117] px-4 md:px-[5%] py-4 border-b border-white/10 flex justify-center fixed z-40">
+        <div class="bg-white flex flex-col md:flex-row items-stretch md:items-center border border-gray-200 rounded-xl shadow-md overflow-hidden w-full max-w-3xl">
 
-            <div class="flex-1 flex flex-col px-40 py-2 border-r border-gray-400">
+            <div class="flex-1 flex flex-col px-4 md:px-8 py-2 md:py-3 border-b md:border-b-0 md:border-r border-gray-200 text-center md:text-left">
                 <span class="text-[9px] text-gray-500 font-bold uppercase tracking-[0.1em]">Check-In / Check-Out</span>
                 <span class="text-[13px] font-bold text-[#0f172a] whitespace-nowrap">
                     {{ $checkin ? \Carbon\Carbon::parse($checkin)->format('d M Y') : '-' }} - {{ $checkout ? \Carbon\Carbon::parse($checkout)->format('d M Y') : '-' }}
                 </span>
             </div>
 
-            <div class="flex-1 flex flex-col px-40 py-2 border-r border-gray-400">
+            <div class="flex-1 flex flex-col px-4 md:px-8 py-2 md:py-3 border-b md:border-b-0 md:border-r border-gray-200 text-center md:text-left">
                 <span class="text-[9px] text-gray-500 font-bold uppercase tracking-[0.1em]">Jumlah Tamu</span>
                 <span class="text-[13px] font-bold text-[#0f172a] whitespace-nowrap">{{ $guests ?? 2 }} Orang</span>
             </div>
 
-            <div class="px-40 py-2 bg-gray-50/50">
+            <div class="px-4 md:px-8 py-3 bg-gray-50/50 flex justify-center items-center">
                 <a href="/home?checkin={{ $checkin }}&checkout={{ $checkout }}&guests={{ $guests }}"
                 class="text-[#254117] font-extrabold text-xs uppercase tracking-tighter hover:text-[#1a2f0f] transition-colors">
                     Ubah
@@ -41,15 +41,15 @@
         </div>
     </nav>
 
-    <main class="max-w-8xl mx-auto px-6 py-10 pt-32 bg-[#FFF4DE]">
+    <main class="max-w-8xl mx-auto px-4 md:px-6 py-10 pt-44 md:pt-32 bg-[#FFF4DE]">
         @foreach($kamars as $index => $kamar)
-        <div class="bg-white w-full flex mb-8 rounded-2xl shadow-[0_10px_25px_-5px_rgba(0,0,0,0.05)] overflow-hidden border border-gray-100 transition-transform">
+        <div class="bg-white w-full flex flex-col md:flex-row mb-8 rounded-2xl shadow-[0_10px_25px_-5px_rgba(0,0,0,0.05)] overflow-hidden border border-gray-100 transition-transform">
 
-            <div class="w-[380px] shrink-0 overflow-hidden h-[230px]">
+            <div class="w-full md:w-[380px] shrink-0 overflow-hidden h-[200px] md:h-[230px]">
                 <img src="{{ $kamar->gambar }}" class="w-full h-full object-cover transition-transform duration-500" alt="Foto Kamar">
             </div>
 
-            <div class="grow p-8 flex flex-col gap-4">
+            <div class="grow p-6 md:p-8 flex flex-col gap-4">
                 <div class="flex gap-3 flex-wrap">
                     <div class="bg-blue-50 text-[#1E40AF] px-3 py-1 text-[11px] font-bold rounded-full border border-blue-100">
                         {{ $kamar->available }} Kamar Tersedia
@@ -69,7 +69,7 @@
                 </p>
             </div>
 
-            <div class="w-[280px] p-8 bg-slate-50 flex flex-col justify-center items-center shrink-0 border-l border-gray-100">
+            <div class="w-full md:w-[280px] p-6 md:p-8 bg-slate-50 flex flex-col justify-center items-center shrink-0 border-t md:border-t-0 md:border-l border-gray-100">
                 <span class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Mulai Dari</span>
                 <div class="text-[23px] font-black text-[black]">
                     Rp {{ number_format($kamar->harga, 0, ',', '.') }}

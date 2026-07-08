@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let currentRow = null;
     let currentMode = 'view';
-    let debounceTimer = null;
 
     const modalFields = {
         roomNumber: document.getElementById('detailRoomNumber'),
@@ -24,41 +23,24 @@ document.addEventListener('DOMContentLoaded', () => {
         roomCode: document.getElementById('detailRoomCode'),
         status: document.getElementById('detailRoomStatus'),
         description: document.getElementById('detailRoomDescription'),
-        imageInput: document.getElementById('detailRoomImageInput'), // Input file foto baru
-        imageContainer: document.getElementById('detailRoomImageContainer') // Kontainer untuk pratinjau multi-foto
+        imageInput: document.getElementById('detailRoomImageInput'),
+        imageContainer: document.getElementById('detailRoomImageContainer')
     };
 
-    // Filter Table Function Logic (Client-side)
-    function filterTable() {
-        if (!roomTableBody) return;
-
-        const searchQuery = searchInput ? searchInput.value.toLowerCase() : '';
-        const selectedType = filterType ? filterType.value : '';
-        const selectedStatus = filterStatus ? filterStatus.value : '';
-        const rows = roomTableBody.querySelectorAll('tr');
-
-        rows.forEach(row => {
-            const roomNumber = row.dataset.roomNumber || '';
-            const roomType = row.dataset.roomType || '';
-            const roomStatus = row.dataset.roomStatus || '';
-
-            const matchSearch = roomNumber.toLowerCase().includes(searchQuery) || roomType.toLowerCase().includes(searchQuery);
-            const matchType = selectedType === "" || roomType === selectedType;
-            const matchStatus = selectedStatus === "" || roomStatus === selectedStatus;
-
-            if (matchSearch && matchType && matchStatus) {
-                row.style.display = "";
-            } else {
-                row.style.display = "none";
-            }
-        });
+    // Submit form filter via tombol Cari atau saat dropdown berubah
+    function submitFilterForm() {
+        if (searchForm) {
+            searchForm.submit();
+        }
     }
 
-    if (searchInput) searchInput.addEventListener('input', filterTable);
-    if (filterType) filterType.addEventListener('change', filterTable);
-    if (filterStatus) filterStatus.addEventListener('change', filterTable);
+    if (filterType) {
+        filterType.addEventListener('change', submitFilterForm);
+    }
 
-
+    if (filterStatus) {
+        filterStatus.addEventListener('change', submitFilterForm);
+    }
     function openModal(modal) {
         if (!modal) return;
         modal.classList.remove('hidden');
@@ -202,21 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Server-side submit logic jika form pencarian digunakan
-    if (searchInput) {
-        searchInput.addEventListener('input', filterTable);
-        // Menjalankan fungsi filterTable() instan tanpa refresh
-    }
-
-    if (filterType) {
-        filterType.addEventListener('change', filterTable);
-        // Menjalankan fungsi filterTable() instan tanpa refresh
-    }
-
-    if (filterStatus) {
-        filterStatus.addEventListener('change', filterTable);
-        // Menjalankan fungsi filterTable() instan tanpa refresh
-    }
+    // Server-side: filter disubmit via tombol Cari atau Enter bawaan browser
 
     document.addEventListener('keydown', event => {
         if (event.key === 'Escape') {
