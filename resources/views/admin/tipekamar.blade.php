@@ -24,10 +24,10 @@
         .fade-up { animation: fadeUp .45s ease both; }
     </style>
 </head>
-<body class="bg-[#FFF4DE] min-h-screen flex">
+<body class="bg-[#FFF4DE] min-h-screen flex flex-col lg:flex-row">
     @include('components.sidebar_admin')
 
-    <main class="flex-1 overflow-y-auto px-10 py-10">
+    <main class="flex-1 overflow-y-auto px-4 md:px-10 py-6 md:py-10">
         <div class="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6 mb-10 fade-up">
             <div>
                 <h1 class="font-display text-4xl font-bold text-forest-900">Kelola Tipe Kamar</h1>

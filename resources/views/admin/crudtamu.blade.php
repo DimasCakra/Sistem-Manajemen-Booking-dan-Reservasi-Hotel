@@ -55,13 +55,13 @@
     </style>
 </head>
 
-<body class="bg-[#FFF4DE] min-h-screen flex">
+<body class="bg-[#FFF4DE] min-h-screen flex flex-col lg:flex-row">
 
     @include('components.sidebar_admin')
 
-    <main class="flex-1 overflow-y-auto px-10 py-10">
+    <main class="flex-1 overflow-y-auto px-4 md:px-10 py-6 md:py-10">
 
-        <div class="flex justify-between items-end mb-10 fade-up">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-10 fade-up">
             <div>
                 <h1 class="font-display text-4xl font-bold text-forest-900">Data Tamu</h1>
                 <p class="text-forest-500 mt-2 text-sm uppercase tracking-widest font-semibold">Manajemen Data Tamu & Informasi</p>
@@ -99,13 +99,15 @@
                 </span>
                 <input id="searchTamu" name="search" type="text" value="{{ $search ?? '' }}" placeholder="Cari nama atau email tamu..." class="w-full rounded-xl border border-forest-100 bg-white pl-11 pr-4 py-3 text-sm text-slate-900 focus:border-forest-500 focus:ring-4 focus:ring-forest-100 outline-none transition-all shadow-sm" />
             </div>
-            <div class="w-full md:w-auto flex items-center gap-3">
-                <label for="filterField" class="text-sm font-semibold text-forest-800 whitespace-nowrap">Filter Berdasarkan:</label>
-                <select id="filterField" name="field" class="rounded-xl border border-forest-100 bg-white px-4 py-3 text-sm text-slate-900 focus:border-forest-500 focus:ring-4 focus:ring-forest-100 outline-none transition-all shadow-sm cursor-pointer font-medium">
-                    <option value="nama" {{ ($field ?? 'nama') === 'nama' ? 'selected' : '' }}>Nama Akun</option>
-                    <option value="email" {{ ($field ?? 'nama') === 'email' ? 'selected' : '' }}>Email Akun</option>
-                </select>
-                <button type="submit" class="px-5 py-3 bg-forest-700 hover:bg-forest-800 text-white text-sm font-semibold rounded-xl transition-all whitespace-nowrap">
+            <div class="w-full md:w-auto flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                <div class="flex items-center gap-3">
+                    <label for="filterField" class="text-sm font-semibold text-forest-800 whitespace-nowrap">Filter Berdasarkan:</label>
+                    <select id="filterField" name="field" class="rounded-xl border border-forest-100 bg-white px-4 py-3 text-sm text-slate-900 focus:border-forest-500 focus:ring-4 focus:ring-forest-100 outline-none transition-all shadow-sm cursor-pointer font-medium">
+                        <option value="nama" {{ ($field ?? 'nama') === 'nama' ? 'selected' : '' }}>Nama Akun</option>
+                        <option value="email" {{ ($field ?? 'nama') === 'email' ? 'selected' : '' }}>Email Akun</option>
+                    </select>
+                </div>
+                <button type="submit" class="w-full sm:w-auto px-5 py-3 bg-forest-700 hover:bg-forest-800 text-white text-sm font-semibold rounded-xl transition-all whitespace-nowrap">
                     Cari
                 </button>
             </div>
@@ -113,7 +115,7 @@
 
         <div class="bg-white rounded-md shadow-sm border border-forest-100 overflow-hidden fade-up" style="animation-delay: 0.1s">
             <div class="overflow-x-auto">
-                <table class="w-full text-left whitespace-nowrap">
+                <table class="w-full text-left whitespace-nowrap min-w-[800px]">
                     <thead>
                         <tr class="bg-forest-800 text-white text-[11px] uppercase tracking-[0.2em]">
                             <th class="px-8 py-6 font-semibold">Foto</th>
@@ -176,7 +178,7 @@
         <div class="w-full max-w-md rounded-3xl bg-white shadow-2xl ring-1 ring-black/5 overflow-hidden">
             <div class="px-8 py-6 border-b border-gray-200 flex justify-between items-center">
                 <h3 class="text-xl font-bold text-slate-900">Konfirmasi Hapus</h3>
-                <button type="button" class="modal-close text-slate-500 hover:text-slate-900">?</button>
+                <button type="button" class="modal-close text-slate-500 hover:text-slate-900">✕</button>
             </div>
 
             <form id="deleteForm" method="POST" class="px-8 py-6 space-y-4">
