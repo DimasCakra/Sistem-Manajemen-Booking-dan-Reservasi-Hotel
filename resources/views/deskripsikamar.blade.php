@@ -21,7 +21,7 @@
         <div class="relative max-w-4xl mx-auto mb-10 overflow-hidden rounded-2xl shadow-sm border border-gray-100 bg-white">
             @if(is_array($kamar->foto_kamar) && count($kamar->foto_kamar) > 0)
                 <!-- Wrapper Slider -->
-                <div id="autoCarouselSlider" class="flex transition-transform duration-500 ease-out h-96 w-full" data-total="{{ count($kamar->foto_kamar) }}">
+                <div id="autoCarouselSlider" class="flex transition-transform duration-500 ease-out h-64 md:h-96 w-full" data-total="{{ count($kamar->foto_kamar) }}">
                     @foreach($kamar->foto_kamar as $index => $foto)
                         <div class="w-full h-full flex-shrink-0">
                             <img src="{{ asset('storage/' . $foto) }}"
@@ -56,7 +56,7 @@
 
         <div class="grid grid-cols-12 gap-6">
 
-            <div class="col-span-10 lg:col-span-3 space-y-4 p-1 ml-2">
+            <div class="col-span-12 lg:col-span-3 space-y-4 p-1">
                 <div class="flex flex-wrap gap-2">
                     <span class="bg-blue-50 text-[#1E40AF] border border-blue-100 px-6 py-2 rounded text-[10px] font-black uppercase">
                         {{ $kamar->available }} Kamar Tersedia
@@ -74,14 +74,14 @@
                 </div>
             </div>
 
-            <div class="col-span-12 lg:col-span-6 bg-white p-8 rounded-md border border-gray-100 shadow-sm">
+            <div class="col-span-12 lg:col-span-6 bg-white p-6 md:p-8 rounded-md border border-gray-100 shadow-sm">
                 <h3 class="text-lg font-black uppercase tracking-widest text-black mb-4">Deskripsi Detail</h3>
                 <p class="text-gray leading-relaxed text-sm">
                     Nikmati kenyamanan menginap di {{ $kamar->nama_tipe }} kami. Kamar ini dilengkapi dengan berbagai fasilitas unggulan seperti {{ $kamar->fasilitas }}. Didesain khusus untuk memberikan pengalaman beristirahat yang maksimal dengan suasana yang tenang dan pelayanan prima dari tim StayEase.
                 </p>
             </div>
 
-            <div class="col-span-12 lg:col-span-3 bg-white p-8 rounded-md border border-gray-100 shadow-sm text-center flex flex-col justify-center">
+            <div class="col-span-12 lg:col-span-3 bg-white p-6 md:p-8 rounded-md border border-gray-100 shadow-sm text-center flex flex-col justify-center">
                 <span class="text-[11px] text-gray-400 font-bold uppercase tracking-widest">Harga Kamar</span>
                 <div class="text-[23px] font-black text-[black]">
                     Rp {{ number_format($kamar->harga, 0, ',', '.') }}
