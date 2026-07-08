@@ -108,7 +108,7 @@
 
 <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-30 hidden lg:hidden opacity-0 transition-opacity duration-300"></div>
 
-<aside id="admin-sidebar" class="bg-[#173014] w-72 h-screen fixed lg:sticky top-0 left-0 z-40 flex-shrink-0 flex flex-col shadow-2xl transition-transform duration-300 transform -translate-x-full lg:translate-x-0 overflow-y-auto">
+<aside id="admin-sidebar" class="bg-[#173014] w-72 h-screen h-[100dvh] fixed lg:sticky top-0 left-0 z-40 flex-shrink-0 flex flex-col shadow-2xl transition-transform duration-300 transform -translate-x-full lg:translate-x-0 overflow-y-auto">
     <div class="px-8 pt-10 pb-6 fade-up">
         <a href="{{ route('admin.kamar') }}" class="flex items-center gap-2 no-underline">
             <img src="{{ asset('gambar/stayease.png') }}" alt="Logo" class="h-7 w-auto object-contain mt-2">
@@ -204,7 +204,7 @@
         </a>
     </nav>
 
-    <div class="p-4 mt-auto border-t border-white/5 bg-black/10 fade-up">
+    <div class="p-4 pb-16 lg:pb-4 mt-auto border-t border-white/5 bg-black/10 fade-up">
         <form method="POST" action="{{ route('logoutstaff') }}">
             @csrf
             <button type="submit"
