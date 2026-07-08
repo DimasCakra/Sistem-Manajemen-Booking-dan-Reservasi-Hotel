@@ -129,6 +129,17 @@
 
                 <div class="bg-white p-8 rounded-md border border-gray-100 shadow-sm" x-data="{ photoPreview: null }">
                     <h2 class="text-lg font-black text-[#0f172a] mb-4 uppercase tracking-widest">Upload Bukti</h2>
+                        <div class="bg-red-100 border border-red-300 rounded-lg p-4">
+                            <p class="text-sm text-red-700 text-justify">
+                                <span class="font-bold">PERHATIAN:</span>
+                                    Mohon pastikan seluruh data pesanan telah benar sebelum melakukan pembayaran,
+                                    karena transaksi yang telah berhasil diproses
+                                <span class="font-bold">
+                                    TIDAK DAPAT DIBATALKAN MAUPUN DIREFUND.
+                                </span>
+                            </p>
+                        </div>
+                    <div class="border-t border-gray-100 pt-4 mt-2">
 
                     <form id="payment-form" action="{{ route('booking.payment.store', ['reservation_id' => $id]) }}" method="POST" enctype="multipart/form-data" class="space-y-4">
                         @csrf
