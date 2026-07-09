@@ -45,26 +45,26 @@
                     <div class="space-y-4">
                         <div>
                             <label class="block text-sm font-bold text-gray-700 mb-1">Nama Lengkap</label>
-                            <input type="text" name="nama_lengkap" id="input_nama" value="{{ Auth::check() ? Auth::user()->name : '' }}" {{ Auth::check() ? 'readonly' : '' }} class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117] {{ Auth::check() ? 'bg-gray-100 cursor-not-allowed text-gray-500' : '' }}" placeholder="Masukkan Nama Lengkap Anda" required>
+                            <input type="text" name="nama_lengkap" id="input_nama" value="{{ old('nama_lengkap', Auth::check() ? Auth::user()->name : '') }}" {{ Auth::check() ? 'readonly' : '' }} class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117] {{ Auth::check() ? 'bg-gray-100 cursor-not-allowed text-gray-500' : '' }}" placeholder="Masukkan Nama Lengkap Anda" required>
                         </div>
                         <div>
                             <label class="block text-sm font-bold text-gray-700 mb-1">Nomor Identitas</label>
                             <div class="flex flex-col sm:flex-row gap-2">
                                 <select name="id_type" id="id_type" class="w-full sm:w-1/3 px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117] bg-white cursor-pointer" {{ Auth::check() && Auth::user()->id_type ? 'style=pointer-events:none;background-color:#f3f4f6;' : '' }}>
-                                    <option value="NIK" {{ Auth::check() && Auth::user()->id_type === 'NIK' ? 'selected' : '' }}>🇮🇩 NIK</option>
-                                    <option value="Paspor" {{ Auth::check() && Auth::user()->id_type === 'Paspor' ? 'selected' : '' }}>🌐 Paspor</option>
+                                    <option value="NIK" {{ old('id_type', Auth::check() ? Auth::user()->id_type : '') === 'NIK' ? 'selected' : '' }}>🇮🇩 NIK</option>
+                                    <option value="Paspor" {{ old('id_type', Auth::check() ? Auth::user()->id_type : '') === 'Paspor' ? 'selected' : '' }}>🌐 Paspor</option>
                                 </select>
-                                <input type="text" name="id_number" id="id_number" value="{{ Auth::check() ? Auth::user()->id_number : '' }}" {{ Auth::check() ? 'readonly' : '' }} class="w-full sm:w-2/3 px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117] {{ Auth::check() ? 'bg-gray-100 cursor-not-allowed text-gray-500' : '' }}" placeholder="Masukkan Nomor Identitas Anda" required>
+                                <input type="text" name="id_number" id="id_number" value="{{ old('id_number', Auth::check() ? Auth::user()->id_number : '') }}" {{ Auth::check() ? 'readonly' : '' }} class="w-full sm:w-2/3 px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117] {{ Auth::check() ? 'bg-gray-100 cursor-not-allowed text-gray-500' : '' }}" placeholder="Masukkan Nomor Identitas Anda" required>
                             </div>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-sm font-bold text-gray-700 mb-1">Nomor WhatsApp</label>
-                                <input type="text" name="whatsapp" id="input_whatsapp" value="{{ Auth::check() ? Auth::user()->whatsapp : '' }}" {{ Auth::check() ? 'readonly' : '' }} class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117] {{ Auth::check() ? 'bg-gray-100 cursor-not-allowed text-gray-500' : '' }}" placeholder="Masukkan Nomor WhatsApp" required>
+                                <input type="text" name="whatsapp" id="input_whatsapp" value="{{ old('whatsapp', Auth::check() ? Auth::user()->whatsapp : '') }}" {{ Auth::check() ? 'readonly' : '' }} class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117] {{ Auth::check() ? 'bg-gray-100 cursor-not-allowed text-gray-500' : '' }}" placeholder="Masukkan Nomor WhatsApp" required>
                             </div>
                             <div>
                                 <label class="block text-sm font-bold text-gray-700 mb-1">Alamat Email</label>
-                                <input type="email" name="email" id="input_email" value="{{ Auth::check() ? Auth::user()->email : '' }}" {{ Auth::check() ? 'readonly' : '' }} class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117] {{ Auth::check() ? 'bg-gray-100 cursor-not-allowed text-gray-500' : '' }}" placeholder="Masukkan Alamat Email" required>
+                                <input type="email" name="email" id="input_email" value="{{ old('email', Auth::check() ? Auth::user()->email : '') }}" {{ Auth::check() ? 'readonly' : '' }} class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117] {{ Auth::check() ? 'bg-gray-100 cursor-not-allowed text-gray-500' : '' }}" placeholder="Masukkan Alamat Email" required>
                             </div>
                         </div>
                     </div>
@@ -112,7 +112,7 @@
                         </div>
                         <div>
                             <label class="block text-sm font-bold text-gray-700 mb-1">Apakah ada permintaan lainnya?</label>
-                            <textarea name="permintaan_khusus" rows="4" class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117]" placeholder="Permintaan Khusus (Optional)"></textarea>
+                            <textarea name="permintaan_khusus" rows="4" class="w-full px-4 py-3 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#254117]" placeholder="Permintaan Khusus (Optional)">{{ old('permintaan_khusus') }}</textarea>
                         </div>
                     </div>
                 </div>
