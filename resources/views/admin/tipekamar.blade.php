@@ -31,7 +31,7 @@
         <div class="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6 mb-10 fade-up">
             <div>
                 <h1 class="font-display text-4xl font-bold text-forest-900">Kelola Tipe Kamar</h1>
-                <p class="text-forest-500 mt-2 font-semibold">Manajemen tipe kamar sekarang pakai modal CRUD seperti halaman kelola kamar.</p>
+                <p class="text-forest-500 mt-2 text-sm uppercase tracking-widest font-semibold">Manajemen Tipe Kamar</p>
             </div>
             <button id="openCreateModal" class="bg-forest-700 hover:bg-forest-800 text-white px-8 py-4 rounded-md shadow-lg transition-all active:scale-95 font-bold tracking-wider text-sm">
                 + TAMBAH TIPE KAMAR
