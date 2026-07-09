@@ -43,11 +43,11 @@
 
 <body class="bg-[#FFF4DE] min-h-screen flex flex-col">
 
-    <div class="flex flex-1 overflow-hidden">
+    <div class="flex flex-1 overflow-hidden flex-col md:flex-row">
         {{-- Sidebar --}}
         @include('components.sidebar_resepsionis')
 
-        <main class="flex-1 overflow-y-auto px-8 py-8 bg-[#FFF4DE]">
+        <main class="flex-1 overflow-y-auto px-4 md:px-8 py-8 w-full bg-[#FFF4DE]">
             {{-- Header --}}
             <div class="mb-6 fade-up">
                 <h1 class="font-display text-3xl font-semibold text-forest-900">Dashboard Resepsionis</h1>
@@ -61,7 +61,9 @@
                     <span class="text-forest-300 text-xs">{{ now()->translatedFormat('d F Y') }}</span>
                 </div>
 
-                {{-- Kolom Judul --}}
+                <div class="overflow-x-auto">
+                    <div class="min-w-[800px]">
+                        {{-- Kolom Judul --}}
                 <div class="grid grid-cols-12 gap-4 px-6 py-3 bg-forest-50 border-b border-forest-100 text-forest-600 text-[10px] font-semibold uppercase tracking-widest">
                     <div class="col-span-1">#</div>
                     <div class="col-span-3">Nama Tamu</div>
@@ -93,6 +95,8 @@
                     </div>
                 </a>
                 @endforeach
+                    </div>
+                </div>
 
             </div>
             @include('components.pagination', ['paginator' => $reservations])

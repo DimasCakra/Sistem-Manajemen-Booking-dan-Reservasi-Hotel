@@ -95,7 +95,14 @@
     });
 </script>
 
-<aside class="bg-[#173014] w-72 h-screen sticky top-0 flex-shrink-0 flex flex-col shadow-2xl z-20 overflow-y-auto">
+<button id="mobile-sidebar-btn" class="md:hidden fixed top-6 right-6 z-[60] bg-forest-800 text-white p-2.5 rounded-lg shadow-xl hover:bg-forest-700 transition-colors">
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+</button>
+
+<!-- Mobile Overlay -->
+<div id="sidebar-overlay" class="fixed inset-0 bg-black/60 z-[40] hidden transition-opacity duration-300 opacity-0 md:!hidden"></div>
+
+<aside id="sidebar-menu" class="bg-[#173014] w-72 h-screen fixed md:sticky top-0 left-0 flex-shrink-0 flex flex-col shadow-2xl z-[50] overflow-y-auto transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out">
             <div class="px-8 pt-10 pb-6 fade-up">
                 <a href="{{ route('receptionist.index') }}" class="flex items-center gap-2 no-underline">
                     <img src="{{ asset('gambar/stayease.png') }}" alt="Logo" class="h-7 w-auto object-contain mt-2">
@@ -184,3 +191,29 @@
                 </form>
             </div>
         </aside>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const sidebar = document.getElementById('sidebar-menu');
+        const overlay = document.getElementById('sidebar-overlay');
+        const btn = document.getElementById('mobile-sidebar-btn');
+
+        if(btn && sidebar && overlay) {
+            const toggleMenu = () => {
+                const isOpen = !sidebar.classList.contains('-translate-x-full');
+                if(isOpen) {
+                    sidebar.classList.add('-translate-x-full');
+                    overlay.classList.remove('opacity-100');
+                    setTimeout(() => overlay.classList.add('hidden'), 300);
+                } else {
+                    sidebar.classList.remove('-translate-x-full');
+                    overlay.classList.remove('hidden');
+                    setTimeout(() => overlay.classList.add('opacity-100'), 10);
+                }
+            };
+
+            btn.addEventListener('click', toggleMenu);
+            overlay.addEventListener('click', toggleMenu);
+        }
+    });
+</script>

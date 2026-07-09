@@ -41,29 +41,29 @@
 </head>
 <body class="bg-[#FFF4DE] min-h-screen flex flex-col">
 
-    <div class="flex flex-1 overflow-hidden">
+    <div class="flex flex-1 overflow-hidden flex-col md:flex-row">
         @include('components.sidebar_resepsionis')
 
-        <main class="flex-1 overflow-y-auto px-8 py-8 bg-[#FFF4DE]">
+        <main class="flex-1 overflow-y-auto px-4 md:px-8 py-8 w-full bg-[#FFF4DE]">
             <div class="mb-6 fade-up">
                 <h1 class="font-display text-3xl font-semibold text-forest-900">Riwayat Reservasi</h1>
                 <p class="text-sm text-forest-500 mt-1">Daftar keseluruhan data tamu dan riwayat menginap.</p>
             </div>
 
             <div class="mb-8 fade-up">
-                <form method="GET" action="{{ route('resepsionis.riwayatreservasi') }}" class="flex gap-3 items-center">
-                    <div class="relative w-1/3">
+                <form method="GET" action="{{ route('resepsionis.riwayatreservasi') }}" class="flex flex-col sm:flex-row gap-3 items-center">
+                    <div class="relative w-full sm:w-1/3">
                         <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                             <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                         </span>
                         <input type="text" name="search" value="{{ $search ?? '' }}" placeholder="Cari nama, WA, email, nomor kamar, tipe..." class="pl-10 pr-4 py-2 rounded-xl border border-forest-100 w-full" />
                     </div>
-                    <select name="status" class="px-4 py-2 rounded-xl border border-forest-100">
+                    <select name="status" class="px-4 py-2 rounded-xl border border-forest-100 w-full sm:w-auto">
                         <option value="ongoing" {{ ($status === 'ongoing') ? 'selected' : '' }}>On Going</option>
                         <option value="checkout" {{ ($status === 'checkout') ? 'selected' : '' }}>Check Out</option>
                         <option value="all" {{ ($status === 'all') ? 'selected' : '' }}>All</option>
                     </select>
-                    <button type="submit" class="px-5 py-2.5 rounded-xl bg-forest-700 hover:bg-forest-800 text-white text-sm font-semibold transition-all whitespace-nowrap">Cari</button>
+                    <button type="submit" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-forest-700 hover:bg-forest-800 text-white text-sm font-semibold transition-all whitespace-nowrap">Cari</button>
                 </form>
             </div>
 
@@ -73,6 +73,8 @@
                     <span class="text-forest-300 text-xs tracking-widest">{{ now()->translatedFormat('d F Y') }}</span>
                 </div>
 
+                <div class="overflow-x-auto">
+                    <div class="min-w-[800px]">
                 <div class="grid grid-cols-12 gap-4 px-6 py-3 bg-forest-50 border-b border-forest-100 text-forest-600 text-[10px] font-semibold uppercase tracking-widest">
                     <div class="col-span-1">#</div>
                     <div class="col-span-2">Nama Tamu</div>
@@ -125,10 +127,12 @@
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
                             </a>
                         </div>
-                        </div>
+                    </div>
                 @empty
                     <div class="p-20 text-center text-gray-400 font-medium italic">Belum ada riwayat reservasi.</div>
                 @endforelse
+                    </div>
+                </div>
             </div>
             @include('components.pagination', ['paginator' => $reservations])
         </main>

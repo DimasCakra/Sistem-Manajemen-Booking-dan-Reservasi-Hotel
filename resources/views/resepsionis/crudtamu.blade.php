@@ -35,12 +35,12 @@
     </style>
 </head>
 
-<body class="bg-[#FFF4DE] min-h-screen flex">
+<body class="bg-[#FFF4DE] min-h-screen flex flex-col md:flex-row">
 
     @include('components.sidebar_resepsionis')
 
-    <main class="flex-1 overflow-y-auto px-10 py-10">
-        <div class="flex justify-between items-end mb-10 fade-up">
+    <main class="flex-1 overflow-y-auto px-4 md:px-10 py-10 w-full">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-10 gap-4 fade-up">
             <div>
                 <h1 class="font-display text-4xl font-bold text-forest-900">Data Tamu</h1>
                 <p class="text-forest-500 mt-2 text-sm uppercase tracking-widest font-semibold">Manajemen Data Tamu & Informasi</p>
@@ -84,13 +84,13 @@
                 </span>
                 <input id="searchTamu" name="search" type="text" value="{{ $search ?? '' }}" placeholder="Cari nama atau email tamu..." class="w-full rounded-xl border border-forest-100 bg-white pl-11 pr-4 py-3 text-sm text-slate-900 focus:border-forest-500 focus:ring-4 focus:ring-forest-100 outline-none transition-all shadow-sm" />
             </div>
-            <div class="w-full md:w-auto flex items-center gap-3">
-                <label for="filterField" class="text-sm font-semibold text-forest-800 whitespace-nowrap">Filter Berdasarkan:</label>
+            <div class="w-full md:w-auto flex flex-col sm:flex-row items-center gap-3">
+                <label for="filterField" class="text-sm font-semibold text-forest-800 whitespace-nowrap self-start sm:self-auto">Filter Berdasarkan:</label>
                 <select id="filterField" name="field" class="rounded-xl border border-forest-100 bg-white px-4 py-3 text-sm text-slate-900 focus:border-forest-500 focus:ring-4 focus:ring-forest-100 outline-none transition-all shadow-sm cursor-pointer font-medium">
                     <option value="nama" {{ ($field ?? 'nama') === 'nama' ? 'selected' : '' }}>Nama Akun</option>
                     <option value="email" {{ ($field ?? 'nama') === 'email' ? 'selected' : '' }}>Email Akun</option>
                 </select>
-                <button type="submit" class="px-5 py-3 bg-forest-700 hover:bg-forest-800 text-white text-sm font-semibold rounded-xl transition-all whitespace-nowrap">
+                <button type="submit" class="w-full sm:w-auto px-5 py-3 bg-forest-700 hover:bg-forest-800 text-white text-sm font-semibold rounded-xl transition-all whitespace-nowrap">
                     Cari
                 </button>
             </div>

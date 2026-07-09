@@ -29,13 +29,13 @@
 
 <body class="bg-[#FFF4DE] h-screen overflow-hidden">
 
-    <div class="flex h-full">
+    <div class="flex h-full flex-col md:flex-row w-full">
         @include('components.sidebar_resepsionis')
 
-        <main class="flex-1 overflow-y-auto custom-scroll px-8 py-8 bg-[#FFF4DE]">
+        <main class="flex-1 overflow-y-auto custom-scroll px-4 md:px-8 py-8 w-full bg-[#FFF4DE]">
             <div class="max-w-6xl mx-auto space-y-6">
 
-                <div class="flex justify-between items-end">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
                     <div>
                         <a href="{{ route('receptionist.index') }}" class="text-forest-600 text-xs hover:underline flex items-center mb-2">
                             <span class="mr-1.5">←</span> Kembali ke Dashboard
@@ -55,7 +55,7 @@
                         <div class="bg-white rounded-2xl shadow-sm border border-forest-100 p-8">
                             <h2 class="font-display text-xl font-semibold text-forest-900 border-b border-gray-100 pb-4 mb-6">Informasi Pemesan</h2>
 
-                            <div class="grid grid-cols-2 gap-x-8 gap-y-6">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
                                 <div>
                                     <p class="text-gray-400 text-[10px] uppercase font-bold tracking-wider mb-1">Nama Pemesan</p>
                                     <p class="font-semibold text-forest-900 text-base">{{ $reservation->nama_lengkap }}</p>

@@ -26,9 +26,9 @@
     </style>
 </head>
 
-<body class="bg-[#FFF4DE] min-h-screen flex">
+<body class="bg-[#FFF4DE] min-h-screen flex flex-col md:flex-row">
     @include('components.sidebar_resepsionis')
-    <main class="flex-1 overflow-y-auto px-10 py-10">
+    <main class="flex-1 overflow-y-auto px-4 md:px-10 py-10 w-full">
         <div class="mb-10 fade-up">
             <a href="{{ route('resepsionis.tamu') }}" class="inline-flex items-center gap-2 text-sm font-semibold text-forest-700 hover:text-forest-900">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
